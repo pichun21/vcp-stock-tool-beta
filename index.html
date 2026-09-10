@@ -1,0 +1,2813 @@
+<!doctype html>
+<!-- VCPulse BUILD 2.41.10 UID MASK -->
+<!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f4ef">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="VCP健檢">
+<title>VCPulse｜VCP × PowerSqueeze 智慧選股雷達</title>
+<style>
+:root{--bg:#f5f4ef;--card:#fff;--ink:#20231f;--muted:#70756e;--line:#dddcd4;--good:#2f7d52;--warn:#a06a14;--bad:#a33d36}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1040px;margin:42px auto;padding:0 18px}.head{display:flex;justify-content:space-between;align-items:end;gap:20px}
+h1{margin:0;font-size:34px}.sub{color:var(--muted);margin-top:6px}.marketbar{display:flex;gap:8px;margin:22px 0 10px}
+.marketbtn{background:#fff;color:#20231f;border:1px solid var(--line);min-width:0;padding:10px 14px}
+.marketbtn.active{background:#20231f;color:#fff}
+.search{display:flex;gap:8px;margin:10px 0 18px}
+input,button{font:inherit;border-radius:12px;border:1px solid var(--line);padding:13px 15px}input{flex:1;background:white;font-size:17px}
+button{background:#20231f;color:#fff;border:0;cursor:pointer;font-weight:700;min-width:110px}.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}
+.section{margin-top:20px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px}
+.helpbtn{background:#fff;color:#20231f;border:1px solid var(--line);min-width:0;padding:8px 12px}
+.helpbox{display:none;margin:10px 0 18px}
+.helpbox.open{display:block}
+.helpbox h3{margin:18px 0 7px;font-size:17px}
+.helpbox p,.helpbox li{line-height:1.65}
+.helpbox table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.helpbox th,.helpbox td{padding:9px 7px;border-bottom:1px solid #ecebe6;text-align:left;vertical-align:top}
+.section-title h2{margin:0;font-size:20px}
+.section-title .muted{font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 20px #00000008}
+.radar-card{margin-top:10px}
+.radar-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.radar-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.radar-tab{background:#f3f3ef;color:#20231f;border:1px solid var(--line);min-width:0;padding:8px 12px}
+.radar-tab.active{background:#20231f;color:#fff}
+.radar-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+.radar-table th,.radar-table td{padding:11px 8px;border-bottom:1px solid #ecebe6;text-align:left;white-space:nowrap}
+.radar-table th{font-size:12px;color:var(--muted);font-weight:700}.radar-row{cursor:pointer}.radar-row:hover{background:#fafaf7}
+.radar-empty{padding:24px 4px;color:var(--muted);text-align:center}
+.status-dot{font-weight:700}
+@media(max-width:760px){
+ .radar-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .radar-table{min-width:720px}
+ .section-title h2{font-size:18px}
+}
+.topline{display:flex;justify-content:space-between;gap:12px;align-items:center}.ticker{font-size:25px;font-weight:800}.badge{padding:7px 10px;border-radius:999px;background:#eee;font-weight:700}
+.score{font-size:44px;font-weight:900;margin:8px 0}.stars{font-size:21px;letter-spacing:2px}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.metric{padding:13px;background:#f7f7f3;border-radius:12px}.metric b{display:block;font-size:20px;margin-top:4px}.muted{color:var(--muted);font-size:13px}
+canvas{width:100%;height:360px;border-radius:12px;background:#fcfcfa;margin-top:14px}.checks{display:grid;gap:10px;margin-top:12px}
+.check{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:9px}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.note{font-size:13px;color:var(--muted);line-height:1.55;margin-top:16px}.error{padding:12px;border-radius:10px;background:#fff0ed;color:#8d302b;display:none;margin-bottom:12px}
+@media(max-width:760px){
+ body{padding-bottom:env(safe-area-inset-bottom)}
+ .wrap{margin:18px auto;padding:0 12px}
+ .head{display:block}.head .muted:last-child{margin-top:6px}
+ h1{font-size:27px}.sub{font-size:14px;line-height:1.45}
+ .marketbar{margin:14px 0 6px}.marketbtn{flex:1}.search{position:sticky;top:0;z-index:10;margin:6px -4px 12px;padding:8px 4px;background:rgba(245,244,239,.96);backdrop-filter:blur(8px)}
+ .search input{min-width:0;font-size:16px;padding:12px}.search button{min-width:92px;padding:12px 10px}
+ .grid{grid-template-columns:1fr;gap:12px}
+ .card{padding:15px;border-radius:15px}
+ .grid .card:nth-child(2){grid-row:1}
+ .grid .card:nth-child(1){grid-row:2}
+ .ticker{font-size:22px}.badge{font-size:13px;padding:6px 8px}
+ .score{font-size:38px;margin:4px 0}.stars{font-size:18px}
+ .metrics{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+ .metric{padding:11px}.metric b{font-size:17px;overflow-wrap:anywhere}
+ canvas{height:270px;margin-top:10px}
+ .checks{font-size:14px}.note{font-size:12px}
+}
+@media(max-width:390px){
+ .metrics{grid-template-columns:1fr 1fr}
+ .metric b{font-size:15px}
+ canvas{height:235px}
+}
+
+/* VCPulse brand */
+.brand-hero{
+  position:relative;overflow:hidden;margin-bottom:18px;padding:28px 30px;
+  border:1px solid var(--line);border-radius:26px;background:#fff;
+  box-shadow:0 12px 32px rgba(53,46,38,.06);
+}
+.brand-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:24px}
+.brand-name{font-size:64px;line-height:.95;font-weight:900;letter-spacing:-4px;margin:0;color:#24231f}
+.brand-name .pulse{color:#c58d58}
+.brand-tag{margin-top:12px;font-size:13px;letter-spacing:2.2px;text-transform:uppercase;color:#55524c}
+.brand-sub{font-size:20px;font-weight:800;margin-top:16px}
+.brand-copy{margin-top:14px;color:#6f6b63;line-height:1.7}
+.brand-mascot{display:flex;justify-content:center;align-items:center;min-height:230px}
+.brand-mascot img{width:min(360px,100%);max-height:270px;object-fit:contain;mix-blend-mode:multiply}
+.brand-wave{display:inline-block;margin-left:6px;color:#c9a77f;letter-spacing:-4px;transform:translateY(-10px)}
+.brand-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.brand-pill{padding:7px 11px;border-radius:999px;background:#f7f4ee;border:1px solid #ebe5da;font-size:13px;color:#625d54}
+@media(max-width:760px){
+ .brand-hero{padding:22px 20px}
+ .brand-grid{grid-template-columns:1fr}
+ .brand-name{font-size:48px;letter-spacing:-3px}
+ .brand-tag{font-size:10px;letter-spacing:1.35px}
+ .brand-sub{font-size:17px}
+ .brand-copy{font-size:14px}
+ .brand-mascot{min-height:0}
+ .brand-mascot img{width:250px;max-height:210px}
+}
+
+
+/* ===== VCPulse V2.5 UI ===== */
+:root{
+  --vp-bg:#f7f4ee; --vp-card:#fffdfa; --vp-ink:#211f1b; --vp-muted:#777168;
+  --vp-line:#e8e1d7; --vp-caramel:#c58d58; --vp-soft:#f3eee6;
+}
+body{background:var(--vp-bg)}
+.wrap{max-width:1440px}
+.brand-hero{
+  padding:24px 34px 20px;border-radius:28px;background:var(--vp-card);
+  border:1px solid var(--vp-line);box-shadow:0 12px 30px rgba(57,46,33,.05)
+}
+.brand-grid{grid-template-columns:1fr 420px;gap:18px}
+.brand-name{font-size:72px;letter-spacing:-5px}
+.brand-name .pulse{color:var(--vp-caramel)}
+.brand-wave{display:none!important}
+.brand-tag{font-size:12px;letter-spacing:2.7px;margin-top:10px}
+.brand-sub{font-size:22px;margin-top:14px}
+.brand-copy{font-size:15px;margin-top:10px}
+.brand-mini{margin-top:14px}
+.brand-mascot{min-height:190px}
+.brand-mascot img{width:330px;max-height:230px}
+.helpbtn{background:#fff!important}
+.section-title{margin-top:22px}
+
+/* Make the primary interaction feel closer to the UI concept */
+.card{border-color:var(--vp-line);box-shadow:0 8px 22px rgba(57,46,33,.035)}
+.market button,.radar-tab,button{transition:.15s ease}
+.radar-tabs{gap:10px}
+.radar-tab{border-radius:14px;padding:11px 17px}
+.radar-tab.active{background:#22211d;color:#fff}
+table{font-size:14px}
+th{color:#716c64}
+
+/* Mobile is intentionally NOT a shrunken desktop hero */
+@media(max-width:760px){
+  body{background:#f8f5ef}
+  .wrap{padding:12px 14px 34px}
+  .brand-hero{padding:18px 18px 16px;border-radius:22px;margin-bottom:16px}
+  .brand-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 118px;
+    grid-template-areas:
+      "copy dog";
+    align-items:center;gap:8px
+  }
+  .brand-grid>div:first-child{grid-area:copy;min-width:0}
+  .brand-mascot{grid-area:dog;min-height:0;align-self:end}
+  .brand-mascot img{width:118px;max-height:150px}
+  .brand-name{font-size:43px;line-height:1;letter-spacing:-3px;white-space:nowrap}
+  .brand-tag{font-size:8px;letter-spacing:1.15px;white-space:nowrap;margin-top:8px}
+  .brand-sub{font-size:15px;line-height:1.35;margin-top:12px;max-width:230px}
+  .brand-copy{font-size:12px;line-height:1.55;margin-top:8px;max-width:220px}
+  .brand-copy br{display:none}
+  .brand-mini{display:none}
+  .helpbtn{
+    position:absolute!important;right:12px!important;top:12px!important;
+    padding:7px 9px!important;font-size:0!important;border-radius:999px!important;
+    width:34px;height:34px;z-index:3
+  }
+  .helpbtn::after{content:"ⓘ";font-size:18px}
+  .section-title{margin-top:16px}
+  .section-title h2{font-size:22px}
+  .section-title .muted{font-size:11px}
+  .market{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .market button{width:100%;padding:12px}
+  .searchrow{gap:8px}
+  .searchrow input{min-width:0;font-size:16px}
+  .searchrow button{white-space:nowrap;padding-left:16px;padding-right:16px}
+  .radar-tabs{
+    display:flex;overflow-x:auto;flex-wrap:nowrap;gap:8px;padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none
+  }
+  .radar-tabs::-webkit-scrollbar{display:none}
+  .radar-tab{flex:0 0 auto;padding:10px 13px;font-size:13px}
+  .radar-card{padding:14px}
+  .radar-table-wrap{border-radius:16px}
+}
+@media(max-width:390px){
+  .brand-grid{grid-template-columns:minmax(0,1fr) 98px}
+  .brand-mascot img{width:98px}
+  .brand-name{font-size:38px}
+  .brand-sub{font-size:14px}
+}
+
+
+/* V2.6 simplified action flow */
+.radar-intro{display:flex;align-items:end;justify-content:space-between;margin:22px 2px 12px}
+.radar-intro h2{margin:3px 0 4px;font-size:25px}
+.radar-intro p{margin:0;color:#777168;font-size:14px}
+.radar-kicker{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#b37b48}
+@media(max-width:760px){
+ .radar-intro{margin:18px 2px 10px}
+ .radar-intro h2{font-size:21px}
+ .radar-intro p{font-size:12px}
+}
+
+
+/* ===== VCPulse V2.7 mobile radar cards ===== */
+.radar-mobile{display:none}
+.reason-list{display:grid;gap:5px;margin-top:10px}
+.reason-item{font-size:13px;line-height:1.45;color:#5e5a53}
+.reason-item b{color:#26231f}
+.reason-ok::before{content:"✓ ";font-weight:900;color:#4e9b62}
+.reason-note::before{content:"• ";font-weight:900;color:#b37b48}
+.mobile-stock-card{
+  border:1px solid var(--vp-line);background:#fffdfa;border-radius:18px;
+  padding:15px 15px 14px;margin-top:10px;box-shadow:0 7px 18px rgba(57,46,33,.035);
+  cursor:pointer
+}
+.mobile-stock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mobile-stock-name{font-weight:900;font-size:17px;line-height:1.25}
+.mobile-stock-code{font-size:12px;color:#89837a;margin-top:3px}
+.mobile-score{font-size:13px;white-space:nowrap;letter-spacing:1px}
+.mobile-state{display:inline-flex;align-items:center;margin-top:9px;padding:6px 9px;border-radius:999px;background:#f4f1eb;font-weight:800;font-size:12px}
+.mobile-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:11px}
+.mobile-metric{font-size:12px;color:#777168}
+.mobile-metric b{display:block;color:#2c2924;font-size:14px;margin-top:2px}
+.mobile-signal-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.mobile-signal{font-size:12px;padding:6px 8px;border-radius:999px;background:#f7f3ed;border:1px solid #ece4da}
+.mobile-why{margin-top:12px;padding-top:10px;border-top:1px dashed #e6ded3}
+.mobile-why-title{font-size:12px;font-weight:900;letter-spacing:.2px;color:#3a3732}
+.mobile-cta{margin-top:11px;font-size:12px;font-weight:800;text-align:right;color:#9b6c42}
+@media(max-width:760px){
+  .radar-table-wrap{display:none!important}
+  .radar-mobile{display:block}
+}
+
+
+/* V2.8 post-breakout */
+.radar-tab[data-radar="postbreakout"].active{background:#315f8d;color:#fff;border-color:#315f8d}
+
+
+/* V2.9 VCPulse signal */
+.pulse-badge{display:inline-flex;align-items:center;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid #e8e0d5;background:#fff}
+.pulse-hot{background:#fff0e9;border-color:#f3c7b3}.pulse-watch{background:#fff8df;border-color:#eadba1}
+.pulse-wait{background:#f2f1ee;border-color:#ddd9d2}.pulse-extended{background:#f5edf0;border-color:#decbd2}
+.pulse-explain{margin-top:8px;font-size:11px;color:#777168;line-height:1.5}
+
+
+/* V2.9.2 mobile radar visibility fix */
+.radar-mobile{display:none}
+@media(max-width:760px){
+  .radar-table-wrap{display:none!important}
+  .radar-mobile{display:block!important}
+}
+
+
+/* V2.9.3 clearer VCPulse signal explanation */
+.pulse-help-detail{margin-top:18px;padding-top:16px;border-top:1px solid #e7dfd5}
+.pulse-help-detail h3{margin:0 0 8px;font-size:17px}
+.pulse-help-detail>p{line-height:1.7}
+.pulse-help-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.pulse-help-grid>div{padding:11px 12px;border:1px solid #e8e0d6;border-radius:13px;background:#fffdfa}
+.pulse-help-grid b{display:block;margin-bottom:4px}
+.pulse-help-grid span{display:block;font-size:13px;line-height:1.55;color:#6f6961}
+.pulse-help-note{padding:10px 12px;border-radius:12px;background:#f5f1e9;font-size:13px}
+.pulse-rule-detail{margin-top:10px;font-size:13px}
+.pulse-rule-detail summary{cursor:pointer;font-weight:800;color:#6d5239}
+.pulse-rule-detail p{line-height:1.65;color:#6f6961}
+@media(max-width:760px){.pulse-help-grid{grid-template-columns:1fr}}
+
+
+/* V2.9.4 separate stage and VCPulse columns */
+@media(min-width:761px){
+  .radar-table-wrap .pulse-badge{white-space:nowrap}
+}
+
+
+/* V2.9.6 mobile analysis CTA */
+.mobile-analysis-btn{
+  display:block;
+  width:auto;
+  margin:11px 0 0 auto;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#9b6c42;
+  font:inherit;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.mobile-analysis-btn:active{opacity:.6}
+
+
+/* V2.10 shared radar labels + compact mobile cards */
+.mobile-why-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.reason-toggle{
+  border:0;background:transparent;padding:3px 0;color:#9b6c42;
+  font:inherit;font-size:11px;font-weight:900;cursor:pointer;
+  -webkit-tap-highlight-color:transparent
+}
+.reason-more[hidden],.reason-more-detail[hidden]{display:none!important}
+@media(max-width:760px){
+  .mobile-stock-card{padding:13px 14px 12px;margin-top:9px}
+  .mobile-stock-name{font-size:16px}
+  .mobile-state{margin-top:8px;padding:5px 8px}
+  .mobile-metrics{gap:6px 12px;margin-top:9px}
+  .mobile-signal-row{margin-top:8px;gap:6px}
+  .mobile-signal{padding:5px 7px}
+  .mobile-why{margin-top:9px;padding-top:9px}
+  .reason-list{gap:4px;margin-top:7px}
+  .mobile-analysis-btn{margin-top:9px}
+}
+
+
+/* V2.10.1 navigation/link clarity */
+.stock-link{
+  appearance:none;border:0;background:transparent;padding:0;margin:0;
+  font:inherit;font-weight:900;color:inherit;cursor:pointer;text-align:left
+}
+.stock-link:hover{text-decoration:underline}
+.stock-link:focus-visible{outline:2px solid #b37b48;outline-offset:3px;border-radius:4px}
+.mobile-analysis-btn{font-size:13px}
+
+
+/* V2.10.2 confirmed navigation fix */
+#singleStockAnalysis{scroll-margin-top:16px}
+.radar-open-analysis{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+
+
+/* ===== V2.11 UI polish: radar header, mobile filters, card hierarchy ===== */
+.radar-intro{
+  padding:18px 20px;margin:22px 0 12px;border:1px solid #e9e1d7;
+  border-radius:20px;background:linear-gradient(135deg,#fffdfa 0%,#f8f4ed 100%);
+}
+.radar-intro h2{font-size:27px;letter-spacing:-.4px}
+.radar-summary{
+  min-width:88px;padding:10px 13px;border-radius:15px;background:#fff;
+  border:1px solid #e9e1d7;text-align:center;box-shadow:0 5px 14px rgba(57,46,33,.035)
+}
+.radar-summary b{display:block;font-size:22px;line-height:1;color:#2c2924}
+.radar-summary span{display:block;margin-top:4px;font-size:11px;color:#817b72;font-weight:800}
+.radar-tabs{gap:7px}
+.radar-tab{transition:.15s ease}
+.radar-tab:active{transform:scale(.97)}
+
+@media(max-width:760px){
+  .radar-intro{
+    margin:17px 0 10px;padding:14px 14px;align-items:center;
+    border-radius:17px
+  }
+  .radar-intro h2{font-size:21px;margin:2px 0 3px}
+  .radar-intro p{font-size:11px;line-height:1.45;max-width:235px}
+  .radar-summary{min-width:66px;padding:8px 9px;border-radius:13px}
+  .radar-summary b{font-size:19px}
+  .radar-summary span{font-size:10px}
+
+  /* All filters visible: two-row compact chip grid instead of clipped horizontal scrolling. */
+  .radar-tabs{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px!important;
+    overflow:visible!important;
+    padding:2px 0 4px!important
+  }
+  .radar-tab{
+    width:100%;min-width:0!important;padding:8px 5px!important;
+    border-radius:12px!important;font-size:11px!important;
+    white-space:nowrap;text-align:center
+  }
+
+  /* Stronger card hierarchy */
+  .mobile-stock-card{
+    border-radius:19px;padding:14px 14px 12px;
+    box-shadow:0 6px 18px rgba(57,46,33,.045)
+  }
+  .mobile-stock-top{align-items:center}
+  .mobile-stock-name{font-size:17px;letter-spacing:-.2px}
+  .mobile-score{font-size:12px}
+  .mobile-state{
+    font-size:11px;margin-top:8px;padding:5px 8px;background:#f3efe8
+  }
+  .pulse-badge{font-size:11px;padding:5px 8px}
+  .mobile-metrics{
+    margin-top:10px;padding:10px 0 2px;
+    border-top:1px solid #eee6dc
+  }
+  .mobile-metric{font-size:10px}
+  .mobile-metric b{font-size:13px;margin-top:3px}
+  .mobile-signal-row{margin-top:8px}
+  .mobile-signal{font-size:10.5px;padding:5px 7px}
+  .mobile-why{margin-top:9px}
+  .mobile-why-title{font-size:11px}
+  .reason-item{font-size:11.5px}
+  .mobile-analysis-btn{
+    margin-top:9px;padding:7px 0!important;font-size:12px!important
+  }
+}
+
+
+/* V2.11.1 visible candidate count */
+.radar-head-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.radar-count-pill{
+  padding:7px 11px;border:1px solid #e5ddd2;border-radius:999px;background:#fffaf4;
+  color:#746d64;font-size:12px;font-weight:800;white-space:nowrap
+}
+.radar-count-pill b{font-size:16px;color:#2c2924;margin:0 2px}
+@media(max-width:760px){
+ .section-title{align-items:flex-start}
+ .radar-head-meta{width:100%;justify-content:space-between;gap:5px;margin-top:5px}
+ .radar-count-pill{padding:6px 9px;font-size:10.5px}
+ .radar-count-pill b{font-size:14px}
+ #radarUpdated{font-size:10px;text-align:right}
+}
+
+
+/* V2.12 Watchlist */
+.stock-name-line{display:flex;align-items:flex-start;gap:7px}
+.favorite-btn{
+ border:0;background:transparent;padding:0;min-width:22px;width:22px;height:22px;
+ font-size:21px;line-height:1;color:#aaa49b;cursor:pointer;border-radius:50%;
+ display:inline-flex;align-items:center;justify-content:center
+}
+.favorite-btn:hover{transform:scale(1.08)}
+.favorite-btn.is-favorite{color:#b87836}
+
+.single-title-row{
+  display:inline-flex;align-items:center;gap:5px;
+  flex-wrap:nowrap;width:max-content;max-width:100%;
+}
+.single-title-row .ticker{
+  min-width:0;white-space:nowrap;
+}
+.single-title-favorite{
+  border:0;background:transparent;padding:0;cursor:pointer;flex:0 0 auto;
+  width:24px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:20px;line-height:1;color:#b9b4aa;
+  transform:translateY(-1px);
+  transition:transform .15s ease,color .15s ease;
+}
+.single-title-favorite:hover{transform:translateY(-1px) scale(1.08)}
+.single-title-favorite.is-favorite{color:#b87836}
+
+@media(max-width:720px){
+  .topline{align-items:flex-start;flex-wrap:wrap}
+  .topline>div:first-child{min-width:0;flex:1 1 100%}
+  .single-title-row{gap:4px;width:max-content;max-width:100%}
+  .single-title-row .ticker{white-space:nowrap}
+  .single-title-favorite{font-size:19px;width:22px;height:24px}
+  .topline>.badge{margin-left:auto;margin-top:-42px}
+}
+
+.favorite-tab #favoriteCount{
+ display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;
+ padding:0 5px;margin-left:2px;border-radius:999px;background:#ffffffaa;font-size:10px
+}
+.radar-tab.active #favoriteCount{background:#ffffff24}
+.mobile-top-actions{display:flex;align-items:center;gap:7px}
+.mobile-favorite{font-size:23px;width:25px;height:25px}
+@media(max-width:760px){
+ .radar-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ .favorite-tab{grid-column:auto}
+ .mobile-top-actions{align-items:flex-start}
+}
+
+
+/* V2.12.1 mascot size */
+.brand-mascot img{width:min(410px,100%);max-height:315px}
+@media(max-width:900px) and (min-width:761px){
+  .brand-mascot img{width:370px;max-height:275px}
+}
+@media(max-width:760px){
+  .brand-mascot img{width:138px;max-height:170px}
+}
+@media(max-width:390px){
+  .brand-mascot img{width:120px;max-height:155px}
+}
+
+
+/* V2.12.4 return to radar position */
+.single-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.return-radar-btn{
+ border:1px solid #dfd5c8;background:#fffaf4;color:#6f563d;border-radius:999px;
+ padding:7px 11px;font-size:11px;font-weight:900;cursor:pointer
+}
+.return-radar-btn:hover{background:#f5ede3}
+.radar-return-highlight{animation:radarReturnGlow 1.8s ease}
+@keyframes radarReturnGlow{
+ 0%,100%{box-shadow:none;background-color:transparent}
+ 20%,65%{box-shadow:0 0 0 3px rgba(184,120,54,.18);background-color:#fff7e8}
+}
+.mobile-stock-card.radar-return-highlight{animation:radarReturnCardGlow 1.8s ease}
+@keyframes radarReturnCardGlow{
+ 0%,100%{box-shadow:0 6px 18px rgba(57,46,33,.045)}
+ 20%,65%{box-shadow:0 0 0 3px rgba(184,120,54,.20),0 8px 22px rgba(57,46,33,.07);background:#fff8eb}
+}
+@media(max-width:760px){
+ .single-head-actions{width:100%;justify-content:space-between;gap:5px;margin-top:4px}
+ .return-radar-btn{padding:6px 9px;font-size:10.5px}
+}
+
+
+/* V2.12.5 Safari-safe return navigation */
+.return-radar-btn:not([hidden]){display:inline-flex!important;align-items:center}
+@media(max-width:760px){
+ .return-radar-btn{position:relative;z-index:3}
+}
+
+
+/* V2.12.6 — fixed return button */
+.radar-back-float{
+ position:fixed;
+ right:18px;
+ bottom:22px;
+ z-index:9999;
+ border:1px solid #d9c7b2;
+ background:#fffaf4;
+ color:#5f4934;
+ border-radius:999px;
+ padding:11px 15px;
+ font-size:13px;
+ font-weight:900;
+ line-height:1;
+ box-shadow:0 8px 24px rgba(60,45,30,.16);
+ cursor:pointer;
+ -webkit-tap-highlight-color:transparent;
+}
+.radar-back-float:hover{background:#f6ede3}
+.radar-back-float[hidden]{display:none!important}
+
+@media(max-width:760px){
+ .radar-back-float{
+   right:14px;
+   bottom:calc(16px + env(safe-area-inset-bottom));
+   padding:12px 15px;
+   font-size:13px;
+ }
+}
+
+
+/* V2.12.9 — highlight the stock just viewed for 3 seconds */
+.radar-return-highlight-3s{
+ animation:vcpReturnHighlight3s 3s ease-out!important;
+ position:relative;
+ z-index:2;
+}
+@keyframes vcpReturnHighlight3s{
+ 0%{
+   background:#fff0bd;
+   box-shadow:0 0 0 4px rgba(214,157,43,.32),0 8px 24px rgba(83,61,26,.12);
+ }
+ 18%,72%{
+   background:#fff7dc;
+   box-shadow:0 0 0 3px rgba(214,157,43,.22),0 6px 18px rgba(83,61,26,.08);
+ }
+ 100%{
+   background:transparent;
+   box-shadow:none;
+ }
+}
+.mobile-stock-card.radar-return-highlight-3s{
+ animation:vcpReturnCardHighlight3s 3s ease-out!important;
+}
+@keyframes vcpReturnCardHighlight3s{
+ 0%{
+   background:#fff0bd;
+   box-shadow:0 0 0 4px rgba(214,157,43,.32),0 10px 26px rgba(83,61,26,.12);
+ }
+ 18%,72%{
+   background:#fff7dc;
+   box-shadow:0 0 0 3px rgba(214,157,43,.22),0 8px 22px rgba(83,61,26,.09);
+ }
+ 100%{
+   background:#fff;
+ }
+}
+
+
+/* V2.13 — high-attention filter */
+@media(max-width:760px){
+ .radar-tabs{
+   grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+ .radar-tab{
+   width:100%;
+   justify-content:center;
+ }
+}
+
+
+/* V2.14 — radar sorting */
+.radar-sort-wrap{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.radar-sort-wrap label{font-size:12px;font-weight:800;color:#777268}
+.radar-sort{
+ appearance:none;border:1px solid #ddd6ca;border-radius:12px;background:#fffdf9;color:#292822;
+ font-weight:800;font-size:12px;padding:8px 30px 8px 11px;cursor:pointer;
+ background-image:linear-gradient(45deg,transparent 50%,#777 50%),linear-gradient(135deg,#777 50%,transparent 50%);
+ background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;
+ background-size:5px 5px,5px 5px;background-repeat:no-repeat
+}
+@media(max-width:760px){
+ .radar-sort-wrap{width:100%;justify-content:space-between;margin-top:8px}
+ .radar-sort{min-width:150px;padding-top:9px;padding-bottom:9px}
+}
+
+
+/* V2.22.13 — bidirectional Pivot distance visual */
+.pivot-distance-track{
+ position:relative;
+ width:100%;
+ max-width:112px;
+ height:7px;
+ margin-top:8px;
+ border-radius:999px;
+ background:#ebe7df;
+ overflow:hidden;
+}
+.pivot-distance-track::after{
+ content:"";
+ position:absolute;
+ left:50%;
+ top:-2px;
+ bottom:-2px;
+ width:2px;
+ border-radius:2px;
+ background:#8b8378;
+ opacity:.72;
+ transform:translateX(-1px);
+ z-index:2;
+}
+.pivot-distance-fill{
+ position:absolute;
+ top:0;
+ height:100%;
+ border-radius:999px;
+ opacity:.9;
+}
+.pivot-distance-fill.negative{
+ right:50%;
+ background:#d98a3a;
+}
+.pivot-distance-fill.near{
+ background:#d9b84c;
+}
+.pivot-distance-fill.positive{
+ left:50%;
+ background:#64a96f;
+}
+.pivot-distance-track[data-zone="near"] .pivot-distance-fill{
+ left:calc(50% - 4px);
+ width:8px!important;
+}
+
+
+/* V2.16 — 今日新進 */
+.new-entry-badge{
+ display:inline-flex;align-items:center;margin-left:7px;padding:2px 6px;border-radius:999px;
+ background:#fff0c7;color:#8a5a00;border:1px solid #efd28a;font-size:10px;font-weight:900;
+ letter-spacing:.04em;vertical-align:middle;
+}
+.reason-item.reason-new{background:#fff8df;border-color:#efd99c;color:#75500a;font-weight:800}
+
+
+/* V2.17 — high-attention reason at a glance */
+.attention-summary{margin-top:6px;font-size:11px;line-height:1.45;font-weight:800;color:#75634c;letter-spacing:.01em}
+.desktop-attention{max-width:175px;white-space:normal}
+@media(max-width:760px){.attention-summary{font-size:11px;margin-top:5px}}
+
+
+/* V2.20 — data freshness / snapshot status */
+.radar-freshness{
+ display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;
+ margin:0 0 12px;padding:10px 12px;border:1px solid #e9e2d8;border-radius:14px;
+ background:#fbfaf7;font-size:12px;color:#625d55;
+}
+.freshness-item{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;background:#fff;border:1px solid #eee7dd}
+.freshness-dot{width:8px;height:8px;border-radius:50%;background:#75b987;box-shadow:0 0 0 3px rgba(117,185,135,.12)}
+.freshness-item.intraday .freshness-dot{background:#e5b84d;box-shadow:0 0 0 3px rgba(229,184,77,.14)}
+.freshness-title{font-weight:900;color:#37342f}
+.freshness-note{color:#8a8379}
+@media(max-width:760px){
+ .radar-freshness{display:grid;grid-template-columns:1fr;padding:9px;margin-bottom:10px}
+ .freshness-item{width:100%;box-sizing:border-box;border-radius:12px}
+}
+
+
+/* V2.21 — official close vs intraday dual snapshots */
+.radar-snapshot-switch{
+ display:flex;gap:8px;align-items:center;margin:0 0 12px;
+}
+.snapshot-btn{
+ border:1px solid #e2dbd1;background:#fff;color:#5e584f;
+ border-radius:999px;padding:8px 12px;font-weight:850;font-size:12px;cursor:pointer;
+}
+.snapshot-btn.active{
+ background:#26231f;color:#fff;border-color:#26231f;
+}
+.snapshot-btn:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:760px){
+ .radar-snapshot-switch{display:grid;grid-template-columns:1fr 1fr}
+ .snapshot-btn{width:100%;padding:8px 7px}
+}
+
+
+/* V2.22.8: remove duplicated radar header metadata */
+#radarUpdated{display:none!important}
+
+/* V2.22.14 — desktop Pivot track */
+.desktop-pivot-distance{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:2px;
+ min-width:96px;
+}
+.desktop-pivot-distance b{font-weight:800}
+.desktop-pivot-track{
+ width:92px;
+ max-width:92px;
+ margin-top:4px;
+}
+
+
+/* V2.23 — 今日漲跌幅 */
+.change-pct{font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}
+.change-pct.up{color:#2f7d52}
+.change-pct.down{color:#b14b42}
+.change-pct.flat{color:#77756f}
+
+
+/* V2.25 — 台股大盤概況 */
+.market-overview{
+ display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px;
+}
+.market-index-card{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ padding:12px 14px;border:1px solid #e9e2d8;border-radius:14px;background:#fffdfa;
+}
+.market-index-name{font-size:12px;color:#777168;font-weight:800}
+.market-index-value{margin-top:3px;font-size:16px;font-weight:950;color:#2e2b27;font-variant-numeric:tabular-nums}
+.market-index-change{font-size:14px;font-weight:950;white-space:nowrap;font-variant-numeric:tabular-nums}
+.market-index-change.up{color:#2f7d52}
+.market-index-change.down{color:#b14b42}
+.market-index-change.flat{color:#77756f}
+.market-index-time{font-size:10px;color:#aaa198;margin-top:2px}
+@media(max-width:760px){
+ .market-overview{grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+ .market-index-card{display:block;padding:10px 11px}
+ .market-index-value{font-size:14px}
+ .market-index-change{font-size:12px;margin-top:4px}
+ .market-index-time{display:none}
+}
+@media(max-width:390px){
+ .market-index-name{font-size:11px}
+ .market-index-value{font-size:13px}
+ .market-index-change{font-size:11px}
+}
+
+
+/* V2.26 — 單股快速判讀 */
+.single-quick-read{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:13px 0 10px}
+.single-quick-item{background:#f7f6f2;border-radius:14px;padding:11px 12px;min-width:0}
+.single-quick-item span{display:block;font-size:11px;color:#77756f;font-weight:800;margin-bottom:5px}
+.single-quick-item b{display:block;font-size:15px;font-weight:950;line-height:1.25;font-variant-numeric:tabular-nums}
+.single-quick-item small{display:block;font-size:9px;color:#96918a;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.single-quick-item b.up,.single-relative-strong{color:#2f7d52}
+.single-quick-item b.down,.single-relative-weak{color:#b14b42}
+.single-signal-row{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 11px}
+.single-signal-chip{display:inline-flex;align-items:center;padding:6px 9px;border:1px solid #e6dfd5;border-radius:999px;background:#fffdfa;font-size:11px;font-weight:850}
+@media(max-width:760px){
+ .single-quick-read{gap:6px;margin:11px 0 9px}
+ .single-quick-item{padding:9px 8px;border-radius:12px}
+ .single-quick-item span{font-size:10px}
+ .single-quick-item b{font-size:13px}
+ .single-signal-chip{font-size:10px;padding:5px 7px}
+}
+
+/* V2.27 — 美股四大指數 */
+#marketOverview.us-market{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:760px){
+ #marketOverview.us-market{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #marketOverview.us-market .market-index-card{padding:12px}
+ #marketOverview.us-market .market-index-name{font-size:11px}
+ #marketOverview.us-market .market-index-value{font-size:18px}
+ #marketOverview.us-market .market-index-change{font-size:12px}
+}
+
+/* V2.27.1 — 雷達市場切換 */
+.radar-market-switch{
+ display:inline-flex;gap:4px;padding:4px;margin:0 0 10px;
+ border:1px solid #e6dfd5;border-radius:14px;background:#f6f3ed;
+}
+.radar-market-btn{
+ border:0;background:transparent;color:#6e6a63;border-radius:10px;
+ padding:8px 15px;font-size:12px;font-weight:900;cursor:pointer;
+}
+.radar-market-btn.active{
+ background:#fff;box-shadow:0 1px 5px rgba(60,48,35,.09);color:#2f2b26;
+}
+@media(max-width:760px){
+ .radar-market-switch{display:flex;width:100%;box-sizing:border-box}
+ .radar-market-btn{flex:1;padding:8px 10px}
+}
+
+
+/* V2.34 — 使用者端即時行情更新 */
+.user-live-refresh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.user-live-btn{
+ min-width:0;border:1px solid #dccfbe;background:#fffaf4;color:#6b5137;
+ border-radius:999px;padding:9px 13px;font-size:12px;font-weight:900;cursor:pointer
+}
+.user-live-btn:disabled{opacity:.55;cursor:wait}
+.user-live-status{font-size:11px;color:#8a8379}
+.live-quote-badge{
+ display:inline-flex;align-items:center;margin-left:6px;padding:2px 6px;border-radius:999px;
+ background:#fff4d8;border:1px solid #ecd394;color:#7a5a19;font-size:9px;font-weight:900
+}
+@media(max-width:760px){
+ .user-live-refresh{display:grid;grid-template-columns:auto 1fr;gap:7px;margin-bottom:10px}
+ .user-live-btn{padding:8px 11px}
+ .user-live-status{font-size:10px}
+}
+
+
+/* V2.40.4 — 手機版每日 VCP 雷達標題與目前顯示對齊 */
+@media(max-width:760px){
+  .radar-section .section-title{
+    display:grid;
+    grid-template-columns:minmax(118px,1fr) auto;
+    align-items:center;
+    column-gap:14px;
+    margin-top:16px;
+  }
+  .radar-section .section-title h2{
+    width:118px;
+    max-width:118px;
+    line-height:1.28;
+    margin:0;
+    white-space:normal;
+  }
+  .radar-section .radar-head-meta{
+    width:auto;
+    margin-top:0;
+    justify-content:flex-end;
+    justify-self:end;
+    flex-wrap:nowrap;
+  }
+  .radar-section .radar-count-pill{
+    margin-left:8px;
+    white-space:nowrap;
+  }
+}
+
+
+/* V2.41 — 資金熱區 */
+.capital-hotspots{margin:12px 0 16px}
+.capital-hotspots-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:9px}
+.capital-hotspots-head h3{margin:0;font-size:16px}
+.capital-hotspots-note{font-size:11px;color:var(--muted)}
+.capital-hotspots-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.capital-hotspot{border:1px solid var(--line);border-radius:14px;padding:11px;background:var(--card)}
+.capital-hotspot-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.capital-hotspot-name{font-weight:800;font-size:14px;line-height:1.25}
+.capital-hotspot-score{font-weight:900;font-size:17px;white-space:nowrap}
+.capital-hotspot-level{font-size:11px;margin:5px 0 7px}
+.capital-hotspot-metrics{display:grid;gap:3px;font-size:11px;color:var(--muted)}
+.capital-hotspot-metrics b{color:var(--text)}
+.capital-hotspots-empty{font-size:12px;color:var(--muted);padding:10px 0}
+@media(max-width:760px){
+ .capital-hotspots-head{align-items:flex-start}
+ .capital-hotspots-grid{display:flex;overflow-x:auto;gap:8px;padding-bottom:4px;scroll-snap-type:x proximity}
+ .capital-hotspot{min-width:172px;scroll-snap-align:start}
+ .capital-hotspots-note{max-width:150px;text-align:right}
+}
+
+
+/* V2.41.2 — 資金熱區 Top 5 與排名圈圈 */
+.capital-hotspots-title{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.capital-top5-badge{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid #ead2a4;border-radius:999px;background:#fff8e8;font-size:12px;font-weight:800;white-space:nowrap}
+.capital-hotspot-rank{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-weight:900;font-size:14px;flex:0 0 28px}
+.capital-hotspot:nth-child(1) .capital-hotspot-rank{background:#ffd66b}
+.capital-hotspot:nth-child(2) .capital-hotspot-rank{background:#cfe0ea}
+.capital-hotspot:nth-child(3) .capital-hotspot-rank{background:#e6b47d}
+.capital-hotspot:nth-child(4) .capital-hotspot-rank{background:#a9dda0}
+.capital-hotspot:nth-child(5) .capital-hotspot-rank{background:#c8a4ef}
+.capital-hotspot-namewrap{display:flex;align-items:center;gap:7px;min-width:0}
+
+
+/* V2.41.3 — 手機版收藏加文字，避免和 VCP 評分星星混淆 */
+@media(max-width:720px){
+  .mobile-favorite{
+    width:auto !important;
+    min-width:72px !important;
+    height:32px !important;
+    padding:0 10px !important;
+    border:1px solid #ddd5c9 !important;
+    border-radius:999px !important;
+    background:#fff !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+    gap:3px;
+    white-space:nowrap;
+  }
+  .mobile-favorite.is-favorite{
+    border-color:#d7b48d !important;
+    background:#fff8f0 !important;
+  }
+}
+
+
+/* V2.41.4 — 收藏語意統一：★ 我的收藏 / ☆ 收藏 / ★ 已收藏 */
+.favorite-tab{color:#7b5a35}
+.favorite-tab.active{color:inherit}
+
+
+/* V2.41.5 — 手機版收藏按鈕縮小 */
+@media(max-width:720px){
+  .mobile-favorite{
+    min-width:60px !important;
+    height:26px !important;
+    padding:0 8px !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    border-radius:999px !important;
+  }
+}
+
+
+/* V2.41.7 — 每日雷達 / 台美股資料日期與掃描時間重新排版 */
+.radar-freshness{
+  display:grid;
+  gap:10px;
+}
+.freshness-item{
+  display:grid !important;
+  grid-template-columns:minmax(220px,1.25fr) minmax(180px,.9fr) minmax(130px,.65fr);
+  align-items:center;
+  gap:0 !important;
+  padding:13px 16px !important;
+  border:1px solid #e4ddd3;
+  border-radius:15px;
+  background:#fff;
+}
+.freshness-status,
+.freshness-date,
+.freshness-scan{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.freshness-date,
+.freshness-scan{
+  padding-left:18px;
+  border-left:1px solid #e9e1d6;
+}
+.freshness-title{
+  font-size:14px;
+  font-weight:900;
+  line-height:1.25;
+  color:var(--text);
+}
+.freshness-sub{
+  margin-top:3px;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+}
+.freshness-date b,
+.freshness-scan b{
+  display:block;
+  font-size:14px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.freshness-date small,
+.freshness-scan small{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+  color:var(--muted);
+}
+.freshness-icon{
+  flex:0 0 auto;
+  font-size:16px;
+  color:#776f65;
+}
+
+@media(max-width:760px){
+  .radar-section .section-title h2{
+    width:auto !important;
+    max-width:none !important;
+    white-space:nowrap !important;
+  }
+  .freshness-item{
+    grid-template-columns:minmax(0,1.25fr) minmax(0,.95fr) minmax(76px,.62fr);
+    padding:12px 13px !important;
+  }
+  .freshness-status{gap:7px}
+  .freshness-date,
+  .freshness-scan{
+    gap:6px;
+    padding-left:10px;
+  }
+  .freshness-title{font-size:12.5px}
+  .freshness-sub{font-size:9.5px;line-height:1.25}
+  .freshness-date b,
+  .freshness-scan b{
+    font-size:11.5px;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .freshness-date small,
+  .freshness-scan small{font-size:9px}
+  .freshness-icon{display:none}
+}
+
+
+/* V2.42 Theme Beta */
+.theme-beta-tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}.theme-beta-tab{border:1px solid #ddd8cf;background:#fff;border-radius:999px;padding:7px 12px;font-weight:800;cursor:pointer}.theme-beta-tab.active{background:#262626;color:#fff;border-color:#262626}.theme-beta-sub{font-size:12px;color:#777;margin-top:5px}.theme-beta-life{font-weight:800}.theme-beta-scorepair{display:flex;gap:10px;align-items:center;font-size:12px}.theme-beta-scorepair b{font-size:18px}.theme-beta-empty{padding:18px;color:#777;text-align:center}@media(max-width:700px){.theme-beta-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.theme-beta-tab{padding:7px 4px;font-size:12px}.capital-hotspot-metrics{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+
+<div id="authGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#f7f4ee">
+  <div style="width:min(430px,100%);background:#fffdfa;border:1px solid #e8e1d7;border-radius:24px;padding:30px;box-shadow:0 12px 32px rgba(53,46,38,.08);text-align:center">
+    <div style="font-size:42px;font-weight:900;letter-spacing:-2px;color:#24231f">VCP<span style="color:#c58d58">ulse</span></div>
+    <div style="margin-top:8px;color:#777168;font-size:13px;letter-spacing:1px">VCP × PowerSqueeze 智慧選股雷達</div>
+    <div id="authStatus" style="margin:24px 0 16px;color:#625d54;line-height:1.6">正在確認登入狀態…</div>
+    <button id="googleLoginBtn" type="button" style="display:none;width:100%;padding:13px 16px;border-radius:14px;background:#20231f;color:#fff;border:0;font-weight:800;cursor:pointer">使用 Google 帳號登入</button>
+    <div id="authError" style="display:none;margin-top:14px;padding:10px 12px;border-radius:12px;background:#fff0ed;color:#8d302b;font-size:13px;line-height:1.5"></div>
+    <div style="margin-top:16px;color:#918a80;font-size:11px">VCPulse 授權登入版</div>
+  </div>
+</div>
+<div id="userBar" style="display:none;position:sticky;top:0;z-index:10000;background:#fffaf4;border-bottom:1px solid #e8e1d7;padding:8px 14px;font-size:12px">
+  <div style="max-width:1440px;margin:auto;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+    <div><b id="signedInEmail"></b> <span style="color:#777168">｜UID：</span><code id="signedInUid"></code></div>
+    <div style="display:flex;gap:7px">
+      <button id="copyUidBtn" type="button" style="min-width:0;padding:7px 10px;border-radius:10px;background:#fff;color:#5f4934;border:1px solid #d9c7b2">複製 UID</button>
+      <button id="logoutBtn" type="button" style="min-width:0;padding:7px 10px;border-radius:10px;background:#20231f;color:#fff;border:0">登出</button>
+    </div>
+  </div>
+</div>
+<div class="wrap" id="vcpApp" style="display:none">
+<section class="brand-hero">
+  <div class="brand-grid">
+    <div>
+      <h1 class="brand-name">VCP<span class="pulse">ulse</span><span class="brand-wave">◔</span></h1>
+      <div class="brand-tag">Catch the Contraction. Watch the Breakout.</div>
+      <div class="brand-sub">VCP × PowerSqueeze 智慧選股雷達</div>
+      <div class="brand-copy">好股票，總在收斂之後出發。<br>從 VCP、波動壓縮到 Momentum，一起找出值得觀察的訊號。</div>
+      <div class="brand-mini">
+        <span class="brand-pill">📡 每日自動掃描</span>
+        
+        <span class="brand-pill">⚡ VCP＋Squeeze</span>
+      </div>
+    </div>
+    <div class="brand-mascot">
+      <img src="vcpulse-mascot.png" alt="VCPulse 放大鏡貴賓狗吉祥物">
+    </div>
+  </div>
+  <button class="helpbtn" id="helpBtn" style="position:absolute;right:18px;top:18px">？ 指標使用說明</button>
+</section>
+<div class="card helpbox" id="helpBox">
+  <h3>什麼是 VCP？</h3>
+  <p><b>VCP（Volatility Contraction Pattern，波動收縮型態）</b>是觀察股價在上升趨勢中，回檔與波動逐步縮小、成交量降溫，最後等待突破關鍵價位（Pivot）的技術型態。</p>
+  <p>本站將各次回檔依序標示為 <b>C1、C2、C3、C4</b>。例如 C1 -18% → C2 -10% → C3 -6%，代表波動逐漸收斂。</p>
+  <h3>VCP 評分</h3>
+  <table>
+    <tr><th>項目</th><th>本站判斷方式</th><th>分數</th></tr>
+    <tr><td>📈 趨勢</td><td>現價高於 50 日均線，且 50 日均線高於 150 日均線</td><td>+1</td></tr>
+    <tr><td>🔄 收縮次數</td><td>至少偵測到 2 次價格回檔／收縮</td><td>+1</td></tr>
+    <tr><td>📐 收縮遞減</td><td>後續回檔幅度原則上比前一次縮小</td><td>+1</td></tr>
+    <tr><td>🔉 成交量</td><td>近期平均成交量低於前一階段，呈現量縮</td><td>+1</td></tr>
+    <tr><td>🎯 Pivot</td><td>股價接近 Pivot（突破價），或最新交易日首次帶量突破 Pivot</td><td>+1</td></tr>
+  </table>
+  <p><b>★★★★★</b>：五項皆符合；<b>★★★★☆</b>：已有明顯 VCP 特徵。每日雷達目前以 4 分以上為主要候選。</p>
+  <h3>每日雷達狀態</h3>
+  <p>🟢 <b>今日帶量突破</b>：前一交易日尚未突破 Pivot，最新交易日收盤首次站上 Pivot，且成交量明顯放大。</p>
+  <p>🔵 <b>突破後</b>：近期已突破 Pivot，且目前仍站在 Pivot 上方；本站追蹤最近 5 個交易日，方便觀察突破是否守穩。</p>
+  <p>🟡 <b>接近 Pivot</b>：尚未突破，但距 Pivot 已相當接近。</p>
+  <p>⚪ <b>VCP 成形中</b>：已具備 VCP 特徵，但仍離 Pivot 有一段距離。</p>
+  <h3>PowerSqueeze 是什麼？</h3>
+  <p>本站另外比較 <b>Bollinger Bands（20日、2個標準差）</b> 與 <b>Keltner Channel（EMA20＋ATR20）</b> 的寬度。當布林通道收進 Keltner Channel 內，代表近期波動正在壓縮。</p>
+  <p>本站分為：🔴 <b>強力壓縮</b>、🟠 <b>中度壓縮</b>、🩷 <b>一般壓縮</b>、⚪ <b>無壓縮</b>。壓縮越強代表波動越集中，但不代表之後一定上漲。</p>
+  <h3>Momentum 動能</h3>
+  <p>動能以價格相對 20 日平均價格的位置與變化輔助判斷，顯示為 <b>↑ 多方增強、↘ 多方減弱、↓ 空方增強、↗ 空方減弱</b>。</p>
+  <h3>⚡ VCP＋Squeeze</h3>
+  <p>代表股票同時符合本站 VCP 候選條件（4 分以上），且目前處於 PowerSqueeze 壓縮狀態。PowerSqueeze <b>不另外增加 VCP 星數</b>。</p>
+  <h3>每日雷達如何排序？</h3>
+  <p>每日雷達優先顯示當下較值得注意的狀態，而不是只看星數：</p>
+  <p><b>① 狀態</b>：🟢 今日帶量突破 → 🔵 突破後 → 🟡 接近 Pivot → ⚪ VCP 成形中<br>
+  <b>② VCP 完整度</b>：★★★★★ → ★★★★☆<br>
+  <b>③ PowerSqueeze</b>：🔴 強力壓縮 → 🟠 中度壓縮 → 🩷 一般壓縮 → ⚪ 無壓縮<br>
+  <b>④ Momentum</b>：↑ 多方增強 → ↗ 空方減弱 → ↘ 多方減弱 → ↓ 空方增強<br>
+  <b>⑤ 距 Pivot</b>：其他條件相同時，距 Pivot 較近者優先。</p>
+  <p class="muted"><b>重要：</b>VCP 與 PowerSqueeze 都是本站依公開技術分析概念建立的程式化判讀；本站 PowerSqueeze 並非 Growin 專有指標數值的複製。所有訊號皆不代表未來上漲機率，也不構成投資建議。</p>
+</div>
+
+<div class="section" id="singleStockAnalysis">
+  <div class="section-title">
+    <h2>🔎 單股查詢</h2>
+    <div class="muted">輸入代號，查看完整 VCP 健檢</div>
+  </div>
+  <div class="marketbar">
+<button class="marketbtn active" data-market="TW">🇹🇼 台股</button>
+<button class="marketbtn" data-market="US">🇺🇸 美股</button>
+</div>
+<div class="search"><input id="symbol" value="2330" placeholder="搜尋台積電、2330…"><button id="go">開始分析</button></div>
+<div id="err" class="error"></div>
+<div class="grid">
+<div class="card"><div class="topline"><div><div class="single-title-row"><div class="ticker" id="title">等待分析</div><button type="button" id="singleFavorite" class="single-title-favorite" hidden aria-label="收藏股票" title="收藏股票">☆</button></div><div class="muted" id="period"></div><div id="singleLiveNote" class="muted" style="margin-top:5px;color:#9a6a1c" hidden></div></div><div class="badge" id="state">—</div></div>
+<canvas id="chart" width="720" height="360"></canvas><div class="note">圖：近約 120 個交易日收盤價；C1 紅、C2 藍、C3 綠（若有 C4 則為紫色），分別標示各次回檔區間與跌幅；虛線為估算 Pivot。VCP 是型態辨識，不代表突破一定成功。</div></div>
+<div class="card"><div class="muted">VCP 綜合評分</div><div class="score" id="score">—</div><div class="stars" id="stars">☆☆☆☆☆</div>
+<div class="single-quick-read">
+  <div class="single-quick-item"><span>今日漲跌</span><b id="singleChange">—</b></div>
+  <div class="single-quick-item"><span>對應大盤</span><b id="singleMarketChange">—</b><small id="singleMarketName"></small></div>
+  <div class="single-quick-item"><span>相對強弱</span><b id="singleRelative">—</b></div>
+</div>
+<div class="single-signal-row" id="singleSignals"></div>
+<div class="metrics"><div class="metric"><span class="muted">Pivot（突破價）</span><b id="pivot">—</b></div><div class="metric"><span class="muted">距 Pivot</span><b id="dist">—</b></div><div class="metric"><span class="muted">收縮序列</span><b id="contracts">—</b></div><div class="metric"><span class="muted">量能</span><b id="volume">—</b></div></div>
+<div class="checks" id="checks"></div><div class="note" id="summary">輸入股票代號後開始。</div></div>
+
+</div>
+
+<div class="section radar-section">
+  <div class="section-title">
+    <h2>📡 每日雷達</h2>
+    <div class="radar-head-meta">
+      <div class="radar-count-pill">目前顯示 <b id="radarCount">—</b> 檔</div>
+      <div class="muted" id="radarUpdated" style="display:none!important" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="radar-market-switch" id="radarMarketSwitch">
+    <button type="button" class="radar-market-btn active" data-market="TW" onclick="setMarket('TW',{reset:true})">🇹🇼 台股</button>
+    <button type="button" class="radar-market-btn" data-market="US" onclick="setMarket('US',{reset:true})">🇺🇸 美股</button>
+  </div>
+  <div id="radarFreshness" class="radar-freshness" hidden></div>
+  <div id="marketOverview" class="market-overview" hidden></div>
+  <div id="capitalHotspots" class="capital-hotspots" hidden>
+    <div class="capital-hotspots-head">
+      <div class="capital-hotspots-title"><h3>🔥 資金熱區</h3><span class="capital-top5-badge">V2.42 Theme Beta</span></div>
+      <div class="capital-hotspots-note">成交活躍度 × 市場占比 × 上漲廣度 × VCP 集中</div>
+    </div>
+    <div class="theme-beta-tabs" id="themeBetaTabs">
+      <button type="button" class="theme-beta-tab active" data-theme-tab="industry">產業 Top 5</button>
+      <button type="button" class="theme-beta-tab" data-theme-tab="theme">🔥 題材 Top 5</button>
+      <button type="button" class="theme-beta-tab" data-theme-tab="setup">👀 蓄勢 Top 5</button>
+    </div>
+    <div id="capitalHotspotsGrid" class="capital-hotspots-grid"></div>
+  </div>
+  <div class="user-live-refresh">
+    <button type="button" id="userLiveRefreshBtn" class="user-live-btn">🔄 更新即時行情</button>
+    <span id="userLiveRefreshStatus" class="user-live-status">更新目前雷達股票的價格、今日漲跌與距 Pivot；大盤指數隨每次完整雷達掃描同步更新。</span>
+  </div>
+  <div class="card radar-card">
+    <div class="radar-snapshot-switch" id="radarSnapshotSwitch">
+      <button type="button" class="snapshot-btn active" data-snapshot="official" onclick="setRadarSnapshot('official')"><span class="snapshot-main" id="officialSnapshotLabel">✅ 正式收盤 <span id="officialCount"></span></span><span class="snapshot-update-note" id="officialSnapshotNote">18:10 起更新</span></button>
+      <button type="button" class="snapshot-btn" data-snapshot="intraday" onclick="setRadarSnapshot('intraday')">👀 盤中即時 <span id="intradayCount"></span></button>
+    </div>
+    <div class="radar-head">
+      <div class="radar-tabs">
+        <button class="radar-tab active" data-radar="all">全部</button>
+        <button class="radar-tab favorite-tab" data-radar="favorites">★ 我的收藏 <span id="favoriteCount">0</span></button>
+        <button class="radar-tab" data-radar="hot">🔥 高關注</button>
+      <button class="radar-tab" data-radar="new">🆕 今日新進</button>
+        <button class="radar-tab" data-radar="breakout">🟢 今日突破</button>
+        <button class="radar-tab" data-radar="postbreakout">🔵 突破後</button>
+        <button class="radar-tab" data-radar="near">🟡 近 Pivot</button>
+        <button class="radar-tab" data-radar="forming">⚪ 成形中</button>
+        <button class="radar-tab" data-radar="combo">⚡ VCP＋Squeeze</button>
+      </div>
+      <div class="radar-sort-wrap">
+        <label for="radarSort">排序</label>
+        <select id="radarSort" class="radar-sort">
+          <option value="smart">智慧排序</option>
+          <option value="score">VCP 分數</option>
+          <option value="pivot">距 Pivot 最近</option>
+          <option value="squeeze">Squeeze 最強</option>
+          <option value="momentum">Momentum 最強</option>
+        </select>
+        <div class="muted">預計顯示 4 分以上</div>
+      </div>
+    </div>
+    <div class="radar-table-wrap">
+      <table class="radar-table">
+        <thead>
+          <tr>
+            <th>股票</th>
+            <th>市場</th>
+            <th>VCP</th>
+            <th>收縮</th>
+            <th>Pivot（突破價）</th>
+            <th>距 Pivot</th>
+            <th>今日漲跌</th>
+            <th>量能</th>
+            <th>PowerSqueeze</th>
+            <th>Momentum</th>
+            <th>狀態</th><th>VCPulse</th>
+          </tr>
+        </thead>
+        <tbody id="radarBody"></tbody>
+      </table>
+      
+    </div>
+    <div id="radarMobile" class="radar-mobile"></div>
+  </div>
+</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id), API='https://api.finmindtrade.com/api/v4/data';
+function pct(x){return (x>=0?'+':'')+x.toFixed(1)+'%'}
+function sma(a,n){return a.map((_,i)=>i<n-1?null:a.slice(i-n+1,i+1).reduce((x,y)=>x+y,0)/n)}
+function analyze(d){
+ const close=d.map(x=>+x.close), vol=d.map(x=>+x.Trading_Volume||+x.Trading_money||0), n=close.length, ma50=sma(close,50), ma150=sma(close,150);
+ let trend=ma50[n-1]&&ma150[n-1]&&close[n-1]>ma50[n-1]&&ma50[n-1]>ma150[n-1];
+ // Detect local peaks/troughs, then derive recent peak-to-trough contractions.
+ let piv=[]; for(let i=3;i<n-3;i++){let w=close.slice(i-3,i+4); if(close[i]===Math.max(...w))piv.push({i,t:'H',p:close[i]}); if(close[i]===Math.min(...w))piv.push({i,t:'L',p:close[i]})}
+ piv=piv.filter((x,i)=>!i||x.t!==piv[i-1].t);
+ let drops=[]; for(let i=0;i<piv.length-1;i++) if(piv[i].t==='H'&&piv[i+1].t==='L') drops.push({h:piv[i],l:piv[i+1],drop:(piv[i].p-piv[i+1].p)/piv[i].p*100});
+ drops=drops.slice(-4); let seq=drops.map(x=>x.drop), contracting=seq.length>=2&&seq.slice(1).every((x,i)=>x<seq[i]*1.12);
+ let recent=close.slice(-35), pivot=Math.max(...recent.slice(0,-3)), last=close[n-1], distance=(last/pivot-1)*100;
+ let v20=vol.slice(-20).reduce((a,b)=>a+b,0)/20, v60=vol.slice(-60,-20).reduce((a,b)=>a+b,0)/Math.max(1,vol.slice(-60,-20).length), dry=v20<v60*.85;
+ // PowerSqueeze: BB(20,2σ) vs Keltner Channel(EMA20,ATR20)
+ const c20=close.slice(-20), mean20=c20.reduce((a,b)=>a+b,0)/c20.length;
+ const sd20=Math.sqrt(c20.reduce((a,b)=>a+(b-mean20)**2,0)/c20.length);
+ const bbU=mean20+2*sd20, bbL=mean20-2*sd20;
+ let ema=close[n-20], alpha=2/21;
+ for(let i=n-19;i<n;i++) ema=alpha*close[i]+(1-alpha)*ema;
+ let trs=[]; for(let i=n-20;i<n;i++){
+   let hi=+(d[i].max??d[i].High??d[i].high), lo=+(d[i].min??d[i].Low??d[i].low);
+   trs.push(Math.max(hi-lo,Math.abs(hi-close[i-1]),Math.abs(lo-close[i-1])));
+ }
+ const atr=trs.reduce((a,b)=>a+b,0)/trs.length;
+ const inside=m=>bbU<ema+atr*m && bbL>ema-atr*m;
+ const squeezeLevel=inside(1.0)?'strong':inside(1.5)?'medium':inside(2.0)?'weak':'none';
+ const squeezeState=squeezeLevel==='strong'?'🔴 強力壓縮':squeezeLevel==='medium'?'🟠 中度壓縮':squeezeLevel==='weak'?'🩷 一般壓縮':'⚪ 無壓縮';
+ const prevMean=close.slice(-21,-1).reduce((a,b)=>a+b,0)/20;
+ const momNow=last-mean20, momPrev=close[n-2]-prevMean;
+ const momentum=momNow>=0?(momNow>=momPrev?'↑ 多方增強':'↘ 多方減弱'):(momNow<=momPrev?'↓ 空方增強':'↗ 空方減弱');
+ let breakout=last>pivot, breakoutVol=vol[n-1]>v20*1.35;
+ let prev=close[n-2], todayBreakout=prev<=pivot && breakout && breakoutVol;
+ let pts=0; if(trend)pts++; if(seq.length>=2)pts++; if(contracting)pts++; if(dry)pts++; if(todayBreakout||(!breakout&&distance>-8))pts++;
+ let state=todayBreakout?'🟢 今日帶量突破':(!breakout&&distance>-5?'🟡 接近 Pivot':(!breakout?'⚪ VCP 成形中':'🔵 突破後觀察'));
+ return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),dates:d.map(x=>x.date)}
+}
+function draw(a){
+ let c=$('chart'),x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);let vals=a.close.slice(-120),min=Math.min(...vals)*.97,max=Math.max(...vals)*1.03,pad=35;
+ let X=i=>pad+i*(W-2*pad)/(vals.length-1),Y=v=>H-pad-(v-min)*(H-2*pad)/(max-min);
+ x.strokeStyle='#deded8';x.lineWidth=1;for(let k=0;k<5;k++){let y=pad+k*(H-2*pad)/4;x.beginPath();x.moveTo(pad,y);x.lineTo(W-pad,y);x.stroke()}
+ x.strokeStyle='#252824';x.lineWidth=2;x.beginPath();vals.forEach((v,i)=>i?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v)));x.stroke();
+ x.setLineDash([7,5]);x.strokeStyle='#9a6a1c';x.beginPath();x.moveTo(pad,Y(a.pivot));x.lineTo(W-pad,Y(a.pivot));x.stroke();x.setLineDash([]);
+ x.fillStyle='#9a6a1c';x.font='12px system-ui';x.fillText('Pivot '+a.pivot.toFixed(2),pad+5,Y(a.pivot)-7);
+ // Mark detected pullbacks C1, C2, C3... on the displayed 120-day window.
+ let offset=Math.max(0,a.close.length-120);
+ (a.drops||[]).forEach((d,k)=>{
+   let hi=d.h.i-offset, lo=d.l.i-offset;
+   if(hi<0||lo<0||hi>=vals.length||lo>=vals.length)return;
+   let x1=X(hi),y1=Y(d.h.p),x2=X(lo),y2=Y(d.l.p);
+   const cColors=['#d1495b','#2d70b3','#2f8f5b','#8a5fb5'];
+   const cc=cColors[k % cColors.length];
+   x.strokeStyle=cc;x.lineWidth=2.5;x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();
+   x.fillStyle=cc;x.strokeStyle=cc;x.lineWidth=1;
+   x.beginPath();x.arc(x1,y1,4.5,0,Math.PI*2);x.fill();x.stroke();
+   x.beginPath();x.arc(x2,y2,4.5,0,Math.PI*2);x.fill();x.stroke();
+   x.fillStyle=cc;x.font='bold 13px system-ui';
+   let label=`C${k+1}  -${d.drop.toFixed(1)}%`;
+   x.fillText(label,Math.min(x1+5,W-pad-82),Math.max(pad+13,(y1+y2)/2));
+ });
+}
+let currentMarket='TW';
+async function getStockName(s,market){
+ try{
+  let dataset=market==='US'?'USStockInfo':'TaiwanStockInfo';
+  let r=await fetch(`${API}?dataset=${dataset}`);
+  let j=await r.json();
+  if(j.data){
+   let row=j.data.find(x=>String(x.stock_id).toUpperCase()===s.toUpperCase());
+   if(row) return row.stock_name || row.stock_id;
+  }
+ }catch(e){}
+ return '';
+}
+function normalizeData(rows,market){
+ if(market==='US'){
+  return rows.map(x=>({
+   date:x.date,
+   close:+x.Close,
+   open:+x.Open,
+   max:+x.High,
+   min:+x.Low,
+   Trading_Volume:+x.Volume
+  })).filter(x=>Number.isFinite(x.close));
+ }
+ return rows.map(x=>({
+  ...x,
+  close:+x.close,
+  Trading_Volume:+x.Trading_Volume
+ })).filter(x=>Number.isFinite(x.close));
+}
+
+async function resolveTaiwanInput(raw){
+ const q=raw.trim();
+ if(/^\d{4,6}$/.test(q)) return {symbol:q,name:''};
+ try{
+  let r=await fetch(`${API}?dataset=TaiwanStockInfo`);
+  let j=await r.json();
+  const rows=(j.data||[]).filter(x=>x.stock_id && x.stock_name);
+  let exact=rows.find(x=>String(x.stock_name).trim()===q);
+  if(exact) return {symbol:String(exact.stock_id),name:String(exact.stock_name)};
+  let hits=rows.filter(x=>String(x.stock_name).includes(q));
+  const unique=[...new Map(hits.map(x=>[String(x.stock_id),x])).values()];
+  if(unique.length===1) return {symbol:String(unique[0].stock_id),name:String(unique[0].stock_name)};
+  if(unique.length>1) throw new Error(`「${q}」符合多檔股票，請輸入更完整名稱或股票代號。`);
+ }catch(e){
+  if(e.message && e.message.includes('符合多檔')) throw e;
+ }
+ throw new Error(`找不到「${q}」，請輸入台股代號或完整中文名稱，例如 2330、台積電。`);
+}
+
+
+function singleBenchmarkFor(row){
+ if(!row) return null;
+ const m=String(row.market||currentMarket||'TW').toUpperCase();
+ const all=(radarBenchmarkData[radarSnapshot]||{});
+ if(m==='US') return (all.US||{}).SP500||null;
+ const ex=String(row.exchange||'').toUpperCase();
+ const key=(ex.includes('TPEX')||ex.includes('OTC'))?'TPEX':'TWSE';
+ return (all.TW||{})[key]||null;
+}
+function updateSingleQuickRead(radarMatch,d,a){
+ const stockChange=Number.isFinite(Number(radarMatch?.change_pct))
+   ? Number(radarMatch.change_pct)
+   : ((d?.length>=2 && Number(d[d.length-2]?.close)) ? ((Number(d[d.length-1].close)/Number(d[d.length-2].close)-1)*100) : NaN);
+ const changeEl=$('singleChange');
+ if(changeEl){
+   changeEl.textContent=Number.isFinite(stockChange)?`${stockChange>0?'+':''}${stockChange.toFixed(1)}%`:'—';
+   changeEl.className=Number.isFinite(stockChange)?(stockChange>0?'up':stockChange<0?'down':''):'';
+ }
+ const bm=singleBenchmarkFor(radarMatch || {market:currentMarket});
+ const bmPct=Number(bm?.change_pct);
+ $('singleMarketChange').textContent=Number.isFinite(bmPct)?`${bmPct>0?'+':''}${bmPct.toFixed(2)}%`:'—';
+ $('singleMarketChange').className=Number.isFinite(bmPct)?(bmPct>0?'up':bmPct<0?'down':''):'';
+ $('singleMarketName').textContent=bm?.label||'';
+ const rel=(Number.isFinite(stockChange)&&Number.isFinite(bmPct))?stockChange-bmPct:NaN;
+ const relEl=$('singleRelative');
+ if(Number.isFinite(rel)){
+   relEl.textContent=`${rel>0.05?'💪 強於大盤':rel<-0.05?'弱於大盤':'≈ 跟大盤'} ${rel>0?'+':''}${rel.toFixed(2)}%`;
+   relEl.className=rel>0.05?'single-relative-strong':rel<-0.05?'single-relative-weak':'';
+ }else{
+   relEl.textContent='—'; relEl.className='';
+ }
+ const chips=[];
+ if(radarMatch?.pulse_signal==='hot') chips.push('🔥 高關注');
+ else if(radarMatch?.pulse_signal==='watch') chips.push('👀 觀察');
+ else if(radarMatch?.pulse_signal==='wait') chips.push('⏳ 等待');
+ if(a?.squeezeState) chips.push(a.squeezeState);
+ if(a?.momentum) chips.push(`Momentum ${a.momentum}`);
+ $('singleSignals').innerHTML=chips.map(x=>`<span class="single-signal-chip">${escHtml(x)}</span>`).join('');
+}
+function resetSingleQuickRead(){
+ ['singleChange','singleMarketChange','singleRelative'].forEach(id=>{const el=$(id);if(el){el.textContent='—';el.className='';}});
+ if($('singleMarketName')) $('singleMarketName').textContent='';
+ if($('singleSignals')) $('singleSignals').innerHTML='';
+}
+
+
+async function getSingleLatestQuote(market,symbol){
+ try{
+   const dataset=market==='US'?'USStockPrice':'TaiwanStockPrice';
+   const end=new Date(), start=new Date(); start.setDate(end.getDate()-12);
+   const f=d=>d.toISOString().slice(0,10);
+   const u=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(symbol)}&start_date=${f(start)}&end_date=${f(end)}`;
+   const ctl=new AbortController();
+   const timer=setTimeout(()=>ctl.abort(),7000);
+   let r;
+   try{
+     r=await fetch(u,{cache:'no-store',signal:ctl.signal});
+   }finally{
+     clearTimeout(timer);
+   }
+   if(!r || !r.ok) return null;
+   const j=await r.json().catch(()=>null);
+   if(!j || !Array.isArray(j.data) || !j.data.length) return null;
+   const rows=normalizeData(j.data,market);
+   if(!rows.length) return null;
+   const last=rows[rows.length-1], prev=rows.length>1?rows[rows.length-2]:null;
+   const price=Number(last.close);
+   if(!Number.isFinite(price)) return null;
+   return {price,prev_close:prev?Number(prev.close):NaN,data_date:last.date||''};
+ }catch(e){
+   console.warn('Latest quote fetch failed; fallback to daily history',e);
+   return null;
+ }
+}
+function findLatestRadarMatch(market,symbol){
+ const m=String(market).toUpperCase(), sym=String(symbol).toUpperCase();
+ const intraday=(typeof radarSnapshotData!=='undefined' ? radarSnapshotData.intraday : [])||[];
+ const official=(typeof radarSnapshotData!=='undefined' ? radarSnapshotData.official : [])||[];
+ return intraday.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym)
+     || official.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym)
+     || null;
+}
+
+
+function findAnyRadarMatch(market,symbol){
+  const m=String(market||'').toUpperCase();
+  const sym=String(symbol||'').toUpperCase();
+  const pools=[
+    ...(radarSnapshotData?.intraday||[]),
+    ...(radarSnapshotData?.official||[])
+  ];
+  return pools.find(x=>
+    String(x.market||'').toUpperCase()===m &&
+    String(x.symbol||'').toUpperCase()===sym
+  ) || null;
+}
+
+function drawRadarFallbackMessage(){
+  const c=$('chart');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.save();
+  ctx.textAlign='center';
+  ctx.fillStyle='#8a8379';
+  ctx.font='600 16px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+  ctx.fillText('此裝置目前無法取得完整歷史日線圖',c.width/2,c.height/2-10);
+  ctx.font='13px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+  ctx.fillText('已改用 VCPulse 每日雷達的預先計算結果',c.width/2,c.height/2+18);
+  ctx.restore();
+}
+
+function renderSingleFromRadarFallback(symbol,row){
+  if(!row) return false;
+
+  const pts=Number(row.score);
+  const pivot=Number(row.pivot);
+  const distance=Number(row.distance);
+  const change=Number(row.change_pct);
+  const name=row.name || '';
+  const date=row.data_date || '';
+
+  $('err').style.display='none';
+  $('title').textContent=name ? `${name}（${symbol}）` : `${symbol} · ${currentMarket==='US'?'美股':'台股'}`;
+  renderSingleFavorite(currentMarket,symbol);
+  $('period').textContent=`${date || '最近一次雷達資料'}　·　已使用每日雷達備援`;
+  $('state').textContent=stageLabel(row);
+
+  if($('singleLiveNote')){
+    $('singleLiveNote').hidden=false;
+    $('singleLiveNote').textContent='🟡 此裝置目前無法直連歷史資料來源，已改用 VCPulse 雷達快取結果';
+  }
+
+  $('score').textContent=Number.isFinite(pts)?`${pts}/5`:'—';
+  $('stars').textContent=Number.isFinite(pts)?'★'.repeat(Math.max(0,Math.min(5,pts)))+'☆'.repeat(Math.max(0,5-Math.min(5,pts))):'☆☆☆☆☆';
+  $('pivot').textContent=Number.isFinite(pivot)?pivot.toFixed(2):'—';
+  $('dist').textContent=Number.isFinite(distance)?pct(distance):'—';
+  $('contracts').textContent=row.contracts || '—';
+  $('volume').textContent=row.volume_dry?'量縮 ✓':'未明顯量縮';
+
+  // Do not fabricate individual checklist results when the full historical series
+  // is unavailable on this device.
+  $('checks').innerHTML='<div class="check"><span>完整歷史條件明細</span><b style="color:#9a6a1c">使用雷達快取</b></div>';
+
+  const summaryBits=[];
+  if(row.pulse_label) summaryBits.push(row.pulse_label);
+  if(row.squeeze_state) summaryBits.push(row.squeeze_state);
+  if(row.momentum) summaryBits.push(row.momentum);
+  $('summary').textContent=(summaryBits.length?summaryBits.join('｜')+'。':'')+
+    '本次使用每日雷達已預先計算的結果；完整 K 線圖需待此裝置可連線歷史資料來源時顯示。';
+
+  // Quick read: reuse scanner values and current benchmark snapshot.
+  if($('singleChange')){
+    $('singleChange').textContent=Number.isFinite(change)?pct(change):'—';
+    $('singleChange').className=Number.isFinite(change)?(change>0?'up':change<0?'down':''):'';
+  }
+  const bm=singleBenchmarkFor(row);
+  const bmp=Number(bm?.change_pct);
+  if($('singleMarketChange')){
+    $('singleMarketChange').textContent=Number.isFinite(bmp)?pct(bmp):'—';
+    $('singleMarketChange').className=Number.isFinite(bmp)?(bmp>0?'up':bmp<0?'down':''):'';
+  }
+  if($('singleMarketName')) $('singleMarketName').textContent=bm?.label||'';
+  if($('singleRelative')){
+    const rel=(Number.isFinite(change)&&Number.isFinite(bmp))?change-bmp:NaN;
+    $('singleRelative').textContent=Number.isFinite(rel)?`${rel>=0?'強於':'弱於'}大盤 ${pct(Math.abs(rel))}`:'—';
+    $('singleRelative').className=Number.isFinite(rel)?(rel>=0?'single-relative-strong':'single-relative-weak'):'';
+  }
+
+  if($('singleSignals')){
+    const chips=[];
+    if(row.pulse_label) chips.push(row.pulse_label);
+    if(row.squeeze_state) chips.push(row.squeeze_state);
+    if(row.momentum) chips.push(row.momentum);
+    $('singleSignals').innerHTML=chips.map(x=>`<span class="single-signal-chip">${escHtml(x)}</span>`).join('');
+  }
+
+  drawRadarFallbackMessage();
+  return true;
+}
+
+async function run(){
+ let raw=$('symbol').value.trim(), s=raw.toUpperCase(), resolvedName='';
+ $('go').disabled=true;$('go').textContent='分析中…';$('err').style.display='none';
+ try{
+  if(currentMarket==='TW'){
+   const resolved=await resolveTaiwanInput(raw);
+   s=resolved.symbol; resolvedName=resolved.name||'';
+  }else if(!/^[A-Z][A-Z0-9.\-^]{0,9}$/.test(s)){
+   throw new Error('請輸入美股代號，例如 NVDA、TSLA、AAPL。');
+  }
+ let end=new Date(), start=new Date();start.setDate(end.getDate()-420);let f=d=>d.toISOString().slice(0,10);
+  let dataset=currentMarket==='US'?'USStockPrice':'TaiwanStockPrice';
+  let u=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(s)}&start_date=${f(start)}&end_date=${f(end)}`;
+  let r=await fetch(u),j=await r.json(); if(!r.ok||!j.data||j.data.length<160)throw new Error(j.msg||'歷史資料不足');
+  let d=normalizeData(j.data,currentMarket),a=analyze(d),stockName=resolvedName || await getStockName(s,currentMarket);
+
+  // If this stock exists in today's radar, use the SAME scanner result for the
+  // headline VCP metrics. This keeps single-stock analysis and Daily Radar consistent.
+  const radarMatch=findLatestRadarMatch(currentMarket,s);
+  let liveQuote=null;
+  try{
+    liveQuote=await getSingleLatestQuote(currentMarket,s);
+  }catch(e){
+    console.warn('V2.36.2 live quote unavailable; continue with historical analysis',e);
+    liveQuote=null;
+  }
+  if(radarMatch){
+    if(Number.isFinite(Number(radarMatch.score))) a.pts=Number(radarMatch.score);
+    if(Number.isFinite(Number(radarMatch.pivot))) a.pivot=Number(radarMatch.pivot);
+    if(Number.isFinite(Number(radarMatch.distance))) a.distance=Number(radarMatch.distance);
+    if(Array.isArray(radarMatch.contractions)) a.seq=radarMatch.contractions.map(Number).filter(Number.isFinite);
+    if(typeof radarMatch.volume_dry==='boolean') a.dry=radarMatch.volume_dry;
+    a.state=stageLabel(radarMatch);
+    a.squeezeLevel=radarMatch.squeeze_level || a.squeezeLevel;
+    a.squeezeState=squeezeLabel(radarMatch);
+    a.momentum=momentumLabel(radarMatch);
+    a.todayBreakout=radarMatch.type==='breakout';
+    a.breakout=['breakout','postbreakout'].includes(radarMatch.type);
+    a.combo=!!radarMatch.combo;
+  }
+
+  // V2.35: 單股搜尋不再只停留在昨日收盤。
+  // VCP 結構仍以日線為主；最新可取得價格用來更新今日漲跌、距 Pivot 與盤中位置。
+  if(liveQuote && Number.isFinite(Number(liveQuote.price))){
+    const lp=Number(liveQuote.price), pc=Number(liveQuote.prev_close);
+    a.last=lp;
+    if(Number.isFinite(Number(a.pivot)) && Number(a.pivot)!==0){
+      a.distance=(lp/Number(a.pivot)-1)*100;
+      const above=lp>Number(a.pivot);
+      if(above && !a.todayBreakout) a.state='🟡 盤中站上 Pivot';
+      else if(!above && a.distance>-5) a.state='🟡 接近 Pivot';
+    }
+    // Make quick-read "今日漲跌" use latest quote.
+    if(d.length){
+      const lastDate=String(d[d.length-1]?.date||'');
+      if(liveQuote.data_date && lastDate===String(liveQuote.data_date)){
+        d[d.length-1].close=lp;
+      }else{
+        d.push({...d[d.length-1],date:liveQuote.data_date||lastDate,close:lp});
+      }
+    }
+  }
+
+  updateSingleQuickRead(radarMatch,d,a);
+
+  $('title').textContent=stockName ? `${stockName}（${s}）` : `${s} · ${currentMarket==='US'?'美股':'台股'}`;renderSingleFavorite(currentMarket,s);$('period').textContent=d[0].date+' ～ '+d[d.length-1].date;$('state').textContent=a.state;
+  const liveNote=$('singleLiveNote');
+  if(liveNote){
+    if(liveQuote && Number.isFinite(Number(liveQuote.price))){
+      liveNote.hidden=false;
+      liveNote.textContent=`🟡 最新可取得行情 ${Number(liveQuote.price).toFixed(2)}${liveQuote.data_date?`｜${liveQuote.data_date}`:''}｜盤中狀態僅供即時參考`;
+    }else{
+      liveNote.hidden=true; liveNote.textContent='';
+    }
+  }
+  $('score').textContent=a.pts+'/5';$('stars').textContent='★'.repeat(a.pts)+'☆'.repeat(5-a.pts);$('pivot').textContent=a.pivot.toFixed(2);$('dist').textContent=pct(a.distance);
+  $('contracts').textContent=a.seq.length?a.seq.map(x=>'-'+Math.abs(x).toFixed(0)+'%').join(' → '):'未辨識';$('volume').textContent=a.dry?'量縮 ✓':'未明顯量縮';
+  let rows=[['中期上升趨勢',a.trend],['至少兩次價格收縮',a.seq.length>=2],['回檔幅度逐步縮小',a.contracting],['近期成交量乾涸',a.dry],['接近／突破 Pivot',a.distance>-8]];
+  $('checks').innerHTML=rows.map(r=>`<div class="check"><span>${r[0]}</span><b class="${r[1]?'good':'bad'}">${r[1]?'✓':'×'}</b></div>`).join('');
+  $('summary').textContent=`${a.combo?'⚡ VCP＋Squeeze｜':''}${a.squeezeState}｜Momentum ${a.momentum}。`+(a.todayBreakout?' 最新交易日首次帶量突破 Pivot；仍應留意失敗突破風險。':(a.breakout?' 股價已在 Pivot 上方，屬突破後觀察，不列為「今日帶量突破」。':(a.distance>-5?' 價格已靠近 Pivot，可列入觀察，不必預先猜突破。':' 目前離 Pivot 還有距離，先觀察型態是否繼續收緊。')));
+  draw(a)
+ }catch(e){
+   const fallback=findAnyRadarMatch(currentMarket,s);
+   if(!renderSingleFromRadarFallback(s,fallback)){
+     showErr('目前這台裝置無法取得完整歷史資料，且此股票不在目前每日雷達快取中。請稍後再試，或切換 Wi‑Fi／行動網路後重試。');
+   }
+ }
+ finally{$('go').disabled=false;$('go').textContent='開始分析'}
+}
+function showErr(t){$('err').textContent=t;$('err').style.display='block'}
+
+function renderCapitalHotspots(){
+ const box=document.getElementById('capitalHotspots');
+ const grid=document.getElementById('capitalHotspotsGrid');
+ if(!box || !grid) return;
+ if(currentMarket!=='TW'){ box.hidden=true; grid.innerHTML=''; return; }
+ box.hidden=false;
+ document.querySelectorAll('.theme-beta-tab').forEach(b=>b.classList.toggle('active',b.dataset.themeTab===themeBetaTab));
+ if(themeBetaTab==='industry'){
+   const rows=(radarCapitalHotspots?.[radarSnapshot]?.TW)||[];
+   if(!Array.isArray(rows)||!rows.length){grid.innerHTML='<div class="theme-beta-empty">尚無產業熱區資料；下一次台股完整掃描後建立。</div>';return;}
+   grid.innerHTML=rows.map((r,i)=>`<div class="capital-hotspot"><div class="capital-hotspot-top"><div class="capital-hotspot-namewrap"><span class="capital-hotspot-rank">${i+1}</span><div class="capital-hotspot-name">${escHtml(r.industry||'—')}</div></div><div class="capital-hotspot-score">${Number(r.heat_score||0)}</div></div><div class="capital-hotspot-metrics"><span>市場資金占比 <b>${Number(r.market_share_pct||0).toFixed(1)}%</b></span><span>成交熱度 <b>${Number(r.value_ratio||0).toFixed(2)}×</b></span><span>上漲家數 <b>${Number(r.breadth_pct||0).toFixed(0)}%</b></span><span>VCP <b>${Number(r.vcp_count||0)}</b>｜突破 <b>${Number(r.breakout_count||0)}</b></span></div></div>`).join(''); return;
+ }
+ const pack=(radarThemeLeaderboards?.[radarSnapshot]?.TW)||{};
+ const rows=themeBetaTab==='setup'?(pack.setupTop5||[]):(pack.themeTop5||[]);
+ if(!Array.isArray(rows)||!rows.length){grid.innerHTML='<div class="theme-beta-empty">尚無符合凍結門檻的題材資料；下一次台股完整掃描後建立。</div>';return;}
+ grid.innerHTML=rows.map((r,i)=>`<div class="capital-hotspot"><div class="capital-hotspot-top"><div class="capital-hotspot-namewrap"><span class="capital-hotspot-rank">${i+1}</span><div><div class="capital-hotspot-name">${escHtml(r.theme||'—')}</div><div class="theme-beta-sub"><span class="theme-beta-life">${escHtml(r.lifecycleLabel||'觀察')}</span>${(r.dominantSegments||[]).length?' · '+escHtml(r.dominantSegments.join(' / ')):''}</div></div></div><div class="theme-beta-scorepair"><span>Heat <b>${Number(r.heat||0)}</b></span><span>Setup <b>${Number(r.setup||0)}</b></span></div></div><div class="capital-hotspot-metrics"><span>上漲廣度 <b>${Number(r.breadthPct||0)}%</b></span><span>突破 <b>${Number(r.breakoutCount||0)}</b></span><span>近 Pivot <b>${Number(r.nearPivotCount||0)}</b></span><span>有效成分 <b>${Number(r.constituents||0)}</b></span></div></div>`).join('');
+}
+
+document.addEventListener('click',e=>{const b=e.target.closest?.('.theme-beta-tab');if(!b)return;themeBetaTab=b.dataset.themeTab||'industry';renderCapitalHotspots();});
+
+
+function updateMarketSpecificSnapshotUI(){
+ const isUS=String(currentMarket||'TW').toUpperCase()==='US';
+ const label=document.getElementById('officialSnapshotLabel');
+ const note=document.getElementById('officialSnapshotNote');
+ const count=document.getElementById('officialCount');
+ const countText=count?.textContent||'';
+ if(label){
+   label.innerHTML=isUS
+     ? `✅ 前一交易日收盤 <span id="officialCount">${countText}</span>`
+     : `✅ 正式收盤 <span id="officialCount">${countText}</span>`;
+ }
+ if(note) note.textContent=isUS?'07:10 起更新':'18:10 起更新';
+}
+
+function setMarket(m,{reset=true}={}){
+ currentMarket=m;
+ updateMarketSpecificSnapshotUI();
+ document.querySelectorAll('.radar-market-btn').forEach(b=>b.classList.toggle('active',b.dataset.market===m));
+ renderMarketOverview();
+ renderCapitalHotspots();
+ const marketCount=(arr,m)=>arr.filter(x=>String(x.market||'').toUpperCase()===String(m||'TW').toUpperCase()).length;
+ const officialCount=document.getElementById('officialCount');
+ const intradayCount=document.getElementById('intradayCount');
+ const intradayBtn=document.querySelector('.snapshot-btn[data-snapshot="intraday"]');
+ const oc=marketCount(radarSnapshotData.official,m);
+ const ic=marketCount(radarSnapshotData.intraday,m);
+ if(officialCount) officialCount.textContent=oc?`(${oc})`:'';
+ if(intradayCount) intradayCount.textContent=ic?`(${ic})`:'';
+ updateMarketSpecificSnapshotUI();
+ if(intradayBtn) intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(m);
+ updateSnapshotAvailability();
+ document.querySelectorAll('.marketbtn').forEach(b=>b.classList.toggle('active',b.dataset.market===m));
+ $('symbol').placeholder=currentMarket==='US'?'例如：NVDA、TSLA、AAPL':'例如：2330、台積電';
+ if(reset){
+  $('symbol').value=currentMarket==='US'?'NVDA':'2330';
+  $('title').textContent='等待分析';renderSingleFavorite(null,null);$('period').textContent='';if($('singleLiveNote')){$('singleLiveNote').hidden=true;$('singleLiveNote').textContent='';}$('state').textContent='—';
+  $('score').textContent='—';$('stars').textContent='☆☆☆☆☆';$('pivot').textContent='—';$('dist').textContent='—';
+  $('contracts').textContent='—';$('volume').textContent='—';$('checks').innerHTML='';$('summary').textContent='輸入股票代號後開始。';resetSingleQuickRead();
+ }
+ renderRadar(radarFilter);
+}
+document.querySelectorAll('.marketbtn').forEach(btn=>{
+ btn.onclick=()=>setMarket(btn.dataset.market,{reset:true});
+});
+$('go').onclick=run;$('symbol').onkeydown=e=>{if(e.key==='Enter')run()};run();
+
+
+// Daily radar: load results generated by GitHub Actions.
+let radarRows=[];
+let radarSnapshot='official';
+let radarSnapshotData={official:[],intraday:[]};
+let radarSnapshotMeta={official:{},intraday:{}};
+let radarBenchmarkData={official:{},intraday:{}};
+let radarCapitalHotspots={official:{},intraday:{}};
+let radarThemeLeaderboards={official:{},intraday:{}};
+let themeBetaTab='industry';
+let userLiveQuotes=new Map();
+let userLiveUpdatedAt='';
+
+let radarFilter = 'all';
+let radarSort = 'smart';
+
+const RADAR_UI={
+  market:{
+    TW:'🇹🇼 台股',
+    US:'🇺🇸 美股'
+  },
+  stage:{
+    breakout:'🟢 今日帶量突破',
+    postbreakout:'🔵 突破後',
+    near:'🟡 接近 Pivot',
+    forming:'⚪ VCP 成形中'
+  },
+  squeeze:{
+    strong:'🔴 強力壓縮',
+    medium:'🟠 中度壓縮',
+    weak:'🩷 一般壓縮',
+    none:'⚪ 無壓縮'
+  },
+  momentum:{
+    bull_up:'↑ 多方增強',
+    bear_up:'↗ 空方減弱',
+    bull_down:'↘ 多方減弱',
+    bear_down:'↓ 空方增強'
+  },
+  pulse:{
+    hot:'🔥 高關注',
+    watch:'👀 觀察',
+    wait:'⏳ 等待',
+    extended:'⚠️ 過度延伸'
+  }
+};
+function marketLabel(m){ return RADAR_UI.market[m] || m || '—'; }
+function stageLabel(r){
+  if(r.type==='postbreakout' && Number.isFinite(Number(r.breakout_days))){
+    return `🔵 突破後第 ${Number(r.breakout_days)+1} 天`;
+  }
+  return RADAR_UI.stage[r.type] || r.state || '—';
+}
+function squeezeLabel(r){ return RADAR_UI.squeeze[r.squeeze_level] || r.squeeze_state || '—'; }
+function momentumLabel(r){ return RADAR_UI.momentum[r.momentum_dir] || r.momentum || '—'; }
+function attentionReason(r){
+ const bits=[`${Number(r.score||0)}★`];
+ if(r.type==='breakout') bits.push('今日突破');
+ else if(r.type==='postbreakout') bits.push('突破後守 Pivot');
+ else if(r.type==='near') bits.push('接近突破');
+ const sq={strong:'強力壓縮',medium:'中度壓縮',weak:'一般壓縮'}[r.squeeze_level];
+ if(sq) bits.push(sq);
+ if(r.momentum_dir==='bull_up') bits.push('多方增強');
+ else if(r.momentum_dir==='bear_up') bits.push('空方減弱');
+ return bits.slice(0,4).join(' · ');
+}
+function pulseLabel(r){ return RADAR_UI.pulse[r.pulse_signal] || r.pulse_label || '⏳ 等待'; }
+function volumeLabel(r){ return r.volume_dry ? '量縮 ✓' : '一般'; }
+
+const FAVORITES_KEY='vcpulse_favorites_v1';
+function favoriteKey(market,symbol){ return `${market}:${symbol}`; }
+function getFavorites(){
+ try{ const x=JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]'); return new Set(Array.isArray(x)?x:[]); }
+ catch(e){ return new Set(); }
+}
+function saveFavorites(set){ localStorage.setItem(FAVORITES_KEY,JSON.stringify([...set])); updateFavoriteCount(); }
+function isFavorite(r){ return getFavorites().has(favoriteKey(r.market,r.symbol)); }
+let currentSingleFavorite={market:null,symbol:null};
+function renderSingleFavorite(market,symbol){
+ const btn=document.getElementById('singleFavorite');
+ if(!btn) return;
+ if(!market || !symbol){ btn.hidden=true; currentSingleFavorite={market:null,symbol:null}; return; }
+ currentSingleFavorite={market:String(market),symbol:String(symbol).toUpperCase()};
+ const fav=getFavorites().has(favoriteKey(currentSingleFavorite.market,currentSingleFavorite.symbol));
+ btn.hidden=false;
+ btn.textContent=fav?'★':'☆';
+ btn.classList.toggle('is-favorite',fav);
+ btn.setAttribute('aria-label',fav?'取消收藏':'收藏股票');
+ btn.title=fav?'取消收藏':'收藏股票';
+}
+function toggleFavorite(market,symbol){
+ const set=getFavorites(), key=favoriteKey(market,symbol);
+ if(set.has(key)) set.delete(key); else set.add(key);
+ saveFavorites(set);
+ renderRadar(radarFilter);
+ if(currentSingleFavorite.market===String(market) && currentSingleFavorite.symbol===String(symbol).toUpperCase()){
+   renderSingleFavorite(market,symbol);
+ }
+}
+function updateFavoriteCount(){
+ const el=document.getElementById('favoriteCount');
+ if(!el) return;
+ const favs=getFavorites();
+ const market=String(currentMarket||'TW').toUpperCase();
+ const visible=(Array.isArray(radarRows)?radarRows:[]).filter(r=>
+   String(r.market||'').toUpperCase()===market &&
+   favs.has(favoriteKey(r.market,r.symbol))
+ );
+ // Count only favorites that actually exist in the currently selected
+ // market + snapshot list, so the badge always matches the rows shown.
+ el.textContent=visible.length;
+}
+const singleFavoriteBtn=document.getElementById('singleFavorite');
+if(singleFavoriteBtn){
+ singleFavoriteBtn.addEventListener('click',()=>{
+   const x=currentSingleFavorite;
+   if(x.market && x.symbol) toggleFavorite(x.market,x.symbol);
+ });
+}
+
+let radarReturnState=null;
+
+function rememberRadarPosition(market,symbol,sourceEl){
+ radarReturnState={
+   market:String(market),
+   symbol:String(symbol),
+   filter:radarFilter,
+   scrollY:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+   element:sourceEl || null
+ };
+ const btn=document.getElementById('radarBackFloat');
+ if(btn) btn.hidden=false;
+}
+
+function returnToRadarPosition(){
+ if(!radarReturnState) return;
+ const saved=radarReturnState;
+
+ // The radar may have re-rendered after analysis, so re-find the same stock
+ // instead of relying only on the old DOM element reference.
+ let target=(saved.element && document.documentElement.contains(saved.element)) ? saved.element : null;
+ if(!target){
+   const market=String(saved.market||'');
+   const symbol=String(saved.symbol||'');
+   const nodes=[...document.querySelectorAll('[data-market][data-symbol]')];
+   const matches=nodes.filter(el=>String(el.dataset.market)===market && String(el.dataset.symbol)===symbol &&
+     (el.matches('.mobile-stock-card') || el.matches('tr[data-symbol]')));
+   target=matches.find(el=>el.offsetParent!==null) || matches[0] || null;
+ }
+
+ if(target){
+   try{ target.scrollIntoView({behavior:'smooth',block:'center'}); }
+   catch(e){ target.scrollIntoView(); }
+
+   target.classList.remove('radar-return-highlight-3s');
+   void target.offsetWidth;
+   target.classList.add('radar-return-highlight-3s');
+   setTimeout(()=>{
+     if(target && document.documentElement.contains(target)){
+       target.classList.remove('radar-return-highlight-3s');
+     }
+   },3000);
+ }else{
+   const y=Number(saved.scrollY)||0;
+   try{ window.scrollTo({top:y,behavior:'smooth'}); }
+   catch(e){ window.scrollTo(0,y); }
+   setTimeout(()=>{
+     if(Math.abs((window.pageYOffset||0)-y)>80){
+       document.documentElement.scrollTop=y;
+       document.body.scrollTop=y;
+     }
+   },350);
+ }
+
+ const btn=document.getElementById('radarBackFloat');
+ if(btn) setTimeout(()=>btn.hidden=true,650);
+}
+
+function changePctClass(v){
+ const n=Number(v);
+ if(!Number.isFinite(n) || Math.abs(n)<0.005) return 'flat';
+ return n>0?'up':'down';
+}
+function changePctText(v){
+ const n=Number(v);
+ if(!Number.isFinite(n)) return '—';
+ return `${n>0?'+':''}${n.toFixed(1)}%`;
+}
+
+function pivotDistanceVisual(distance){
+  const d=Number(distance);
+  if(!Number.isFinite(d)) return {zone:'near', cls:'near', width:8};
+  const abs=Math.abs(d);
+  if(abs<=1) return {zone:'near', cls:'near', width:8};
+  // Each side represents 0–8% away from Pivot, capped at half of the bar.
+  const width=Math.max(7,Math.min(50,(Math.min(abs,8)/8)*50));
+  return d<0
+    ? {zone:'negative', cls:'negative', width}
+    : {zone:'positive', cls:'positive', width};
+}
+
+
+function liveQuoteKey(market,symbol){ return `${String(market||'').toUpperCase()}:${String(symbol||'').toUpperCase()}`; }
+function effectiveRadarRow(r){
+ const q=userLiveQuotes.get(liveQuoteKey(r.market,r.symbol));
+ if(!q) return r;
+ const price=Number(q.price), prev=Number(q.prev_close), pivot=Number(r.pivot);
+ const change=(Number.isFinite(price)&&Number.isFinite(prev)&&prev!==0)?((price/prev)-1)*100:Number(r.change_pct);
+ const distance=(Number.isFinite(price)&&Number.isFinite(pivot)&&pivot!==0)?((price/pivot)-1)*100:Number(r.distance);
+ return {...r, live_price:price, change_pct:change, distance:distance, _live:true};
+}
+async function fetchUserLiveQuote(r){
+ const market=String(r.market||'').toUpperCase(), symbol=String(r.symbol||'').toUpperCase();
+ const dataset=market==='US'?'USStockPrice':'TaiwanStockPrice';
+ const end=new Date(), start=new Date(); start.setDate(end.getDate()-12);
+ const f=d=>d.toISOString().slice(0,10);
+ const url=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(symbol)}&start_date=${f(start)}&end_date=${f(end)}`;
+ const res=await fetch(url,{cache:'no-store'});
+ const j=await res.json();
+ if(!res.ok || !Array.isArray(j.data) || !j.data.length) throw new Error(symbol);
+ const d=normalizeData(j.data,market);
+ if(!d.length) throw new Error(symbol);
+ const last=d[d.length-1], prev=d.length>=2?d[d.length-2]:null;
+ return {
+   price:Number(last.close),
+   prev_close:prev?Number(prev.close):NaN,
+   data_date:last.date||'',
+   fetched_at:new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})
+ };
+}
+async function refreshUserLiveQuotes(){
+ const btn=document.getElementById('userLiveRefreshBtn');
+ const status=document.getElementById('userLiveRefreshStatus');
+ const targets=radarRows.filter(r=>String(r.market||'').toUpperCase()===String(currentMarket||'TW').toUpperCase());
+ if(!targets.length){
+   if(status) status.textContent='目前這個市場沒有雷達股票可更新。';
+   return;
+ }
+ if(btn){ btn.disabled=true; btn.textContent='更新中…'; }
+ if(status) status.textContent=`正在更新 ${targets.length} 檔即時行情…`;
+ let ok=0, fail=0;
+ const chunkSize=6;
+ for(let i=0;i<targets.length;i+=chunkSize){
+   const chunk=targets.slice(i,i+chunkSize);
+   const results=await Promise.allSettled(chunk.map(fetchUserLiveQuote));
+   results.forEach((x,idx)=>{
+     const r=chunk[idx];
+     if(x.status==='fulfilled' && Number.isFinite(Number(x.value.price))){
+       userLiveQuotes.set(liveQuoteKey(r.market,r.symbol),x.value); ok++;
+     }else fail++;
+   });
+   if(status) status.textContent=`即時行情更新中… ${Math.min(i+chunk.length,targets.length)}/${targets.length}`;
+ }
+ userLiveUpdatedAt=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+ renderRadar(radarFilter);
+ if(status) status.textContent=`已更新 ${ok} 檔${fail?`，${fail} 檔暫時抓不到`:''}｜${userLiveUpdatedAt}（個股行情即時更新；大盤隨每次雷達完整重掃更新）`;
+ if(btn){ btn.disabled=false; btn.textContent='🔄 更新即時行情'; }
+}
+
+function renderRadar(filter='all'){
+ updateFavoriteCount();
+ const body=$('radarBody'), mobile=$('radarMobile');
+ const rows=radarRows.filter(r=>{
+   if(String(r.market||'').toUpperCase()!==String(currentMarket||'TW').toUpperCase()) return false;
+   return filter==='all' ||
+   (filter==='favorites' ? isFavorite(r) :
+   (filter==='hot' ? r.pulse_signal==='hot' :
+   (filter==='new' ? r.is_new===true :
+   (filter==='combo' ? r.combo : r.type===filter))));
+ });
+ for(let i=0;i<rows.length;i++) rows[i]=effectiveRadarRow(rows[i]);
+ const countEl=$('radarCount'); if(countEl) countEl.textContent=rows.length;
+ const pulseRank={hot:0,watch:1,wait:2,extended:3};
+ const statusRank={breakout:0,postbreakout:1,near:2,forming:3};
+ const squeezeRank={strong:0,medium:1,weak:2,none:3};
+ const momentumRank={bull_up:0,bear_up:1,bull_down:2,bear_down:3};
+ const smartSort=(a,b)=>
+   ((pulseRank[a.pulse_signal]??9)-(pulseRank[b.pulse_signal]??9)) ||
+   ((statusRank[a.type]??9)-(statusRank[b.type]??9)) ||
+   ((b.score??0)-(a.score??0)) ||
+   ((squeezeRank[a.squeeze_level]??9)-(squeezeRank[b.squeeze_level]??9)) ||
+   ((momentumRank[a.momentum_dir]??9)-(momentumRank[b.momentum_dir]??9)) ||
+   (Math.abs(a.distance??999)-Math.abs(b.distance??999));
+
+ rows.sort((a,b)=>{
+   if(radarSort==='score') return ((b.score??0)-(a.score??0)) || smartSort(a,b);
+   if(radarSort==='pivot') return (Math.abs(a.distance??999)-Math.abs(b.distance??999)) || smartSort(a,b);
+   if(radarSort==='squeeze') return ((squeezeRank[a.squeeze_level]??9)-(squeezeRank[b.squeeze_level]??9)) || smartSort(a,b);
+   if(radarSort==='momentum') return ((momentumRank[a.momentum_dir]??9)-(momentumRank[b.momentum_dir]??9)) || smartSort(a,b);
+   return smartSort(a,b);
+ });
+
+ if(!rows.length){
+   body.innerHTML='<tr><td colspan="12" class="muted" style="padding:30px;text-align:center">目前這個分類沒有符合條件的股票。</td></tr>';
+   if(mobile) mobile.innerHTML='<div class="muted" style="padding:26px 8px;text-align:center">目前這個分類沒有符合條件的股票。</div>';
+   return;
+ }
+
+ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ const stars=n=>'★'.repeat(Math.max(0,Math.min(5,n||0)))+'☆'.repeat(Math.max(0,5-(n||0)));
+ const contractionText=r=>(r.contractions||[]).map((x,i)=>`C${i+1} ${Math.round(x)}%`).join(' → ')||'—';
+
+ body.innerHTML=rows.map(r=>`<tr data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}">
+   <td>
+     <div class="stock-name-line">
+       <button type="button" class="favorite-btn ${isFavorite(r)?'is-favorite':''}" data-favorite="1" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}" aria-label="${isFavorite(r)?'取消收藏':'收藏股票'}" title="${isFavorite(r)?'取消收藏':'收藏股票'}">${isFavorite(r)?'★':'☆'}</button>
+       <div><button type="button" class="stock-link radar-open-analysis" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}">${esc(r.name||r.symbol)}${r.is_new?'<span class="new-entry-badge">NEW</span>':''}</button>
+       <div class="muted">${esc(r.symbol)}</div></div>
+     </div>
+   </td>
+   <td>${esc(marketLabel(r.market))}</td>
+   <td>${stars(r.score)}</td>
+   <td>${esc(contractionText(r))}</td>
+   <td>${Number(r.pivot).toFixed(2)}</td>
+   <td>
+     <div class="desktop-pivot-distance">
+       <b>${Number(r.distance).toFixed(1)}%</b>
+       ${(()=>{
+         const pv=pivotDistanceVisual(r.distance);
+         return `<div class="pivot-distance-track desktop-pivot-track" data-zone="${pv.zone}" aria-hidden="true">
+           <span class="pivot-distance-fill ${pv.cls}" style="width:${pv.width}%"></span>
+         </div>`;
+       })()}
+     </div>
+   </td>
+   <td><span class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}</span>${r._live?'<span class="live-quote-badge">即時</span>':''}</td>
+   <td>${esc(volumeLabel(r))}</td>
+   <td>${esc(squeezeLabel(r))}</td>
+   <td>${esc(momentumLabel(r))}</td>
+   <td class="status-dot">${esc(stageLabel(r))}</td>
+   <td><span class="pulse-badge pulse-${esc(r.pulse_signal||'wait')}">${esc(pulseLabel(r))}</span>${r.pulse_signal==='hot'?`<div class="attention-summary desktop-attention">${esc(attentionReason(r))}</div>`:''}</td>
+ </tr>`).join('');
+
+ const openAnalysis=(market,symbol,sourceEl)=>{
+   // Remember the exact row/card that was tapped.
+   rememberRadarPosition(market,symbol,sourceEl);
+
+   // Use the same market switch used by the manual TW/US buttons.
+   setMarket(market,{reset:false});
+   $('symbol').value=symbol;
+
+   // Scroll first so the interaction is immediately visible, then run analysis.
+   const input=$('symbol');
+   const singleSection=input?.closest('.section') || input;
+   if(singleSection) singleSection.scrollIntoView({behavior:'smooth',block:'start'});
+
+   run();
+ };
+
+ body.querySelectorAll('.favorite-btn').forEach(btn=>{
+   btn.addEventListener('click',(e)=>{
+     e.preventDefault(); e.stopPropagation();
+     toggleFavorite(btn.dataset.market,btn.dataset.symbol);
+   });
+ });
+
+ body.querySelectorAll('.radar-open-analysis').forEach(btn=>{
+   btn.addEventListener('click',(e)=>{
+     e.preventDefault();
+     e.stopPropagation();
+     openAnalysis(btn.dataset.market,btn.dataset.symbol,btn.closest('tr[data-symbol]')||btn);
+   });
+ });
+
+ body.querySelectorAll('tr[data-symbol]').forEach(tr=>{
+   tr.addEventListener('click',(e)=>{
+     if(e.target.closest('.radar-open-analysis')) return;
+     openAnalysis(tr.dataset.market,tr.dataset.symbol,tr);
+   });
+ });
+
+ if(mobile){
+   mobile.innerHTML=rows.map(r=>{
+     const reasons=[];
+     if(r.is_new) reasons.push(`<div class="reason-item reason-new">🆕 ${esc(r.new_reason||'今日新進 VCP 雷達')}</div>`);
+     reasons.push(`<div class="reason-item reason-ok"><b>VCP ${r.score}/5</b>，符合本站主要候選門檻</div>`);
+     if((r.contractions||[]).length>=2) reasons.push(`<div class="reason-item reason-ok">收縮：${esc(contractionText(r))}</div>`);
+     if(r.volume_dry) reasons.push(`<div class="reason-item reason-ok">整理期間成交量呈現量縮</div>`);
+     if(r.squeeze_level && r.squeeze_level!=='none') reasons.push(`<div class="reason-item reason-ok">${esc(squeezeLabel(r))}，波動處於壓縮狀態</div>`);
+     else reasons.push(`<div class="reason-item reason-note">${esc(squeezeLabel(r))}</div>`);
+     if(r.momentum) reasons.push(`<div class="reason-item reason-note">Momentum：${esc(momentumLabel(r))}</div>`);
+     if(r.type==='breakout') reasons.push(`<div class="reason-item reason-ok">最新交易日首次帶量突破 Pivot</div>`);
+     else if(r.type==='postbreakout'){
+       reasons.push(`<div class="reason-item reason-ok">突破後第 ${Number(r.breakout_days??0)+1} 天，目前仍站在 Pivot 上方</div>`);
+       reasons.push(`<div class="reason-item reason-ok">距 Pivot +${Math.max(0,Number(r.distance)).toFixed(1)}%，${r.holding_pivot?'仍守住 Pivot ✓':'需留意跌回 Pivot'}</div>`);
+     }
+     else if(r.type==='near') reasons.push(`<div class="reason-item reason-ok">距 Pivot ${Number(r.distance).toFixed(1)}%，已進入接近區</div>`);
+     else reasons.push(`<div class="reason-item reason-note">型態仍在成形，距 Pivot ${Number(r.distance).toFixed(1)}%</div>`);
+
+     return `<div class="mobile-stock-card" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}">
+       <div class="mobile-stock-top">
+         <div>
+           <div class="mobile-stock-name">${esc(r.name||r.symbol)}${r.is_new?'<span class="new-entry-badge">NEW</span>':''}</div>
+           <div class="mobile-stock-code">${esc(r.symbol)} · ${r.market==='TW'?'台股':'美股'}</div>
+         </div>
+         <div class="mobile-top-actions">
+           <button type="button" class="favorite-btn mobile-favorite ${isFavorite(r)?'is-favorite':''}" data-favorite="1" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}" aria-label="${isFavorite(r)?'取消收藏':'收藏股票'}">${isFavorite(r)?'★ 已收藏':'☆ 收藏'}</button>
+           <div class="mobile-score">${stars(r.score)}</div>
+         </div>
+       </div>
+       <div class="mobile-state">${esc(stageLabel(r))}</div>
+       <div style="margin-top:8px"><span class="pulse-badge pulse-${esc(r.pulse_signal||'wait')}">${esc(pulseLabel(r))}</span></div>
+       ${r.pulse_signal==='hot'?`<div class="attention-summary">${esc(attentionReason(r))}</div>`:''}
+       <div class="mobile-metrics">
+         <div class="mobile-metric">Pivot（突破價）<b>${Number(r.pivot).toFixed(2)}</b></div>
+         <div class="mobile-metric">距 Pivot<b>${Number(r.distance).toFixed(1)}%</b>
+          ${(()=>{
+            const pv=pivotDistanceVisual(r.distance);
+            return `<div class="pivot-distance-track" data-zone="${pv.zone}" aria-hidden="true">
+              <span class="pivot-distance-fill ${pv.cls}" style="width:${pv.width}%"></span>
+            </div>`;
+          })()}
+         </div>
+         <div class="mobile-metric">今日漲跌<b class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}${r._live?' <span class="live-quote-badge">即時</span>':''}</b></div>
+         <div class="mobile-metric">收縮<b>${esc(contractionText(r))}</b></div>
+         <div class="mobile-metric">量能<b>${esc(volumeLabel(r))}</b></div>
+       </div>
+       <div class="mobile-signal-row">
+         <span class="mobile-signal">${esc(squeezeLabel(r))}</span>
+         <span class="mobile-signal">${esc(momentumLabel(r))}</span>
+         ${r.combo?'<span class="mobile-signal">⚡ VCP＋Squeeze</span>':''}
+       </div>
+       <div class="mobile-why">
+         <div class="mobile-why-head">
+           <div class="mobile-why-title">為什麼入選？</div>
+           ${reasons.length>2?`<button type="button" class="reason-toggle" aria-expanded="false">展開理由 ＋</button>`:''}
+         </div>
+         <div class="reason-list reason-preview">${reasons.slice(0,2).join('')}</div>
+         ${reasons.length>2?`<div class="reason-list reason-more" hidden>${reasons.slice(2).join('')}</div>`:''}
+         <div class="pulse-explain reason-more-detail" ${reasons.length>2?'hidden':''}><b>VCPulse 訊號：</b>${esc(pulseLabel(r))} · ${esc((r.pulse_reasons||[]).join('、')||'依目前結構持續觀察')}</div>
+       </div>
+       <button type="button" class="mobile-cta mobile-analysis-btn" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}">帶入單股分析 →</button>
+     </div>`;
+   }).join('');
+
+   mobile.querySelectorAll('.favorite-btn').forEach(btn=>{
+     btn.addEventListener('click',(e)=>{
+       e.preventDefault(); e.stopPropagation();
+       toggleFavorite(btn.dataset.market,btn.dataset.symbol);
+     });
+   });
+
+   mobile.querySelectorAll('.reason-toggle').forEach(btn=>{
+     btn.addEventListener('click',(e)=>{
+       e.preventDefault();
+       e.stopPropagation();
+       const why=btn.closest('.mobile-why');
+       const more=why?.querySelector('.reason-more');
+       const detail=why?.querySelector('.reason-more-detail');
+       const expanded=btn.getAttribute('aria-expanded')==='true';
+       btn.setAttribute('aria-expanded',String(!expanded));
+       if(more) more.hidden=expanded;
+       if(detail) detail.hidden=expanded;
+       btn.textContent=expanded?'展開理由 ＋':'收合理由 －';
+     });
+   });
+
+   mobile.querySelectorAll('.mobile-analysis-btn').forEach(btn=>{
+     btn.addEventListener('click',(e)=>{
+       e.preventDefault();
+       e.stopPropagation();
+       openAnalysis(btn.dataset.market,btn.dataset.symbol,btn.closest('.mobile-stock-card')||btn);
+     });
+   });
+
+   mobile.querySelectorAll('.mobile-stock-card').forEach(card=>{
+     card.addEventListener('click',(e)=>{
+       if(e.target.closest('.mobile-analysis-btn') || e.target.closest('.favorite-btn')) return;
+       openAnalysis(card.dataset.market,card.dataset.symbol,card);
+     });
+   });
+ }
+}
+
+updateFavoriteCount();
+
+function escHtml(s){
+  return String(s??'').replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[m]));
+}
+
+
+function formatMarketDate(v){
+ const s=String(v??'').trim();
+ if(/^\d{8}$/.test(s)) return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`;
+ return s;
+}
+
+function marketNumber(v,digits=2){
+ const n=Number(v);
+ return Number.isFinite(n)?n.toLocaleString('zh-TW',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'—';
+}
+
+const LIVE_INDEX_SYMBOLS={
+  TW:{
+    TWSE:{symbol:'^TWII',label:'上市｜加權指數'},
+  },
+  US:{
+    SOX:{symbol:'^SOX',label:'費城半導體'},
+    SP500:{symbol:'^GSPC',label:'S&P 500'},
+    NASDAQ:{symbol:'^IXIC',label:'NASDAQ'},
+    RUSSELL2000:{symbol:'^RUT',label:'Russell 2000'}
+  }
+};
+
+async function fetchYahooIndexQuote(symbol,label){
+  try{
+    const u=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1m&range=1d&includePrePost=true`;
+    const r=await fetch(u,{cache:'no-store'});
+    if(!r.ok) return null;
+    const j=await r.json();
+    const result=j?.chart?.result?.[0];
+    const meta=result?.meta||{};
+    const closes=result?.indicators?.quote?.[0]?.close||[];
+    const valid=closes.map(Number).filter(Number.isFinite);
+    const close=Number.isFinite(Number(meta.regularMarketPrice))?Number(meta.regularMarketPrice):(valid.length?valid[valid.length-1]:NaN);
+    const prev=Number(meta.chartPreviousClose ?? meta.previousClose);
+    if(!Number.isFinite(close)) return null;
+    const changePct=Number.isFinite(prev)&&prev!==0?((close/prev)-1)*100:NaN;
+    return {
+      label,
+      close,
+      change_points:Number.isFinite(prev)?close-prev:NaN,
+      change_pct:changePct,
+      data_time:new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}),
+      live:true
+    };
+  }catch(e){ return null; }
+}
+
+
+function parseNumLoose(v){
+  const n=Number(String(v??'').replace(/,/g,'').replace(/%/g,'').trim());
+  return Number.isFinite(n)?n:NaN;
+}
+function pickField(obj,names){
+  for(const n of names){
+    if(obj && Object.prototype.hasOwnProperty.call(obj,n) && obj[n]!=='' && obj[n]!=null) return obj[n];
+  }
+  return null;
+}
+async function fetchTpexIndexLatest(){
+  try{
+    const urls=[
+      'https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index',
+      'https://www.tpex.org.tw/openapi/v1/tpex_index'
+    ];
+    for(const u of urls){
+      try{
+        const ctl=new AbortController();
+        const timer=setTimeout(()=>ctl.abort(),7000);
+        let r;
+        try{
+          r=await fetch(u,{cache:'no-store',signal:ctl.signal});
+        }finally{ clearTimeout(timer); }
+        if(!r?.ok) continue;
+        const j=await r.json().catch(()=>null);
+        if(!Array.isArray(j) || !j.length) continue;
+
+        // Latest row: official TPEx OpenAPI commonly returns newest-first, but sort by date when possible.
+        const rows=j.slice();
+        const dateOf=x=>String(pickField(x,['Date','date','日期','資料日期','TradeDate'])||'');
+        rows.sort((a,b)=>dateOf(a).localeCompare(dateOf(b)));
+        const x=rows[rows.length-1]||{};
+
+        const close=parseNumLoose(pickField(x,[
+          'Close','close','Index','index','IndexValue','indexValue',
+          '收市指數','收盤指數','指數','TPExIndex'
+        ]));
+        const changePoints=parseNumLoose(pickField(x,[
+          'Change','change','ChangePoint','change_points','漲跌','漲跌點數'
+        ]));
+        let changePct=parseNumLoose(pickField(x,[
+          'ChangePercent','changePercent','ChangeRate','change_pct','漲跌幅度(%)','漲跌幅(%)','漲跌幅'
+        ]));
+
+        // If the API does not expose percentage directly, derive it from point change.
+        if(!Number.isFinite(changePct) && Number.isFinite(close) && Number.isFinite(changePoints)){
+          const prev=close-changePoints;
+          if(prev!==0) changePct=(changePoints/prev)*100;
+        }
+        if(!Number.isFinite(close)) continue;
+
+        return {
+          label:'上櫃｜櫃買指數',
+          close,
+          change_points:Number.isFinite(changePoints)?changePoints:NaN,
+          change_pct:Number.isFinite(changePct)?changePct:NaN,
+          data_time:dateOf(x)||new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}),
+          live:true,
+          source:'TPEx OpenAPI'
+        };
+      }catch(e){
+        console.warn('TPEx index endpoint failed',u,e);
+      }
+    }
+  }catch(e){
+    console.warn('TPEx index refresh failed',e);
+  }
+  return null;
+}
+
+async function refreshLiveMarketOverview(){
+  const market=String(currentMarket||'TW').toUpperCase();
+  const bucket=(radarBenchmarkData[radarSnapshot] ||= {});
+  bucket[market] ||= {};
+
+  if(market==='TW'){
+    // TWSE: Yahoo chart remains a useful best-effort source.
+    // TPEx: Yahoo's ^TWOII is not reliable here, so use TPEx official OpenAPI instead.
+    const [twseRes,tpexRes]=await Promise.allSettled([
+      fetchYahooIndexQuote('^TWII','上市｜加權指數'),
+      fetchTpexIndexLatest()
+    ]);
+    let ok=0;
+    if(twseRes.status==='fulfilled' && twseRes.value){
+      bucket.TW.TWSE=twseRes.value; ok++;
+    }
+    if(tpexRes.status==='fulfilled' && tpexRes.value){
+      bucket.TW.TPEX=tpexRes.value; ok++;
+    }
+    renderMarketOverview();
+    return {ok,total:2};
+  }
+
+  const specs=LIVE_INDEX_SYMBOLS[market]||{};
+  const entries=Object.entries(specs);
+  if(!entries.length) return {ok:0,total:0};
+  const results=await Promise.allSettled(
+    entries.map(async ([key,x])=>[key,await fetchYahooIndexQuote(x.symbol,x.label)])
+  );
+  let ok=0;
+  results.forEach(res=>{
+    if(res.status!=='fulfilled') return;
+    const [key,val]=res.value;
+    if(val){ bucket[market][key]=val; ok++; }
+  });
+  renderMarketOverview();
+  return {ok,total:entries.length};
+}
+function renderMarketOverview(){
+ const box=document.getElementById('marketOverview');
+ if(!box) return;
+ const all=(radarBenchmarkData[radarSnapshot]||{});
+ const isUS=currentMarket==='US';
+ const data=isUS?(all.US||{}):(all.TW||{});
+ const specs=isUS?[
+   ['SOX','費城半導體'],
+   ['SP500','S&P 500'],
+   ['NASDAQ','NASDAQ'],
+   ['RUSSELL2000','Russell 2000']
+ ]:[
+   ['TWSE','上市｜加權指數'],
+   ['TPEX','上櫃｜櫃買指數']
+ ];
+ const cards=specs.map(([key,fallback])=>{
+   const x=data[key];
+   if(!x) return '';
+   const p=Number(x.change_pct), pts=Number(x.change_points);
+   const cls=!Number.isFinite(p)||p===0?'flat':(p>0?'up':'down');
+   const sign=Number.isFinite(pts)&&pts>0?'+':'';
+   const psign=Number.isFinite(p)&&p>0?'+':'';
+   return `<div class="market-index-card">
+     <div>
+       <div class="market-index-name">${escHtml(x.label||fallback)}</div>
+       <div class="market-index-value">${marketNumber(x.close)}</div>
+       ${x.data_time?`<div class="market-index-time">${escHtml(formatMarketDate(x.data_time))}${x.source?` · 資料更新`:''}</div>`:''}
+     </div>
+     <div class="market-index-change ${cls}">
+       ${Number.isFinite(pts)?`${sign}${marketNumber(pts)} 點`:'—'}<br>
+       ${Number.isFinite(p)?`${psign}${p.toFixed(2)}%`:'—'}
+     </div>
+   </div>`;
+ }).filter(Boolean);
+ box.innerHTML=cards.join('');
+ box.classList.toggle('us-market',isUS);
+ box.hidden=!cards.length;
+}
+
+function renderFreshness(){
+ const box=document.getElementById('radarFreshness');
+ if(!box) return;
+ const meta=radarSnapshotMeta[radarSnapshot]||{};
+ const pieces=[];
+
+ const dateWithWeekday=(s)=>{
+   const str=String(s||'').trim();
+   const m=str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+   if(!m) return str;
+   const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));
+   const w=['日','一','二','三','四','五','六'][d.getDay()];
+   return `${str} (${w})`;
+ };
+ const scanTime=(s)=>{
+   const str=String(s||'').trim();
+   const m=str.match(/^\d{4}-\d{2}-\d{2}\s+(\d{1,2}):(\d{2})/);
+   return m ? `${m[1].padStart(2,'0')}:${m[2]}` : str;
+ };
+
+ ['TW','US'].forEach(market=>{
+   const m=meta[market];
+   if(!m?.data_date) return;
+   const intraday=radarSnapshot==='intraday' || m.snapshot_type==='intraday';
+
+   let title='', sub='';
+   if(intraday){
+     title=market==='TW'?'台股・盤中即時':'美股・盤中即時';
+     sub=market==='US'?'盤中每 1 小時自動更新':'盤中資料';
+   }else if(market==='TW'){
+     title='台股・收盤更新';
+     sub='每日 18:10 起更新';
+   }else{
+     title='美股・前一交易日收盤';
+     sub='07:10 起更新（台灣時間）';
+   }
+
+   pieces.push(`<div class="freshness-item ${intraday?'intraday':''}">
+     <div class="freshness-status">
+       <span class="freshness-dot"></span>
+       <div>
+         <div class="freshness-title">${escHtml(title)}</div>
+         <div class="freshness-sub">${escHtml(sub)}</div>
+       </div>
+     </div>
+     <div class="freshness-date">
+       <span class="freshness-icon">▣</span>
+       <div><b>${escHtml(dateWithWeekday(m.data_date))}</b><small>資料日期</small></div>
+     </div>
+     <div class="freshness-scan">
+       <span class="freshness-icon">◷</span>
+       <div><b>${m.scanned_at?escHtml(scanTime(m.scanned_at)):'—'}</b><small>掃描時間</small></div>
+     </div>
+   </div>`);
+ });
+ box.innerHTML=pieces.join('');
+ box.hidden=!pieces.length;
+}
+
+function forceRadarAllRender(){
+ radarFilter='all';
+ document.querySelectorAll('.radar-tab').forEach(
+   b=>b.classList.toggle('active',b.dataset.radar==='all')
+ );
+ // Render now, then once more after the browser has finished the click/layout cycle.
+ renderRadar('all');
+ requestAnimationFrame(()=>renderRadar('all'));
+ setTimeout(()=>renderRadar('all'),60);
+}
+
+function isIntradayLockedAfterOfficial(market=currentMarket){
+ // TW: intraday remains available until the scheduled official refresh has actually completed.
+ // We use the official snapshot's real scanned_at time, not the browser clock, so a delayed Action is handled correctly.
+ if(String(market||'').toUpperCase()!=='TW') return false;
+ const meta=radarSnapshotMeta?.official?.TW||{};
+ const dataDate=String(meta.data_date||'');
+ const scannedAt=String(meta.scanned_at||'');
+ if(!dataDate || !scannedAt) return false;
+ const m=scannedAt.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})/);
+ if(!m || m[1]!==dataDate) return false;
+ const mins=(+m[2])*60+(+m[3]);
+ return mins>=18*60+10;
+}
+function updateSnapshotAvailability(){
+ const intradayBtn=document.querySelector('.snapshot-btn[data-snapshot="intraday"]');
+ if(!intradayBtn) return;
+ const m=String(currentMarket||'TW').toUpperCase();
+ const ic=(radarSnapshotData.intraday||[]).filter(x=>String(x.market||'').toUpperCase()===m).length;
+ intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(m);
+ intradayBtn.title=isIntradayLockedAfterOfficial(m)?'今日正式收盤版已完成更新，盤中即時已停用':'';
+}
+function setRadarSnapshot(kind){
+ const rows=Array.isArray(radarSnapshotData[kind]) ? radarSnapshotData[kind] : [];
+ if(kind==='intraday' && (rows.length===0 || isIntradayLockedAfterOfficial(currentMarket))) return;
+
+ radarSnapshot=kind;
+ radarRows=rows.slice();
+ userLiveQuotes.clear();
+ userLiveUpdatedAt='';
+
+ document.querySelectorAll('.snapshot-btn').forEach(
+   b=>b.classList.toggle('active',b.dataset.snapshot===kind)
+ );
+
+ renderFreshness();
+ renderMarketOverview();
+ renderCapitalHotspots();
+ forceRadarAllRender();
+}
+
+async function loadRadar(){
+ const updated=document.getElementById('radarUpdated'), empty=document.getElementById('radarEmpty');
+ try{
+   const r=await fetch(`screening.json?t=${Date.now()}`,{cache:'no-store'});
+   if(!r.ok) throw new Error('screening.json 尚未建立');
+   const j=await r.json();
+   radarSnapshotData={
+     official:Array.isArray(j.official_results)?j.official_results:(Array.isArray(j.results)?j.results:[]),
+     intraday:Array.isArray(j.intraday_results)?j.intraday_results:[]
+   };
+   radarSnapshotMeta={
+     official:j.official_markets||j.markets||{},
+     intraday:j.intraday_markets||{}
+   };
+   radarBenchmarkData={
+     official:j.official_benchmarks||{},
+     intraday:j.intraday_benchmarks||{}
+   };
+   radarCapitalHotspots={
+     official:j.official_capital_hotspots||{},
+     intraday:j.intraday_capital_hotspots||{}
+   };
+   radarThemeLeaderboards={
+     official:j.official_theme_leaderboards||{},
+     intraday:j.intraday_theme_leaderboards||{}
+   };
+   radarSnapshot='official';
+   radarRows=radarSnapshotData.official;
+
+   const officialCount=document.getElementById('officialCount');
+   const marketCount=(arr,m)=>arr.filter(x=>String(x.market||'').toUpperCase()===String(m||'TW').toUpperCase()).length;
+   const oc=marketCount(radarSnapshotData.official,currentMarket);
+   if(officialCount) officialCount.textContent=oc?`(${oc})`:'';
+
+   const intradayBtn=document.querySelector('.snapshot-btn[data-snapshot="intraday"]');
+   const intradayCount=document.getElementById('intradayCount');
+   const ic=marketCount(radarSnapshotData.intraday,currentMarket);
+   if(intradayBtn) intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(currentMarket);
+   if(intradayCount) intradayCount.textContent=ic?`(${ic})`:'';
+   updateSnapshotAvailability();
+
+   const tw=radarSnapshotMeta.official?.TW, us=radarSnapshotMeta.official?.US;
+   const bits=[];
+   if(tw?.data_date) bits.push(`台股 ${tw.data_date}`);
+   if(us?.data_date) bits.push(`美股 ${us.data_date}`);
+   updated.textContent=(bits.length?`正式資料截至：${bits.join('｜')}`:'尚無正式收盤資料')+(j.generated_at?`　檔案更新 ${j.generated_at}`:'');
+   renderFreshness();
+   renderMarketOverview();
+   renderCapitalHotspots();
+   renderRadar(radarFilter);
+   if(!radarSnapshotData.official.length && radarSnapshotData.intraday.length){
+     const body=document.getElementById('radarBody');
+     const mobile=document.getElementById('radarMobile');
+     const msg='正式收盤名單正在恢復中；請手動執行一次 VCP screening Action。盤中即時資料仍可正常查看。';
+     if(body) body.innerHTML=`<tr><td colspan="11" style="padding:28px;text-align:center;color:#8a8379">${msg}</td></tr>`;
+     if(mobile) mobile.innerHTML=`<div class="note">${msg}</div>`;
+   }
+ }catch(e){
+   radarRows=[];
+   const fresh=document.getElementById('radarFreshness'); if(fresh) fresh.hidden=true;
+   const marketBox=document.getElementById('marketOverview'); if(marketBox) marketBox.hidden=true;
+   if(updated) updated.textContent='每日篩選資料尚未產生';
+   if(empty){
+     empty.style.display='block';
+     empty.textContent='第一次請到 GitHub → Actions → Daily VCP Screener → Run workflow 執行一次。';
+   }
+ }
+}
+
+document.querySelectorAll('.radar-tab').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  radarFilter=btn.dataset.radar;
+  document.querySelectorAll('.radar-tab').forEach(b=>b.classList.toggle('active',b===btn));
+  renderRadar(radarFilter);
+ });
+});
+const radarSortSelect=document.getElementById('radarSort');
+if(radarSortSelect){
+ radarSortSelect.value=radarSort;
+ radarSortSelect.addEventListener('change',()=>{
+   radarSort=radarSortSelect.value;
+   renderRadar(radarFilter);
+ });
+}
+
+
+const userLiveRefreshBtn=document.getElementById('userLiveRefreshBtn');
+if(userLiveRefreshBtn) userLiveRefreshBtn.addEventListener('click',refreshUserLiveQuotes);
+
+const helpBtn=document.getElementById('helpBtn'), helpBox=document.getElementById('helpBox');
+if(helpBtn&&helpBox) helpBtn.onclick=()=>helpBox.classList.toggle('open');
+loadRadar();
+
+</script>
+<div id="pulseHelpExtra" style="display:none">
+<div class="pulse-help-detail">
+  <h3>VCPulse 綜合訊號怎麼看？</h3>
+  <p>VCP 星等只評估「VCP 型態品質」；VCPulse 綜合訊號則加入 <b>Pivot 位置、PowerSqueeze 與 Momentum</b>，表示目前值得關注的程度。</p>
+  <div class="pulse-help-grid">
+    <div><b>🔥 高關注</b><span>VCP 結構佳，而且位置、壓縮或動能有多項條件同時配合，屬於雷達中優先留意的型態。</span></div>
+    <div><b>👀 觀察</b><span>VCP 已具一定品質，且 Pivot 位置、PowerSqueeze 或 Momentum 已有進一步配合，值得提高注意力。</span></div>
+    <div><b>⏳ 等待</b><span>雖符合 VCP 雷達基本條件，但目前位置、壓縮或動能的配合仍不足，等待條件進一步改善。</span></div>
+    <div><b>⚠️ 過度延伸</b><span>突破後已距 Pivot 超過 8%，提醒目前位置已不像剛突破時那麼接近 Pivot。</span></div>
+  </div>
+  <p class="pulse-help-note"><b>重點：</b>「等待」不代表看空；「觀察／高關注」也不代表買進。標籤只是協助比較 VCP 候選股目前所處的階段。</p>
+  <details class="pulse-rule-detail">
+    <summary>查看訊號判斷規則</summary>
+    <p>系統依 VCP 分數、今日突破／突破後／接近 Pivot 狀態、PowerSqueeze 強度與 Momentum 方向綜合判斷。條件配合越多，關注層級越高；突破後若距 Pivot 超過 8%，則優先標示為「過度延伸」。</p>
+  </details>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const extra=document.getElementById('pulseHelpExtra');
+  const candidates=[...document.querySelectorAll('div')].filter(el=>el.textContent.includes('指標使用說明'));
+  const target=candidates.sort((a,b)=>a.textContent.length-b.textContent.length)[0];
+  if(extra && target){
+    const block=extra.firstElementChild;
+    if(block) target.appendChild(block);
+    extra.remove();
+  }
+});
+</script>
+
+
+<button type="button" id="radarBackFloat" class="radar-back-float" hidden aria-label="返回剛才的雷達位置" onclick="returnToRadarPosition()">
+  ← 返回剛才清單
+</button>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCkKmBhqHwFWAup0Va6IrcpWsX9defViGc",
+  authDomain: "vcpulse-d7ced.firebaseapp.com",
+  projectId: "vcpulse-d7ced",
+  storageBucket: "vcpulse-d7ced.firebasestorage.app",
+  messagingSenderId: "512577541196",
+  appId: "1:512577541196:web:cc16aede91c2502dc090e9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
+
+const gate = document.getElementById("authGate");
+const appEl = document.getElementById("vcpApp");
+const userBar = document.getElementById("userBar");
+const statusEl = document.getElementById("authStatus");
+const errorEl = document.getElementById("authError");
+const loginBtn = document.getElementById("googleLoginBtn");
+
+function showError(message){
+  errorEl.textContent = message;
+  errorEl.style.display = "block";
+}
+function showSignedOut(){
+  gate.style.display = "flex";
+  appEl.style.display = "none";
+  userBar.style.display = "none";
+  statusEl.textContent = "請先登入 Google 帳號，才能進入 VCPulse。";
+  loginBtn.style.display = "block";
+}
+
+function maskUid(uid){
+  const s = String(uid || "");
+  if (s.length <= 8) return s;
+  return s.slice(0,4) + "••••••••" + s.slice(-4);
+}
+
+function showUnauthorized(user){
+  gate.style.display = "flex";
+  appEl.style.display = "none";
+  userBar.style.display = "none";
+  statusEl.innerHTML = "此帳號尚未取得 <b>VCPulse</b> 使用權限。<br><span style=\"font-size:12px;color:#918a80\">" +
+    (user.email || "目前 Google 帳號") + "</span>";
+  loginBtn.style.display = "none";
+  errorEl.style.display = "block";
+  errorEl.style.background = "#fff7e8";
+  errorEl.style.color = "#7a5a22";
+  errorEl.innerHTML =
+    '<div style="margin-bottom:9px">請將下方授權碼提供給管理員</div>' +
+    '<div style="display:flex;gap:7px;align-items:center;justify-content:center;flex-wrap:wrap">' +
+      '<code id="unauthUid" style="max-width:100%;overflow-wrap:anywhere;padding:7px 9px;border-radius:9px;background:#fff;border:1px solid #ead8b9;color:#5f4934">' + maskUid(user.uid) + '</code>' +
+      '<button id="copyAuthCodeBtn" type="button" style="padding:7px 10px;border-radius:9px;border:1px solid #d9c7b2;background:#fff;color:#5f4934;cursor:pointer">複製授權碼</button>' +
+    '</div>' +
+    '<div style="margin-top:11px">若要改用其他 Google 帳號，請先 <button id="unauthLogoutBtn" type="button" style="margin-left:6px;padding:6px 10px;border-radius:9px;border:1px solid #d9c7b2;background:#fff;color:#5f4934;cursor:pointer">登出／切換帳號</button></div>';
+  setTimeout(() => {
+    const logoutBtn = document.getElementById("unauthLogoutBtn");
+    if (logoutBtn) logoutBtn.addEventListener("click", () => signOut(auth));
+    const copyBtn = document.getElementById("copyAuthCodeBtn");
+    if (copyBtn) copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(user.uid);
+        const oldText = copyBtn.textContent;
+        copyBtn.textContent = "已複製 ✓";
+        setTimeout(() => copyBtn.textContent = oldText, 1500);
+      } catch {
+        prompt("請複製這個授權碼：", user.uid);
+      }
+    });
+  }, 0);
+}
+function showSignedIn(user){
+  gate.style.display = "none";
+  appEl.style.display = "";
+  userBar.style.display = "block";
+  errorEl.style.display = "none";
+  document.getElementById("signedInEmail").textContent = user.email || "Google 使用者";
+  document.getElementById("signedInUid").textContent = maskUid(user.uid);
+}
+loginBtn.addEventListener("click", async () => {
+  errorEl.style.display = "none";
+  loginBtn.disabled = true;
+  loginBtn.textContent = "登入中…";
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (e) {
+    if (e.code !== "auth/popup-closed-by-user") {
+      showError("Google 登入失敗：" + (e.message || e.code || "未知錯誤"));
+    }
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "使用 Google 帳號登入";
+  }
+});
+document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+document.getElementById("copyUidBtn").addEventListener("click", async () => {
+  const uid = auth.currentUser?.uid || "";
+  if (!uid) return;
+  try {
+    await navigator.clipboard.writeText(uid);
+    const b = document.getElementById("copyUidBtn");
+    const old = b.textContent;
+    b.textContent = "已複製";
+    setTimeout(() => b.textContent = old, 1200);
+  } catch {
+    prompt("請複製這個 UID：", uid);
+  }
+});
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    showSignedOut();
+    return;
+  }
+
+  gate.style.display = "flex";
+  appEl.style.display = "none";
+  userBar.style.display = "none";
+  statusEl.textContent = "正在確認 VCPulse 使用權限…";
+  loginBtn.style.display = "none";
+  errorEl.style.display = "none";
+  try {
+    const snap = await getDoc(doc(db, "authorizedUsers", user.uid));
+    if (snap.exists() && snap.data()?.enabled === true) {
+      showSignedIn(user);
+    } else {
+      showUnauthorized(user);
+    }
+  } catch (e) {
+    gate.style.display = "flex";
+    appEl.style.display = "none";
+    userBar.style.display = "none";
+    statusEl.textContent = "無法確認使用權限。";
+    showError("Firestore 權限檢查失敗：" + (e.message || e.code || "未知錯誤"));
+  }
+});
+</script>
+
+
+<style>
+/* V2.40 — 正式收盤更新提示 + 手機單股狀態防重疊 */
+.snapshot-main{display:block;line-height:1.2}
+.snapshot-update-note{
+  display:block;margin-top:3px;font-size:9px;line-height:1.15;
+  font-weight:800;opacity:.72;letter-spacing:.02em;
+}
+.snapshot-btn.active .snapshot-update-note{opacity:.82}
+@media(max-width:760px){
+  /* 單股標題區改為正常換行，狀態 badge 獨立一行，不再以負 margin 疊在內容上 */
+  #singleStockAnalysis .topline{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:0!important;
+  }
+  #singleStockAnalysis .topline>div:first-child{
+    width:100%!important;
+    flex:0 0 auto!important;
+    min-width:0!important;
+  }
+  #singleStockAnalysis .topline>.badge{
+    position:static!important;
+    align-self:flex-start!important;
+    margin:9px 0 2px!important;
+    max-width:100%!important;
+    white-space:normal!important;
+    line-height:1.25!important;
+  }
+  .snapshot-btn{min-height:54px}
+  .snapshot-update-note{font-size:9px;margin-top:4px}
+}
+</style>
+
+</body></html>
+
+<style>
+/* V2.36.5 — 收藏星星緊貼股票名稱 */
+.single-title-row{
+  display:inline-flex !important;
+  width:auto !important;
+  max-width:max-content !important;
+  flex:0 0 auto !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:6px !important;
+}
+.single-title-row .ticker{
+  flex:0 0 auto !important;
+  width:auto !important;
+  white-space:nowrap !important;
+}
+.single-title-row .single-title-favorite{
+  position:static !important;
+  flex:0 0 22px !important;
+  width:22px !important;
+  min-width:22px !important;
+  max-width:22px !important;
+  height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  font-size:20px !important;
+  line-height:24px !important;
+  transform:none !important;
+}
+.single-title-row .single-title-favorite:hover{transform:scale(1.06) !important}
+@media(max-width:720px){
+  .single-title-row{gap:6px !important}
+  .single-title-row .single-title-favorite{
+    flex-basis:21px !important;width:21px !important;min-width:21px !important;
+    max-width:21px !important;font-size:19px !important;
+  }
+}
+</style>
+
+<style>
+/* V2.40.2 — completed TW official snapshot locks the stale intraday switch */
+.snapshot-btn:disabled{opacity:.38!important;background:#f1eee9!important;color:#aaa39a!important;border-color:#ddd7cf!important;box-shadow:none!important;cursor:not-allowed!important}
+</style>
