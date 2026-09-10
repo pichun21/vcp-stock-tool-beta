@@ -1,0 +1,43 @@
+name: VCPulse V2.42 Beta Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  beta-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Beta repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run V2.42 Beta scanner
+        run: python scanner.py
+        env:
+          VCP_MODE: close
+          VCP_MARKET: TW
+
+      - name: Commit Beta screening result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add screening.json
+
+          if git diff --cached --quiet; then
+            echo "No screening changes."
+          else
+            git commit -m "beta: update V2.42 theme screening"
+            git push
+          fi
