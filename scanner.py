@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.2 THEME OFFICIAL BACKFILL + 2.42.1 ALL-MARKET FIX + 2.41 CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.5 V2.8 THEME DB BETA + 2.42.2 OFFICIAL BACKFILL + 2.42.1 ALL-MARKET FIX + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re
 from pathlib import Path
@@ -12,7 +12,7 @@ import yfinance as yf
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "screening.json"
-THEME_DB = ROOT / "data" / "vcpulse_themes_v2_6_score_calibration.json"
+THEME_DB = ROOT / "data" / "vcpulse_themes_v2_8_candidate.json"
 FINMIND = "https://api.finmindtrade.com/api/v4/data"
 TAIPEI = ZoneInfo("Asia/Taipei")
 
