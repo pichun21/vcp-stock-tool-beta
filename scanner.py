@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42 THEME BETA + 2.41 CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.1 THEME ALL-MARKET FIX + 2.41 CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re
 from pathlib import Path
@@ -587,6 +587,7 @@ def analyze(df,item,market):
         "pulse_signal":pulse_signal,"pulse_label":pulse_label,"pulse_points":signal_points,
         "pulse_reasons":signal_reasons,"data_date":df.index[-1].strftime("%Y-%m-%d"),
         "avg_value_20d":round(avg_value,0),
+        "contraction_volume_ratio":round(v20/vprev,3) if vprev>0 else None,
     }
 
 def download_batch(items,market):
@@ -620,9 +621,18 @@ def download_batch(items,market):
                     hist=value.iloc[-21:-1].dropna()
                     avg20=float(hist.mean()) if len(hist) else 0.0
                     chg=(float(c.iloc[-1])/float(c.iloc[-2])-1)*100 if float(c.iloc[-2]) else 0.0
+                    latest_volume=float(v.iloc[-1]) if pd.notna(v.iloc[-1]) else 0.0
+                    hist_vol=v.iloc[-21:-1].dropna()
+                    avg20_volume=float(hist_vol.mean()) if len(hist_vol) else 0.0
                     flows.append({
-                        "symbol":item["symbol"],"industry":item.get("industry") or "其他",
-                        "data_date":data_date,"value":latest_value,"avg20_value":avg20,
+                        "symbol":item["symbol"],"name":item.get("name") or item["symbol"],
+                        "industry":item.get("industry") or "其他",
+                        "data_date":data_date,
+                        "close":float(c.iloc[-1]),"prev_close":float(c.iloc[-2]),
+                        "volume":latest_volume,"avg20_volume":avg20_volume,
+                        "value":latest_value,"avg20_value":avg20,
+                        "value_ratio":(latest_value/avg20) if avg20>0 else 1.0,
+                        "volume_ratio":(latest_volume/avg20_volume) if avg20_volume>0 else 1.0,
                         "change_pct":chg,"up":bool(chg>0)
                     })
 
@@ -713,78 +723,181 @@ def build_capital_hotspots(flow_rows, candidate_rows, topn=5):
         })
     return rows
 
-def build_theme_leaderboards(candidate_rows, topn=5):
-    """V2.42 Theme Beta: calculate canonical Theme Heat / Setup Heat from TW radar rows.
-    Uses the frozen score-calibration rules in the bundled theme DB. The scanner currently
-    retains candidate-level data only, so persistence is neutral and dry-up uses volume_dry.
+def build_theme_leaderboards(market_rows, candidate_rows, market_return_pct=0.0, topn=5):
+    """V2.42.1 Theme Beta fix.
+
+    Heat is calculated from *all observed Taiwan-market constituents* in the theme,
+    while VCP-specific breakout / near-Pivot / quality / dry-up / NEW signals come
+    from the radar candidates. This keeps the frozen V2.6 scoring logic but fixes
+    the V2.42 candidate-only denominator that made most themes ineligible.
     """
-    if not candidate_rows or not THEME_DB.exists(): return {"themeTop5":[],"setupTop5":[]}
-    try: db=json.loads(THEME_DB.read_text(encoding="utf-8"))
+    if not market_rows or not THEME_DB.exists():
+        return {"themeTop5":[],"setupTop5":[]}
+    try:
+        db=json.loads(THEME_DB.read_text(encoding="utf-8"))
     except Exception as e:
-        print("theme db warning",e); return {"themeTop5":[],"setupTop5":[]}
-    rankable=((db.get("themeTaxonomy") or {}).get("rankable_index") or {})
+        print("theme db warning",e)
+        return {"themeTop5":[],"setupTop5":[]}
+
+    taxonomy=db.get("themeTaxonomy") or {}
+    rankable=taxonomy.get("rankable_index") or {}
     stocks=db.get("stocks") or {}
-    if not rankable: return {"themeTop5":[],"setupTop5":[]}
-    by_code={str(r.get("symbol")):r for r in candidate_rows}
+    if not rankable:
+        return {"themeTop5":[],"setupTop5":[]}
+
+    by_market={str(r.get("symbol")):r for r in (market_rows or []) if r.get("symbol")}
+    by_candidate={str(r.get("symbol")):r for r in (candidate_rows or []) if r.get("symbol")}
     grade_w={"A":1.0,"B":.75,"C":.45,"D":.20}
-    def clamp(x,a=0,b=100): return max(a,min(b,x))
-    def scale(x,a,b): return clamp((x-a)/(b-a)*100) if b!=a else 0
+
+    def clamp(x,a=0,b=100):
+        try: return max(a,min(b,float(x)))
+        except Exception: return a
+
+    def scale(x,a,b):
+        return clamp((float(x)-a)/(b-a)*100) if b!=a else 0
+
     def membership(code,theme):
-        sd=stocks.get(str(code),{}); metas=[]
-        aliases=((db.get("themeTaxonomy") or {}).get("canonical_groups") or {}).get(theme,{}).get("aliases",[])
-        aliases=set(aliases+[theme])
+        sd=stocks.get(str(code),{})
+        metas=[]
+        aliases=(taxonomy.get("canonical_groups") or {}).get(theme,{}).get("aliases",[])
+        aliases=set(list(aliases)+[theme])
         for raw,meta in (sd.get("themes") or {}).items():
-            canon=((db.get("themeTaxonomy") or {}).get("alias_to_canonical") or {}).get(raw,raw)
-            if canon==theme or raw in aliases: metas.append(meta)
-        if not metas: return 0.0,[]
+            canon=(taxonomy.get("alias_to_canonical") or {}).get(raw,raw)
+            if canon==theme or raw in aliases:
+                metas.append(meta)
+        if not metas:
+            return 0.0,[]
         best=max(metas,key=lambda m:(m.get("confidence",0),m.get("purity",0)))
-        if best.get("confidence",0)<60:return 0.0,[]
-        w=grade_w.get(best.get("grade"),0)*(.40+.60*best.get("purity",0)/100)*(.50+.50*best.get("confidence",0)/100)
+        if best.get("confidence",0)<60:
+            return 0.0,[]
+        w=(
+            grade_w.get(best.get("grade"),0) *
+            (.40+.60*best.get("purity",0)/100) *
+            (.50+.50*best.get("confidence",0)/100)
+        )
         return w,best.get("segments") or []
+
     out=[]
     for theme,info in rankable.items():
-        rows=[]; segw={}
+        members=[]; segw={}
         for code in info.get("codes",[]):
-            r=by_code.get(str(code));
-            if not r: continue
+            code=str(code)
+            m=by_market.get(code)
+            if not m:
+                continue
             w,segs=membership(code,theme)
-            if w<=0: continue
-            rows.append((r,w))
-            for seg in segs: segw[seg]=segw.get(seg,0)+w
-        sw=sum(w for _,w in rows)
-        # Frozen guardrails: >=4 effective observed constituents and weight >=2.
-        if len(rows)<4 or sw<2: continue
-        def frac(fn): return sum(w for r,w in rows if fn(r))/sw*100
-        def wmean(fn): return sum(fn(r)*w for r,w in rows)/sw
-        breadth=frac(lambda r:(r.get("change_pct") or 0)>0)
-        strong=frac(lambda r:(r.get("change_pct") or 0)>=2)
-        # Candidate avg_value is a liquidity proxy only; without all-member history keep money neutral.
-        money=50.0
-        vol=wmean(lambda r: 75 if r.get("type")=="breakout" else (35 if r.get("volume_dry") else 50))
-        px=wmean(lambda r: scale(r.get("change_pct") or 0,-3,5))
-        bo=frac(lambda r:r.get("type")=="breakout")
-        near=frac(lambda r:r.get("type") in ("near","forming") and -8 <= (r.get("distance") or -99) <= 0)
-        vcp=wmean(lambda r: clamp((r.get("score") or 0)/5*100))
-        dry=frac(lambda r:r.get("volume_dry") and r.get("type") in ("near","forming"))
-        newc=frac(lambda r:bool(r.get("is_new")))
+            if w<=0:
+                continue
+            members.append({"code":code,"m":m,"c":by_candidate.get(code),"raw_w":w})
+            for seg in segs:
+                segw[seg]=segw.get(seg,0)+w
+
+        raw_sw=sum(x["raw_w"] for x in members)
+        # Frozen V2.6 eligibility: at least four observed members and effectiveWeight >= 2.
+        if len(members)<4 or raw_sw<2:
+            continue
+
+        # Frozen stress-test guardrail: no single stock contributes more than 25%
+        # of a theme metric. Eligibility/effectiveWeight still uses the uncapped DB weight.
+        cap=raw_sw*0.25
+        for x in members:
+            x["w"]=min(x["raw_w"],cap)
+        sw=sum(x["w"] for x in members) or 1.0
+
+        def frac(fn):
+            return sum(x["w"] for x in members if fn(x))/sw*100
+        def wmean(fn):
+            return sum(fn(x)*x["w"] for x in members)/sw
+
+        breadth=frac(lambda x:(x["m"].get("change_pct") or 0)>0)
+        strong=frac(lambda x:(x["m"].get("change_pct") or 0)>=2)
+        money=wmean(lambda x:scale(x["m"].get("value_ratio",1.0),.5,3.0))
+        vol=wmean(lambda x:scale(x["m"].get("volume_ratio",1.0),.6,2.5))
+        px=wmean(lambda x:scale((x["m"].get("change_pct") or 0)-market_return_pct,-3,5))
+
+        bo=frac(lambda x:bool(x["c"]) and x["c"].get("type")=="breakout")
+        near=frac(lambda x:bool(x["c"]) and x["c"].get("type") in ("near","forming") and -8 <= (x["c"].get("distance") if x["c"].get("distance") is not None else -99) <= 0)
+        vcp=wmean(lambda x:clamp(((x["c"].get("score") if x["c"] else 0) or 0)/5*100))
+        newc=frac(lambda x:bool(x["c"]) and bool(x["c"].get("is_new")))
+
+        dry_rows=[]
+        for x in members:
+            c=x["c"]
+            if not c or c.get("type") not in ("near","forming"):
+                continue
+            d=c.get("distance")
+            ratio=c.get("contraction_volume_ratio")
+            if d is None or not (-8 <= d <= 0) or ratio is None:
+                continue
+            dry_rows.append((x,scale(.95-float(ratio),0,.55)))
+        if dry_rows:
+            dry_sw=sum(x["w"] for x,_ in dry_rows) or 1.0
+            dry=sum(score*x["w"] for x,score in dry_rows)/dry_sw
+        else:
+            dry=0.0
+
+        # Persistence remains neutral until historical live Theme Heat is stored.
         persistence=50.0
         heat=clamp(.30*money+.20*breadth+.15*vol+.15*px+.15*bo+.05*persistence)
         early=.55*money+.45*breadth
         # Frozen V2.6 calibrated Setup formula.
         setup=clamp(.34*near+.30*vcp+.20*dry+.08*newc+.08*early-.06*bo+15)
-        # Lifecycle thresholds from scoreCalibration; unavailable history keeps maintrend conservative.
-        if heat>=85 and bo>=55 and near<10: life="extended"; label="⚠️ 過熱/擴散"
-        elif heat>=75 and setup>=65 and breadth>=45 and near>=15: life="maintrend_setups"; label="🔥👀 主線仍有機會"
-        elif heat>=85 and breadth>=55 and persistence>=60: life="maintrend"; label="🔥 主線"
-        elif heat>=65 and bo>=15 and breadth>=45: life="launching"; label="🚀 發動"
-        elif setup>=70 and 45<=heat<65 and near>=25 and bo<35: life="emerging"; label="🌱 萌芽"
-        elif setup>=70 and heat<45 and near>=25: life="latent"; label="👀 潛伏蓄勢"
-        elif heat<45 and setup<60: life="dormant"; label="休眠"
-        else: life="watch"; label="觀察"
+
+        if heat>=85 and bo>=55 and near<10:
+            life,label="extended","⚠️ 過熱/擴散"
+        elif heat>=75 and setup>=65 and breadth>=45 and near>=15:
+            life,label="maintrend_setups","🔥👀 主線仍有機會"
+        elif heat>=85 and breadth>=55 and persistence>=60:
+            life,label="maintrend","🔥 主線"
+        elif heat>=65 and bo>=15 and breadth>=45:
+            life,label="launching","🚀 發動"
+        elif setup>=70 and 45<=heat<65 and near>=25 and bo<35:
+            life,label="emerging","🌱 萌芽"
+        elif setup>=70 and heat<45 and near>=25:
+            life,label="latent","👀 潛伏蓄勢"
+        elif heat<45 and setup<60:
+            life,label="dormant","休眠"
+        else:
+            life,label="watch","觀察"
+
         segs=[x for x,_ in sorted(segw.items(),key=lambda kv:-kv[1])[:2]]
-        top=sorted(rows,key=lambda rw:(-(rw[0].get("score") or 0),abs(rw[0].get("distance") or 99)))[:5]
-        out.append({"theme":theme,"constituents":len(rows),"effectiveWeight":round(sw,2),"heat":round(heat),"setup":round(setup),"lifecycle":life,"lifecycleLabel":label,"breadthPct":round(breadth),"strongBreadthPct":round(strong),"breakoutCount":sum(1 for r,_ in rows if r.get("type")=="breakout"),"nearPivotCount":sum(1 for r,_ in rows if r.get("type") in ("near","forming") and -8 <= (r.get("distance") or -99) <= 0),"newCandidateCount":sum(1 for r,_ in rows if r.get("is_new")),"dominantSegments":segs,"topStocks":[r.get("symbol") for r,_ in top]})
-    return {"themeTop5":sorted(out,key=lambda x:(-x["heat"],-x["setup"]))[:topn],"setupTop5":sorted(out,key=lambda x:(-x["setup"],-x["heat"]))[:topn]}
+        candidates=[x for x in members if x["c"]]
+        candidates.sort(key=lambda x:(-(x["c"].get("score") or 0),abs(x["c"].get("distance") if x["c"].get("distance") is not None else 99)))
+        top_codes=[x["code"] for x in candidates[:5]]
+        if len(top_codes)<5:
+            fallback=sorted(members,key=lambda x:(-(x["m"].get("change_pct") or 0),-(x["m"].get("value_ratio") or 0)))
+            for x in fallback:
+                if x["code"] not in top_codes:
+                    top_codes.append(x["code"])
+                if len(top_codes)>=5:
+                    break
+
+        out.append({
+            "theme":theme,
+            "constituents":len(members),
+            "effectiveWeight":round(raw_sw,2),
+            "heat":round(heat),"setup":round(setup),
+            "lifecycle":life,"lifecycleLabel":label,
+            "breadthPct":round(breadth),"strongBreadthPct":round(strong),
+            "volumeExpansionPct":round(vol),
+            "moneyFlowScore":round(money),"priceStrengthScore":round(px),
+            "breakoutWeightedPct":round(bo),"nearPivotWeightedPct":round(near),
+            "vcpQualityScore":round(vcp),"volumeDryupScore":round(dry),
+            "breakoutCount":sum(1 for x in members if x["c"] and x["c"].get("type")=="breakout"),
+            "nearPivotCount":sum(1 for x in members if x["c"] and x["c"].get("type") in ("near","forming") and -8 <= (x["c"].get("distance") if x["c"].get("distance") is not None else -99) <= 0),
+            "newCandidateCount":sum(1 for x in members if x["c"] and x["c"].get("is_new")),
+            "dominantSegments":segs,"topStocks":top_codes,
+            "marketReturnPct":round(float(market_return_pct),2)
+        })
+
+    theme_top=sorted(out,key=lambda x:(-x["heat"],-x["setup"],-x["effectiveWeight"]))[:topn]
+    setup_top=sorted(out,key=lambda x:(-x["setup"],-x["heat"],-x["effectiveWeight"]))[:topn]
+    print(f"TW THEME ENGINE: observed={len(by_market)} candidates={len(by_candidate)} eligible={len(out)}")
+    if theme_top:
+        print("TW THEME TOP5:"," | ".join(f"{x['theme']} H{x['heat']} S{x['setup']}" for x in theme_top))
+    if setup_top:
+        print("TW SETUP TOP5:"," | ".join(f"{x['theme']} S{x['setup']} H{x['heat']}" for x in setup_top))
+    return {"themeTop5":theme_top,"setupTop5":setup_top}
 
 def scan(market):
     universe=fetch_tw_universe() if market=="TW" else fetch_us_universe()
@@ -810,7 +923,7 @@ def scan(market):
     print(f"{market} DATA CHECK: latest={stats['latest_date']} today={stats['today']}/{stats['valid']} ({stats['today_pct']}%) valid={stats['valid']}/{stats['universe']} ({stats['valid_pct']}%)")
     if hotspots:
         print("TW CAPITAL HOTSPOTS:", " | ".join(f"{x['industry']} {x['heat_score']}" for x in hotspots))
-    return results[:150], stats, hotspots
+    return results[:150], stats, hotspots, flow_rows
 
 def load_existing():
     if OUT.exists():
@@ -1018,8 +1131,7 @@ def main():
     targets=["TW","US"] if args.market=="both" else [args.market]
 
     for market in targets:
-        rows,scan_stats,capital_hotspots=scan(market)
-        theme_leaderboards=build_theme_leaderboards(rows) if market=="TW" else {"themeTop5":[],"setupTop5":[]}
+        rows,scan_stats,capital_hotspots,theme_market_rows=scan(market)
         nowstamp=datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M")
         if not rows:
             print(f"{market}: no new rows; preserving existing snapshots")
@@ -1036,6 +1148,13 @@ def main():
 
         print(f"{market}: requested snapshot={args.snapshot} -> storing as {'official' if official else 'intraday'}")
         market_benchmark = fetch_tw_benchmarks() if market=="TW" else (fetch_us_benchmarks() if market=="US" else {})
+        theme_market_return=0.0
+        if market=="TW":
+            try:
+                twse=(market_benchmark or {}).get("TWSE") or {}
+                theme_market_return=float(twse.get("change_pct") or 0.0)
+            except Exception:
+                theme_market_return=0.0
 
         if official:
             # V2.39 safety guard for TW official snapshots.
@@ -1065,6 +1184,10 @@ def main():
                     r["is_new"]=False
                     r["new_reason"]=""
 
+            theme_leaderboards=(
+                build_theme_leaderboards(theme_market_rows,rows,theme_market_return)
+                if market=="TW" else {"themeTop5":[],"setupTop5":[]}
+            )
             official_results=_replace_market(official_results,market,rows)
             official_markets[market]={
                 "data_date":current_date,
@@ -1086,6 +1209,10 @@ def main():
             for r in rows:
                 r["is_new"]=False
                 r["new_reason"]=""
+            theme_leaderboards=(
+                build_theme_leaderboards(theme_market_rows,rows,theme_market_return)
+                if market=="TW" else {"themeTop5":[],"setupTop5":[]}
+            )
             intraday_results=_replace_market(intraday_results,market,rows)
             intraday_markets[market]={
                 "data_date":current_date,
