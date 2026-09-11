@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.1 THEME ALL-MARKET FIX + 2.41 CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.2 THEME OFFICIAL BACKFILL + 2.42.1 ALL-MARKET FIX + 2.41 CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re
 from pathlib import Path
@@ -1172,6 +1172,32 @@ def main():
                     f"{'PASS' if ready else 'BLOCK'}"
                 )
                 if not ready:
+                    # V2.42.2 Theme backfill:
+                    # Before today's daily bar is complete, the newest Yahoo daily bar may still be
+                    # yesterday's completed session.  Do not overwrite the protected official stock
+                    # snapshot, but if that date matches the already-published official date, it is
+                    # safe to backfill Theme/Setup leaderboards for that SAME completed session.
+                    existing_official_date=(official_markets.get("TW") or {}).get("data_date") or ""
+                    if current_date and current_date==existing_official_date:
+                        backfill_theme=build_theme_leaderboards(
+                            theme_market_rows, rows, theme_market_return
+                        )
+                        if backfill_theme.get("themeTop5") or backfill_theme.get("setupTop5"):
+                            official_theme_leaderboards["TW"]=backfill_theme
+                            print(
+                                "TW THEME BACKFILL: official stock snapshot preserved; "
+                                f"theme leaderboard refreshed for completed session {current_date}"
+                            )
+                        if capital_hotspots:
+                            official_capital_hotspots["TW"]=capital_hotspots
+                        if market_benchmark:
+                            official_benchmarks["TW"]=market_benchmark
+                    else:
+                        print(
+                            "TW THEME BACKFILL skipped: latest scan date "
+                            f"{current_date or '—'} != existing official date "
+                            f"{existing_official_date or '—'}"
+                        )
                     print("TW official NOT overwritten: daily data completeness is below safety threshold; preserving previous official and intraday snapshots.")
                     continue
             previous=_split_market(official_results,market)
