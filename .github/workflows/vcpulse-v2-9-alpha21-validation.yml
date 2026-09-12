@@ -1,0 +1,57 @@
+name: VCPulse V2.9 Alpha21 Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Historical validation start date (YYYY-MM-DD)"
+        required: true
+        default: "2026-07-01"
+      end_date:
+        description: "Historical validation end date (YYYY-MM-DD)"
+        required: true
+        default: "2026-09-11"
+      max_days:
+        description: "Max trading days (20 minimum preferred; 40 recommended)"
+        required: true
+        default: "40"
+
+permissions:
+  contents: read
+
+jobs:
+  alpha21-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout Beta repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pandas numpy requests
+
+      - name: Run historical runner
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py             --theme-db data/vcpulse_themes_v2_9_research_alpha21.json             --start "${{ inputs.start_date }}"             --end "${{ inputs.end_date }}"             --max-days "${{ inputs.max_days }}"             --cache-dir backtest_cache_alpha21             --out-dir backtest_output_alpha21
+
+      - name: Run scale-bias diagnostic
+        run: |
+          python tools/vcpulse_scale_bias_validation_v0_1.py             --theme-db data/vcpulse_themes_v2_9_research_alpha21.json             --backtest-daily backtest_output_alpha21/backtest_daily.json             --out-dir scale_bias_output_alpha21
+
+      - name: Upload Alpha21 validation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-alpha21-validation
+          path: |
+            backtest_output_alpha21/
+            scale_bias_output_alpha21/
+          retention-days: 30
