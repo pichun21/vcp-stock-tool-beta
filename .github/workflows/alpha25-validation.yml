@@ -1,0 +1,54 @@
+name: VCPulse V2.9 Alpha25 Timing OOS
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "OOS start (must be after Alpha24 development period)"
+        required: true
+        default: "2026-09-12"
+      end_date:
+        description: "OOS end"
+        required: true
+        default: "2026-09-30"
+      max_days:
+        description: "Maximum OOS trading days"
+        required: true
+        default: "20"
+
+permissions:
+  contents: read
+
+jobs:
+  alpha25-oos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pandas numpy requests
+      - name: Run OOS historical engine
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py             --theme-db data/vcpulse_themes_v2_9_research_alpha25.json             --start "${{ inputs.start_date }}"             --end "${{ inputs.end_date }}"             --max-days "${{ inputs.max_days }}"             --cache-dir backtest_cache_alpha25             --out-dir backtest_output_alpha25
+      - name: Build OOS event study
+        run: |
+          python tools/vcpulse_theme_entry_event_study_v0_1.py             --daily backtest_output_alpha25/backtest_daily.json             --cache-dir backtest_cache_alpha25             --out-dir alpha23_oos_alpha25
+      - name: Validate frozen Alpha24 thresholds
+        run: |
+          python tools/vcpulse_timing_guardrail_oos_v0_1.py             --event-json alpha23_oos_alpha25/alpha23_event_study.json             --oos-start "${{ inputs.start_date }}"             --out-dir alpha25_output
+      - name: Upload Alpha25 results
+        uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-alpha25-validation
+          path: |
+            alpha25_output/
+            alpha23_oos_alpha25/
+            backtest_output_alpha25/
+          retention-days: 30
