@@ -1,0 +1,32 @@
+name: VCPulse V2.9 Scale Bias Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      backtest_artifact_path:
+        description: "Path to existing backtest_daily.json in repo/workspace"
+        required: true
+        default: "backtest_output/backtest_daily.json"
+
+jobs:
+  validate-scale:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run V2.9 scale-bias validation
+        run: |
+          python tools/vcpulse_scale_bias_validation_v0_1.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha21.json \
+            --backtest-daily "${{ inputs.backtest_artifact_path }}" \
+            --out-dir scale_bias_output
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-v2-9-scale-bias-validation
+          path: scale_bias_output/
