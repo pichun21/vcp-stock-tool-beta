@@ -1,0 +1,63 @@
+name: VCPulse V2.9 Alpha34 AI Glasses Shadow Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Historical start date"
+        required: true
+        default: "2026-07-01"
+      end:
+        description: "Historical end date"
+        required: true
+        default: "2026-09-11"
+      max_days:
+        description: "Maximum trading days"
+        required: true
+        default: "40"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy requests
+
+      - name: Run shadow historical engine
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py \
+            --theme-db data/vcpulse_themes_v2_9_alpha34_shadow_ai_glasses.json \
+            --start "${{ inputs.start }}" \
+            --end "${{ inputs.end }}" \
+            --max-days "${{ inputs.max_days }}" \
+            --cache-dir backtest_cache \
+            --out-dir alpha34_backtest
+
+      - name: Validate AI glasses shadow theme
+        run: |
+          python tools/vcpulse_ai_glasses_shadow_validation_v0_1.py \
+            --daily alpha34_backtest/backtest_daily.json \
+            --theme-db data/vcpulse_themes_v2_9_alpha34_shadow_ai_glasses.json \
+            --cache-dir backtest_cache \
+            --out-dir alpha34_validation \
+            --theme "AI眼鏡"
+
+      - name: Upload validation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-alpha34-ai-glasses-shadow
+          path: |
+            alpha34_validation/
+            alpha34_backtest/backtest_summary.json
+            alpha34_backtest/coverage_audit.json
+            alpha34_backtest/universe_diagnostics.json
