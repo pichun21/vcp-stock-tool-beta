@@ -1,0 +1,50 @@
+name: VCPulse V2.9 Alpha23 Event Study
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Historical start date"
+        required: true
+        default: "2026-07-01"
+      end_date:
+        description: "Historical end date"
+        required: true
+        default: "2026-09-11"
+      max_days:
+        description: "Historical trading days"
+        required: true
+        default: "40"
+
+permissions:
+  contents: read
+
+jobs:
+  alpha23-event-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pandas numpy requests
+      - name: Run historical engine and retain price cache
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py             --theme-db data/vcpulse_themes_v2_9_research_alpha23.json             --start "${{ inputs.start_date }}"             --end "${{ inputs.end_date }}"             --max-days "${{ inputs.max_days }}"             --cache-dir backtest_cache_alpha23             --out-dir backtest_output_alpha23
+      - name: Run Alpha23 event study
+        run: |
+          python tools/vcpulse_theme_entry_event_study_v0_1.py             --daily backtest_output_alpha23/backtest_daily.json             --cache-dir backtest_cache_alpha23             --out-dir alpha23_output
+      - name: Upload Alpha23 results
+        uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-alpha23-validation
+          path: |
+            alpha23_output/
+            backtest_output_alpha23/
+          retention-days: 30
