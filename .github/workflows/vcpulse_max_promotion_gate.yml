@@ -1,0 +1,65 @@
+name: VCPulse | MAX Promotion Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  max-promotion-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+
+      - name: CONTROL + shared prices + TAIEX
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_return_window_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha131_cache --out-dir alpha131_CONTROL --family-mode current
+
+      - name: DEDUP max
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_return_window_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha131_cache --out-dir alpha131_MAX --family-mode max
+
+      - name: Build Alpha130-compatible observations
+        run: |
+          python tools/vcpulse_matched_return_validator.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --control alpha131_CONTROL/backtest_daily.json \
+            --max alpha131_MAX/backtest_daily.json \
+            --decay alpha131_MAX/backtest_daily.json \
+            --price-cache alpha131_cache \
+            --benchmark-file alpha131_cache/TAIEX_TOTAL_RETURN.csv \
+            --out-dir alpha131_observations
+
+      - name: MAX stability and regime gate
+        run: |
+          python tools/vcpulse_max_promotion_gate.py \
+            --observations alpha131_observations/alpha130_return_observations.csv \
+            --out-dir alpha131_max_gate
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha131-MAX-Promotion-Gate
+          path: alpha131_max_gate/
