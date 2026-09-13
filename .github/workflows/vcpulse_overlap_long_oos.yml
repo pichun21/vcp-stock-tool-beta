@@ -1,0 +1,57 @@
+name: VCPulse | Overlap Long-OOS Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Long-OOS 起始日期 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "Long-OOS 結束日期 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  overlap-long-oos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: CONTROL_current
+            mode: current
+          - label: DEDUP_max
+            mode: max
+          - label: DEDUP_decay
+            mode: decay
+
+    name: ${{ matrix.label }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pandas numpy requests
+
+      - name: Run Long-OOS mode
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha128.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "long_oos_cache_${{ matrix.label }}" \
+            --out-dir "long_oos_output_${{ matrix.label }}" \
+            --family-mode "${{ matrix.mode }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-LongOOS-${{ matrix.label }}
+          path: long_oos_output_${{ matrix.label }}/
