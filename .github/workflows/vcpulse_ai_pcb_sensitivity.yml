@@ -1,0 +1,47 @@
+name: VCPulse | AI PCB Breadth Sensitivity
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  alpha134:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+      - name: Run sensitivity variants
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_ai_pcb_sensitivity_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha134.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha134_cache --out-dir alpha134_MAX --family-mode max
+          python tools/vcpulse_ai_pcb_sensitivity_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha134.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha134_cache --out-dir alpha134_B40 --family-mode ai_pcb_breadth40
+          python tools/vcpulse_ai_pcb_sensitivity_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha134.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha134_cache --out-dir alpha134_B55 --family-mode ai_pcb_breadth55
+          python tools/vcpulse_ai_pcb_sensitivity_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha134.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha134_cache --out-dir alpha134_B70 --family-mode ai_pcb_breadth70
+          python tools/vcpulse_ai_pcb_sensitivity_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha134.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha134_cache --out-dir alpha134_B85 --family-mode ai_pcb_breadth85
+      - name: Validate sensitivity
+        run: |
+          test -s alpha134_cache/TAIEX_TOTAL_RETURN.csv
+          python tools/vcpulse_ai_pcb_sensitivity_validator.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha134.json \
+            --max alpha134_MAX/backtest_daily.json --b40 alpha134_B40/backtest_daily.json \
+            --b55 alpha134_B55/backtest_daily.json --b70 alpha134_B70/backtest_daily.json \
+            --b85 alpha134_B85/backtest_daily.json --price-cache alpha134_cache \
+            --benchmark-file alpha134_cache/TAIEX_TOTAL_RETURN.csv --out-dir alpha134_result
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha134-AI-PCB-Sensitivity
+          path: alpha134_result/
