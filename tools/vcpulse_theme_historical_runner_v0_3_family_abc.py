@@ -328,7 +328,7 @@ def main():
 
     theme_db=json.loads(Path(args.theme_db).read_text(encoding="utf-8"))
     token=os.environ.get("FINMIND_TOKEN","")
-    daily=run_finmind(theme_db,args.start,args.end,args.cache_dir,token)
+    daily=run_finmind(theme_db,args.start,args.end,args.cache_dir,token,args.family_mode)
     out=Path(args.out_dir); out.mkdir(parents=True,exist_ok=True)
     (out/"backtest_daily.json").write_text(json.dumps(daily,ensure_ascii=False,indent=2),encoding="utf-8")
     (out/"backtest_summary.json").write_text(json.dumps(summarize(daily),ensure_ascii=False,indent=2),encoding="utf-8")
