@@ -30,7 +30,7 @@ jobs:
         env:
           FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
-          python tools/vcpulse_theme_historical_runner_v0_3_family_abc.py             --theme-db data/vcpulse_themes_v2_9_research_alpha126.json             --start "${{ inputs.start_date }}"             --end "${{ inputs.end_date }}"             --cache-dir "backtest_cache_${{ matrix.mode }}"             --out-dir "backtest_output_${{ matrix.mode }}"             --family-mode "${{ matrix.mode }}"
+          python tools/vcpulse_theme_historical_runner_v0_3_family_abc.py             --theme-db data/vcpulse_themes_v2_9_research_alpha127.json             --start "${{ inputs.start_date }}"             --end "${{ inputs.end_date }}"             --cache-dir "backtest_cache_${{ matrix.mode }}"             --out-dir "backtest_output_${{ matrix.mode }}"             --family-mode "${{ matrix.mode }}"
       - uses: actions/upload-artifact@v4
         with:
           name: vcpulse-family-abc-${{ matrix.mode }}
