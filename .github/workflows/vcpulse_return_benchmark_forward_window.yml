@@ -1,0 +1,82 @@
+name: VCPulse | Return Benchmark + Forward Window
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  return-validation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+
+      - name: CONTROL + shared prices + TAIEX benchmark
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_return_window_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir return_validation_cache \
+            --out-dir return_CONTROL \
+            --family-mode current
+
+      - name: DEDUP max
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_return_window_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir return_validation_cache \
+            --out-dir return_MAX \
+            --family-mode max
+
+      - name: DEDUP decay
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_return_window_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir return_validation_cache \
+            --out-dir return_DECAY \
+            --family-mode decay
+
+      - name: Verify TAIEX benchmark
+        run: |
+          test -s return_validation_cache/TAIEX_TOTAL_RETURN.csv
+
+      - name: Matched return validation
+        run: |
+          python tools/vcpulse_matched_return_validator.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --control return_CONTROL/backtest_daily.json \
+            --max return_MAX/backtest_daily.json \
+            --decay return_DECAY/backtest_daily.json \
+            --price-cache return_validation_cache \
+            --benchmark-file return_validation_cache/TAIEX_TOTAL_RETURN.csv \
+            --out-dir return_validation_result
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Return-Benchmark-Matched-Result
+          path: return_validation_result/
