@@ -1,0 +1,70 @@
+name: VCPulse | Alpha130 Return Coverage Repair
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號/價格結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  alpha130:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+
+      - name: CONTROL + build shared cache and benchmark
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_alpha130_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha130_shared_cache --out-dir alpha130_CONTROL --family-mode current
+
+      - name: DEDUP max
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_alpha130_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha130_shared_cache --out-dir alpha130_MAX --family-mode max
+
+      - name: DEDUP decay
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_alpha130_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha130_shared_cache --out-dir alpha130_DECAY --family-mode decay
+
+      - name: Verify benchmark and run matched return validation
+        run: |
+          test -s alpha130_shared_cache/001.csv
+          python tools/vcpulse_overlap_matched_return_validation.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha130.json \
+            --control alpha130_CONTROL/backtest_daily.json \
+            --max alpha130_MAX/backtest_daily.json \
+            --decay alpha130_DECAY/backtest_daily.json \
+            --price-cache alpha130_shared_cache \
+            --benchmark-file alpha130_shared_cache/001.csv \
+            --out-dir alpha130_return_validation
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha130-Matched-Return-Validation
+          path: alpha130_return_validation/
