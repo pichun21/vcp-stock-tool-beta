@@ -1,0 +1,69 @@
+name: VCPulse | AI PCB Breadth Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  alpha133:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+
+      - name: GLOBAL MAX
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_ai_pcb_breadth_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha133.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha133_cache --out-dir alpha133_MAX --family-mode max
+
+      - name: AI PCB breadth 25
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_ai_pcb_breadth_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha133.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha133_cache --out-dir alpha133_BREADTH25 --family-mode ai_pcb_breadth25
+
+      - name: AI PCB current reference
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_ai_pcb_breadth_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha133.json \
+            --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" \
+            --cache-dir alpha133_cache --out-dir alpha133_REFERENCE --family-mode ai_pcb_current_reference
+
+      - name: Validate AI PCB breadth
+        run: |
+          test -s alpha133_cache/TAIEX_TOTAL_RETURN.csv
+          python tools/vcpulse_ai_pcb_breadth_validator.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha133.json \
+            --max alpha133_MAX/backtest_daily.json \
+            --breadth25 alpha133_BREADTH25/backtest_daily.json \
+            --reference alpha133_REFERENCE/backtest_daily.json \
+            --price-cache alpha133_cache \
+            --benchmark-file alpha133_cache/TAIEX_TOTAL_RETURN.csv \
+            --out-dir alpha133_result
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha133-AI-PCB-Breadth-Validation
+          path: alpha133_result/
