@@ -1,6 +1,6 @@
-# VCPulse BUILD 2.42.5 V2.8 THEME DB BETA + 2.42.2 OFFICIAL BACKFILL + 2.42.1 ALL-MARKET FIX + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.6 PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
-import argparse, json, time, os, re
+import argparse, json, time, os, re, math
 from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -12,7 +12,7 @@ import yfinance as yf
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "screening.json"
-THEME_DB = ROOT / "data" / "vcpulse_themes_v2_8_candidate.json"
+THEME_DB = ROOT / "data" / "vcpulse_themes_v2_6_score_calibration.json"
 FINMIND = "https://api.finmindtrade.com/api/v4/data"
 TAIPEI = ZoneInfo("Asia/Taipei")
 
@@ -543,8 +543,11 @@ def analyze(df,item,market):
 
     avg_value=float((close.iloc[-20:]*vol.iloc[-20:]).mean())
     min_liq=20_000_000 if market=="TW" else 10_000_000
-    if avg_value<min_liq or score<4: return None
+    if avg_value<min_liq: return None
 
+    # V2.42.0 — identify a recent breakout before applying the VCP score gate.
+    # A stock may naturally lose pre-breakout VCP points after it has already
+    # broken out; keep a valid breakout visible for 10 trading days instead.
     breakout_days=None
     if breakout:
         vals=close.iloc[-11:].tolist()
@@ -553,12 +556,18 @@ def analyze(df,item,market):
                 breakout_days=(len(vals)-1)-i; break
     if today_breakout:
         typ,state="breakout","🟢 今日帶量突破"; breakout_days=0
-    elif breakout and breakout_days is not None and breakout_days<=5 and distance<=12:
-        typ,state="postbreakout",f"🔵 突破後第 {breakout_days+1} 天"
+    elif breakout and breakout_days is not None and breakout_days<=10:
+        typ,state="postbreakout",f"🔵 突破後 D+{breakout_days}"
     elif not breakout and distance>-5: typ,state="near","🟡 接近 Pivot"
     elif not breakout: typ,state="forming","⚪ VCP 成形中"
     else: return None
-    if distance>12: return None
+
+    # Pre-breakout radar candidates still require VCP >= 4. Post-breakout
+    # tracking is deliberately exempt so a successful move does not disappear
+    # merely because the setup has already completed.
+    if typ not in ("breakout","postbreakout") and score<4: return None
+    if typ=="breakout" and score<4: return None
+    if typ!="postbreakout" and distance>12: return None
 
     signal_points=0; signal_reasons=[]
     if score>=5: signal_points+=2; signal_reasons.append("VCP 5/5")
@@ -577,26 +586,412 @@ def analyze(df,item,market):
     elif signal_points>=5: pulse_signal,pulse_label="watch","👀 觀察"
     else: pulse_signal,pulse_label="wait","⏳ 等待"
 
+    # V2.42.5 — hard guarantee breakout metrics for every tracked breakout.
+    # If a row can display D+N, it must also carry numeric performance fields.
+    breakout_date=None; breakout_return_pct=None; breakout_high_pct=None
+    if typ in ("breakout","postbreakout") and breakout_days is not None and pivot and math.isfinite(float(pivot)):
+        bi=max(0, len(close)-1-int(breakout_days))
+        if bi < len(close):
+            breakout_date=df.index[bi].strftime("%Y-%m-%d")
+            breakout_return_pct=((float(last)/float(pivot))-1.0)*100.0
+
+            # Highest traded price from breakout day through latest bar.
+            # Prefer High; if the provider has missing/invalid High values, fall back
+            # to Close. Always include the latest price so the value cannot be null.
+            high_window=pd.to_numeric(df["High"].iloc[bi:],errors="coerce") if "High" in df.columns else pd.Series(dtype=float)
+            close_window=pd.to_numeric(close.iloc[bi:],errors="coerce")
+            candidates=[]
+            if len(high_window.dropna()): candidates.append(float(high_window.max()))
+            if len(close_window.dropna()): candidates.append(float(close_window.max()))
+            candidates.append(float(last))
+            finite_candidates=[x for x in candidates if math.isfinite(x)]
+            hi=max(finite_candidates) if finite_candidates else float(last)
+            breakout_high_pct=((hi/float(pivot))-1.0)*100.0
+
+            # A session high cannot logically be below the latest close-based return.
+            breakout_high_pct=max(breakout_high_pct, breakout_return_pct)
+
     return {
         "market":market,"symbol":item["symbol"],"name":item["name"],"exchange":item.get("exchange",""),"score":int(score),
         "contracts":" → ".join(f"-{x:.0f}%" for x in seq) if seq else "—",
         "pivot":round(pivot,2),"last":round(last,2),"distance":round(distance,2),"change_pct":round(change_pct,2),
         "volume_dry":dry,"type":typ,"state":state,"squeeze_level":squeeze_level,
         "squeeze_state":squeeze_state,"momentum":momentum,"momentum_dir":momentum_dir,
-        "combo":combo,"breakout_days":breakout_days,"holding_pivot":bool(last>pivot),
+        "combo":combo,"breakout_days":breakout_days,"breakout_date":breakout_date,
+        "breakout_return_pct":round(breakout_return_pct,2) if breakout_return_pct is not None else None,
+        "breakout_high_pct":round(breakout_high_pct,2) if breakout_high_pct is not None else None,
+        "holding_pivot":bool(last>pivot),
         "pulse_signal":pulse_signal,"pulse_label":pulse_label,"pulse_points":signal_points,
         "pulse_reasons":signal_reasons,"data_date":df.index[-1].strftime("%Y-%m-%d"),
         "avg_value_20d":round(avg_value,0),
-        "contraction_volume_ratio":round(v20/vprev,3) if vprev>0 else None,
     }
+
+
+
+
+# ---------------------------------------------------------------------------
+# V2.41.46 — MARKET-EFFECTIVE price-scale restore engine + frontend-safe official event metadata
+# Restore dates follow the market-effective trading date defined by TWSE/TPEx.
+# For face-value change / split / capital-reduction exchange events that stop
+# trading, the VCP price-scale boundary is the official resume-trading date.
+# Corporate event/base dates are metadata only and never replace the actual
+# market-effective date. Price jumps NEVER create an event by themselves.
+# ---------------------------------------------------------------------------
+
+OFFICIAL_RESTORE_EVENTS={}
+
+# Fallback cache of official announcements already verified from TWSE/TPEx.
+# This is not stock-specific adjustment logic: all entries use the same
+# event-first validator below. The live official-table fetcher can add/replace
+# events without code changes.
+OFFICIAL_EVENT_SEED=[
+    # TPEx official announcement: 5904 POYA, face value NT$10 -> NT$1,
+    # each 1 old share -> 10 new shares; new shares trade 2026-08-10.
+    {"symbol":"5904","name":"寶雅","market":"TPEX","restore_date":"2026-08-10","share_ratio":10.0,
+     "event_type":"face_value_change","source":"TPEx official announcement",
+     "source_url":"https://www.tpex.org.tw/storage/eb_data/11507/11500046541.html"},
+    # TPEx official announcement: 3086, NT$10 -> NT$1, 1 -> 10, resumes 2026-04-20.
+    {"symbol":"3086","name":"華義","market":"TPEX","restore_date":"2026-04-20","share_ratio":10.0,
+     "event_type":"face_value_change","source":"TPEx official announcement",
+     "source_url":"https://www.tpex.org.tw/storage/eb_data/11503/11500014221.html"},
+    # TPEx official announcement: 8932, NT$5 -> NT$2.5, share count doubles, resumes 2026-03-09.
+    {"symbol":"8932","name":"智通*","market":"TPEX","restore_date":"2026-03-09","share_ratio":2.0,
+     "event_type":"face_value_change","source":"TPEx official announcement",
+     "source_url":"https://www.tpex.org.tw/storage/eb_data/11503/11500008331.html"},
+    # TWSE face-value-change table: 6949, NT$10 -> NT$0.5, 1 -> 20, resumes 2026-09-07.
+    {"symbol":"6949","name":"沛爾生醫-創","market":"TWSE","restore_date":"2026-09-07","share_ratio":20.0,
+     "event_type":"face_value_change","source":"TWSE face-value-change table",
+     "source_url":"https://www.twse.com.tw/exchangeReport/TWTB7U?response=html"},
+    # TWSE official ex-right trading date: 6669 Wiwynn, 2026 stock dividend.
+    # 1,984.22578 bonus shares per 1,000 old shares => total share ratio 2.98422578.
+    # The market price scale changes on the ex-right trading date, 2026-09-02.
+    {"symbol":"6669","name":"緯穎","market":"TWSE","restore_date":"2026-09-02","price_effective_date":"2026-09-02",
+     "share_ratio":2.98422578,"event_type":"stock_dividend_ex_right","source":"TWSE/MOPS official ex-right event",
+     "source_url":"https://www.twse.com.tw/zh/announcement/ex-right/twt49u.html"},
+]
+
+def _roc_date_to_iso(v):
+    s=str(v or "").strip()
+    if not s:
+        return ""
+    m=re.search(r"(\d{2,3})[/-](\d{1,2})[/-](\d{1,2})",s)
+    if not m:
+        # already ISO?
+        try: return pd.Timestamp(s).strftime("%Y-%m-%d")
+        except Exception: return ""
+    y=int(m.group(1))
+    if y<1911: y+=1911
+    try: return f"{y:04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    except Exception: return ""
+
+def _num(v):
+    try:
+        s=str(v).replace(",","").strip()
+        m=re.search(r"-?\d+(?:\.\d+)?",s)
+        return float(m.group()) if m else None
+    except Exception:
+        return None
+
+def _market_effective_date(ev):
+    """Return the official market date on which the new price/share scale trades.
+
+    V2.41.44 rule:
+    - exchange / par-value / split / capital-reduction events with a trading halt:
+      use the official resume-trading date;
+    - event/base dates are retained as metadata, not used as the VCP restore cut;
+    - restore_date remains as a backwards-compatible alias for UI/JSON consumers.
+    """
+    return str(ev.get("price_effective_date") or ev.get("resume_trading_date") or ev.get("restore_date") or "").strip()
+
+def _event_map_add(dst, ev):
+    sym=str(ev.get("symbol") or "").strip()
+    rd=_market_effective_date(ev)
+    sr=_num(ev.get("share_ratio"))
+    if not re.fullmatch(r"\d{4}",sym) or not rd or sr is None or sr<=0:
+        return
+    item=dict(ev)
+    item["symbol"]=sym
+    item["price_effective_date"]=rd
+    item["resume_trading_date"]=str(item.get("resume_trading_date") or rd)
+    item["restore_date"]=rd  # backwards-compatible alias; market-defined effective date
+    item["date_basis"]=str(item.get("date_basis") or "official_resume_trading_date")
+    item["share_ratio"]=float(sr)
+    dst.setdefault(sym,[])
+    key=(rd,round(float(sr),8),str(item.get("event_type") or ""))
+    if not any((x.get("restore_date"),round(float(x.get("share_ratio") or 0),8),str(x.get("event_type") or ""))==key for x in dst[sym]):
+        dst[sym].append(item)
+
+def _parse_twse_face_value_json(payload):
+    out=[]
+    fields=payload.get("fields") or []
+    data=payload.get("data") or []
+    if not fields or not data:
+        return out
+    for row in data:
+        rec={str(fields[i]):row[i] for i in range(min(len(fields),len(row)))}
+        def pick(*keys):
+            for k in keys:
+                for rk,rv in rec.items():
+                    if k in rk: return rv
+            return ""
+        sym=str(pick("股票代號","證券代號")).strip()
+        rd=_roc_date_to_iso(pick("恢復買賣日期","恢復交易日期"))
+        ratio=_num(pick("變更股票面額換股率","換股率"))
+        if re.fullmatch(r"\d{4}",sym) and rd and ratio and ratio>0:
+            out.append({
+                "symbol":sym,"name":str(pick("名稱","股票名稱")).strip(),
+                "market":"TWSE","price_effective_date":rd,"resume_trading_date":rd,"restore_date":rd,"share_ratio":ratio,
+                "event_type":"face_value_change",
+                "source":"TWSE face-value-change table",
+                "source_url":"https://www.twse.com.tw/exchangeReport/TWTB7U?response=json"
+            })
+    return out
+
+def _parse_tpex_change_payload(payload):
+    """Flexible parser because TPEx has changed JSON wrappers over time."""
+    out=[]
+    tables=[]
+    if isinstance(payload,list):
+        tables=[payload]
+    elif isinstance(payload,dict):
+        for k in ("aaData","data","tables"):
+            v=payload.get(k)
+            if isinstance(v,list):
+                if k=="tables":
+                    for t in v:
+                        if isinstance(t,dict) and isinstance(t.get("data"),list):
+                            fields=t.get("fields") or []
+                            for row in t["data"]:
+                                if isinstance(row,list) and fields:
+                                    tables.append([{str(fields[i]):row[i] for i in range(min(len(fields),len(row)))}])
+                                elif isinstance(row,dict): tables.append([row])
+                else:
+                    tables.append(v)
+    rows=[]
+    for t in tables:
+        rows.extend(t)
+    for rec in rows:
+        if isinstance(rec,list):
+            # Common table order: stop date, symbol, name, resume date, ratio...
+            if len(rec)>=5:
+                rec={"停止買賣日期":rec[0],"股票代號":rec[1],"名稱":rec[2],
+                     "恢復買賣日期":rec[3],"變更股票面額換股率":rec[4]}
+            else:
+                continue
+        if not isinstance(rec,dict): continue
+        def pick(*keys):
+            for k in keys:
+                for rk,rv in rec.items():
+                    if k in str(rk): return rv
+            return ""
+        sym=str(pick("股票代號","證券代號","SecuritiesCompanyCode")).strip()
+        rd=_roc_date_to_iso(pick("恢復買賣日期","恢復交易日期","ResumeDate"))
+        ratio=_num(pick("變更股票面額換股率","換股率","Ratio"))
+        if re.fullmatch(r"\d{4}",sym) and rd and ratio and ratio>0:
+            out.append({
+                "symbol":sym,"name":str(pick("名稱","股票名稱","CompanyName")).strip(),
+                "market":"TPEX","price_effective_date":rd,"resume_trading_date":rd,"restore_date":rd,"share_ratio":ratio,
+                "event_type":"face_value_change",
+                "source":"TPEx face-value-change table",
+                "source_url":"https://www.tpex.org.tw/zh-tw/announce/market/change.html"
+            })
+    return out
+
+def fetch_official_restore_events():
+    """Build the official corporate-action cache once per scanner run.
+    V2.41.44: the restore cut is the exchange-defined market-effective date
+    (resume-trading date for halted exchange/par-value events), not an inferred jump date.
+    Failure of an external official table is fail-safe: it does NOT fall back
+    to guessing from price. Already verified official events remain available.
+    """
+    merged={}
+    for ev in OFFICIAL_EVENT_SEED:
+        _event_map_add(merged,ev)
+
+    # TWSE official face-value-change table.
+    try:
+        u="https://www.twse.com.tw/exchangeReport/TWTB7U"
+        r=requests.get(u,params={"response":"json"},timeout=20,
+                       headers={"User-Agent":"Mozilla/5.0 VCPulse/2.41.42"})
+        r.raise_for_status()
+        for ev in _parse_twse_face_value_json(r.json()):
+            _event_map_add(merged,ev)
+        print("TWSE OFFICIAL CORPORATE ACTIONS: loaded")
+    except Exception as e:
+        print("TWSE OFFICIAL CORPORATE ACTIONS: unavailable -> verified cache only",type(e).__name__)
+
+    # TPEx official face-value-change table. Try current and legacy JSON routes.
+    tpex_urls=[
+        "https://www.tpex.org.tw/www/zh-tw/announce/market/change",
+        "https://www.tpex.org.tw/web/stock/aftertrading/change/change_result.php",
+    ]
+    loaded=False
+    for u in tpex_urls:
+        try:
+            r=requests.get(u,params={"response":"json","l":"zh-tw"},timeout=20,
+                           headers={"User-Agent":"Mozilla/5.0 VCPulse/2.41.42"})
+            r.raise_for_status()
+            payload=r.json()
+            found=_parse_tpex_change_payload(payload)
+            if found:
+                for ev in found: _event_map_add(merged,ev)
+                loaded=True
+                break
+        except Exception:
+            continue
+    print("TPEX OFFICIAL CORPORATE ACTIONS:", "loaded" if loaded else "verified cache only")
+
+    for sym in list(merged):
+        merged[sym]=sorted(merged[sym],key=lambda x:x["restore_date"])
+    print(f"OFFICIAL RESTORE EVENT CACHE: {len(merged)} symbols / {sum(len(v) for v in merged.values())} events")
+    return merged
+
+def _nearest_bar_positions(df, restore_date):
+    usable=df.dropna(subset=["Close"]).copy()
+    if usable.empty: return None
+    dates=pd.to_datetime(usable.index).tz_localize(None) if getattr(pd.to_datetime(usable.index),"tz",None) is not None else pd.to_datetime(usable.index)
+    rd=pd.Timestamp(restore_date)
+    pre=np.where(dates < rd)[0]
+    post=np.where(dates >= rd)[0]
+    if len(pre)==0 or len(post)==0: return None
+    return usable,int(pre[-1]),int(post[0])
+
+
+def validate_official_restore_event(df, official_event):
+    """Validate an OFFICIAL event without double-adjusting already-adjusted data.
+
+    Two valid price states are accepted:
+    A) raw/unadjusted scale: post/pre ≈ 1/share_ratio
+       -> needs_restore=True, pre-event OHLC/Volume must be rescaled.
+    B) already-adjusted scale: post/pre ≈ 1
+       -> needs_restore=False, do NOT rescale again.
+
+    Price data never creates an event; it only decides whether the official
+    event should be applied, skipped as already adjusted, or blocked.
+    """
+    pos=_nearest_bar_positions(df,_market_effective_date(official_event))
+    if not pos:
+        return None
+
+    usable,pi,qi=pos
+    close=pd.to_numeric(usable["Close"],errors="coerce")
+    pre=float(close.iloc[pi]); post=float(close.iloc[qi])
+    sr=float(official_event.get("share_ratio") or 0)
+
+    if not (np.isfinite(pre) and np.isfinite(post) and pre>0 and post>0 and sr>0):
+        return None
+
+    expected_raw=1.0/sr
+    observed=post/pre
+
+    # Nearby medians reduce sensitivity to a single odd bar.
+    pre_slice=close.iloc[max(0,pi-2):pi+1].dropna()
+    post_slice=close.iloc[qi:min(len(close),qi+3)].dropna()
+    med_observed=float(post_slice.median()/pre_slice.median()) if len(pre_slice) and len(post_slice) else observed
+
+    raw_err=min(abs(observed/expected_raw-1), abs(med_observed/expected_raw-1))
+    adjusted_err=min(abs(observed-1), abs(med_observed-1))
+
+    # State A: source is still raw/unadjusted around the official restore date.
+    if raw_err <= 0.25:
+        return {
+            **official_event,
+            "pre_price_multiplier":round(expected_raw,10),
+            "direction":"split" if sr>=1 else "reverse_split",
+            "status":"confirmed_official_event_raw_prices",
+            "price_state":"raw_unadjusted",
+            "needs_restore":True,
+            "observed_price_ratio":round(observed,6),
+            "expected_price_ratio":round(expected_raw,6),
+            "ratio_error_pct":round(raw_err*100,2)
+        }
+
+    # State B: provider has already back-adjusted the history to one price scale.
+    # This is valid and must NOT be adjusted a second time.
+    if adjusted_err <= 0.18:
+        return {
+            **official_event,
+            "pre_price_multiplier":1.0,
+            "direction":"split" if sr>=1 else "reverse_split",
+            "status":"confirmed_official_event_already_adjusted",
+            "price_state":"already_adjusted",
+            "needs_restore":False,
+            "observed_price_ratio":round(observed,6),
+            "expected_price_ratio":1.0,
+            "ratio_error_pct":round(adjusted_err*100,2)
+        }
+
+    return {
+        **official_event,
+        "status":"blocked_price_validation",
+        "price_state":"mismatch",
+        "needs_restore":False,
+        "observed_price_ratio":round(observed,6),
+        "expected_raw_ratio":round(expected_raw,6),
+        "raw_ratio_error_pct":round(raw_err*100,2),
+        "adjusted_ratio_error_pct":round(adjusted_err*100,2)
+    }
+
+def detect_restore_events(df,item=None):
+    """V2.41.42: only official events can become restore events."""
+    if df is None or df.empty or not item:
+        return []
+    sym=str(item.get("symbol") or "").upper()
+    official=OFFICIAL_RESTORE_EVENTS.get(sym,[])
+    if not official:
+        return []
+    confirmed=[]
+    for oe in official:
+        ev=validate_official_restore_event(df,oe)
+        if not ev:
+            continue
+        if ev.get("status")=="blocked_price_validation":
+            print(
+                f"TW RESTORE BLOCKED: {sym} {item.get('name','')} | {oe.get('restore_date')} | "
+                f"official shares 1→{float(oe.get('share_ratio') or 0):g} | "
+                f"raw_err {ev.get('raw_ratio_error_pct')}% | "
+                f"adjusted_err {ev.get('adjusted_ratio_error_pct')}%"
+            )
+            continue
+
+        if ev.get("price_state")=="already_adjusted":
+            print(
+                f"TW RESTORE CONFIRMED (OFFICIAL/ALREADY-ADJUSTED): {sym} {item.get('name','')} | "
+                f"{oe.get('restore_date')} | shares 1→{float(oe.get('share_ratio') or 0):g} | "
+                f"no extra rescale"
+            )
+        confirmed.append(ev)
+    return confirmed
+
+def apply_restore_events_df(df,events):
+    if df is None or df.empty or not events:
+        return df.copy() if df is not None else df
+    out=df.copy()
+    idx_dates=pd.Series([pd.Timestamp(x).strftime("%Y-%m-%d") for x in out.index],index=out.index)
+    for ev in sorted(events,key=lambda x:_market_effective_date(x)):
+        rd=_market_effective_date(ev)
+        if ev.get("needs_restore") is False:
+            continue
+        mult=float(ev.get("pre_price_multiplier") or 1)
+        if not rd or not np.isfinite(mult) or mult<=0 or abs(mult-1)<1e-12:
+            continue
+        mask=idx_dates < rd
+        for col in ("Open","High","Low","Close","Adj Close"):
+            if col in out.columns:
+                vals=pd.to_numeric(out[col],errors="coerce")
+                out.loc[mask,col]=vals.loc[mask]*mult
+        if "Volume" in out.columns:
+            vals=pd.to_numeric(out["Volume"],errors="coerce")
+            out.loc[mask,"Volume"]=vals.loc[mask]/mult
+    return out
 
 def download_batch(items,market):
     tickers=[x["yf"] for x in items]
     try:
         raw=yf.download(tickers=tickers,period="1y",interval="1d",group_by="ticker",auto_adjust=False,progress=False,threads=True,timeout=30)
     except Exception as e:
-        print("batch download failed",e); return [], [], []
-    results=[]; dates=[]; flows=[]
+        print("batch download failed",e); return [], [], [], {}, {}
+    results=[]; dates=[]; flows=[]; quotes={}; restore_events={}
     for item in items:
         try:
             if len(tickers)==1: d=raw
@@ -608,6 +1003,39 @@ def download_batch(items,market):
             if usable is None or usable.empty: continue
             data_date=usable.index[-1].strftime("%Y-%m-%d")
             dates.append(data_date)
+
+            # V2.41.40: record restore dates for every valid symbol, not only radar candidates.
+            ev=detect_restore_events(d,item)
+            if ev:
+                restore_events[str(item["symbol"]).upper()]=ev
+                for _ev in ev:
+                    sr=float(_ev.get("share_ratio") or 0)
+                    ratio_text=(f"1→{sr:g}" if sr>=1 else f"{1/sr:g}→1")
+                    _state=_ev.get("price_state") or "unknown"
+                    _action=("no extra rescale" if _ev.get("needs_restore") is False
+                             else f"price x{float(_ev.get('pre_price_multiplier') or 1):g}")
+                    print(
+                        f"{market} RESTORE CONFIRMED (OFFICIAL): {item['symbol']} {item.get('name','')} | "
+                        f"{_ev.get('restore_date')} | shares {ratio_text} | {_action} | "
+                        f"state={_state} | {_ev.get('source')} | {_ev.get('status')}"
+                    )
+
+            # V2.41.16: all-stock latest quote cache.
+            # yfinance daily bars already used by the scanner normally contain the
+            # current session's partial daily Close during market hours. Keep the
+            # latest/previous close for EVERY valid universe symbol, not only VCP candidates.
+            if "Close" in usable.columns:
+                c=pd.to_numeric(usable["Close"],errors="coerce")
+                if len(c)>=2 and pd.notna(c.iloc[-1]) and pd.notna(c.iloc[-2]):
+                    px=float(c.iloc[-1]); prev=float(c.iloc[-2])
+                    if np.isfinite(px) and px>0 and np.isfinite(prev) and prev>0:
+                        quotes[str(item["symbol"]).upper()]={
+                            "price":round(px,4),
+                            "prev_close":round(prev,4),
+                            "data_date":data_date,
+                            "name":item.get("name") or "",
+                            "source":"VCPulse scanner"
+                        }
 
             # V2.41: keep a lightweight all-market capital-flow observation.
             # Yahoo daily Volume * Close is used as an estimated traded-value proxy.
@@ -621,27 +1049,24 @@ def download_batch(items,market):
                     hist=value.iloc[-21:-1].dropna()
                     avg20=float(hist.mean()) if len(hist) else 0.0
                     chg=(float(c.iloc[-1])/float(c.iloc[-2])-1)*100 if float(c.iloc[-2]) else 0.0
-                    latest_volume=float(v.iloc[-1]) if pd.notna(v.iloc[-1]) else 0.0
-                    hist_vol=v.iloc[-21:-1].dropna()
-                    avg20_volume=float(hist_vol.mean()) if len(hist_vol) else 0.0
                     flows.append({
-                        "symbol":item["symbol"],"name":item.get("name") or item["symbol"],
-                        "industry":item.get("industry") or "其他",
-                        "data_date":data_date,
-                        "close":float(c.iloc[-1]),"prev_close":float(c.iloc[-2]),
-                        "volume":latest_volume,"avg20_volume":avg20_volume,
-                        "value":latest_value,"avg20_value":avg20,
-                        "value_ratio":(latest_value/avg20) if avg20>0 else 1.0,
-                        "volume_ratio":(latest_volume/avg20_volume) if avg20_volume>0 else 1.0,
+                        "symbol":item["symbol"],"industry":item.get("industry") or "其他",
+                        "data_date":data_date,"value":latest_value,"avg20_value":avg20,
                         "change_pct":chg,"up":bool(chg>0)
                     })
 
-            r=analyze(d,item,market)
+            # V2.41.41: VCP uses the confirmed restore-date events.
+            # Raw `d` remains unchanged for quote cache and capital-hotspot value.
+            vcp_d=apply_restore_events_df(d,ev)
+            r=analyze(vcp_d,item,market)
             if r:
                 r["industry"]=item.get("industry") or ""
+                r["split_adjusted"]=bool(ev)
+                if ev:
+                    r["restore_events"]=ev
                 results.append(r)
         except Exception as e: print("analyze warning",item["symbol"],e)
-    return results, dates, flows
+    return results, dates, flows, quotes, restore_events
 
 def build_capital_hotspots(flow_rows, candidate_rows, topn=5):
     """Build VCPulse industry heat from broad-market observations.
@@ -707,8 +1132,19 @@ def build_capital_hotspots(flow_rows, candidate_rows, topn=5):
     rows=[]
     for _,r in g.sort_values(["heat_score","trading_value"],ascending=[False,False]).head(topn).iterrows():
         key,label=level(int(r["heat_score"]))
+        industry=str(r["industry"])
+        # Keep the actual candidate names with the aggregate counts so the UI can
+        # turn Capital Hotspots into a stock-discovery entry point, not just a statistic.
+        members=[]
+        if not cand.empty and "industry" in cand.columns:
+            cols=[c for c in ["symbol","name","score","type","state","distance","pulse_label"] if c in cand.columns]
+            sub=cand[cand["industry"].fillna("").astype(str)==industry][cols].copy()
+            if not sub.empty:
+                sub=sub.drop_duplicates("symbol",keep="first")
+                members=sub.to_dict("records")
+        breakout_members=[x for x in members if str(x.get("type", ""))=="breakout"]
         rows.append({
-            "industry":str(r["industry"]),
+            "industry":industry,
             "heat_score":int(r["heat_score"]),
             "heat_level":key,
             "heat_label":label,
@@ -718,13 +1154,16 @@ def build_capital_hotspots(flow_rows, candidate_rows, topn=5):
             "avg_change_pct":round(float(r["avg_change_pct"]),2),
             "vcp_count":int(r["vcp_count"]),
             "breakout_count":int(r["breakout_count"]),
+            "vcp_stocks":members,
+            "breakout_stocks":breakout_members,
             "stock_count":int(r["stock_count"]),
             "data_date":latest
         })
     return rows
 
+
 def build_theme_leaderboards(market_rows, candidate_rows, market_return_pct=0.0, topn=5):
-    """V2.42.1 Theme Beta fix.
+    """Production-safe Theme engine merge.
 
     Heat is calculated from *all observed Taiwan-market constituents* in the theme,
     while VCP-specific breakout / near-Pivot / quality / dry-up / NEW signals come
@@ -767,14 +1206,24 @@ def build_theme_leaderboards(market_rows, candidate_rows, market_return_pct=0.0,
                 metas.append(meta)
         if not metas:
             return 0.0,[]
-        best=max(metas,key=lambda m:(m.get("confidence",0),m.get("purity",0)))
-        if best.get("confidence",0)<60:
+        def meta_weight(m):
+            if m.get("confidence",0)<60:
+                return 0.0
+            return (
+                grade_w.get(m.get("grade"),0) *
+                (.40+.60*m.get("purity",0)/100) *
+                (.50+.50*m.get("confidence",0)/100)
+            )
+        # Alpha138 production rule: within the audited overlapping canonical
+        # families, one stock contributes only its strongest membership weight.
+        dedup_max_families={"重電/強韌電網","AI PCB","AI電力基建","國防航太","低軌衛星"}
+        if theme in dedup_max_families:
+            best=max(metas,key=meta_weight)
+        else:
+            best=max(metas,key=lambda m:(m.get("confidence",0),m.get("purity",0)))
+        w=meta_weight(best)
+        if w<=0:
             return 0.0,[]
-        w=(
-            grade_w.get(best.get("grade"),0) *
-            (.40+.60*best.get("purity",0)/100) *
-            (.50+.50*best.get("confidence",0)/100)
-        )
         return w,best.get("segments") or []
 
     out=[]
@@ -899,16 +1348,17 @@ def build_theme_leaderboards(market_rows, candidate_rows, market_return_pct=0.0,
         print("TW SETUP TOP5:"," | ".join(f"{x['theme']} S{x['setup']} H{x['heat']}" for x in setup_top))
     return {"themeTop5":theme_top,"setupTop5":setup_top}
 
+
 def scan(market):
     universe=fetch_tw_universe() if market=="TW" else fetch_us_universe()
     print(f"{market}: universe {len(universe)}")
     batch_size=120 if market=="TW" else 120
     batches=[universe[i:i+batch_size] for i in range(0,len(universe),batch_size)]
-    results=[]; latest_dates=[]; flow_rows=[]
+    results=[]; latest_dates=[]; flow_rows=[]; quote_cache={}; restore_event_cache={}
     for i,b in enumerate(batches,1):
         print(f"{market}: batch {i}/{len(batches)}")
-        batch_results,batch_dates,batch_flows=download_batch(b,market)
-        results.extend(batch_results); latest_dates.extend(batch_dates); flow_rows.extend(batch_flows); time.sleep(1)
+        batch_results,batch_dates,batch_flows,batch_quotes,batch_restore_events=download_batch(b,market)
+        results.extend(batch_results); latest_dates.extend(batch_dates); flow_rows.extend(batch_flows); quote_cache.update(batch_quotes); restore_event_cache.update(batch_restore_events); time.sleep(1)
     state_rank={"breakout":0,"postbreakout":1,"near":2,"forming":3}
     results.sort(key=lambda r:(state_rank.get(r["type"],9),-r["score"],abs(r["distance"])))
     today=datetime.now(TAIPEI).strftime("%Y-%m-%d")
@@ -923,7 +1373,13 @@ def scan(market):
     print(f"{market} DATA CHECK: latest={stats['latest_date']} today={stats['today']}/{stats['valid']} ({stats['today_pct']}%) valid={stats['valid']}/{stats['universe']} ({stats['valid_pct']}%)")
     if hotspots:
         print("TW CAPITAL HOTSPOTS:", " | ".join(f"{x['industry']} {x['heat_score']}" for x in hotspots))
-    return results[:150], stats, hotspots, flow_rows
+    split_count=sum(1 for r in results if r.get("split_adjusted"))
+    if split_count:
+        print(f"{market} SPLIT-SAFE VCP: adjusted {split_count} radar candidates")
+    print(f"{market} ALL-STOCK QUOTE CACHE: {len(quote_cache)} symbols")
+    if restore_event_cache:
+        print(f"{market} RESTORE-DATE CACHE: {len(restore_event_cache)} symbols / {sum(len(v) for v in restore_event_cache.values())} events")
+    return results[:150], stats, hotspots, quote_cache, restore_event_cache, flow_rows
 
 def load_existing():
     if OUT.exists():
@@ -1073,6 +1529,9 @@ def main():
     )
     args=ap.parse_args()
 
+    global OFFICIAL_RESTORE_EVENTS
+    OFFICIAL_RESTORE_EVENTS=fetch_official_restore_events()
+
     old=load_existing()
     old_results=old.get("results",[]) or []
     old_markets=old.get("markets",{}) or {}
@@ -1088,6 +1547,10 @@ def main():
     intraday_capital_hotspots=dict(old.get("intraday_capital_hotspots",{}) or {})
     official_theme_leaderboards=dict(old.get("official_theme_leaderboards",{}) or {})
     intraday_theme_leaderboards=dict(old.get("intraday_theme_leaderboards",{}) or {})
+    official_quotes=dict(old.get("official_quotes",{}) or {})
+    intraday_quotes=dict(old.get("intraday_quotes",{}) or {})
+    official_restore_events=dict(old.get("official_restore_events",{}) or {})
+    intraday_restore_events=dict(old.get("intraday_restore_events",{}) or {})
 
     # Migration from pre-V2.21 payloads.
     if not old.get("dual_snapshot_version"):
@@ -1131,7 +1594,7 @@ def main():
     targets=["TW","US"] if args.market=="both" else [args.market]
 
     for market in targets:
-        rows,scan_stats,capital_hotspots,theme_market_rows=scan(market)
+        rows,scan_stats,capital_hotspots,market_quote_cache,market_restore_events,theme_market_rows=scan(market)
         nowstamp=datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M")
         if not rows:
             print(f"{market}: no new rows; preserving existing snapshots")
@@ -1151,8 +1614,7 @@ def main():
         theme_market_return=0.0
         if market=="TW":
             try:
-                twse=(market_benchmark or {}).get("TWSE") or {}
-                theme_market_return=float(twse.get("change_pct") or 0.0)
+                theme_market_return=float(((market_benchmark or {}).get("TWSE") or {}).get("change_pct") or 0.0)
             except Exception:
                 theme_market_return=0.0
 
@@ -1172,32 +1634,6 @@ def main():
                     f"{'PASS' if ready else 'BLOCK'}"
                 )
                 if not ready:
-                    # V2.42.2 Theme backfill:
-                    # Before today's daily bar is complete, the newest Yahoo daily bar may still be
-                    # yesterday's completed session.  Do not overwrite the protected official stock
-                    # snapshot, but if that date matches the already-published official date, it is
-                    # safe to backfill Theme/Setup leaderboards for that SAME completed session.
-                    existing_official_date=(official_markets.get("TW") or {}).get("data_date") or ""
-                    if current_date and current_date==existing_official_date:
-                        backfill_theme=build_theme_leaderboards(
-                            theme_market_rows, rows, theme_market_return
-                        )
-                        if backfill_theme.get("themeTop5") or backfill_theme.get("setupTop5"):
-                            official_theme_leaderboards["TW"]=backfill_theme
-                            print(
-                                "TW THEME BACKFILL: official stock snapshot preserved; "
-                                f"theme leaderboard refreshed for completed session {current_date}"
-                            )
-                        if capital_hotspots:
-                            official_capital_hotspots["TW"]=capital_hotspots
-                        if market_benchmark:
-                            official_benchmarks["TW"]=market_benchmark
-                    else:
-                        print(
-                            "TW THEME BACKFILL skipped: latest scan date "
-                            f"{current_date or '—'} != existing official date "
-                            f"{existing_official_date or '—'}"
-                        )
                     print("TW official NOT overwritten: daily data completeness is below safety threshold; preserving previous official and intraday snapshots.")
                     continue
             previous=_split_market(official_results,market)
@@ -1222,11 +1658,19 @@ def main():
                 "snapshot_type":"official"
             }
             if market_benchmark:
-                official_benchmarks[market]=market_benchmark
+                # Preserve any previously available benchmark card when a single
+                # source temporarily fails during this run (e.g. TPEx).
+                prev=dict(official_benchmarks.get(market,{}) or {})
+                prev.update(market_benchmark)
+                official_benchmarks[market]=prev
             if market=="TW" and capital_hotspots:
                 official_capital_hotspots["TW"]=capital_hotspots
             if market=="TW" and (theme_leaderboards.get("themeTop5") or theme_leaderboards.get("setupTop5")):
                 official_theme_leaderboards["TW"]=theme_leaderboards
+            if market_quote_cache:
+                official_quotes[market]=market_quote_cache
+            if market_restore_events:
+                official_restore_events[market]=market_restore_events
 
             # V2.39: preserve the intraday snapshot even after an official run.
             # The two snapshots are independent; updating official must never erase intraday.
@@ -1247,11 +1691,19 @@ def main():
                 "snapshot_type":"intraday"
             }
             if market_benchmark:
-                intraday_benchmarks[market]=market_benchmark
+                # Preserve any previously available benchmark card when a single
+                # source temporarily fails during this run (e.g. TPEx).
+                prev=dict(intraday_benchmarks.get(market,{}) or {})
+                prev.update(market_benchmark)
+                intraday_benchmarks[market]=prev
             if market=="TW" and capital_hotspots:
                 intraday_capital_hotspots["TW"]=capital_hotspots
             if market=="TW" and (theme_leaderboards.get("themeTop5") or theme_leaderboards.get("setupTop5")):
                 intraday_theme_leaderboards["TW"]=theme_leaderboards
+            if market_quote_cache:
+                intraday_quotes[market]=market_quote_cache
+            if market_restore_events:
+                intraday_restore_events[market]=market_restore_events
 
     # Backward-compatible "results" stays the official snapshot only.
     payload={
@@ -1268,6 +1720,13 @@ def main():
         "intraday_capital_hotspots":intraday_capital_hotspots,
         "official_theme_leaderboards":official_theme_leaderboards,
         "intraday_theme_leaderboards":intraday_theme_leaderboards,
+        "theme_engine_version":"2.42.6-alpha138-max",
+        "all_stock_quote_cache_version":1,
+        "official_quotes":official_quotes,
+        "intraday_quotes":intraday_quotes,
+        "restore_date_engine_version":1,
+        "official_restore_events":official_restore_events,
+        "intraday_restore_events":intraday_restore_events,
         "results":official_results,
         "official_results":official_results,
         "intraday_results":intraday_results
