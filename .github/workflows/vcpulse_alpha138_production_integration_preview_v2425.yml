@@ -1,0 +1,32 @@
+name: VCPulse | Alpha138 Production Integration Preview V2.42.5
+
+on:
+  workflow_dispatch:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify exact mother build
+        run: |
+          grep -F "VCPulse BUILD 2.42.5 V2.8 THEME DB BETA + 2.42.2 OFFICIAL BACKFILL + 2.42.1 ALL-MARKET FIX + 2.39 OFFICIAL SAFETY GUARD" scanner.py
+          grep -F 'vcpulse_themes_v2_8_candidate.json' scanner.py
+          test -s data/vcpulse_themes_v2_8_candidate.json
+      - name: Build Alpha138 preview
+        run: |
+          mkdir -p alpha138_preview
+          cp scanner.py alpha138_preview/scanner_before.py
+          python tools/apply_alpha138_dedup_max_v2425.py --input scanner.py --output alpha138_preview/scanner.py
+      - name: Production parity audit
+        run: |
+          python tools/validate_alpha138_production_parity_v2425.py --before scanner.py --after alpha138_preview/scanner.py --out-dir alpha138_preview
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha138-Production-Integration-Preview-V2425
+          path: alpha138_preview/
