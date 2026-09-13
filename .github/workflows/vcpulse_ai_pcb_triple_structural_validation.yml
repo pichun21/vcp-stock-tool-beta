@@ -1,0 +1,52 @@
+name: VCPulse | AI PCB Triple Structural Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "訊號起始日 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "訊號結束日 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  alpha136:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+
+      - name: Run structural variants
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_ai_pcb_triple_structural_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha136.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha136_cache --out-dir alpha136_MAX --family-mode max
+          python tools/vcpulse_ai_pcb_triple_structural_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha136.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha136_cache --out-dir alpha136_INDICATOR --family-mode triple_indicator
+          python tools/vcpulse_ai_pcb_triple_structural_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha136.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha136_cache --out-dir alpha136_BALANCED --family-mode triple_balanced
+          python tools/vcpulse_ai_pcb_triple_structural_runner.py --theme-db data/vcpulse_themes_v2_9_research_alpha136.json --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}" --cache-dir alpha136_cache --out-dir alpha136_REFERENCE --family-mode ai_pcb_current_reference
+
+      - name: Validate structural candidates
+        run: |
+          test -s alpha136_cache/TAIEX_TOTAL_RETURN.csv
+          python tools/vcpulse_ai_pcb_triple_structural_validator.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha136.json \
+            --max alpha136_MAX/backtest_daily.json \
+            --triple-indicator alpha136_INDICATOR/backtest_daily.json \
+            --triple-balanced alpha136_BALANCED/backtest_daily.json \
+            --reference alpha136_REFERENCE/backtest_daily.json \
+            --price-cache alpha136_cache \
+            --benchmark-file alpha136_cache/TAIEX_TOTAL_RETURN.csv \
+            --out-dir alpha136_result
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha136-AI-PCB-Triple-Structural
+          path: alpha136_result/
