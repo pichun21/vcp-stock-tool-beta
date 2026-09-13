@@ -79,26 +79,28 @@ def main():
                 "theme":themes[m],"return":rr[m],"benchmark_return":br,
                 "regime":"TAIEX_UP" if br is not None and br>0 else ("TAIEX_DOWN" if br is not None and br<0 else "TAIEX_FLAT")})
     r=pd.DataFrame(rows); keys=["date","view","rank","horizon"]
-    mx=r[r.mode=="MAX"][keys+["theme","return","regime"]].rename(columns={"theme":"theme_max","return":"return_max","regime":"regime_max"})
+    # IMPORTANT: use bracket indexing here. `r.mode` resolves to pandas DataFrame.mode()
+    # rather than the "mode" column, which caused Alpha134's KeyError: False.
+    mx=r[r["mode"]=="MAX"][keys+["theme","return","regime"]].rename(columns={"theme":"theme_max","return":"return_max","regime":"regime_max"})
     summaries={}; checks={}; detail=[]
     for c in CANDS:
-      z=mx.merge(r[r.mode==c][keys+["theme","return"]],on=keys)
+      z=mx.merge(r[r["mode"]==c][keys+["theme","return"]],on=keys)
       z["delta"]=z["return"]-z["return_max"]; z["changed"]=z["theme"]!=z["theme_max"]
       detail.append(z.assign(candidate=c,coefficient=COEF[c]))
       s={}
       for view in VIEWS:
         s[view]={}
         for h in H:
-          q=z[(z.view==view)&(z.horizon==h)]
-          s[view][str(h)]={"all":st(q.delta),"changed":st(q.loc[q.changed,"delta"]),
-            "up":st(q.loc[q.regime_max=="TAIEX_UP","delta"]),
-            "up_changed":st(q.loc[(q.regime_max=="TAIEX_UP")&q.changed,"delta"])}
+          q=z[(z["view"]==view)&(z["horizon"]==h)]
+          s[view][str(h)]={"all":st(q["delta"]),"changed":st(q.loc[q["changed"],"delta"]),
+            "up":st(q.loc[q["regime_max"]=="TAIEX_UP","delta"]),
+            "up_changed":st(q.loc[(q["regime_max"]=="TAIEX_UP")&q["changed"],"delta"])}
       summaries[c]=s
       ck=[]
       for h in ("10","20"):
         x=s["heat_top1"][h]["up"]; ck.append({"name":f"heat_up_{h}D_positive","pass":x["mean"] is not None and x["mean"]>0,"value":x})
         y=s["setup_top1"][h]["all"]; ck.append({"name":f"setup_all_{h}D_nonnegative","pass":y["mean"] is not None and y["mean"]>=0,"value":y})
-      changed=sum(1 for _,x in z[(z.view=="heat_top1")].drop_duplicates(["date"]).iterrows() if x["changed"])
+      changed=sum(1 for _,x in z[(z["view"]=="heat_top1")].drop_duplicates(["date"]).iterrows() if x["changed"])
       ck.append({"name":"changes_at_least_one_heat_top1","pass":changed>0,"value":{"changed_dates":changed}})
       checks[c]=ck
     passing=[c for c in CANDS if all(x["pass"] for x in checks[c])]
