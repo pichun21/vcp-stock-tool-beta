@@ -1,0 +1,82 @@
+name: VCPulse | Overlap Long-OOS FULL
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Long-OOS 起始日期 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "Long-OOS 結束日期 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  long-oos-full:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pandas numpy requests
+
+      - name: CONTROL current
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha128.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "long_oos_shared_cache" \
+            --out-dir "long_oos_output_CONTROL_current" \
+            --family-mode current
+
+      - name: DEDUP max
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha128.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "long_oos_shared_cache" \
+            --out-dir "long_oos_output_DEDUP_max" \
+            --family-mode max
+
+      - name: DEDUP decay
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha128.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "long_oos_shared_cache" \
+            --out-dir "long_oos_output_DEDUP_decay" \
+            --family-mode decay
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VCPulse-LongOOS-FULL-CONTROL_current
+          path: long_oos_output_CONTROL_current/
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VCPulse-LongOOS-FULL-DEDUP_max
+          path: long_oos_output_DEDUP_max/
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VCPulse-LongOOS-FULL-DEDUP_decay
+          path: long_oos_output_DEDUP_decay/
