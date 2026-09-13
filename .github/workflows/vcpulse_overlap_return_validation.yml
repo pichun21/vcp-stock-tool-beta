@@ -1,0 +1,85 @@
+name: VCPulse | Overlap Return Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "驗證起始日期 YYYY-MM-DD"
+        required: true
+        default: "2026-01-02"
+      end_date:
+        description: "驗證結束日期 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  alpha129-return-validation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pandas numpy requests
+
+      - name: Restore shared historical cache
+        uses: actions/cache@v4
+        with:
+          path: alpha129_price_cache
+          key: vcpulse-alpha129-prices-${{ inputs.start_date }}-${{ inputs.end_date }}
+
+      - name: Build CONTROL signals
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha129.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "alpha129_price_cache" \
+            --out-dir "alpha129_CONTROL" \
+            --family-mode current
+
+      - name: Build DEDUP max signals
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha129.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "alpha129_price_cache" \
+            --out-dir "alpha129_MAX" \
+            --family-mode max
+
+      - name: Build DEDUP decay signals
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_overlap_long_oos_full_runner.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha129.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir "alpha129_price_cache" \
+            --out-dir "alpha129_DECAY" \
+            --family-mode decay
+
+      - name: Validate forward returns
+        run: |
+          python tools/vcpulse_overlap_return_validation.py \
+            --theme-db data/vcpulse_themes_v2_9_research_alpha129.json \
+            --control alpha129_CONTROL/backtest_daily.json \
+            --max alpha129_MAX/backtest_daily.json \
+            --decay alpha129_DECAY/backtest_daily.json \
+            --price-cache alpha129_price_cache \
+            --out-dir alpha129_return_validation
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VCPulse-Alpha129-Return-Validation
+          path: alpha129_return_validation/
