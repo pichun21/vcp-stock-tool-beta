@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -918,7 +918,8 @@ th{color:#716c64}
 .theme-board-hot .theme-row{background:#fffdfa}
 .theme-board-setup .theme-row{background:#fbf9fe}
 .theme-board-list{display:grid;gap:6px}.theme-row{display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:7px;padding:7px 8px;border:1px solid #e7e4dd;border-radius:10px;background:#fff}.theme-rank{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:900;background:#eee9df}.theme-row:nth-child(1) .theme-rank{background:#ffd66b}.theme-row:nth-child(2) .theme-rank{background:#cfe0ea}.theme-row:nth-child(3) .theme-rank{background:#e6b47d}.theme-name{min-width:0;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-sub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-score{text-align:right;font-size:11px;font-weight:900;line-height:1.25}.theme-score small{display:block;color:var(--muted);font-weight:700}.theme-empty{font-size:12px;color:var(--muted);padding:8px 2px}
-.theme-stock-links{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.theme-stock-caption{font-size:9px;color:var(--muted);font-weight:700;margin-top:4px;margin-bottom:2px}
+.theme-stock-links{display:flex;flex-wrap:wrap;gap:4px;margin-top:0}
 .theme-stock-link{appearance:none;border:1px solid #ddd4c8;background:#faf8f4;color:var(--ink);border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800;cursor:pointer;line-height:1.25}
 .theme-stock-link:hover{text-decoration:underline;background:#f2ede5}
 .theme-stock-link:focus-visible{outline:2px solid #b37b48;outline-offset:2px}
@@ -2327,7 +2328,7 @@ function renderThemeLeaderboards(){
     const label=n?`${c} ${cleanStockDisplayName(n)}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
-  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">${escHtml(String(r.lifecycleLabel||'觀察'))}｜${Number(r.constituents||0)} 檔</div>${stockLinks?`<div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'熱度':'蓄勢'} ${Math.round(main)}<small>${mode==='heat'?'蓄':'熱'} ${Math.round(peer)}</small></div></div>`;
+  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔｜${escHtml(String(r.lifecycleLabel||'觀察'))}</div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stocks.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'熱度':'蓄勢'} ${Math.round(main)}<small>${mode==='heat'?'蓄':'熱'} ${Math.round(peer)}</small></div></div>`;
  }).join('');
  heatBox.innerHTML=draw(heat,'heat'); setupBox.innerHTML=draw(setup,'setup');
 }
