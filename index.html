@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -2328,7 +2328,7 @@ function renderThemeLeaderboards(){
     const label=n?`${c} ${cleanStockDisplayName(n)}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
-  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔｜${escHtml(String(r.lifecycleLabel||'觀察'))}</div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stocks.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'熱度':'蓄勢'} ${Math.round(main)}<small>${mode==='heat'?'蓄':'熱'} ${Math.round(peer)}</small></div></div>`;
+  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔｜${escHtml(String(r.lifecycleLabel||'觀察'))}</div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stockDetails.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'熱度':'蓄勢'} ${Math.round(main)}<small>${mode==='heat'?'蓄':'熱'} ${Math.round(peer)}</small></div></div>`;
  }).join('');
  heatBox.innerHTML=draw(heat,'heat'); setupBox.innerHTML=draw(setup,'setup');
 }
