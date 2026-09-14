@@ -1,0 +1,85 @@
+name: VCPulse | Beta Scanner
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_type:
+        description: "更新模式"
+        required: true
+        default: "intraday_TW"
+        type: choice
+        options:
+          - intraday_TW
+          - intraday_US
+          - official_TW
+          - official_US
+          - both
+
+permissions:
+  contents: write
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Beta repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Choose market and snapshot
+        id: target
+        shell: bash
+        run: |
+          case "${{ inputs.run_type }}" in
+            intraday_TW) echo "market=TW" >> "$GITHUB_OUTPUT"; echo "snapshot=intraday" >> "$GITHUB_OUTPUT" ;;
+            intraday_US) echo "market=US" >> "$GITHUB_OUTPUT"; echo "snapshot=intraday" >> "$GITHUB_OUTPUT" ;;
+            official_TW) echo "market=TW" >> "$GITHUB_OUTPUT"; echo "snapshot=official" >> "$GITHUB_OUTPUT" ;;
+            official_US) echo "market=US" >> "$GITHUB_OUTPUT"; echo "snapshot=official" >> "$GITHUB_OUTPUT" ;;
+            both) echo "market=both" >> "$GITHUB_OUTPUT"; echo "snapshot=auto" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Run VCP beta screener
+        run: |
+          echo "Run type: ${{ inputs.run_type }}"
+          echo "Market: ${{ steps.target.outputs.market }}"
+          echo "Snapshot: ${{ steps.target.outputs.snapshot }}"
+          python scanner.py --market "${{ steps.target.outputs.market }}" --snapshot "${{ steps.target.outputs.snapshot }}"
+
+      - name: Verify screening output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p=Path("screening.json")
+          j=json.loads(p.read_text(encoding="utf-8"))
+          print("generated_at:", j.get("generated_at"))
+          print("theme_engine_version:", j.get("theme_engine_version"))
+          print("theme_stock_names:", len(j.get("theme_stock_names") or {}))
+
+          for snap in ("official","intraday"):
+              boards=((j.get(f"{snap}_theme_leaderboards") or {}).get("TW") or {})
+              print(f"{snap} Theme Top5:", len(boards.get("themeTop5") or []))
+              print(f"{snap} Setup Top5:", len(boards.get("setupTop5") or []))
+          PY
+
+      - name: Commit Beta screening result
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add screening.json
+          if git diff --cached --quiet; then
+            echo "No change."
+          else
+            git commit -m "test: beta screening (${{ inputs.run_type }})"
+            git push
+          fi
