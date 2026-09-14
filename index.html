@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.1 THEME STOCK NAMES + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -907,7 +907,12 @@ th{color:#716c64}
 .capital-stock-btn.breakout{border-color:#9fc9a8;background:#f2faf3}
 .capital-hotspot-none{font-size:11px;color:var(--muted);padding:2px 0}
 .capital-hotspots-empty{font-size:12px;color:var(--muted);padding:10px 0}
-.theme-leaderboards{margin:12px 0 16px}.theme-leaderboards-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:9px}.theme-leaderboards-head h3{margin:0;font-size:16px}.theme-leaderboards-note{font-size:11px;color:var(--muted);text-align:right}.theme-leaderboards-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.theme-board{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:11px}.theme-board-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;font-size:13px;font-weight:900}.theme-board-list{display:grid;gap:6px}.theme-row{display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:7px;padding:7px 8px;border:1px solid #e7e4dd;border-radius:10px;background:#fff}.theme-rank{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:900;background:#eee9df}.theme-row:nth-child(1) .theme-rank{background:#ffd66b}.theme-row:nth-child(2) .theme-rank{background:#cfe0ea}.theme-row:nth-child(3) .theme-rank{background:#e6b47d}.theme-name{min-width:0;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-sub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-score{text-align:right;font-size:11px;font-weight:900;line-height:1.25}.theme-score small{display:block;color:var(--muted);font-weight:700}.theme-empty{font-size:12px;color:var(--muted);padding:8px 2px}@media(max-width:760px){.theme-leaderboards-head{align-items:flex-start}.theme-leaderboards-grid{display:block}.theme-board+.theme-board{margin-top:8px}.theme-leaderboards-note{max-width:170px}}
+.theme-leaderboards{margin:12px 0 16px}.theme-leaderboards-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:9px}.theme-leaderboards-head h3{margin:0;font-size:16px}.theme-leaderboards-note{font-size:11px;color:var(--muted);text-align:right}.theme-leaderboards-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.theme-board{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:11px}.theme-board-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;font-size:13px;font-weight:900}.theme-board-list{display:grid;gap:6px}.theme-row{display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:7px;padding:7px 8px;border:1px solid #e7e4dd;border-radius:10px;background:#fff}.theme-rank{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:900;background:#eee9df}.theme-row:nth-child(1) .theme-rank{background:#ffd66b}.theme-row:nth-child(2) .theme-rank{background:#cfe0ea}.theme-row:nth-child(3) .theme-rank{background:#e6b47d}.theme-name{min-width:0;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-sub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.theme-score{text-align:right;font-size:11px;font-weight:900;line-height:1.25}.theme-score small{display:block;color:var(--muted);font-weight:700}.theme-empty{font-size:12px;color:var(--muted);padding:8px 2px}
+.theme-stock-links{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.theme-stock-link{appearance:none;border:1px solid #ddd4c8;background:#faf8f4;color:var(--ink);border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800;cursor:pointer;line-height:1.25}
+.theme-stock-link:hover{text-decoration:underline;background:#f2ede5}
+.theme-stock-link:focus-visible{outline:2px solid #b37b48;outline-offset:2px}
+@media(max-width:760px){.theme-leaderboards-head{align-items:flex-start}.theme-leaderboards-grid{display:block}.theme-board+.theme-board{margin-top:8px}.theme-leaderboards-note{max-width:170px}}
 
 @media(max-width:760px){
  .capital-hotspots-head{align-items:flex-start}
@@ -2226,6 +2231,30 @@ function renderCapitalHotspots(){
 }
 
 
+function themeStockDisplayName(code){
+ const c=String(code||'').toUpperCase();
+ const q=(radarAllQuotes?.[radarSnapshot]?.TW||{})[c] || {};
+ let name=String(q.name||'').trim();
+ if(!name || name.toUpperCase()===c){
+   const row=(radarRows||[]).find(r=>String(r.market||'').toUpperCase()==='TW' && String(r.symbol||'').toUpperCase()===c);
+   name=String(row?.name||'').trim();
+ }
+ return name && name.toUpperCase()!==c ? name : '';
+}
+
+async function openThemeStock(symbol,sourceEl){
+ const code=String(symbol||'').toUpperCase();
+ if(!code) return;
+ setMarket('TW',{reset:false});
+ $('symbol').value=code;
+ const singleSection=$('symbol')?.closest('.section') || $('symbol');
+ if(singleSection){
+   try{ singleSection.scrollIntoView({behavior:'smooth',block:'start'}); }
+   catch(e){ singleSection.scrollIntoView(); }
+ }
+ await run();
+}
+
 function renderThemeLeaderboards(){
  const box=document.getElementById('themeLeaderboards'), heatBox=document.getElementById('themeTop5List'), setupBox=document.getElementById('setupTop5List');
  if(!box||!heatBox||!setupBox)return;
@@ -2234,11 +2263,24 @@ function renderThemeLeaderboards(){
  box.hidden=false;
  const draw=(rows,mode)=>!rows.length?'<div class="theme-empty">尚無題材排行資料；下一次台股完整掃描後建立。</div>':rows.slice(0,5).map((r,i)=>{
   const main=mode==='heat'?Number(r.heat||0):Number(r.setup||0), peer=mode==='heat'?Number(r.setup||0):Number(r.heat||0);
-  const stocks=Array.isArray(r.topStocks)?r.topStocks.slice(0,3).join('、'):'';
-  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">${escHtml(String(r.lifecycleLabel||'觀察'))}｜${Number(r.constituents||0)} 檔${stocks?`｜${escHtml(stocks)}`:''}</div></div><div class="theme-score">${mode==='heat'?'Heat':'Setup'} ${Math.round(main)}<small>${mode==='heat'?'S':'H'} ${Math.round(peer)}</small></div></div>`;
+  const stockCodes=Array.isArray(r.topStocks)?r.topStocks.slice(0,5):[];
+  const stockLinks=stockCodes.map(code=>{
+    const c=String(code||'').toUpperCase();
+    const n=themeStockDisplayName(c);
+    const label=n?`${c} ${n}`:c;
+    return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
+  }).join('');
+  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">${escHtml(String(r.lifecycleLabel||'觀察'))}｜${Number(r.constituents||0)} 檔</div>${stockLinks?`<div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'Heat':'Setup'} ${Math.round(main)}<small>${mode==='heat'?'S':'H'} ${Math.round(peer)}</small></div></div>`;
  }).join('');
  heatBox.innerHTML=draw(heat,'heat'); setupBox.innerHTML=draw(setup,'setup');
 }
+
+document.addEventListener('click',e=>{
+ const btn=e.target.closest?.('[data-theme-stock]');
+ if(!btn) return;
+ e.preventDefault();
+ openThemeStock(btn.dataset.themeStock,btn);
+});
 
 function updateMarketSpecificSnapshotUI(){
  const isUS=String(currentMarket||'TW').toUpperCase()==='US';
