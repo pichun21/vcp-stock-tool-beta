@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.6.3 GLOBAL THEME NAME MAP + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.6.4 THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -1590,6 +1590,7 @@ def main():
     intraday_quotes=dict(old.get("intraday_quotes",{}) or {})
     official_restore_events=dict(old.get("official_restore_events",{}) or {})
     intraday_restore_events=dict(old.get("intraday_restore_events",{}) or {})
+    theme_stock_names=dict(old.get("theme_stock_names",{}) or {})
 
     # Migration from pre-V2.21 payloads.
     if not old.get("dual_snapshot_version"):
@@ -1634,6 +1635,16 @@ def main():
 
     for market in targets:
         rows,scan_stats,capital_hotspots,market_quote_cache,market_restore_events,theme_market_rows=scan(market)
+
+        # V2.42.6.4: hydrate Theme names from this run's full-market quote cache
+        # BEFORE snapshot guards. Even if official_TW is blocked/preserved, the
+        # representative-stock Chinese names can still be refreshed safely.
+        if market=="TW" and market_quote_cache:
+            for code,q in (market_quote_cache or {}).items():
+                name=str((q or {}).get("name") or "").strip()
+                if name:
+                    theme_stock_names[str(code).upper()]=name
+
         nowstamp=datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M")
         if not rows:
             print(f"{market}: no new rows; preserving existing snapshots")
@@ -1744,9 +1755,9 @@ def main():
             if market_restore_events:
                 intraday_restore_events[market]=market_restore_events
 
-    theme_stock_names=build_theme_stock_name_map(
+    theme_stock_names.update(build_theme_stock_name_map(
         official_quotes, intraday_quotes, official_results, intraday_results
-    )
+    ))
     print(f"TW THEME NAME MAP: {len(theme_stock_names)} symbols")
 
     # Backward-compatible "results" stays the official snapshot only.
