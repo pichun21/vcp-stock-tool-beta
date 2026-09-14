@@ -1,0 +1,81 @@
+name: VCPulse | TW Only Beta Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tw-only-beta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Beta repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            pip install pandas requests yfinance
+          fi
+
+      - name: Run TW-only beta scanner
+        run: |
+          python scanner.py --market TW --snapshot official
+
+      - name: Verify Theme name map
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("screening.json")
+          j = json.loads(p.read_text(encoding="utf-8"))
+          names = j.get("theme_stock_names") or {}
+          leaders = ((j.get("official_theme_leaderboards") or {}).get("TW") or {})
+          heat = leaders.get("themeTop5") or []
+          setup = leaders.get("setupTop5") or []
+          print("theme_stock_names:", len(names))
+          print("Theme Top5:", len(heat))
+          print("Setup Top5:", len(setup))
+
+          # Fail clearly if the 2.42.6.3 name-map feature was not written.
+          if not names:
+              raise SystemExit("theme_stock_names missing/empty")
+
+          # Print current Top5 representative-stock labels for easy log review.
+          for title, rows in [("HEAT", heat), ("SETUP", setup)]:
+              print("\n", title)
+              for r in rows[:5]:
+                  vals=[]
+                  details=r.get("topStockDetails") or []
+                  if details:
+                      for d in details[:5]:
+                          code=str(d.get("symbol") or "")
+                          name=str(d.get("name") or names.get(code) or "")
+                          vals.append(f"{code} {name}".strip())
+                  else:
+                      for code in (r.get("topStocks") or [])[:5]:
+                          code=str(code)
+                          vals.append(f"{code} {names.get(code,'')}".strip())
+                  print(r.get("theme"), "=>", " | ".join(vals))
+          PY
+
+      - name: Commit TW-only beta screening result
+        run: |
+          if git diff --quiet -- screening.json; then
+            echo "No screening.json changes to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add screening.json
+            git commit -m "test: TW-only beta screening"
+            git push
+          fi
