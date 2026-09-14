@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -1118,6 +1118,67 @@ th{color:#716c64}
 .capital-hotspots-note:hover{color:#4b5563}
 .capital-helpbox{margin:-2px 0 9px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:10px;line-height:1.55;color:#4b5563}
 .capital-helpbox span{color:#6f675e}
+
+/* V2.42.6.19 — mobile compact theme radar */
+.theme-help-mobile-cards{display:none}
+.theme-score-mobile{display:none}
+
+@media(max-width:760px){
+  /* Help: no horizontal table scrolling on phones */
+  .theme-help-table-wrap{display:none}
+  .theme-help-mobile-cards{display:grid;grid-template-columns:1fr;gap:7px;margin:8px 0}
+  .theme-help-mobile-card{border:1px solid var(--line);border-radius:10px;padding:8px 9px;background:#fff;line-height:1.45;font-size:10px}
+  .theme-help-mobile-card.hot{background:#fffaf2;border-color:#ead6b8}
+  .theme-help-mobile-card.setup{background:#f7f5fb;border-color:#d9d1e8}
+  .theme-help-mobile-title{font-size:11px;font-weight:900;margin-bottom:4px}
+  .theme-help-mobile-card>div:not(.theme-help-mobile-title){margin-top:2px}
+
+  /* Board/card compaction */
+  .theme-board{padding:9px}
+  .theme-board-title{margin-bottom:6px}
+  .theme-board-list{gap:5px}
+  .theme-row{
+    grid-template-columns:24px minmax(0,1fr);
+    align-items:start;
+    gap:6px;
+    padding:7px;
+  }
+  .theme-rank{width:23px;height:23px;font-size:11px;margin-top:1px}
+  .theme-main{min-width:0}
+  .theme-score-desktop{display:none}
+  .theme-score-mobile{
+    display:block;
+    min-width:auto;
+    text-align:right;
+    font-size:10px;
+    line-height:1.2;
+    white-space:nowrap;
+  }
+  .theme-score-mobile small{font-size:8.5px}
+  .theme-mobile-head{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:6px;
+    align-items:start;
+  }
+  .theme-name{font-size:12px}
+  .theme-sub{font-size:9.5px;margin-top:1px}
+  .theme-stock-caption{font-size:8.5px;margin-top:3px;margin-bottom:2px}
+  .theme-stock-links{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:4px 5px;
+  }
+  .theme-stock-link{
+    width:100%;
+    min-width:0;
+    padding:3px 5px;
+    font-size:9.5px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+}
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1311,6 +1372,24 @@ th{color:#716c64}
 <tr><th>適合用來</th><td>找目前市場主流</td><td>找下一批觀察方向</td></tr>
 <tr><th>要注意</th><td>可能已漲一段，留意追高</td><td>可能持續蓄勢、未必發動</td></tr>
 </tbody></table></div>
+<div class="theme-help-mobile-cards">
+  <div class="theme-help-mobile-card hot">
+    <div class="theme-help-mobile-title">🔥 熱門題材</div>
+    <div><b>代表什麼：</b>現在市場正在發動</div>
+    <div><b>市場熱度：</b>通常較高</div>
+    <div><b>蓄勢程度：</b>不一定高</div>
+    <div><b>適合用來：</b>找目前市場主流</div>
+    <div><b>要注意：</b>可能已漲一段，留意追高</div>
+  </div>
+  <div class="theme-help-mobile-card setup">
+    <div class="theme-help-mobile-title">👀 蓄勢題材</div>
+    <div><b>代表什麼：</b>尚未全面發動、正在醞釀</div>
+    <div><b>市場熱度：</b>通常較低</div>
+    <div><b>蓄勢程度：</b>通常較高</div>
+    <div><b>適合用來：</b>找下一批觀察方向</div>
+    <div><b>要注意：</b>可能持續蓄勢、未必發動</div>
+  </div>
+</div>
 <div class="theme-help-note"><b>分數越高</b>，代表該項特徵越明顯；適合比較當下不同題材的相對強弱，不代表未來一定上漲或漲得更多。</div>
 </div>
 <div class="theme-leaderboards-grid">
@@ -2364,7 +2443,7 @@ function renderThemeLeaderboards(){
     const label=n?`${c} ${cleanStockDisplayName(n)}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
-  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔</div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stockDetails.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>`;
+  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div class="theme-main"><div class="theme-mobile-head"><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔</div></div><div class="theme-score theme-score-mobile">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stockDetails.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score theme-score-desktop">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>`;
  }).join('');
  heatBox.innerHTML=draw(heat,'heat'); setupBox.innerHTML=draw(setup,'setup');
 }
