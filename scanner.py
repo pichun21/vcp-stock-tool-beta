@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.6 PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.6.2 THEME STOCK NAME FIX + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -1336,6 +1336,18 @@ def build_theme_leaderboards(market_rows, candidate_rows, market_return_pct=0.0,
             "nearPivotCount":sum(1 for x in members if x["c"] and x["c"].get("type") in ("near","forming") and -8 <= (x["c"].get("distance") if x["c"].get("distance") is not None else -99) <= 0),
             "newCandidateCount":sum(1 for x in members if x["c"] and x["c"].get("is_new")),
             "dominantSegments":segs,"topStocks":top_codes,
+            "topStockDetails":[
+                {
+                    "symbol":str(code),
+                    "name":str(
+                        (stocks.get(str(code),{}) or {}).get("name")
+                        or (by_market.get(str(code),{}) or {}).get("name")
+                        or (by_candidate.get(str(code),{}) or {}).get("name")
+                        or ""
+                    )
+                }
+                for code in top_codes
+            ],
             "marketReturnPct":round(float(market_return_pct),2)
         })
 

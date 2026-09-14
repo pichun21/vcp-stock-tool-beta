@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.1 THEME STOCK NAMES + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.2 COMPLETE THEME STOCK NAMES + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -2263,10 +2263,13 @@ function renderThemeLeaderboards(){
  box.hidden=false;
  const draw=(rows,mode)=>!rows.length?'<div class="theme-empty">尚無題材排行資料；下一次台股完整掃描後建立。</div>':rows.slice(0,5).map((r,i)=>{
   const main=mode==='heat'?Number(r.heat||0):Number(r.setup||0), peer=mode==='heat'?Number(r.setup||0):Number(r.heat||0);
-  const stockCodes=Array.isArray(r.topStocks)?r.topStocks.slice(0,5):[];
-  const stockLinks=stockCodes.map(code=>{
-    const c=String(code||'').toUpperCase();
-    const n=themeStockDisplayName(c);
+  const stockDetails=Array.isArray(r.topStockDetails)&&r.topStockDetails.length
+    ? r.topStockDetails.slice(0,5)
+    : (Array.isArray(r.topStocks)?r.topStocks.slice(0,5).map(code=>({symbol:code,name:''})):[]);
+  const stockLinks=stockDetails.map(item=>{
+    const c=String(item?.symbol||'').toUpperCase();
+    const dbName=String(item?.name||'').trim();
+    const n=dbName || themeStockDisplayName(c);
     const label=n?`${c} ${n}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
