@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -1113,6 +1113,11 @@ th{color:#716c64}
 .theme-score small{font-size:9px}
 
 .theme-help-intro{margin-bottom:8px}.theme-help-table-wrap{overflow-x:auto;margin:7px 0 8px}.theme-help-table{width:100%;border-collapse:collapse;min-width:500px;background:#fff}.theme-help-table th,.theme-help-table td{padding:7px 9px;border:1px solid var(--line);text-align:left;vertical-align:top;font-size:10px;line-height:1.4}.theme-help-table thead th{font-weight:900;background:#faf8f4;color:#3f3a34}.theme-help-table tbody th{width:86px;font-weight:850;background:#fcfbf8;color:#625d55;white-space:nowrap}.theme-help-note{padding-top:2px;color:#6f675e;line-height:1.55}@media(max-width:760px){.theme-helpbox{font-size:10px;padding:9px}.theme-help-table th,.theme-help-table td{padding:6px 7px;font-size:9.5px}}
+
+.capital-hotspots-note{font-family:inherit;cursor:pointer;border:0;border-bottom:1px dotted #aaa;background:transparent;padding:4px 2px;color:var(--muted);font-size:11px}
+.capital-hotspots-note:hover{color:#4b5563}
+.capital-helpbox{margin:-2px 0 9px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:10px;line-height:1.55;color:#4b5563}
+.capital-helpbox span{color:#6f675e}
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1285,7 +1290,11 @@ th{color:#716c64}
   <div id="capitalHotspots" class="capital-hotspots" hidden>
     <div class="capital-hotspots-head">
       <div class="capital-hotspots-title"><div><h3>🔥 資金熱區</h3><div class="section-kicker">看資金目前集中在哪些產業</div></div><span class="capital-top5-badge">👑 Top 5 產業</span></div>
-      <div class="capital-hotspots-note" title="成交活躍度 × 市場占比 × 上漲廣度 × VCP 集中">ⓘ 熱區怎麼算？</div>
+      <button type="button" class="capital-hotspots-note" id="capitalHelpBtn" aria-expanded="false">ⓘ 熱區怎麼算？</button>
+    </div>
+    <div class="capital-helpbox" id="capitalHelpBox" hidden>
+      <b>🔥 資金熱區</b>會綜合觀察產業的成交活躍度、市場占比、上漲廣度與 VCP 訊號集中程度。<br>
+      <span><b>分數越高</b>，代表當下資金與強勢訊號在該產業的集中程度越明顯；適合用來比較目前市場資金聚焦方向，不代表未來一定上漲。</span>
     </div>
     <div id="capitalHotspotsGrid" class="capital-hotspots-grid"></div>
   </div>
@@ -3808,6 +3817,16 @@ document.addEventListener("click",e=>{
 document.getElementById('themeHelpBtn')?.addEventListener('click',()=>{
  const box=document.getElementById('themeHelpBox');
  if(box) box.hidden=!box.hidden;
+});
+
+document.addEventListener('click',(e)=>{
+ const btn=e.target.closest?.('#capitalHelpBtn');
+ if(!btn) return;
+ const box=document.getElementById('capitalHelpBox');
+ if(!box) return;
+ const willOpen=box.hidden;
+ box.hidden=!willOpen;
+ btn.setAttribute('aria-expanded',String(willOpen));
 });
 </script></body></html>
 
