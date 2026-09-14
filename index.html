@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.2 COMPLETE THEME STOCK NAMES + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.6.3 GLOBAL THEME NAME MAP + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -2269,7 +2269,7 @@ function renderThemeLeaderboards(){
   const stockLinks=stockDetails.map(item=>{
     const c=String(item?.symbol||'').toUpperCase();
     const dbName=String(item?.name||'').trim();
-    const n=dbName || themeStockDisplayName(c);
+    const n=dbName || String(radarThemeStockNames?.[c]||'').trim() || themeStockDisplayName(c);
     const label=n?`${c} ${n}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
@@ -2342,6 +2342,7 @@ let radarSnapshotMeta={official:{},intraday:{}};
 let radarBenchmarkData={official:{},intraday:{}};
 let radarCapitalHotspots={official:{},intraday:{}};
 let radarThemeLeaderboards={official:{},intraday:{}};
+let radarThemeStockNames={};
 let radarAllQuotes={official:{},intraday:{}};
 let radarRestoreEvents={official:{},intraday:{}};
 let userLiveQuotes=new Map();
@@ -3340,6 +3341,7 @@ async function loadRadar(){
      official:j.official_theme_leaderboards||{},
      intraday:j.intraday_theme_leaderboards||{}
    };
+   radarThemeStockNames=j.theme_stock_names||{};
    radarAllQuotes={
      official:j.official_quotes||{},
      intraday:j.intraday_quotes||{}

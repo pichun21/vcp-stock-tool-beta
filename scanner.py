@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.6.2 THEME STOCK NAME FIX + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.6.3 GLOBAL THEME NAME MAP + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -1393,6 +1393,33 @@ def scan(market):
         print(f"{market} RESTORE-DATE CACHE: {len(restore_event_cache)} symbols / {sum(len(v) for v in restore_event_cache.values())} events")
     return results[:150], stats, hotspots, quote_cache, restore_event_cache, flow_rows
 
+def build_theme_stock_name_map(official_quotes=None, intraday_quotes=None, official_results=None, intraday_results=None):
+    """Persistent TW symbol->name map for Theme UI, independent of leaderboard rebuild."""
+    names={}
+    try:
+        if THEME_DB.exists():
+            db=json.loads(THEME_DB.read_text(encoding="utf-8"))
+            for code,meta in (db.get("stocks") or {}).items():
+                name=str((meta or {}).get("name") or "").strip()
+                if name:
+                    names[str(code).upper()]=name
+    except Exception as e:
+        print("theme name map db warning",e)
+
+    for root in (official_quotes or {}, intraday_quotes or {}):
+        for market_map in (root or {}).values():
+            for code,q in (market_map or {}).items():
+                name=str((q or {}).get("name") or "").strip()
+                if name:
+                    names[str(code).upper()]=name
+
+    for row in list(official_results or []) + list(intraday_results or []):
+        code=str((row or {}).get("symbol") or "").upper()
+        name=str((row or {}).get("name") or "").strip()
+        if code and name:
+            names[code]=name
+    return names
+
 def load_existing():
     if OUT.exists():
         try: return json.loads(OUT.read_text(encoding="utf-8"))
@@ -1717,6 +1744,11 @@ def main():
             if market_restore_events:
                 intraday_restore_events[market]=market_restore_events
 
+    theme_stock_names=build_theme_stock_name_map(
+        official_quotes, intraday_quotes, official_results, intraday_results
+    )
+    print(f"TW THEME NAME MAP: {len(theme_stock_names)} symbols")
+
     # Backward-compatible "results" stays the official snapshot only.
     payload={
         "generated_at":datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M"),
@@ -1733,6 +1765,7 @@ def main():
         "official_theme_leaderboards":official_theme_leaderboards,
         "intraday_theme_leaderboards":intraday_theme_leaderboards,
         "theme_engine_version":"2.42.6-alpha138-max",
+        "theme_stock_names":theme_stock_names,
         "all_stock_quote_cache_version":1,
         "official_quotes":official_quotes,
         "intraday_quotes":intraday_quotes,
