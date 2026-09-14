@@ -1076,6 +1076,34 @@ th{color:#716c64}
   .freshness-icon{display:none}
 }
 
+
+/* V2.42.6.8 — Radar Layout Polish */
+.section-kicker{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.capital-hotspots{margin:10px 0 18px}
+.capital-hotspots-head{align-items:center;margin-bottom:7px}
+.capital-hotspots-title{align-items:center}
+.capital-hotspots-note{cursor:help;border-bottom:1px dotted #aaa;white-space:nowrap}
+.capital-hotspot{padding:9px 10px;border-radius:13px}
+.capital-hotspot-name{font-size:13px}
+.capital-hotspot-score{font-size:16px}
+.capital-hotspot-level{margin:3px 0 4px}
+.capital-hotspot-metrics{gap:1px;line-height:1.25}
+.capital-hotspot-actions{margin-top:5px}
+.capital-hotspot-action{padding:5px 8px}
+.theme-leaderboards{margin:16px 0}
+.theme-leaderboards-head{margin-bottom:8px}
+.theme-leaderboards-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px}
+.theme-board-hot{box-shadow:0 3px 12px rgba(139,91,25,.05)}
+.theme-board-setup{box-shadow:none}
+.theme-board-hot .theme-board-main{font-size:15px}
+.theme-board-setup .theme-board-main{font-size:14px}
+.theme-board-hot .theme-rank{transform:scale(1.03)}
+.theme-board-setup .theme-rank{opacity:.86}
+@media(max-width:760px){
+  .capital-hotspots-note{font-size:10px}
+  .theme-leaderboards-grid{display:block}
+  .theme-board-hot .theme-board-main,.theme-board-setup .theme-board-main{font-size:14px}
+}
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1247,13 +1275,13 @@ th{color:#716c64}
   <div id="marketOverview" class="market-overview" hidden></div>
   <div id="capitalHotspots" class="capital-hotspots" hidden>
     <div class="capital-hotspots-head">
-      <div class="capital-hotspots-title"><h3>🔥 資金熱區</h3><span class="capital-top5-badge">👑 Top 5 產業</span></div>
-      <div class="capital-hotspots-note">成交活躍度 × 市場占比 × 上漲廣度 × VCP 集中</div>
+      <div class="capital-hotspots-title"><div><h3>🔥 資金熱區</h3><div class="section-kicker">看資金目前集中在哪些產業</div></div><span class="capital-top5-badge">👑 Top 5 產業</span></div>
+      <div class="capital-hotspots-note" title="成交活躍度 × 市場占比 × 上漲廣度 × VCP 集中">ⓘ 熱區怎麼算？</div>
     </div>
     <div id="capitalHotspotsGrid" class="capital-hotspots-grid"></div>
   </div>
   <div id="themeLeaderboards" class="theme-leaderboards" hidden>
-    <div class="theme-leaderboards-head"><h3>🧭 題材雷達</h3></div>
+    <div class="theme-leaderboards-head"><div><h3>🧭 題材雷達</h3><div class="section-kicker">從熱門到蓄勢，找市場正在發酵的方向</div></div></div>
     <div class="theme-leaderboards-grid">
       <div class="theme-board theme-board-hot">
         <div class="theme-board-title">
