@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.9.2 DESKTOP HISTORY OFFICIAL FALLBACK + 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.43.0 BETA MARKET PULSE v0.6 + 2.42.9.2 DESKTOP HISTORY OFFICIAL FALLBACK + 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -1275,6 +1275,11 @@ th{color:#716c64}
   .help-section table{font-size:12px}
   .help-section .muted{font-size:11px}
 }
+
+/* ===== VCPulse 2.43.0 BETA · Market Pulse v0.6 ===== */
+.market-pulse-card{margin:0 0 18px;padding:20px 22px;background:#fffdfa;border:1px solid var(--vp-line,#e8e1d7);border-radius:20px;box-shadow:0 8px 22px rgba(57,46,33,.035)}
+.mp-head,.mp-scoreline{display:flex;justify-content:space-between;align-items:center;gap:12px}.mp-title{font-size:20px;font-weight:900}.mp-beta{font-size:10px;padding:4px 7px;border-radius:999px;background:#f3eee6;color:#8a6848;vertical-align:middle}.mp-score{font-size:38px;font-weight:900;letter-spacing:-1px}.mp-state{font-size:17px;font-weight:800}.mp-signals{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}.mp-signal{padding:10px;background:#f7f4ee;border-radius:12px;min-width:0}.mp-signal span{display:block;font-size:11px;color:#777168;white-space:nowrap}.mp-signal b{display:block;margin-top:4px;font-size:15px}.mp-up{color:var(--good)}.mp-down{color:var(--bad)}.mp-flat{color:var(--muted)}.mp-reason{margin-top:12px;font-size:13px;color:#625d54;line-height:1.55}.mp-meta{margin-top:7px;font-size:11px;color:#918a80}.mp-wait{color:#777168;font-size:13px}
+@media(max-width:760px){.market-pulse-card{padding:15px;margin-bottom:14px}.mp-title{font-size:18px}.mp-score{font-size:32px}.mp-signals{grid-template-columns:repeat(3,1fr)}.mp-signal{padding:9px}.mp-signal b{font-size:14px}}
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1428,6 +1433,12 @@ th{color:#716c64}
   <b>⑤ 距 Pivot</b>：其他條件相同時，距 Pivot 較近者優先。</p>
   <p class="muted"><b>重要：</b>VCP 與 PowerSqueeze 都是本站依公開技術分析概念建立的程式化判讀；本站 PowerSqueeze 並非 Growin 專有指標數值的複製。所有訊號皆不代表未來上漲機率，也不構成投資建議。</p>  </section>
 </div>
+
+
+<section class="market-pulse-card" id="marketPulseCard" aria-live="polite">
+  <div class="mp-head"><div class="mp-title">🌐 Market Pulse <span class="mp-beta">BETA</span></div><div class="mp-wait" id="mpUpdated">讀取中…</div></div>
+  <div id="mpBody" class="mp-wait" style="margin-top:12px">正在讀取市場環境…</div>
+</section>
 
 <div class="section" id="singleStockAnalysis">
   <div class="section-title">
@@ -3763,6 +3774,18 @@ function setRadarSnapshot(kind){
  forceRadarAllRender();
 }
 
+\nasync function loadMarketPulse(){
+ const body=document.getElementById('mpBody'), updated=document.getElementById('mpUpdated'); if(!body)return;
+ const fmt=(v)=>{const n=Number(v);return Number.isFinite(n)?`${n>0?'+':''}${n.toFixed(2)}%`:'—'};
+ const cls=(v)=>Number(v)>0?'mp-up':(Number(v)<0?'mp-down':'mp-flat');
+ try{
+  const r=await fetch(`market_pulse.json?t=${Date.now()}`,{cache:'no-store'}); if(!r.ok)throw new Error('market_pulse.json 尚未建立'); const x=await r.json();
+  if(x.status!=='ok'){body.innerHTML='<div class="mp-wait">Market Pulse 尚未產生，請先執行 Market Pulse Daily (Beta)。</div>';updated.textContent='等待首次更新';return;}
+  const s=x.signals||{}; const items=[['台指夜盤',s.tx_night],['費半',s.sox],['Nasdaq',s.nasdaq],['美債10Y',s.us10y],['Brent',s.brent],['USD/TWD',s.usdtwd]];
+  body.innerHTML=`<div class="mp-scoreline"><div><div class="mp-score">${Number(x.score).toFixed(0)}<span style="font-size:16px;color:#918a80"> / 100</span></div><div class="mp-state">${x.emoji||''} ${escHtml(x.state||'—')}</div></div><div style="text-align:right"><div class="muted">訊號一致度</div><b>${escHtml(x.consistency||'—')}</b></div></div><div class="mp-signals">${items.map(([n,o])=>`<div class="mp-signal"><span>${n}</span><b class="${cls(o&&o.value)}">${fmt(o&&o.value)}</b></div>`).join('')}</div><div class="mp-reason">${escHtml(x.reason||'')}</div><div class="mp-meta">實驗性市場環境指標 · 30 以下偏空／70 以上偏多 · 不代表未來報酬或投資建議</div>`;
+  const dt=x.generated_at?new Date(x.generated_at):null; updated.textContent=dt&&!isNaN(dt)?`更新 ${dt.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}`:'已更新';
+ }catch(e){body.innerHTML=`<div class="mp-wait">Market Pulse 暫時無法讀取：${escHtml(e.message||String(e))}</div>`;updated.textContent='讀取失敗';}
+}\n
 async function loadRadar(){
  const updated=document.getElementById('radarUpdated'), empty=document.getElementById('radarEmpty');
  try{
@@ -3940,6 +3963,7 @@ if(document.readyState==='loading'){
 
 const helpBtn=document.getElementById('helpBtn'), helpBox=document.getElementById('helpBox');
 if(helpBtn&&helpBox) helpBtn.onclick=()=>helpBox.classList.toggle('open');
+loadMarketPulse();
 loadRadar();
 
 </script>
