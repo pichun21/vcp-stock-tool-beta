@@ -35,7 +35,7 @@ def fetch_tx_night():
         month=str(pick(x,'ContractMonth(Week)','ContractMonth','到期月份(週別)','到期月份') or '').strip()
         if contract!='TX' or session not in ('盤後','After Hours','AfterHours'): continue
         if '/' in month: continue
-        pct=num(pick(x,'Change%','ChangePercent','漲跌%'))
+        pct=num(pick(x,'%','Change%','ChangePercent','漲跌%'))
         vol=num(pick(x,'Volume','成交量')) or 0
         date=str(pick(x,'Date','交易日期') or '')
         last=num(pick(x,'Last','Close','收盤價'))
