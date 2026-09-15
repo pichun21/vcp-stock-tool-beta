@@ -1,0 +1,35 @@
+name: Market Pulse History Builder v0.2
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "History start date"
+        required: false
+        default: "2021-01-01"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build aligned history
+        run: |
+          python tools/market_pulse_history_builder_v0_2.py \
+            --start "${{ inputs.start_date }}" \
+            --output data/market_pulse_history.csv
+      - name: Upload history artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-pulse-history-v0.2
+          path: |
+            data/market_pulse_history.csv
+            data/market_pulse_history.meta.json
