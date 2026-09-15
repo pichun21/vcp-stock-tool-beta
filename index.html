@@ -3774,7 +3774,8 @@ function setRadarSnapshot(kind){
  forceRadarAllRender();
 }
 
-\nasync function loadMarketPulse(){
+
+async function loadMarketPulse(){
  const body=document.getElementById('mpBody'), updated=document.getElementById('mpUpdated'); if(!body)return;
  const fmt=(v)=>{const n=Number(v);return Number.isFinite(n)?`${n>0?'+':''}${n.toFixed(2)}%`:'—'};
  const cls=(v)=>Number(v)>0?'mp-up':(Number(v)<0?'mp-down':'mp-flat');
@@ -3785,7 +3786,8 @@ function setRadarSnapshot(kind){
   body.innerHTML=`<div class="mp-scoreline"><div><div class="mp-score">${Number(x.score).toFixed(0)}<span style="font-size:16px;color:#918a80"> / 100</span></div><div class="mp-state">${x.emoji||''} ${escHtml(x.state||'—')}</div></div><div style="text-align:right"><div class="muted">訊號一致度</div><b>${escHtml(x.consistency||'—')}</b></div></div><div class="mp-signals">${items.map(([n,o])=>`<div class="mp-signal"><span>${n}</span><b class="${cls(o&&o.value)}">${fmt(o&&o.value)}</b></div>`).join('')}</div><div class="mp-reason">${escHtml(x.reason||'')}</div><div class="mp-meta">實驗性市場環境指標 · 30 以下偏空／70 以上偏多 · 不代表未來報酬或投資建議</div>`;
   const dt=x.generated_at?new Date(x.generated_at):null; updated.textContent=dt&&!isNaN(dt)?`更新 ${dt.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}`:'已更新';
  }catch(e){body.innerHTML=`<div class="mp-wait">Market Pulse 暫時無法讀取：${escHtml(e.message||String(e))}</div>`;updated.textContent='讀取失敗';}
-}\n
+}
+
 async function loadRadar(){
  const updated=document.getElementById('radarUpdated'), empty=document.getElementById('radarEmpty');
  try{
