@@ -787,8 +787,6 @@ def analyze(df,item,market):
         "pulse_signal":pulse_signal,"pulse_label":pulse_label,"pulse_points":signal_points,
         "pulse_reasons":signal_reasons,"data_date":df.index[-1].strftime("%Y-%m-%d"),
         "avg_value_20d":round(avg_value,0),
-        "avg_volume_20d":round(v20,0),
-        "avg_volume_20d_lots":round(v20/1000.0,1) if market=="TW" else None,
     }
 
 

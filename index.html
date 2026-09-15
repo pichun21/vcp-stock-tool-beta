@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.9.2 DESKTOP HISTORY OFFICIAL FALLBACK + 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -1249,6 +1249,32 @@ th{color:#716c64}
   .change-sort-dir{width:36px;height:36px}
 }
 
+
+/* V2.42.9.1 — 指標說明章節分區，提升段落辨識 */
+.helpbox{padding:22px}
+.help-section{
+  margin:0 0 14px;padding:16px 18px 15px;
+  border:1px solid #ebe5dc;border-radius:15px;background:#fbfaf7;
+  box-shadow:0 2px 8px rgba(57,46,33,.025);
+}
+.help-section:last-child{margin-bottom:0}
+.help-section h3{
+  position:relative;margin:0 0 11px;padding-left:12px;font-size:17px;font-weight:950;color:#2e2a25;
+}
+.help-section h3::before{
+  content:"";position:absolute;left:0;top:2px;bottom:2px;width:4px;border-radius:999px;background:#c58d58;
+}
+.help-section p:first-of-type{margin-top:0}
+.help-section p:last-child{margin-bottom:0}
+.help-section table{background:#fff;border:1px solid #eee8df;border-radius:10px;overflow:hidden}
+@media(max-width:760px){
+  .helpbox{padding:12px}
+  .help-section{margin-bottom:10px;padding:13px 12px;border-radius:13px}
+  .help-section h3{font-size:16px;margin-bottom:9px}
+  .help-section p{font-size:13px;line-height:1.65}
+  .help-section table{font-size:12px}
+  .help-section .muted{font-size:11px}
+}
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1341,9 +1367,12 @@ th{color:#716c64}
   <button class="helpbtn" id="helpBtn" style="position:absolute;right:18px;top:18px">？ 指標使用說明</button>
 </section>
 <div class="card helpbox" id="helpBox">
+  <section class="help-section">
   <h3>什麼是 VCP？</h3>
   <p><b>VCP（Volatility Contraction Pattern，波動收縮型態）</b>是觀察股價在上升趨勢中，回檔與波動逐步縮小、成交量降溫，最後等待突破關鍵價位（Pivot）的技術型態。</p>
   <p>本站將各次回檔依序標示為 <b>C1、C2、C3、C4</b>。例如 C1 -18% → C2 -10% → C3 -6%，代表波動逐漸收斂。</p>
+  </section>
+  <section class="help-section">
   <h3>VCP 評分</h3>
   <table>
     <tr><th>項目</th><th>本站判斷方式</th><th>分數</th></tr>
@@ -1354,6 +1383,8 @@ th{color:#716c64}
     <tr><td>🎯 Pivot</td><td>股價接近 Pivot（突破價），或最新交易日首次帶量突破 Pivot</td><td>+1</td></tr>
   </table>
   <p><b>★★★★★</b>：五項皆符合；<b>★★★★☆</b>：已有明顯 VCP 特徵。每日雷達目前以 4 分以上為主要候選。</p>
+  </section>
+  <section class="help-section">
   <h3>流動性品質（台股）</h3>
   <p>流動性品質用來判斷一檔股票「實際上好不好交易」，與 VCP 星等分開計算，不會影響 VCP 5/5 評分。</p>
   <table>
@@ -1366,18 +1397,28 @@ th{color:#716c64}
     <tr><td>🔴 極低</td><td>&lt; 100 張</td><td>交易風險較高</td></tr>
   </table>
   <p class="muted"><b>補充：</b>流動性品質只作為交易品質參考；VCPulse 仍另外以 20 日平均成交金額作為基本流動性篩選，台股目前門檻為 2,000 萬元。</p>
+  </section>
+  <section class="help-section">
   <h3>每日雷達狀態</h3>
   <p>🟢 <b>今日帶量突破</b>：前一交易日尚未突破 Pivot，最新交易日收盤首次站上 Pivot，且成交量明顯放大。</p>
   <p>🔵 <b>突破後</b>：近期已突破 Pivot，且目前仍站在 Pivot 上方；本站追蹤最近 10 個交易日，並顯示相對 Pivot 報酬與突破後最高漲幅，方便觀察突破是否守穩。</p>
   <p>🟡 <b>接近 Pivot</b>：尚未突破，但距 Pivot 已相當接近。</p>
   <p>⚪ <b>VCP 成形中</b>：已具備 VCP 特徵，但仍離 Pivot 有一段距離。</p>
+  </section>
+  <section class="help-section">
   <h3>PowerSqueeze 是什麼？</h3>
   <p>本站另外比較 <b>Bollinger Bands（20日、2個標準差）</b> 與 <b>Keltner Channel（EMA20＋ATR20）</b> 的寬度。當布林通道收進 Keltner Channel 內，代表近期波動正在壓縮。</p>
   <p>本站分為：🔴 <b>強力壓縮</b>、🟠 <b>中度壓縮</b>、🩷 <b>一般壓縮</b>、⚪ <b>無壓縮</b>。壓縮越強代表波動越集中，但不代表之後一定上漲。</p>
+  </section>
+  <section class="help-section">
   <h3>Momentum 動能</h3>
   <p>動能以價格相對 20 日平均價格的位置與變化輔助判斷，顯示為 <b>↑ 多方增強、↘ 多方減弱、↓ 空方增強、↗ 空方減弱</b>。</p>
+  </section>
+  <section class="help-section">
   <h3>⚡ VCP＋Squeeze</h3>
   <p>代表股票同時符合本站 VCP 候選條件（4 分以上），且目前處於 PowerSqueeze 壓縮狀態。PowerSqueeze <b>不另外增加 VCP 星數</b>。</p>
+  </section>
+  <section class="help-section">
   <h3>每日雷達如何排序？</h3>
   <p>每日雷達優先顯示當下較值得注意的狀態，而不是只看星數：</p>
   <p><b>① 狀態</b>：🟢 今日帶量突破 → 🔵 突破後 → 🟡 接近 Pivot → ⚪ VCP 成形中<br>
@@ -1385,7 +1426,7 @@ th{color:#716c64}
   <b>③ PowerSqueeze</b>：🔴 強力壓縮 → 🟠 中度壓縮 → 🩷 一般壓縮 → ⚪ 無壓縮<br>
   <b>④ Momentum</b>：↑ 多方增強 → ↗ 空方減弱 → ↘ 多方減弱 → ↓ 空方增強<br>
   <b>⑤ 距 Pivot</b>：其他條件相同時，距 Pivot 較近者優先。</p>
-  <p class="muted"><b>重要：</b>VCP 與 PowerSqueeze 都是本站依公開技術分析概念建立的程式化判讀；本站 PowerSqueeze 並非 Growin 專有指標數值的複製。所有訊號皆不代表未來上漲機率，也不構成投資建議。</p>
+  <p class="muted"><b>重要：</b>VCP 與 PowerSqueeze 都是本站依公開技術分析概念建立的程式化判讀；本站 PowerSqueeze 並非 Growin 專有指標數值的複製。所有訊號皆不代表未來上漲機率，也不構成投資建議。</p>  </section>
 </div>
 
 <div class="section" id="singleStockAnalysis">
@@ -2107,7 +2148,7 @@ async function getSingleLatestQuote(market,symbol){
    }
 
    // 第二層：Yahoo 1m chart。上櫃先嘗試 .TWO，再嘗試 .TW。
-   const yahooSymbols=[`${sym}.TWO`,`${sym}.TW`];
+   const yahooSymbols=[`${sym}.TW`,`${sym}.TWO`];
    for(const ys of yahooSymbols){
      try{
        const yurl=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ys)}?interval=1m&range=1d&includePrePost=false&_=${Date.now()}`;
@@ -2276,6 +2317,44 @@ function renderSingleFromRadarFallback(symbol,row){
   return true;
 }
 
+function rocDateToIso(v){
+ const s=String(v||'').trim();
+ const m=s.match(/^(\d{2,3})[\/.-](\d{1,2})[\/.-](\d{1,2})$/);
+ if(!m) return s;
+ return `${Number(m[1])+1911}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
+}
+function twseNum(v){
+ const n=Number(String(v??'').replace(/,/g,'').replace(/--/g,'').trim());
+ return Number.isFinite(n)?n:NaN;
+}
+async function fetchTwseOfficialHistory(symbol,months=14){
+ const now=new Date();
+ const jobs=[];
+ for(let i=0;i<months;i++){
+   const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+   const date=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}01`;
+   const url=`https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=${date}&stockNo=${encodeURIComponent(symbol)}&_=${Date.now()+i}`;
+   jobs.push(fetch(url,{cache:'no-store'}).then(async r=>{
+     if(!r.ok) return [];
+     const j=await r.json().catch(()=>null);
+     if(!j || !Array.isArray(j.data)) return [];
+     return j.data.map(x=>({
+       date:rocDateToIso(x?.[0]),
+       Trading_Volume:twseNum(x?.[1]),
+       Trading_money:twseNum(x?.[2]),
+       open:twseNum(x?.[3]),
+       max:twseNum(x?.[4]),
+       min:twseNum(x?.[5]),
+       close:twseNum(x?.[6])
+     })).filter(x=>x.date && Number.isFinite(x.close));
+   }).catch(()=>[]));
+ }
+ const chunks=await Promise.all(jobs);
+ const map=new Map();
+ chunks.flat().forEach(x=>map.set(x.date,x));
+ return [...map.values()].sort((a,b)=>a.date.localeCompare(b.date));
+}
+
 async function run(){
  let raw=$('symbol').value.trim(), s=raw.toUpperCase(), resolvedName='';
  $('go').disabled=true;$('go').textContent='分析中…';$('err').style.display='none';
@@ -2289,8 +2368,24 @@ async function run(){
  let end=new Date(), start=new Date();start.setDate(end.getDate()-420);let f=d=>d.toISOString().slice(0,10);
   let dataset=currentMarket==='US'?'USStockPrice':'TaiwanStockPrice';
   let u=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(s)}&start_date=${f(start)}&end_date=${f(end)}`;
-  let r=await fetch(u),j=await r.json(); if(!r.ok||!j.data||j.data.length<160)throw new Error(j.msg||'歷史資料不足');
-  let d=normalizeData(j.data,currentMarket);
+  let d=[];
+  try{
+    const r=await fetch(u,{cache:'no-store'});
+    const j=await r.json();
+    if(r.ok && Array.isArray(j?.data) && j.data.length>=160) d=normalizeData(j.data,currentMarket);
+  }catch(e){
+    console.warn('FinMind history unavailable',e);
+  }
+  // Desktop Chrome can block browser-to-Yahoo requests by CORS. For TW-listed
+  // stocks, use TWSE's official monthly STOCK_DAY endpoint as a browser-safe fallback.
+  if(d.length<160 && currentMarket==='TW'){
+    const officialRows=await fetchTwseOfficialHistory(s,14);
+    if(officialRows.length>=160){
+      d=officialRows;
+      console.info('Using TWSE official history fallback',s,d.length);
+    }
+  }
+  if(d.length<160) throw new Error('歷史資料不足');
   const restoreEvents=getRestoreEvents(currentMarket,s);
   if(restoreEvents.length) d=applyRestoreEvents(d,restoreEvents);
   const radarMatch=findLatestRadarMatch(currentMarket,s);
@@ -3664,6 +3759,7 @@ function setRadarSnapshot(kind){
  renderFreshness();
  renderMarketOverview();
  renderCapitalHotspots();
+ renderThemeLeaderboards();
  forceRadarAllRender();
 }
 
