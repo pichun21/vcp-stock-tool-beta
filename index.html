@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse BUILD 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
@@ -796,6 +796,10 @@ th{color:#716c64}
 .single-quick-item b.down,.single-relative-weak{color:#b14b42}
 .single-signal-row{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 11px}
 .single-signal-chip{display:inline-flex;align-items:center;padding:6px 9px;border:1px solid #e6dfd5;border-radius:999px;background:#fffdfa;font-size:11px;font-weight:850}
+.single-liquidity-detail{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:-2px 0 12px;padding:9px 11px;border:1px solid #e7e0d6;border-radius:12px;background:#fbfaf7;font-size:11px;color:#6f6a62}
+.single-liquidity-detail b{color:#302d29;font-weight:900}
+.liquidity-desktop{margin-top:4px;font-size:10px;color:#777168;white-space:nowrap}
+@media(max-width:760px){.single-liquidity-detail{font-size:10px;padding:8px 9px}.liquidity-desktop{display:none}}
 @media(max-width:760px){
  .single-quick-read{gap:6px;margin:11px 0 9px}
  .single-quick-item{padding:9px 8px;border-radius:12px}
@@ -1208,6 +1212,43 @@ th{color:#716c64}
   .theme-help-mobile-title{font-size:11px;margin-bottom:4px}
   .theme-help-note{padding:7px 8px;margin-top:6px}
 }
+
+/* V2.42.6.20 — mobile collapsible theme representatives */
+.theme-stock-toggle,.theme-expand-all{display:none}
+@media(max-width:760px){
+  .theme-stock-toggle{display:inline-flex;align-items:center;gap:3px;border:0;background:transparent;color:#9a6a3d;font-size:9px;font-weight:850;padding:2px 0;margin-top:3px;cursor:pointer}
+  .theme-stock-toggle::after{content:"＋";font-weight:900}
+  .theme-row.theme-stocks-open .theme-stock-toggle::after{content:"－"}
+  .theme-stock-panel{display:none}
+  .theme-row.theme-stocks-open .theme-stock-panel{display:block}
+  .theme-expand-all{display:inline-flex;border:1px solid #ddd4c8;background:rgba(255,255,255,.7);color:#756b60;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:850;cursor:pointer;white-space:nowrap}
+  .theme-board-title{align-items:flex-start}
+  .theme-board-actions{display:flex;align-items:center;gap:5px}
+}
+
+/* V2.42.8.1 — 今日漲幅排序方向獨立控制，避免 Safari 原生 select 重複點選誤切換 */
+.change-sort-dir{
+  display:none;
+  min-width:0;
+  width:34px;
+  height:34px;
+  padding:0;
+  border:1px solid #ddd6ca;
+  border-radius:10px;
+  background:#fffdf9;
+  color:#5f584f;
+  font-size:17px;
+  font-weight:900;
+  line-height:1;
+  align-items:center;
+  justify-content:center;
+}
+.change-sort-dir.show{display:inline-flex}
+.change-sort-dir:active{transform:translateY(1px)}
+@media(max-width:760px){
+  .change-sort-dir{width:36px;height:36px}
+}
+
 </style><style>button.pulse-help-trigger{
   font:inherit!important;
   cursor:pointer;
@@ -1313,6 +1354,18 @@ th{color:#716c64}
     <tr><td>🎯 Pivot</td><td>股價接近 Pivot（突破價），或最新交易日首次帶量突破 Pivot</td><td>+1</td></tr>
   </table>
   <p><b>★★★★★</b>：五項皆符合；<b>★★★★☆</b>：已有明顯 VCP 特徵。每日雷達目前以 4 分以上為主要候選。</p>
+  <h3>流動性品質（台股）</h3>
+  <p>流動性品質用來判斷一檔股票「實際上好不好交易」，與 VCP 星等分開計算，不會影響 VCP 5/5 評分。</p>
+  <table>
+    <tr><th>流動性品質</th><th>20 日平均成交量</th><th>解讀</th></tr>
+    <tr><td>🟢 高</td><td>≥ 2,000 張</td><td>交易活躍</td></tr>
+    <tr><td>🟢 良好</td><td>1,000–1,999 張</td><td>流動性良好</td></tr>
+    <tr><td>🟡 普通</td><td>500–999 張</td><td>一般可交易</td></tr>
+    <tr><td>🟠 偏低</td><td>300–499 張</td><td>注意進出</td></tr>
+    <tr><td>⚠️ 低</td><td>100–299 張</td><td>注意滑價與成交</td></tr>
+    <tr><td>🔴 極低</td><td>&lt; 100 張</td><td>交易風險較高</td></tr>
+  </table>
+  <p class="muted"><b>補充：</b>流動性品質只作為交易品質參考；VCPulse 仍另外以 20 日平均成交金額作為基本流動性篩選，台股目前門檻為 2,000 萬元。</p>
   <h3>每日雷達狀態</h3>
   <p>🟢 <b>今日帶量突破</b>：前一交易日尚未突破 Pivot，最新交易日收盤首次站上 Pivot，且成交量明顯放大。</p>
   <p>🔵 <b>突破後</b>：近期已突破 Pivot，且目前仍站在 Pivot 上方；本站追蹤最近 10 個交易日，並顯示相對 Pivot 報酬與突破後最高漲幅，方便觀察突破是否守穩。</p>
@@ -1358,6 +1411,7 @@ th{color:#716c64}
   <div class="single-quick-item"><span>相對強弱</span><b id="singleRelative">—</b></div>
 </div>
 <div class="single-signal-row" id="singleSignals"></div>
+<div class="single-liquidity-detail" id="singleLiquidity" hidden></div>
 <div class="metrics"><div class="metric"><span class="muted">Pivot（突破價）</span><b id="pivot">—</b></div><div class="metric"><span class="muted">距 Pivot</span><b id="dist">—</b></div><div class="metric"><span class="muted">收縮序列</span><b id="contracts">—</b></div><div class="metric"><span class="muted">量能</span><b id="volume">—</b></div></div>
 <div class="checks" id="checks"></div><div class="note" id="summary" aria-hidden="true">輸入股票代號後開始。</div></div>
 
@@ -1425,14 +1479,14 @@ th{color:#716c64}
       <div class="theme-board theme-board-hot">
         <div class="theme-board-title">
           <div><div class="theme-board-main">🔥 熱門題材 Top 5</div><div class="theme-board-desc">現在市場資金正在聚焦</div></div>
-          <span class="theme-board-tag">熱度</span>
+          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="themeTop5List">展開全部 ＋</button><span class="theme-board-tag">熱度</span></div>
         </div>
         <div id="themeTop5List" class="theme-board-list"></div>
       </div>
       <div class="theme-board theme-board-setup">
         <div class="theme-board-title">
           <div><div class="theme-board-main">👀 蓄勢題材 Top 5</div><div class="theme-board-desc">尚未最熱，但型態正在醞釀</div></div>
-          <span class="theme-board-tag">蓄勢</span>
+          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="setupTop5List">展開全部 ＋</button><span class="theme-board-tag">蓄勢</span></div>
         </div>
         <div id="setupTop5List" class="theme-board-list"></div>
       </div>
@@ -1470,7 +1524,9 @@ th{color:#716c64}
           <option value="pivot">距 Pivot 最近</option>
           <option value="squeeze">Squeeze 最強</option>
           <option value="momentum">Momentum 最強</option>
+          <option value="change">今日漲幅</option>
         </select>
+        <button type="button" id="changeSortDirBtn" class="change-sort-dir" aria-label="切換今日漲幅排序方向" title="切換今日漲幅排序方向">↓</button>
         <div class="muted">預計顯示 4 分以上</div>
       </div>
     </div>
@@ -1509,7 +1565,7 @@ const $=id=>document.getElementById(id), API='https://api.finmindtrade.com/api/v
 function pct(x){return (x>=0?'+':'')+x.toFixed(1)+'%'}
 function sma(a,n){return a.map((_,i)=>i<n-1?null:a.slice(i-n+1,i+1).reduce((x,y)=>x+y,0)/n)}
 function analyze(d){
- const close=d.map(x=>+x.close), vol=d.map(x=>+x.Trading_Volume||+x.Trading_money||0), n=close.length, ma50=sma(close,50), ma150=sma(close,150);
+ const close=d.map(x=>+x.close), vol=d.map(x=>+x.Trading_Volume||+x.Trading_money||0), rawVolume=d.map(x=>+x.Trading_Volume||+x.Volume||0), money=d.map(x=>+x.Trading_money||(+x.close)*(+x.Trading_Volume||+x.Volume||0)), n=close.length, ma50=sma(close,50), ma150=sma(close,150);
  let trend=ma50[n-1]&&ma150[n-1]&&close[n-1]>ma50[n-1]&&ma50[n-1]>ma150[n-1];
  // Detect local peaks/troughs, then derive recent peak-to-trough contractions.
  let piv=[]; for(let i=3;i<n-3;i++){let w=close.slice(i-3,i+4); if(close[i]===Math.max(...w))piv.push({i,t:'H',p:close[i]}); if(close[i]===Math.min(...w))piv.push({i,t:'L',p:close[i]})}
@@ -1518,6 +1574,8 @@ function analyze(d){
  drops=drops.slice(-4); let seq=drops.map(x=>x.drop), contracting=seq.length>=2&&seq.slice(1).every((x,i)=>x<seq[i]*1.12);
  let recent=close.slice(-35), pivot=Math.max(...recent.slice(0,-3)), last=close[n-1], distance=(last/pivot-1)*100;
  let v20=vol.slice(-20).reduce((a,b)=>a+b,0)/20, v60=vol.slice(-60,-20).reduce((a,b)=>a+b,0)/Math.max(1,vol.slice(-60,-20).length), dry=v20<v60*.85;
+ const avgVolume20=rawVolume.slice(-20).reduce((a,b)=>a+b,0)/Math.max(1,rawVolume.slice(-20).length);
+ const avgValue20=money.slice(-20).reduce((a,b)=>a+b,0)/Math.max(1,money.slice(-20).length);
  // PowerSqueeze: BB(20,2σ) vs Keltner Channel(EMA20,ATR20)
  const c20=close.slice(-20), mean20=c20.reduce((a,b)=>a+b,0)/c20.length;
  const sd20=Math.sqrt(c20.reduce((a,b)=>a+(b-mean20)**2,0)/c20.length);
@@ -1539,7 +1597,7 @@ function analyze(d){
  let prev=close[n-2], todayBreakout=prev<=pivot && breakout && breakoutVol;
  let pts=0; if(trend)pts++; if(seq.length>=2)pts++; if(contracting)pts++; if(dry)pts++; if(todayBreakout||(!breakout&&distance>-8))pts++;
  let state=todayBreakout?'🟢 今日帶量突破':(!breakout&&distance>-5?'🟡 接近 Pivot':(!breakout?'⚪ VCP 成形中':'🔵 突破後觀察'));
- return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),dates:d.map(x=>x.date)}
+ return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),avgVolume20,avgValue20,dates:d.map(x=>x.date)}
 }
 function draw(a){
  let c=$('chart');
@@ -1959,11 +2017,13 @@ function updateSingleQuickRead(radarMatch,d,a,liveQuote=null){
  if(a?.squeezeState) chips.push(a.squeezeState);
  if(a?.momentum) chips.push(`Momentum ${a.momentum}`);
  $('singleSignals').innerHTML=chips.map(x=>`<span class="single-signal-chip">${escHtml(x)}</span>`).join('');
+ updateSingleLiquidity(radarMatch,a);
 }
 function resetSingleQuickRead(){
  ['singleChange','singleMarketChange','singleRelative'].forEach(id=>{const el=$(id);if(el){el.textContent='—';el.className='';}});
  if($('singleMarketName')) $('singleMarketName').textContent='';
  if($('singleSignals')) $('singleSignals').innerHTML='';
+ if($('singleLiquidity')){$('singleLiquidity').hidden=true;$('singleLiquidity').innerHTML='';}
 }
 
 
@@ -2210,6 +2270,7 @@ function renderSingleFromRadarFallback(symbol,row){
     if(row.momentum) chips.push(row.momentum);
     $('singleSignals').innerHTML=chips.map(x=>`<span class="single-signal-chip">${escHtml(x)}</span>`).join('');
   }
+  updateSingleLiquidity(row,null);
 
   drawRadarFallbackMessage();
   return true;
@@ -2232,7 +2293,11 @@ async function run(){
   let d=normalizeData(j.data,currentMarket);
   const restoreEvents=getRestoreEvents(currentMarket,s);
   if(restoreEvents.length) d=applyRestoreEvents(d,restoreEvents);
-  let a=analyze(d),stockName=resolvedName || await getStockName(s,currentMarket);
+  const radarMatch=findLatestRadarMatch(currentMarket,s);
+  // Keep the company name identical to Daily Radar whenever the symbol exists there.
+  // Yahoo/FinMind metadata can add legal suffixes such as "Common Stock", while
+  // the scanner stores the cleaned display name used throughout VCPulse.
+  let a=analyze(d),stockName=resolvedName || String(radarMatch?.name||'').trim() || await getStockName(s,currentMarket);
   a.restoreEvents=restoreEvents;
   const restoreNote=$('singleRestoreNote');
   if(restoreNote){
@@ -2256,7 +2321,6 @@ async function run(){
 
   // If this stock exists in today's radar, use the SAME scanner result for the
   // headline VCP metrics. This keeps single-stock analysis and Daily Radar consistent.
-  const radarMatch=findLatestRadarMatch(currentMarket,s);
   let liveQuote=null;
   try{
     liveQuote=await getSingleLatestQuote(currentMarket,s);
@@ -2435,9 +2499,51 @@ function themeStockDisplayName(code){
  return name && name.toUpperCase()!==c ? name : '';
 }
 
+let themeReturnState=null;
+
+function rememberThemePosition(symbol,sourceEl){
+ themeReturnState={
+   symbol:String(symbol||'').toUpperCase(),
+   scrollY:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+   element:sourceEl || null
+ };
+ const btn=document.getElementById('radarBackFloat');
+ if(btn){
+   btn.hidden=false;
+   btn.textContent='← 返回題材雷達';
+   btn.setAttribute('onclick','returnToThemePosition()');
+ }
+}
+
+function returnToThemePosition(){
+ if(!themeReturnState) return;
+ const saved=themeReturnState;
+ let target=saved.element;
+ if(!target || !document.documentElement.contains(target)){
+   target=[...document.querySelectorAll('[data-theme-stock]')].find(el=>String(el.dataset.themeStock||'').toUpperCase()===saved.symbol) || null;
+ }
+ if(target){
+   const row=target.closest('.theme-row') || target;
+   if(row.classList.contains('theme-row')) row.classList.add('theme-stocks-open');
+   try{ row.scrollIntoView({behavior:'smooth',block:'center'}); }
+   catch(e){ row.scrollIntoView(); }
+   row.classList.remove('radar-return-highlight-3s');
+   void row.offsetWidth;
+   row.classList.add('radar-return-highlight-3s');
+   setTimeout(()=>{ if(row && document.documentElement.contains(row)) row.classList.remove('radar-return-highlight-3s'); },3000);
+ }else{
+   const y=Number(saved.scrollY)||0;
+   try{ window.scrollTo({top:y,behavior:'smooth'}); }
+   catch(e){ window.scrollTo(0,y); }
+ }
+ const btn=document.getElementById('radarBackFloat');
+ if(btn) btn.hidden=true;
+}
+
 async function openThemeStock(symbol,sourceEl){
  const code=String(symbol||'').toUpperCase();
  if(!code) return;
+ rememberThemePosition(code,sourceEl);
  setMarket('TW',{reset:false});
  $('symbol').value=code;
  const singleSection=$('symbol')?.closest('.section') || $('symbol');
@@ -2472,10 +2578,31 @@ function renderThemeLeaderboards(){
     const label=n?`${c} ${cleanStockDisplayName(n)}`:c;
     return `<button type="button" class="theme-stock-link" data-theme-stock="${escHtml(c)}" title="查看 ${escHtml(label)} 完整分析">${escHtml(label)}</button>`;
   }).join('');
-  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div class="theme-main"><div class="theme-mobile-head"><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔</div></div><div class="theme-score theme-score-mobile">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>${stockLinks?`<div class="theme-stock-caption">代表股 Top ${stockDetails.length}</div><div class="theme-stock-links">${stockLinks}</div>`:''}</div><div class="theme-score theme-score-desktop">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>`;
+  return `<div class="theme-row"><span class="theme-rank">${i+1}</span><div class="theme-main"><div class="theme-mobile-head"><div><div class="theme-name">${escHtml(String(r.theme||'—'))}</div><div class="theme-sub">共 ${Number(r.constituents||0)} 檔</div></div><div class="theme-score theme-score-mobile">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>${stockLinks?`<button type="button" class="theme-stock-toggle">查看代表股 Top ${stockDetails.length}</button><div class="theme-stock-panel"><div class="theme-stock-caption">代表股 Top ${stockDetails.length}</div><div class="theme-stock-links">${stockLinks}</div></div>`:''}</div><div class="theme-score theme-score-desktop">${mode==='heat'?'🔥 市場熱度':'👀 蓄勢程度'} ${Math.round(main)}<small>${mode==='heat'?'👀 蓄勢程度':'🔥 市場熱度'} ${Math.round(peer)}</small></div></div>`;
  }).join('');
  heatBox.innerHTML=draw(heat,'heat'); setupBox.innerHTML=draw(setup,'setup');
 }
+
+document.addEventListener('click',e=>{
+ const toggle=e.target.closest?.('.theme-stock-toggle');
+ if(toggle){
+  e.preventDefault();
+  const row=toggle.closest('.theme-row');
+  if(row) row.classList.toggle('theme-stocks-open');
+  return;
+ }
+ const all=e.target.closest?.('[data-theme-expand-all]');
+ if(all){
+  e.preventDefault();
+  const list=document.getElementById(all.dataset.themeExpandAll);
+  if(!list)return;
+  const rows=[...list.querySelectorAll('.theme-row')].filter(r=>r.querySelector('.theme-stock-panel'));
+  const shouldOpen=rows.some(r=>!r.classList.contains('theme-stocks-open'));
+  rows.forEach(r=>r.classList.toggle('theme-stocks-open',shouldOpen));
+  all.textContent=shouldOpen?'全部收合 －':'展開全部 ＋';
+  return;
+ }
+});
 
 document.addEventListener('click',e=>{
  const btn=e.target.closest?.('[data-theme-stock]');
@@ -2506,6 +2633,7 @@ function setMarket(m,{reset=true}={}){
  document.querySelectorAll('.radar-market-btn').forEach(b=>b.classList.toggle('active',b.dataset.market===m));
  renderMarketOverview();
  renderCapitalHotspots();
+ renderThemeLeaderboards();
  const marketCount=(arr,m)=>arr.filter(x=>String(x.market||'').toUpperCase()===String(m||'TW').toUpperCase()).length;
  const officialCount=document.getElementById('officialCount');
  const intradayCount=document.getElementById('intradayCount');
@@ -2549,6 +2677,7 @@ let userLiveUpdatedAt='';
 
 let radarFilter = 'all';
 let radarSort = 'smart';
+let radarChangeSortDir = 'desc'; // desc: 漲最多→跌最多；asc: 跌最多→漲最多
 let mobileRadarPage = 1;
 const MOBILE_RADAR_PAGE_SIZE = 5;
 
@@ -2604,6 +2733,22 @@ function attentionReason(r){
 }
 function pulseLabel(r){ return RADAR_UI.pulse[r.pulse_signal] || r.pulse_label || '⏳ 等待'; }
 function volumeLabel(r){ return r.volume_dry ? '量縮 ✓' : '一般'; }
+function liquidityInfo(r){
+ if(String(r?.market||currentMarket||'TW').toUpperCase()!=='TW') return null;
+ let lots=Number(r?.avg_volume_20d_lots);
+ if(!Number.isFinite(lots)){const raw=Number(r?.avg_volume_20d ?? r?.avgVolume20);if(Number.isFinite(raw)) lots=raw/1000;}
+ if(!Number.isFinite(lots)) return null;
+ let emoji='🔴',label='極低';
+ if(lots>=2000){emoji='🟢';label='高';}else if(lots>=1000){emoji='🟢';label='良好';}else if(lots>=500){emoji='🟡';label='普通';}else if(lots>=300){emoji='🟠';label='偏低';}else if(lots>=100){emoji='⚠️';label='低';}
+ return {emoji,label,lots};
+}
+function fmtLots(v){const n=Number(v);if(!Number.isFinite(n))return '—';return n>=100?Math.round(n).toLocaleString('zh-TW'):n.toFixed(n<10?1:0);}
+function fmtMoneyTW(v){const n=Number(v);if(!Number.isFinite(n))return '—';if(n>=1e8)return `${(n/1e8).toFixed(n>=1e9?1:2)} 億`;if(n>=1e4)return `${Math.round(n/1e4).toLocaleString('zh-TW')} 萬`;return Math.round(n).toLocaleString('zh-TW');}
+function liquidityCompact(r){const q=liquidityInfo(r);return q?`${q.emoji} ${q.label}`:'';}
+function liquidityDesktop(r){const q=liquidityInfo(r);return q?`${q.emoji} ${q.label} · ${fmtLots(q.lots)} 張`:'';}
+function updateSingleLiquidity(radarMatch,a){
+ const box=$('singleLiquidity');if(!box)return;const src={market:currentMarket,avg_volume_20d_lots:radarMatch?.avg_volume_20d_lots,avg_volume_20d:radarMatch?.avg_volume_20d,avgVolume20:a?.avgVolume20};const q=liquidityInfo(src);if(!q){box.hidden=true;box.innerHTML='';return;}const value=Number(radarMatch?.avg_value_20d ?? a?.avgValue20);box.hidden=false;box.innerHTML=`<b>流動性 ${q.emoji} ${q.label}</b><span>20日均量 ${fmtLots(q.lots)} 張</span>${Number.isFinite(value)?`<span>20日均額 ${fmtMoneyTW(value)}</span>`:''}`;
+}
 function signedPct(v){ const n=Number(v); if(!Number.isFinite(n)) return '—'; return `${n>0?'+':''}${n.toFixed(1)}%`; }
 
 const FAVORITES_KEY='vcpulse_favorites_v1';
@@ -2744,7 +2889,7 @@ function rememberRadarPosition(market,symbol,sourceEl){
    element:sourceEl || null
  };
  const btn=document.getElementById('radarBackFloat');
- if(btn) btn.hidden=false;
+ if(btn){ btn.hidden=false; btn.textContent='← 返回剛才清單'; btn.setAttribute('onclick','returnToRadarPosition()'); }
 }
 
 function returnToRadarPosition(){
@@ -2933,6 +3078,13 @@ function renderRadar(filter='all'){
    if(radarSort==='pivot') return (Math.abs(a.distance??999)-Math.abs(b.distance??999)) || smartSort(a,b);
    if(radarSort==='squeeze') return ((squeezeRank[a.squeeze_level]??9)-(squeezeRank[b.squeeze_level]??9)) || smartSort(a,b);
    if(radarSort==='momentum') return ((momentumRank[a.momentum_dir]??9)-(momentumRank[b.momentum_dir]??9)) || smartSort(a,b);
+   if(radarSort==='change'){
+     const av=Number(a.change_pct), bv=Number(b.change_pct);
+     const af=Number.isFinite(av), bf=Number.isFinite(bv);
+     if(af!==bf) return af?-1:1;
+     if(af && bf && av!==bv) return radarChangeSortDir==='asc' ? av-bv : bv-av;
+     return smartSort(a,b);
+   }
    return smartSort(a,b);
  });
 
@@ -2974,7 +3126,7 @@ function renderRadar(filter='all'){
      </div>
    </td>
    <td><span class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}</span>${r._live?'<span class="live-quote-badge">即時</span>':''}</td>
-   <td>${esc(volumeLabel(r))}</td>
+   <td>${esc(volumeLabel(r))}${liquidityDesktop(r)?`<div class="liquidity-desktop">${esc(liquidityDesktop(r))}</div>`:''}</td>
    <td>${esc(squeezeLabel(r))}</td>
    <td>${esc(momentumLabel(r))}</td>
    <td class="status-dot">${esc(stageLabel(r))}${r.type==='postbreakout'?`<div class="muted postbreakout-mini">目前 ${esc(signedPct(r.breakout_return_pct ?? r.distance))} · 最高漲幅 ${esc(signedPct(r.breakout_high_pct ?? r.breakout_return_pct ?? r.distance))}</div>`:''}</td>
@@ -3128,6 +3280,7 @@ function renderRadar(filter='all'){
        <div class="mobile-signal-row">
          <span class="mobile-signal">${esc(squeezeLabel(r))}</span>
          <span class="mobile-signal">${esc(momentumLabel(r))}</span>
+         ${liquidityCompact(r)?`<span class="mobile-signal">${esc(liquidityCompact(r))}</span>`:''}
          ${r.combo?'<span class="mobile-signal">⚡ VCP＋Squeeze</span>':''}
        </div>
        <div class="mobile-why">
@@ -3602,14 +3755,45 @@ document.querySelectorAll('.radar-tab').forEach(btn=>{
  });
 });
 const radarSortSelect=document.getElementById('radarSort');
-if(radarSortSelect){
- radarSortSelect.value=radarSort;
- radarSortSelect.addEventListener('change',()=>{
-   radarSort=radarSortSelect.value;
-   mobileRadarPage=1;
-   renderRadar(radarFilter);
- });
+const changeSortDirBtn=document.getElementById('changeSortDirBtn');
+
+function syncChangeSortDirectionUI(){
+  if(!changeSortDirBtn) return;
+  const active=radarSort==='change';
+  changeSortDirBtn.classList.toggle('show',active);
+  changeSortDirBtn.textContent=radarChangeSortDir==='asc'?'↑':'↓';
+  changeSortDirBtn.title=radarChangeSortDir==='asc'
+    ? '目前：跌最多 → 漲最多；點一下切換'
+    : '目前：漲最多 → 跌最多；點一下切換';
+  changeSortDirBtn.setAttribute('aria-label',changeSortDirBtn.title);
 }
+
+if(radarSortSelect){
+  radarSortSelect.value=radarSort;
+  radarSortSelect.addEventListener('change',()=>{
+    const next=radarSortSelect.value;
+    const enteringChange=next==='change' && radarSort!=='change';
+    radarSort=next;
+    if(enteringChange) radarChangeSortDir='desc';
+    mobileRadarPage=1;
+    syncChangeSortDirectionUI();
+    renderRadar(radarFilter);
+  });
+}
+
+if(changeSortDirBtn){
+  changeSortDirBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    if(radarSort!=='change') return;
+    radarChangeSortDir=radarChangeSortDir==='desc'?'asc':'desc';
+    mobileRadarPage=1;
+    syncChangeSortDirectionUI();
+    renderRadar(radarFilter);
+  });
+}
+
+syncChangeSortDirectionUI();
 
 
 const userLiveRefreshBtn=document.getElementById('userLiveRefreshBtn');
@@ -4239,5 +4423,35 @@ document.addEventListener('click',(e)=>{
 /* V2.41.51 — mobile chart jump keeps stock identity visible below sticky login bar */
 @media(max-width:760px){
   #singleStockAnalysis .grid>.card:first-child{scroll-margin-top:calc(76px + env(safe-area-inset-top));}
+}
+</style>
+
+<style>
+/* V2.42.9 — mobile long US company names must not widen the whole page */
+@media(max-width:720px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .wrap,.grid,.grid>.card,.topline,.topline>div:first-child{min-width:0;max-width:100%}
+  .single-title-row{
+    display:flex !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    align-items:flex-start !important;
+  }
+  .single-title-row .ticker{
+    flex:1 1 auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+    word-break:normal !important;
+    line-height:1.15 !important;
+  }
+  .single-title-row .single-title-favorite{
+    flex:0 0 21px !important;
+    margin-top:1px !important;
+  }
 }
 </style>
