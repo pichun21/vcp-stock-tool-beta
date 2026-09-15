@@ -87,7 +87,7 @@ def main():
     ap.add_argument("--tx-csv",default="data/raw_taifex_daily_futures.csv")
     ap.add_argument("--output",default="data/market_pulse_history.csv")
     args=ap.parse_args()
-    end=args.end or (pd.Timestamp.utcnow().normalize()+pd.Timedelta(days=2)).strftime("%Y-%m-%d")
+    end=args.end or (pd.Timestamp.now(tz='UTC').normalize()+pd.Timedelta(days=2)).strftime("%Y-%m-%d")
 
     raw={k:dl(t,args.start,end) for k,t in TICKERS.items()}
     tw=raw["tw"].copy()
@@ -106,7 +106,7 @@ def main():
 
     # ^TNX is yield level in percent; convert session-to-session move to basis points.
     y=raw["us10y"].set_index("Date")["Close"].astype(float)
-    bp=y.diff(fill_method=None)*100
+    bp=y.diff()*100
     out["us10y"]=latest_before(bp,dates)
 
     tx=load_tx(args.tx_csv)
