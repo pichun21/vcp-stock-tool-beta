@@ -1,0 +1,33 @@
+name: Market Pulse Validation v0.1
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_csv:
+        description: "History CSV path"
+        required: false
+        default: "data/market_pulse_history.csv"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Run Market Pulse validation
+        run: |
+          python tools/market_pulse_validation_v0_1.py \
+            --input "${{ inputs.input_csv }}" \
+            --outdir validation_output/market_pulse_v0_1
+      - name: Upload validation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-pulse-validation-v0.1
+          path: validation_output/market_pulse_v0_1/
