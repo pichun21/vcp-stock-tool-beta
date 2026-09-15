@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.6.4 THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.42.8 PRODUCTION THEME RADAR + THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 import requests
+import certifi
 import yfinance as yf
 
 ROOT = Path(__file__).resolve().parent
@@ -116,67 +117,212 @@ def _yf_index_snapshot(ticker, label):
     return None
 
 
-def _fetch_tpex_official_close():
-    """Official TPEx historical close fallback.
-    The public OpenAPI is end-of-day/historical, so it is NOT used as the first
-    source for an intraday snapshot.
+def _yf_index_daily_snapshot(ticker, label):
+    """Completed daily index close for official snapshots.
+    Unlike _yf_index_snapshot(), this deliberately skips intraday bars so an
+    official run cannot keep a stale 13:xx quote as the closing benchmark.
     """
     try:
-        url = "https://www.tpex.org.tw/openapi/v1/tpex_index"
-        r = requests.get(
-            url, timeout=30,
-            headers={
-                "User-Agent": "Mozilla/5.0 (VCPulse; GitHub Actions)",
-                "Accept": "application/json"
-            }
+        df = yf.download(
+            ticker, period="10d", interval="1d",
+            auto_adjust=False, progress=False, threads=False
         )
-        r.raise_for_status()
-        data = r.json()
-        if isinstance(data, dict):
-            data = data.get("data") or data.get("results") or data.get("result") or []
-        if not isinstance(data, list) or not data:
+        if df is not None and len(df) >= 2:
+            if isinstance(df.columns, pd.MultiIndex):
+                close = df["Close"].iloc[:, 0].dropna()
+            else:
+                close = df["Close"].dropna()
+            if len(close) >= 2:
+                last = float(close.iloc[-1])
+                prev = float(close.iloc[-2])
+                pts = last - prev
+                pct = (pts / prev * 100) if prev else 0.0
+                d = pd.Timestamp(close.index[-1]).strftime("%Y-%m-%d")
+                return {
+                    "id": ticker,
+                    "label": label,
+                    "close": round(last, 2),
+                    "change_points": round(pts, 2),
+                    "change_pct": round(pct, 2),
+                    "data_time": d,
+                    "source": "Yahoo/yfinance daily official"
+                }
+    except Exception as e:
+        print(f"benchmark {ticker} official daily warning:", repr(e))
+    return None
+
+
+def _normalize_tw_market_date(value):
+    """Normalize Gregorian/ROC compact market dates to YYYY-MM-DD.
+
+    Handles examples used by Taiwan market sources:
+      20260914 -> 2026-09-14
+      1150914  -> 2026-09-14  (ROC year 115)
+      2026/09/14, 2026-09-14 -> 2026-09-14
+    Returns the original trimmed text if it cannot be normalized.
+    """
+    raw = str(value or "").strip()
+    if not raw:
+        return ""
+    digits = re.sub(r"\D", "", raw)
+    try:
+        if re.fullmatch(r"\d{8}", digits):
+            y, m, d = int(digits[:4]), int(digits[4:6]), int(digits[6:8])
+            return f"{y:04d}-{m:02d}-{d:02d}"
+        if re.fullmatch(r"\d{7}", digits):
+            # TPEx historical index commonly uses ROC yyyMMdd, e.g. 1150914.
+            roc_y, m, d = int(digits[:3]), int(digits[3:5]), int(digits[5:7])
+            return f"{roc_y + 1911:04d}-{m:02d}-{d:02d}"
+        return pd.to_datetime(raw, errors="raise").strftime("%Y-%m-%d")
+    except Exception:
+        return raw
+
+
+def _fetch_tpex_official_close():
+    """Fetch the latest official TPEx OTC market close.
+
+    Prefer TPEx's current market summary endpoint because the historical
+    tpex_index feed can lag behind the public market page. Fall back to the
+    historical endpoint only when the current-market endpoint is unavailable.
+    """
+
+    def _json_list(url):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (VCPulse; GitHub Actions)",
+            "Accept": "application/json"
+        }
+
+        # First use certifi's CA bundle explicitly. Some GitHub Actions
+        # environments have an incomplete system certificate chain for TPEx.
+        try:
+            r = requests.get(
+                url,
+                timeout=30,
+                headers=headers,
+                verify=certifi.where(),
+            )
+            r.raise_for_status()
+        except requests.exceptions.SSLError as e:
+            # TPEx's public HTTPS chain can intermittently fail certificate
+            # validation in hosted runners even though the same endpoint is
+            # reachable in browsers. Retry only this official TPEx endpoint
+            # without certificate verification so benchmark refresh does not
+            # silently retain a stale prior-trading-day value.
+            print("TPEX SSL verify failed with certifi; retrying official TPEx endpoint:", repr(e))
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            r = requests.get(
+                url,
+                timeout=30,
+                headers=headers,
+                verify=False,
+            )
+            r.raise_for_status()
+
+        payload = r.json()
+        if isinstance(payload, list):
+            return payload
+        if isinstance(payload, dict):
+            for key in ("data", "results", "result"):
+                v = payload.get(key)
+                if isinstance(v, list):
+                    return v
+        return []
+
+    def _pick(row, names):
+        if not isinstance(row, dict):
+            return None
+        for n in names:
+            if n in row and row[n] not in (None, ""):
+                return row[n]
+        normalized = {
+            str(k).lower().replace(" ", "").replace("_", ""): v
+            for k, v in row.items()
+        }
+        for n in names:
+            nk = str(n).lower().replace(" ", "").replace("_", "")
+            if nk in normalized and normalized[nk] not in (None, ""):
+                return normalized[nk]
+        return None
+
+    def _num(v):
+        if v in (None, ""):
+            return None
+        s = str(v).strip().replace(",", "").replace("+", "")
+        # TPEx may use symbols around the numeric value.
+        s = re.sub(r"[^0-9.\-]", "", s)
+        if not s or s in ("-", ".", "-."):
+            return None
+        try:
+            return float(s)
+        except Exception:
             return None
 
-        def pick(row, names):
-            for n in names:
-                if n in row and row[n] not in (None, ""):
-                    return row[n]
-            normalized = {
-                str(k).lower().replace(" ", "").replace("_", ""): v
-                for k, v in row.items()
+    # 1) Current market summary: this is the dataset behind the current
+    #    "上櫃大盤走勢" information and is preferred for same-day close.
+    try:
+        url = "https://www.tpex.org.tw/openapi/v1/tpex_mainborad_highlight"
+        rows = _json_list(url)
+        candidates = []
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            ds_raw = _pick(row, ["資料日期", "Date", "date", "日期"])
+            close_raw = _pick(row, ["收市指數", "收盤指數", "收市", "Close", "close"])
+            pts_raw = _pick(row, ["指數漲跌", "漲跌點數", "漲跌", "Change", "change"])
+            close = _num(close_raw)
+            pts = _num(pts_raw)
+            if close is None:
+                continue
+            ds = _normalize_tw_market_date(ds_raw)
+            candidates.append((ds, str(ds_raw or ""), close, pts, row))
+
+        if candidates:
+            candidates.sort(key=lambda x: x[0])
+            ds, ds_raw, last, pts, row = candidates[-1]
+            if pts is None:
+                pts = 0.0
+            prev = last - pts
+            pct = (pts / prev * 100) if prev else 0.0
+            print(
+                "TPEX current market parsed:",
+                f"raw_date={ds_raw} normalized_date={ds} close={last} change={pts}"
+            )
+            return {
+                "id": "tpex_index",
+                "label": "上櫃｜櫃買指數",
+                "close": round(last, 2),
+                "change_points": round(pts, 2),
+                "change_pct": round(pct, 2),
+                "data_time": ds,
+                "source": "TPEx current market summary"
             }
-            for n in names:
-                nk = str(n).lower().replace(" ", "").replace("_", "")
-                if nk in normalized and normalized[nk] not in (None, ""):
-                    return normalized[nk]
-            return None
+    except Exception as e:
+        print("benchmark TPEX current-market warning:", repr(e))
 
+    # 2) Historical fallback.
+    try:
+        url = "https://www.tpex.org.tw/openapi/v1/tpex_index"
+        data = _json_list(url)
         parsed = []
         for row in data:
             if not isinstance(row, dict):
                 continue
-            ds = pick(row, ["Date", "date", "資料日期", "日期"])
-            cv = pick(row, ["Close", "close", "收市", "收盤", "收市指數", "Index", "index"])
-            if cv in (None, ""):
+            ds_raw = _pick(row, ["Date", "date", "資料日期", "日期"])
+            cv = _pick(row, ["Close", "close", "收市", "收盤", "收市指數", "收盤指數", "Index", "index"])
+            close = _num(cv)
+            if close is None:
                 continue
-            try:
-                c = float(str(cv).replace(",", ""))
-            except Exception:
-                continue
-            parsed.append((str(ds or ""), c, row))
+            parsed.append((str(ds_raw or ""), close, row))
         if not parsed:
             return None
 
-        parsed.sort(key=lambda x: x[0])
-        ds, last, lastrow = parsed[-1]
+        parsed.sort(key=lambda x: _normalize_tw_market_date(x[0]))
+        ds_raw, last, lastrow = parsed[-1]
+        ds = _normalize_tw_market_date(ds_raw)
 
-        change_raw = pick(lastrow, ["Change", "change", "漲跌", "指數漲跌", "ChangePoints"])
-        pts = None
-        if change_raw not in (None, ""):
-            try:
-                pts = float(str(change_raw).replace(",", "").replace("+", ""))
-            except Exception:
-                pts = None
+        change_raw = _pick(lastrow, ["Change", "change", "漲跌", "指數漲跌", "漲跌點數", "ChangePoints"])
+        pts = _num(change_raw)
         if pts is None and len(parsed) >= 2:
             pts = last - parsed[-2][1]
         if pts is None:
@@ -184,6 +330,10 @@ def _fetch_tpex_official_close():
 
         prev = last - pts
         pct = (pts / prev * 100) if prev else 0.0
+        print(
+            "TPEX historical fallback parsed:",
+            f"raw_date={ds_raw} normalized_date={ds} close={last} change={pts}"
+        )
         return {
             "id": "tpex_index",
             "label": "上櫃｜櫃買指數",
@@ -191,32 +341,43 @@ def _fetch_tpex_official_close():
             "change_points": round(pts, 2),
             "change_pct": round(pct, 2),
             "data_time": ds,
-            "source": "TPEx official close"
+            "source": "TPEx historical official close"
         }
     except Exception as e:
-        print("benchmark TPEX official warning:", repr(e))
+        print("benchmark TPEX historical warning:", repr(e))
         return None
 
 
-def fetch_tw_benchmarks():
+def fetch_tw_benchmarks(official=False):
     """Fetch Taiwan benchmarks on the GitHub Actions server.
 
-    TWSE and TPEx first try Yahoo/yfinance intraday bars, avoiding browser CORS.
-    TPEx official OpenAPI is retained only as an end-of-day fallback.
+    Intraday snapshots prefer Yahoo 5-minute bars. Official snapshots force
+    completed daily/official sources so the closing dashboard does not inherit
+    a stale intraday quote.
     """
     out = {}
 
-    twse = _yf_index_snapshot("^TWII", "上市｜加權指數")
+    if official:
+        twse = _yf_index_daily_snapshot("^TWII", "上市｜加權指數")
+        # For TPEx official close, prefer the exchange OpenAPI. Yahoo daily is
+        # retained as fallback in case the official endpoint is temporarily unavailable.
+        tpex = _fetch_tpex_official_close()
+        if not tpex:
+            tpex = _yf_index_daily_snapshot("^TWOII", "上櫃｜櫃買指數")
+        if not tpex:
+            tpex = _yf_index_daily_snapshot("^TWO", "上櫃｜櫃買指數")
+    else:
+        twse = _yf_index_snapshot("^TWII", "上市｜加權指數")
+        # During the session, prefer a same-day Yahoo/yfinance quote instead of
+        # accepting TPEx historical OpenAPI's previous-day close.
+        tpex = _yf_index_snapshot("^TWOII", "上櫃｜櫃買指數")
+        if not tpex:
+            tpex = _yf_index_snapshot("^TWO", "上櫃｜櫃買指數")
+        if not tpex:
+            tpex = _fetch_tpex_official_close()
+
     if twse:
         out["TWSE"] = twse
-
-    # Important: during the trading session, prefer a same-day Yahoo/yfinance
-    # quote instead of accepting TPEx historical OpenAPI's previous-day close.
-    tpex = _yf_index_snapshot("^TWOII", "上櫃｜櫃買指數")
-    if not tpex:
-        tpex = _yf_index_snapshot("^TWO", "上櫃｜櫃買指數")
-    if not tpex:
-        tpex = _fetch_tpex_official_close()
     if tpex:
         out["TPEX"] = tpex
 
@@ -354,10 +515,12 @@ def clean_us_company_name(name, symbol=""):
     # Examples from constituent source:
     # "Integer Holdings Corp $126.37 +0.13% Latest trade · 9 Sep"
     # "AtriCure, Inc. $53.10 -1.18% Latest trade · 9 Sep"
-    s=re.sub(r"\s+\$[\d,]+(?:\.\d+)?\s+[+\-−]?\d+(?:\.\d+)?%\s+Latest\s+trade\b.*$","",s,flags=re.I)
-    s=re.sub(r"\s+Latest\s+trade\b.*$","",s,flags=re.I)
+    # "Pediatrix Medical Group, Inc. $26.77 +0.15% Close · 11 Sep"
+    quote_tail=r"\s+\$[\d,]+(?:\.\d+)?\s+[+\-−]?\d+(?:\.\d+)?%"
+    s=re.sub(quote_tail+r"\s+(?:Latest\s+trade|Close)\b.*$","",s,flags=re.I)
+    s=re.sub(r"\s+(?:Latest\s+trade|Close)\b\s*[·|\-]?\s*\d{1,2}\s+[A-Za-z]{3,9}\s*$","",s,flags=re.I)
     # Conservative trailing quote cleanup if wording changes but price/change remains.
-    s=re.sub(r"\s+\$[\d,]+(?:\.\d+)?\s+[+\-−]?\d+(?:\.\d+)?%\s*$","",s)
+    s=re.sub(quote_tail+r"\s*$","",s,flags=re.I)
     s=re.sub(r"\s{2,}"," ",s).strip(" ·|-")
     return s or str(symbol or "").strip()
 
@@ -624,6 +787,8 @@ def analyze(df,item,market):
         "pulse_signal":pulse_signal,"pulse_label":pulse_label,"pulse_points":signal_points,
         "pulse_reasons":signal_reasons,"data_date":df.index[-1].strftime("%Y-%m-%d"),
         "avg_value_20d":round(avg_value,0),
+        "avg_volume_20d":round(v20,0),
+        "avg_volume_20d_lots":round(v20/1000.0,1) if market=="TW" else None,
     }
 
 
@@ -1560,6 +1725,7 @@ def recover_previous_official_tw(current_data_date):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--market",choices=["TW","US","both"],default="both")
+    ap.add_argument("--benchmark-only", action="store_true", help="Refresh TW official benchmark cards only; do not rescan stocks.")
     ap.add_argument(
         "--snapshot",
         choices=["auto","intraday","official"],
@@ -1567,6 +1733,39 @@ def main():
         help="Where to store this run. Manual Actions should pass intraday/official explicitly."
     )
     args=ap.parse_args()
+
+    # V2.42.7: lightweight post-close benchmark refresh.
+    # TPEx may publish the official OTC index later than the 18:10 stock scan,
+    # so the 19:15 workflow can refresh only the benchmark cards without
+    # rescanning the full TW universe or changing radar/theme results.
+    if args.benchmark_only:
+        old=load_existing()
+        official_benchmarks=dict(old.get("official_benchmarks",{}) or {})
+        target_date=((old.get("official_markets",{}) or {}).get("TW") or {}).get("data_date")
+        fresh=fetch_tw_benchmarks(official=True)
+
+        accepted={}
+        for key,val in (fresh or {}).items():
+            ds=_normalize_tw_market_date((val or {}).get("data_time"))
+            target_ds=_normalize_tw_market_date(target_date)
+            if target_ds and ds==target_ds:
+                accepted[key]=val
+            else:
+                print(f"TW BENCHMARK REFRESH: skip {key}; data_time={ds or 'NONE'} target={target_date or 'NONE'}")
+
+        if not accepted:
+            print("TW BENCHMARK REFRESH: no same-day official benchmark available yet; screening.json unchanged.")
+            return
+
+        prev=dict(official_benchmarks.get("TW",{}) or {})
+        prev.update(accepted)
+        official_benchmarks["TW"]=prev
+        old["official_benchmarks"]=official_benchmarks
+        old["generated_at"]=datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M")
+        old["benchmark_refreshed_at"]=datetime.now(TAIPEI).strftime("%Y-%m-%d %H:%M")
+        OUT.write_text(json.dumps(old,ensure_ascii=False,indent=2),encoding="utf-8")
+        print("TW BENCHMARK REFRESH updated:", {k:{"close":v.get("close"),"data_time":v.get("data_time"),"source":v.get("source")} for k,v in accepted.items()})
+        return
 
     global OFFICIAL_RESTORE_EVENTS
     OFFICIAL_RESTORE_EVENTS=fetch_official_restore_events()
@@ -1660,7 +1859,7 @@ def main():
             official = (market=="US") or is_tw_official_snapshot(rows)
 
         print(f"{market}: requested snapshot={args.snapshot} -> storing as {'official' if official else 'intraday'}")
-        market_benchmark = fetch_tw_benchmarks() if market=="TW" else (fetch_us_benchmarks() if market=="US" else {})
+        market_benchmark = fetch_tw_benchmarks(official=official) if market=="TW" else (fetch_us_benchmarks() if market=="US" else {})
         theme_market_return=0.0
         if market=="TW":
             try:
