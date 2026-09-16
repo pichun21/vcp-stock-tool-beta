@@ -1,0 +1,57 @@
+name: VCPulse v1.1c Parameter Calibration
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "驗證起始日期 YYYY-MM-DD"
+        required: true
+        default: "2025-09-10"
+      end_date:
+        description: "驗證結束日期 YYYY-MM-DD"
+        required: true
+        default: "2026-09-10"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+      - name: Restore FinMind cache
+        uses: actions/cache@v4
+        with:
+          path: backtest_cache
+          key: vcpulse-finmind-${{ inputs.start_date }}-${{ inputs.end_date }}-v1
+          restore-keys: |
+            vcpulse-finmind-
+      - name: Rebuild frozen long history
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py \
+            --theme-db data/vcpulse_themes_v2_6_score_calibration.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir backtest_cache \
+            --out-dir backtest_output \
+            --max-days 0
+      - name: Verify v1.1c runner version
+        run: |
+          grep 'RUNNER_VERSION="2.44.4"' tools/vcpulse_v11c_parameter_calibration.py
+          python -m py_compile tools/vcpulse_v11c_parameter_calibration.py
+      - name: Run v1.1c parameter calibration
+        run: |
+          python tools/vcpulse_v11c_parameter_calibration.py \
+            --daily backtest_output/backtest_daily.json \
+            --cache-dir backtest_cache \
+            --out-dir v11c_calibration_output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-v1-1c-parameter-calibration
+          path: v11c_calibration_output/
