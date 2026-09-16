@@ -1,0 +1,57 @@
+name: VCPulse v1.1d Holdout Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Holdout 起始日期 YYYY-MM-DD"
+        required: true
+        default: "2024-09-10"
+      end_date:
+        description: "Holdout 結束日期 YYYY-MM-DD"
+        required: true
+        default: "2025-09-09"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+      - name: Restore FinMind cache
+        uses: actions/cache@v4
+        with:
+          path: backtest_cache
+          key: vcpulse-finmind-${{ inputs.start_date }}-${{ inputs.end_date }}-v1
+          restore-keys: |
+            vcpulse-finmind-
+      - name: Rebuild frozen long history
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: |
+          python tools/vcpulse_theme_historical_runner_v0_9_1_retry.py \
+            --theme-db data/vcpulse_themes_v2_6_score_calibration.json \
+            --start "${{ inputs.start_date }}" \
+            --end "${{ inputs.end_date }}" \
+            --cache-dir backtest_cache \
+            --out-dir backtest_output \
+            --max-days 0
+      - name: Verify v1.1d runner version
+        run: |
+          grep 'RUNNER_VERSION="2.44.5"' tools/vcpulse_v11d_holdout_validation.py
+          python -m py_compile tools/vcpulse_v11d_holdout_validation.py
+      - name: Run v1.1d holdout validation
+        run: |
+          python tools/vcpulse_v11d_holdout_validation.py \
+            --daily backtest_output/backtest_daily.json \
+            --cache-dir backtest_cache \
+            --out-dir v11d_holdout_output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vcpulse-v1-1d-holdout-validation
+          path: v11d_holdout_output/
