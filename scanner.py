@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.42.8 PRODUCTION THEME RADAR + THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.44.6 BETA V1.1e STRUCTURE QUALITY + 2.42.8 PRODUCTION THEME RADAR + THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -673,7 +673,11 @@ def analyze(df,item,market):
     piv=local_turns(close.values); drops=[]
     for a,b in zip(piv,piv[1:]):
         if a[1]=="H" and b[1]=="L" and a[2]>0: drops.append((a[0],b[0],(a[2]-b[2])/a[2]*100))
-    drops=drops[-4:]; seq=[x[2] for x in drops]
+    # V2.43.1 — reject impossible / corrupted contraction legs. A near-100%
+    # peak-to-trough drop is not a usable VCP contraction and can otherwise
+    # make a broken price series look like a progressively tightening setup.
+    drops=[x for x in drops if math.isfinite(float(x[2])) and 0 < float(x[2]) < 95][-4:]
+    seq=[x[2] for x in drops]
     contracting=len(seq)>=2 and all(seq[i]<seq[i-1]*1.12 for i in range(1,len(seq)))
     recent=close.iloc[-35:]; pivot=float(recent.iloc[:-3].max()); last=float(close.iloc[-1])
     distance=(last/pivot-1)*100
@@ -682,7 +686,44 @@ def analyze(df,item,market):
     dry=bool(vprev>0 and v20<vprev*0.85)
     breakout=last>pivot; breakout_vol=bool(v20>0 and vol.iloc[-1]>v20*1.35)
     prev=float(close.iloc[-2]); change_pct=((last/prev)-1)*100 if prev else 0.0; today_breakout=bool(prev<=pivot and breakout and breakout_vol)
-    score=sum([trend,len(seq)>=2,contracting,dry,today_breakout or ((not breakout) and distance>-8)])
+    pivot_condition=bool(today_breakout or ((not breakout) and distance>-8))
+
+    # V1.1e BETA — validated structure-quality flag.
+    # IMPORTANT: this is annotation-only. It does NOT change VCP score, radar
+    # eligibility, ranking, pulse points, or production behavior.
+    regression_contracting=False
+    if len(seq)>=2:
+        a=np.asarray(seq,dtype=float)
+        if np.isfinite(a).all() and (a>0).all():
+            x=np.arange(len(a),dtype=float)
+            slope=float(np.polyfit(x,a,1)[0])
+            regression_contracting=bool(slope<0 and a[-1]<a[0])
+
+    high_num=pd.to_numeric(df["High"],errors="coerce")
+    low_num=pd.to_numeric(df["Low"],errors="coerce")
+    prev_close_num=close.shift(1)
+    tr_full=pd.concat([(high_num-low_num).abs(),(high_num-prev_close_num).abs(),(low_num-prev_close_num).abs()],axis=1).max(axis=1)
+    atr20_core=float(tr_full.rolling(20).mean().iloc[-1])
+    atr60_core=float(tr_full.rolling(60).mean().iloc[-1])
+    atr_ratio_core=(atr20_core/atr60_core) if atr60_core>0 and math.isfinite(atr60_core) else float("nan")
+    clear_trigger=bool(today_breakout or ((not breakout) and -5<distance<=0))
+    # V2.44.7 — structure quality describes the setup itself, not the current
+    # lifecycle phase. A stock that already broke out can still retain a good
+    # VCP structure label while its separate state shows D+N / extended.
+    pivot_valid=bool(math.isfinite(pivot) and pivot>0)
+    structure_quality_good=bool(
+        trend and len(seq)>=2 and regression_contracting and dry and pivot_valid
+        and math.isfinite(atr_ratio_core) and atr_ratio_core<=1.00
+    )
+
+    score_components={
+        "trend": bool(trend),
+        "two_contractions": bool(len(seq)>=2),
+        "contracting": bool(contracting),
+        "volume_dry": bool(dry),
+        "pivot_condition": bool(pivot_condition),
+    }
+    score=sum(score_components.values())
 
     high=pd.to_numeric(df["High"],errors="coerce"); low=pd.to_numeric(df["Low"],errors="coerce")
     bb_mid=close.rolling(20).mean(); bb_std=close.rolling(20).std(ddof=0)
@@ -776,6 +817,20 @@ def analyze(df,item,market):
 
     return {
         "market":market,"symbol":item["symbol"],"name":item["name"],"exchange":item.get("exchange",""),"score":int(score),
+        "score_components":score_components,
+        "structure_quality_good":structure_quality_good,
+        "structure_quality_label":"💎 結構品質佳" if structure_quality_good else "",
+        "structure_quality_components":{
+            "trend":bool(trend),
+            "two_contractions":bool(len(seq)>=2),
+            "regression_contracting":bool(regression_contracting),
+            "volume_dry":bool(dry),
+            "atr20_to_60_le_1":bool(math.isfinite(atr_ratio_core) and atr_ratio_core<=1.00),
+            "pivot_valid":bool(pivot_valid),
+            "current_clear_trigger":bool(clear_trigger),
+        },
+        "atr20_to_60":round(float(atr_ratio_core),4) if math.isfinite(atr_ratio_core) else None,
+        "contractions":[round(float(x),4) for x in seq],
         "contracts":" → ".join(f"-{x:.0f}%" for x in seq) if seq else "—",
         "pivot":round(pivot,2),"last":round(last,2),"distance":round(distance,2),"change_pct":round(change_pct,2),
         "volume_dry":dry,"type":typ,"state":state,"squeeze_level":squeeze_level,
