@@ -41,6 +41,10 @@ jobs:
             --cache-dir backtest_cache \
             --out-dir backtest_output \
             --max-days 0
+      - name: Verify v1.1b runner version
+        run: |
+          grep 'RUNNER_VERSION="2.44.3"' tools/vcpulse_v11b_ablation_validation.py
+          python -m py_compile tools/vcpulse_v11b_ablation_validation.py
       - name: Run v1.1b ablation validation
         run: |
           python tools/vcpulse_v11b_ablation_validation.py \
