@@ -13,7 +13,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+RUNNER_VERSION="2.44.3"
 HORIZONS=(5,10,20)
+DATA_QUALITY={"invalidBaseClose":0,"invalidFutureClose":0,"invalidFutureLow":0,"invalidFutureHigh":0}
 CONDS=["trend","twoContractions","priceContracting","volumeDry","atrContracting","clearTrigger"]
 LABELS={
  "trend":"Trend: close > MA50 > MA150",
@@ -65,14 +67,55 @@ def features(df):
                 clearTrigger=clear_trigger,score5=int(score),baseline=baseline,liquid=avg_value>=20_000_000,
                 atr20To60=round(atr20/atr60,4) if atr60>0 else None,distancePct=round(distance,2),avgValue20=avg_value)
 
+def _safe_scalar(value):
+    """Return finite float or None; never raise on malformed cells."""
+    try:
+        v=float(pd.to_numeric(pd.Series([value]),errors="coerce").iloc[0])
+    except Exception:
+        return None
+    return v if np.isfinite(v) else None
+
+def _safe_positive(value):
+    v=_safe_scalar(value)
+    return v if v is not None and v>0 else None
+
 def add_returns(row,df,loc):
-    p0=float(df.iloc[loc]["Close"])
+    # Hard guard: invalid/zero base price must never reach a division.
+    try:
+        p0=_safe_positive(df.iloc[loc].get("Close"))
+    except Exception:
+        p0=None
+    if p0 is None:
+        DATA_QUALITY["invalidBaseClose"]+=1
+        for h in HORIZONS:
+            row[f"ret{h}"]=None; row[f"mae{h}"]=None; row[f"mfe{h}"]=None
+        return
+
     for h in HORIZONS:
-        if loc+h>=len(df): row[f"ret{h}"]=row[f"mae{h}"]=row[f"mfe{h}"]=None; continue
+        row[f"ret{h}"]=None; row[f"mae{h}"]=None; row[f"mfe{h}"]=None
+        if loc+h>=len(df):
+            continue
         future=df.iloc[loc+1:loc+h+1]
-        row[f"ret{h}"]=(float(df.iloc[loc+h]["Close"])/p0-1)*100
-        row[f"mae{h}"]=(float(_num(future["Low"]).min())/p0-1)*100
-        row[f"mfe{h}"]=(float(_num(future["High"]).max())/p0-1)*100
+
+        end_close=_safe_positive(df.iloc[loc+h].get("Close"))
+        if end_close is None:
+            DATA_QUALITY["invalidFutureClose"]+=1
+        else:
+            row[f"ret{h}"]=(end_close/p0-1.0)*100.0
+
+        lows=_num(future.get("Low", pd.Series(index=future.index,dtype=float)))
+        lows=lows[np.isfinite(lows) & (lows>0)]
+        if lows.empty:
+            DATA_QUALITY["invalidFutureLow"]+=1
+        else:
+            row[f"mae{h}"]=(float(lows.min())/p0-1.0)*100.0
+
+        highs=_num(future.get("High", pd.Series(index=future.index,dtype=float)))
+        highs=highs[np.isfinite(highs) & (highs>0)]
+        if highs.empty:
+            DATA_QUALITY["invalidFutureHigh"]+=1
+        else:
+            row[f"mfe{h}"]=(float(highs.max())/p0-1.0)*100.0
 
 def summarize(rows):
     out={"observations":len(rows),"uniqueStocks":len({r["code"] for r in rows})}
@@ -99,6 +142,7 @@ def dedupe_events(rows,date_pos):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--daily",required=True); ap.add_argument("--cache-dir",required=True); ap.add_argument("--out-dir",default="v11b_ablation_output")
     args=ap.parse_args(); out=Path(args.out_dir); out.mkdir(parents=True,exist_ok=True)
+    print(f"VCPulse v1.1b runner {RUNNER_VERSION}")
     daily=json.loads(Path(args.daily).read_text(encoding="utf-8")); dates=[d["date"] for d in daily]; date_pos={d:i for i,d in enumerate(dates)}
     prices={}
     for p in Path(args.cache_dir).glob("*.csv"):
@@ -129,8 +173,9 @@ def main():
     # Leave-one-out: all strict conditions except one, within the same liquid universe.
     for omit in CONDS:
         variants[f"minus_{omit}"]=[r for r in universe if all(r[c] for c in CONDS if c!=omit)]
-    summary={"version":"v1.1b-ablation-research","productionChanged":False,"thresholdsOptimized":False,
+    summary={"version":"v1.1b-ablation-research","runnerVersion":RUNNER_VERSION,"productionChanged":False,"thresholdsOptimized":False,
              "eventDedupRule":"For each stock, consecutive qualifying dates in the historical trading-date sequence are one event; keep the first date.",
+             "dataQuality":DATA_QUALITY.copy(),
              "conditionOrder":[{"key":c,"label":LABELS[c]} for c in CONDS],"funnel":funnel,"variants":{}}
     for name,rows in variants.items():
         ev=dedupe_events(rows,date_pos)
