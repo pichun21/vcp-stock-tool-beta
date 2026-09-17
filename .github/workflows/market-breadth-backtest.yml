@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run historical replay
-        run: python tools/vcpulse_market_breadth_historical_backtest_v0_4.py --sessions "${{ inputs.sessions }}" --period 2y
+        run: python tools/vcpulse_market_breadth_historical_backtest_v0_4_1.py --sessions "${{ inputs.sessions }}" --period 2y
       - name: Commit research outputs
         run: |
           git config user.name "github-actions[bot]"
