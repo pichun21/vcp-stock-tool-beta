@@ -1,0 +1,38 @@
+name: Market Breadth Historical Backtest
+
+on:
+  workflow_dispatch:
+    inputs:
+      sessions:
+        description: 'Backtest trading sessions'
+        required: true
+        default: '252'
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run historical replay
+        run: python tools/vcpulse_market_breadth_historical_backtest_v0_4.py --sessions "${{ inputs.sessions }}" --period 2y
+      - name: Commit research outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/market_breadth_backtest_daily.csv data/market_breadth_backtest_summary.json data/market_breadth_backtest_diagnostics.json
+          if git diff --cached --quiet; then
+            echo "No backtest changes to commit"
+          else
+            git commit -m "research: update market breadth historical backtest"
+            git push
+          fi
