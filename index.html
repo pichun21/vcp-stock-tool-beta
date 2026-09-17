@@ -1279,8 +1279,8 @@ th{color:#716c64}
 
 /* ===== VCPulse Beta · Market Structure v1.0 frozen research ===== */
 .market-structure-card{margin:0 0 18px;padding:18px 22px;background:#fffdfa;border:1px solid var(--vp-line,#e8e1d7);border-radius:20px;box-shadow:0 8px 22px rgba(57,46,33,.035)}
-.ms-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.ms-title{font-size:20px;font-weight:900}.ms-beta{font-size:10px;padding:4px 7px;border-radius:999px;background:#f3eee6;color:#8a6848;vertical-align:middle}.ms-body{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:18px}.ms-state-wrap{display:flex;align-items:center;gap:12px}.ms-icon{font-size:28px}.ms-state{font-size:25px;font-weight:950}.ms-code{font-size:11px;color:#918a80;margin-top:2px}.ms-metrics{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.ms-chip{padding:8px 10px;background:#f7f4ee;border-radius:11px;font-size:12px;color:#6f685f}.ms-chip b{color:#2c2924}.ms-note{margin-top:10px;font-size:11px;color:#918a80;line-height:1.55}.ms-help{margin-top:10px;font-size:12px;color:#625d54;line-height:1.6}.ms-wait{color:#777168;font-size:13px}
-@media(max-width:760px){.market-structure-card{padding:15px;margin-bottom:14px}.ms-title{font-size:18px}.ms-body{align-items:flex-start;flex-direction:column}.ms-state{font-size:23px}.ms-metrics{justify-content:flex-start}.ms-chip{padding:7px 9px}}
+.ms-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.ms-title{font-size:20px;font-weight:900}.ms-beta{font-size:10px;padding:4px 7px;border-radius:999px;background:#f3eee6;color:#8a6848;vertical-align:middle}.ms-body{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:18px}.ms-state-wrap{display:flex;align-items:center;gap:12px}.ms-icon{font-size:28px}.ms-state{font-size:25px;font-weight:950}.ms-code{font-size:11px;color:#918a80;margin-top:2px}.ms-metrics{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.ms-chip{padding:8px 10px;background:#f7f4ee;border-radius:11px;font-size:12px;color:#6f685f}.ms-chip b{color:#2c2924}.ms-note{margin-top:10px;font-size:11px;color:#918a80;line-height:1.55}.ms-help{margin-top:10px;font-size:12px;color:#625d54;line-height:1.6}.ms-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ms-help-btn{border:1px solid #ddd4c8;background:#fffdfa;color:#6f6658;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer}.ms-help-btn:hover{background:#f7f4ee}.ms-help-box{display:none;margin-top:14px;padding:14px 16px;background:#faf7f1;border:1px solid #ebe3d8;border-radius:14px;font-size:12px;color:#625d54;line-height:1.65}.ms-help-box.open{display:block}.ms-help-box h4{margin:0 0 7px;font-size:13px;color:#2c2924}.ms-help-box p{margin:7px 0}.ms-help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0}.ms-help-item{padding:9px 10px;background:#fffdfa;border-radius:10px}.ms-help-item b{display:block;color:#2c2924;margin-bottom:2px}.ms-help-flow{font-weight:800;color:#5d554b}.ms-wait{color:#777168;font-size:13px}
+@media(max-width:760px){.market-structure-card{padding:15px;margin-bottom:14px}.ms-title{font-size:18px}.ms-body{align-items:flex-start;flex-direction:column}.ms-state{font-size:23px}.ms-metrics{justify-content:flex-start}.ms-chip{padding:7px 9px}.ms-help-grid{grid-template-columns:1fr}.ms-help-btn{padding:5px 9px}}
 
 /* ===== VCPulse 2.43.0 BETA · Market Pulse v0.6 ===== */
 .market-pulse-card{margin:0 0 18px;padding:20px 22px;background:#fffdfa;border:1px solid var(--vp-line,#e8e1d7);border-radius:20px;box-shadow:0 8px 22px rgba(57,46,33,.035)}
@@ -1477,11 +1477,31 @@ th{color:#716c64}
 
 <section class="market-structure-card" id="marketStructureCard" aria-live="polite">
   <div class="ms-head">
-    <div class="ms-title">🧭 市場結構狀態 <span class="ms-beta">BETA · RESEARCH</span></div>
+    <div class="ms-title-row"><div class="ms-title">🧭 市場結構狀態 <span class="ms-beta">BETA · RESEARCH</span></div><button type="button" class="ms-help-btn" id="msHelpBtn" aria-expanded="false">？ 市場結構說明</button></div>
     <div class="ms-wait" id="msUpdated">讀取中…</div>
   </div>
   <div id="msBody" class="ms-wait" style="margin-top:12px">正在讀取台股市場內部結構…</div>
   <div class="ms-help">依 VCP Market Breadth 的 <b>Level × Direction × Extension Risk</b> 描述市場生命週期；它不是漲跌預測，也不是台指期進出場訊號。</div>
+  <div class="ms-help-box" id="msHelpBox">
+    <h4>市場結構狀態是什麼？</h4>
+    <p>利用 VCPulse 每日篩選結果觀察台股整體的「市場內部結構」，而不是只看加權指數漲跌。系統綜合 <b>市場廣度 Level × 變化方向 Direction × 延伸風險 Extension Risk</b>，描述目前所處的市場生命週期。</p>
+    <h4>市場廣度（Market Breadth）是什麼？</h4>
+    <p>市場廣度用來觀察市場中有多少股票正在形成、接近或完成較健康的 VCP 結構，以及這些結構的參與程度。畫面上的 0–100 分是綜合結構分數，<b>不是「有幾％股票會上漲」</b>，也不能單獨解讀為多空預測。</p>
+    <div class="ms-help-grid">
+      <div class="ms-help-item"><b>🌱 擴張 EXPANSION</b>市場內部結構正在改善，符合條件的 VCP 結構逐漸增加。</div>
+      <div class="ms-help-item"><b>🌿 成熟 MATURE_BULL</b>市場廣度已處於較高水準，代表 VCP 結構參與程度較廣，目前尚未出現明顯惡化。<b>成熟不代表即將下跌</b>。</div>
+      <div class="ms-help-item"><b>⚠️ 惡化 DETERIORATION</b>市場廣度原本位於較高水準，但近期內部結構明顯轉弱；目前仍屬研究觀察狀態，不等於放空訊號。</div>
+      <div class="ms-help-item"><b>🍂 收縮 CONTRACTION</b>市場廣度偏低且持續轉弱，符合健康 VCP 結構的股票相對較少。</div>
+      <div class="ms-help-item"><b>↔️ 過渡 NEUTRAL_TRANSITION</b>目前尚未形成明確的擴張、成熟、惡化或收縮狀態。</div>
+    </div>
+    <h4>畫面上的數字怎麼看？</h4>
+    <p><b>市場廣度</b>：0–100 的 VCP 市場結構綜合分數。<br>
+    <b>1日變化</b>：相較前一個正式交易日的市場廣度變化。<br>
+    <b>5日變化</b>：相較 5 個交易日前的市場廣度變化；資料不足時顯示「—」。<br>
+    <b>延伸比</b>：已明顯延伸的股票占候選股比例，用來輔助辨識市場結構是否逐漸成熟。</p>
+    <p class="ms-help-flow">Market Pulse 看外部環境 → 市場結構看台股內部週期 → 題材雷達看資金方向 → VCP 看個股型態</p>
+    <p><b>研究階段：</b>本模型規則已於 2026/09/17 凍結，目前持續累積未見資料（OOS）驗證。市場結構用來描述市場內部週期，不代表未來漲跌預測，也不是台指期或個股買賣訊號。</p>
+  </div>
 </section>
 
 <div class="section" id="singleStockAnalysis">
@@ -3863,13 +3883,13 @@ function setRadarSnapshot(kind){
 async function loadMarketStructure(){
  const body=document.getElementById('msBody'), updated=document.getElementById('msUpdated'); if(!body)return;
  const icon={EXPANSION:'🌱',MATURE_BULL:'🌿',DETERIORATION:'⚠️',CONTRACTION:'🍂',NEUTRAL_TRANSITION:'↔️',OVERHEATED:'🌡️',INSUFFICIENT_HISTORY:'⏳'};
- const fmtDelta=v=>Number.isFinite(Number(v))?`${Number(v)>0?'+':''}${Number(v).toFixed(1)}`:'—';
+ const fmtDelta=v=>(v===null||v===undefined||v==='')?'—':(Number.isFinite(Number(v))?`${Number(v)>0?'+':''}${Number(v).toFixed(1)}`:'—');
  try{
   const r=await fetch(`data/market_structure_latest.json?t=${Date.now()}`,{cache:'no-store'}); if(!r.ok)throw new Error('市場結構資料尚未建立'); const x=await r.json();
   if(x.status!=='ok'){
     body.innerHTML=`<div class="ms-state-wrap"><div class="ms-icon">⏳</div><div><div class="ms-state">資料累積中</div><div class="ms-code">至少需要前一個正式收盤 Breadth 才能判斷方向</div></div></div>`;
   }else{
-    body.innerHTML=`<div class="ms-body"><div class="ms-state-wrap"><div class="ms-icon">${icon[x.state]||'🧭'}</div><div><div class="ms-state">${escHtml(x.label||'—')}</div><div class="ms-code">${escHtml(x.state||'—')}</div></div></div><div class="ms-metrics"><div class="ms-chip">Breadth <b>${Number(x.breadth_score).toFixed(1)}</b></div><div class="ms-chip">1日變化 <b>${fmtDelta(x.delta_1d)}</b></div><div class="ms-chip">5日變化 <b>${fmtDelta(x.delta_5d)}</b></div><div class="ms-chip">延伸比 <b>${(Number(x.extension_ratio)*100).toFixed(1)}%</b></div></div></div><div class="ms-note">研究規則已於 2026/09/17 凍結；顯示市場內部結構，不代表未來報酬。</div>`;
+    body.innerHTML=`<div class="ms-body"><div class="ms-state-wrap"><div class="ms-icon">${icon[x.state]||'🧭'}</div><div><div class="ms-state">${escHtml(x.label||'—')}</div><div class="ms-code">${escHtml(x.state||'—')}</div></div></div><div class="ms-metrics"><div class="ms-chip">市場廣度 <b>${Number(x.breadth_score).toFixed(1)}</b></div><div class="ms-chip">1日變化 <b>${fmtDelta(x.delta_1d)}</b></div><div class="ms-chip">5日變化 <b>${fmtDelta(x.delta_5d)}</b></div><div class="ms-chip">延伸比 <b>${(Number(x.extension_ratio)*100).toFixed(1)}%</b></div></div></div><div class="ms-note">研究規則已於 2026/09/17 凍結；顯示市場內部結構，不代表未來報酬。</div>`;
   }
   updated.textContent=x.data_date?`正式收盤｜${String(x.data_date).slice(5).replace('-','/')}`:'等待資料';
  }catch(e){body.innerHTML=`<div class="ms-wait">市場結構暫時無法讀取：${escHtml(e.message||String(e))}</div>`;updated.textContent='讀取失敗';}
@@ -3892,6 +3912,12 @@ async function loadMarketPulse(){
  const btn=document.getElementById('mpHelpBtn'), box=document.getElementById('mpHelpBox');
  if(!btn||!box)return;
  btn.addEventListener('click',()=>{const open=box.classList.toggle('open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'收起說明':'？ Market Pulse 說明';});
+})();
+
+(function(){
+ const btn=document.getElementById('msHelpBtn'), box=document.getElementById('msHelpBox');
+ if(!btn||!box)return;
+ btn.addEventListener('click',()=>{const open=box.classList.toggle('open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'收起說明':'？ 市場結構說明';});
 })();
 
 function applyPrivateRadarData(j){
