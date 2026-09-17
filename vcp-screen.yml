@@ -54,12 +54,16 @@ jobs:
       - name: Run VCP screener
         run: python scanner.py --market "${{ steps.market.outputs.value }}"
 
+      - name: Record Market Breadth research history
+        if: steps.market.outputs.value == 'TW' || steps.market.outputs.value == 'both'
+        run: python tools/vcpulse_market_breadth_recorder_v0_3.py --input screening.json
+
       - name: Commit screening result
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add screening.json
+          git add screening.json data/market_breadth_latest.json data/market_breadth_history.csv
           if git diff --cached --quiet; then
             echo "No change."
           else
