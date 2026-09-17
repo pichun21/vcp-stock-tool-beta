@@ -3862,12 +3862,9 @@ async function loadMarketPulse(){
  btn.addEventListener('click',()=>{const open=box.classList.toggle('open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'收起說明':'？ Market Pulse 說明';});
 })();
 
-async function loadRadar(){
+function applyPrivateRadarData(j){
  const updated=document.getElementById('radarUpdated'), empty=document.getElementById('radarEmpty');
  try{
-   const r=await fetch(`screening.json?t=${Date.now()}`,{cache:'no-store'});
-   if(!r.ok) throw new Error('screening.json 尚未建立');
-   const j=await r.json();
    radarSnapshotData={
      official:Array.isArray(j.official_results)?j.official_results:(Array.isArray(j.results)?j.results:[]),
      intraday:Array.isArray(j.intraday_results)?j.intraday_results:[]
@@ -3940,6 +3937,7 @@ async function loadRadar(){
    }
  }
 }
+window.applyPrivateRadarData=applyPrivateRadarData;
 
 document.querySelectorAll('.radar-tab').forEach(btn=>{
  btn.addEventListener('click',()=>{
@@ -4040,7 +4038,6 @@ if(document.readyState==='loading'){
 const helpBtn=document.getElementById('helpBtn'), helpBox=document.getElementById('helpBox');
 if(helpBtn&&helpBox) helpBtn.onclick=()=>helpBox.classList.toggle('open');
 loadMarketPulse();
-loadRadar();
 
 </script>
 <div id="pulseHelpExtra" style="display:none">
@@ -4099,7 +4096,9 @@ import {
 import {
   getFirestore,
   doc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -4183,6 +4182,54 @@ function showSignedIn(user){
   document.getElementById("signedInEmail").textContent = user.email || "Google 使用者";
   document.getElementById("signedInUid").textContent = maskUid(user.uid);
 }
+
+function base64ToBytes(value){
+  const binary=atob(value);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  return bytes;
+}
+
+async function sha256Hex(bytes){
+  const digest=await crypto.subtle.digest("SHA-256",bytes);
+  return [...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+
+async function loadPrivateJson(dataset){
+  if(typeof DecompressionStream!=="function"){
+    throw new Error("目前瀏覽器不支援安全資料解壓縮，請改用最新版 Chrome、Edge 或 Safari。");
+  }
+  const pointer=await getDoc(doc(db,"privateData",dataset));
+  if(!pointer.exists()) throw new Error(`私人資料 ${dataset} 尚未建立`);
+  const pointerData=pointer.data()||{};
+  const version=String(pointerData.current_version||"");
+  if(!version) throw new Error(`私人資料 ${dataset} 缺少目前版本`);
+
+  const versionRef=doc(db,"privateData",dataset,"versions",version);
+  const versionSnap=await getDoc(versionRef);
+  if(!versionSnap.exists() || versionSnap.data()?.status!=="ready"){
+    throw new Error(`私人資料 ${dataset} 目前版本尚未就緒`);
+  }
+
+  const chunksSnap=await getDocs(collection(versionRef,"chunks"));
+  const chunks=chunksSnap.docs
+    .map(s=>({id:s.id,...s.data()}))
+    .sort((a,b)=>(Number(a.index)-Number(b.index)) || a.id.localeCompare(b.id));
+  const expectedCount=Number(pointerData.chunk_count||versionSnap.data()?.chunk_count||0);
+  if(!chunks.length || (expectedCount && chunks.length!==expectedCount)){
+    throw new Error(`私人資料 ${dataset} 分段不完整`);
+  }
+
+  const encoded=chunks.map(x=>String(x.payload||"")).join("");
+  const compressed=base64ToBytes(encoded);
+  const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const bytes=new Uint8Array(await new Response(stream).arrayBuffer());
+  const expectedHash=String(pointerData.sha256||versionSnap.data()?.sha256||"");
+  if(expectedHash && (await sha256Hex(bytes))!==expectedHash){
+    throw new Error(`私人資料 ${dataset} 完整性驗證失敗`);
+  }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
 loginBtn.addEventListener("click", async () => {
   errorEl.style.display = "none";
   loginBtn.disabled = true;
@@ -4227,6 +4274,12 @@ onAuthStateChanged(auth, async user => {
   try {
     const snap = await getDoc(doc(db, "authorizedUsers", user.uid));
     if (snap.exists() && snap.data()?.enabled === true) {
+      statusEl.textContent = "正在安全載入 VCPulse 私人資料…";
+      const screening=await loadPrivateJson("screening");
+      if(typeof window.applyPrivateRadarData!=="function"){
+        throw new Error("VCPulse 雷達初始化程式尚未就緒");
+      }
+      window.applyPrivateRadarData(screening);
       showSignedIn(user);
     } else {
       showUnauthorized(user);
@@ -4236,7 +4289,7 @@ onAuthStateChanged(auth, async user => {
     appEl.style.display = "none";
     userBar.style.display = "none";
     statusEl.textContent = "無法確認使用權限。";
-    showError("Firestore 權限檢查失敗：" + (e.message || e.code || "未知錯誤"));
+    showError("VCPulse 安全資料載入失敗：" + (e.message || e.code || "未知錯誤"));
   }
 });
 </script>
