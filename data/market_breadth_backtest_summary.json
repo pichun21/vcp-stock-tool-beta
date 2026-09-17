@@ -1,0 +1,302 @@
+{
+  "version": "market_breadth_historical_backtest_v0.4",
+  "scanner_build": "see scanner.py header",
+  "test_start": "2025-08-21",
+  "test_end": "2026-09-03",
+  "sessions": 252,
+  "universe_requested": 2151,
+  "usable_price_histories": 1974,
+  "warning": "Historical replay of current scanner rules; not a trading recommendation. Forward recorder remains the clean OOS check.",
+  "v01": {
+    "t1": {
+      "n": 252,
+      "mean_return_pct": 0.2781,
+      "median_return_pct": 0.2746,
+      "positive_rate_pct": 57.14,
+      "pearson_score_return": -0.0098
+    },
+    "t1_buckets": [
+      {
+        "bucket": "<30",
+        "n": 1,
+        "mean_return_pct": -1.3714,
+        "positive_rate_pct": 0.0
+      },
+      {
+        "bucket": "30-44.9",
+        "n": 12,
+        "mean_return_pct": 0.8683,
+        "positive_rate_pct": 58.33
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 88,
+        "mean_return_pct": 0.1033,
+        "positive_rate_pct": 55.68
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 129,
+        "mean_return_pct": 0.381,
+        "positive_rate_pct": 59.69
+      },
+      {
+        "bucket": ">=70",
+        "n": 22,
+        "mean_return_pct": 0.1265,
+        "positive_rate_pct": 50.0
+      }
+    ],
+    "t3": {
+      "n": 252,
+      "mean_return_pct": 0.8442,
+      "median_return_pct": 0.9851,
+      "positive_rate_pct": 63.1,
+      "pearson_score_return": -0.0152
+    },
+    "t3_buckets": [
+      {
+        "bucket": "<30",
+        "n": 1,
+        "mean_return_pct": 0.705,
+        "positive_rate_pct": 100.0
+      },
+      {
+        "bucket": "30-44.9",
+        "n": 12,
+        "mean_return_pct": 0.8301,
+        "positive_rate_pct": 50.0
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 88,
+        "mean_return_pct": 0.7079,
+        "positive_rate_pct": 55.68
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 129,
+        "mean_return_pct": 1.0634,
+        "positive_rate_pct": 70.54
+      },
+      {
+        "bucket": ">=70",
+        "n": 22,
+        "mean_return_pct": 0.1178,
+        "positive_rate_pct": 54.55
+      }
+    ],
+    "t5": {
+      "n": 252,
+      "mean_return_pct": 1.3942,
+      "median_return_pct": 1.5987,
+      "positive_rate_pct": 67.86,
+      "pearson_score_return": -0.0736
+    },
+    "t5_buckets": [
+      {
+        "bucket": "<30",
+        "n": 1,
+        "mean_return_pct": -0.8758,
+        "positive_rate_pct": 0.0
+      },
+      {
+        "bucket": "30-44.9",
+        "n": 12,
+        "mean_return_pct": 2.3198,
+        "positive_rate_pct": 66.67
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 88,
+        "mean_return_pct": 1.2575,
+        "positive_rate_pct": 64.77
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 129,
+        "mean_return_pct": 1.5678,
+        "positive_rate_pct": 72.09
+      },
+      {
+        "bucket": ">=70",
+        "n": 22,
+        "mean_return_pct": 0.5217,
+        "positive_rate_pct": 59.09
+      }
+    ],
+    "t10": {
+      "n": 252,
+      "mean_return_pct": 2.7409,
+      "median_return_pct": 2.3904,
+      "positive_rate_pct": 70.24,
+      "pearson_score_return": -0.0745
+    },
+    "t10_buckets": [
+      {
+        "bucket": "<30",
+        "n": 1,
+        "mean_return_pct": 8.2245,
+        "positive_rate_pct": 100.0
+      },
+      {
+        "bucket": "30-44.9",
+        "n": 12,
+        "mean_return_pct": 3.3598,
+        "positive_rate_pct": 75.0
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 88,
+        "mean_return_pct": 2.5487,
+        "positive_rate_pct": 63.64
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 129,
+        "mean_return_pct": 2.8514,
+        "positive_rate_pct": 75.19
+      },
+      {
+        "bucket": ">=70",
+        "n": 22,
+        "mean_return_pct": 2.2754,
+        "positive_rate_pct": 63.64
+      }
+    ]
+  },
+  "v02": {
+    "t1": {
+      "n": 252,
+      "mean_return_pct": 0.2781,
+      "median_return_pct": 0.2746,
+      "positive_rate_pct": 57.14,
+      "pearson_score_return": 0.0257
+    },
+    "t1_buckets": [
+      {
+        "bucket": "30-44.9",
+        "n": 3,
+        "mean_return_pct": 0.1928,
+        "positive_rate_pct": 33.33
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 72,
+        "mean_return_pct": 0.2661,
+        "positive_rate_pct": 58.33
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 142,
+        "mean_return_pct": 0.3142,
+        "positive_rate_pct": 58.45
+      },
+      {
+        "bucket": ">=70",
+        "n": 35,
+        "mean_return_pct": 0.1635,
+        "positive_rate_pct": 51.43
+      }
+    ],
+    "t3": {
+      "n": 252,
+      "mean_return_pct": 0.8442,
+      "median_return_pct": 0.9851,
+      "positive_rate_pct": 63.1,
+      "pearson_score_return": 0.0183
+    },
+    "t3_buckets": [
+      {
+        "bucket": "30-44.9",
+        "n": 3,
+        "mean_return_pct": 1.8343,
+        "positive_rate_pct": 66.67
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 72,
+        "mean_return_pct": 0.4985,
+        "positive_rate_pct": 50.0
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 142,
+        "mean_return_pct": 1.0571,
+        "positive_rate_pct": 70.42
+      },
+      {
+        "bucket": ">=70",
+        "n": 35,
+        "mean_return_pct": 0.6062,
+        "positive_rate_pct": 60.0
+      }
+    ],
+    "t5": {
+      "n": 252,
+      "mean_return_pct": 1.3942,
+      "median_return_pct": 1.5987,
+      "positive_rate_pct": 67.86,
+      "pearson_score_return": -0.0041
+    },
+    "t5_buckets": [
+      {
+        "bucket": "30-44.9",
+        "n": 3,
+        "mean_return_pct": 1.3598,
+        "positive_rate_pct": 66.67
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 72,
+        "mean_return_pct": 1.0526,
+        "positive_rate_pct": 61.11
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 142,
+        "mean_return_pct": 1.7477,
+        "positive_rate_pct": 72.54
+      },
+      {
+        "bucket": ">=70",
+        "n": 35,
+        "mean_return_pct": 0.6657,
+        "positive_rate_pct": 62.86
+      }
+    ],
+    "t10": {
+      "n": 252,
+      "mean_return_pct": 2.7409,
+      "median_return_pct": 2.3904,
+      "positive_rate_pct": 70.24,
+      "pearson_score_return": -0.0296
+    },
+    "t10_buckets": [
+      {
+        "bucket": "30-44.9",
+        "n": 3,
+        "mean_return_pct": 3.9557,
+        "positive_rate_pct": 66.67
+      },
+      {
+        "bucket": "45-54.9",
+        "n": 72,
+        "mean_return_pct": 2.4944,
+        "positive_rate_pct": 69.44
+      },
+      {
+        "bucket": "55-69.9",
+        "n": 142,
+        "mean_return_pct": 2.9446,
+        "positive_rate_pct": 73.24
+      },
+      {
+        "bucket": ">=70",
+        "n": 35,
+        "mean_return_pct": 2.3175,
+        "positive_rate_pct": 60.0
+      }
+    ]
+  }
+}
