@@ -1,6 +1,9 @@
 name: VCPulse | Beta Scanner
 
 on:
+  schedule:
+    # Taiwan 18:40 (UTC 10:40), weekdays. Runs official TW and updates Market Structure.
+    - cron: '40 10 * * 1-5'
   workflow_dispatch:
     inputs:
       run_type:
@@ -44,6 +47,7 @@ jobs:
             official_TW) echo "market=TW" >> "$GITHUB_OUTPUT"; echo "snapshot=official" >> "$GITHUB_OUTPUT" ;;
             official_US) echo "market=US" >> "$GITHUB_OUTPUT"; echo "snapshot=official" >> "$GITHUB_OUTPUT" ;;
             both) echo "market=both" >> "$GITHUB_OUTPUT"; echo "snapshot=auto" >> "$GITHUB_OUTPUT" ;;
+            *) echo "market=TW" >> "$GITHUB_OUTPUT"; echo "snapshot=official" >> "$GITHUB_OUTPUT" ;;
           esac
 
       - name: Run VCP beta screener
@@ -54,7 +58,7 @@ jobs:
           python scanner.py --market "${{ steps.target.outputs.market }}" --snapshot "${{ steps.target.outputs.snapshot }}"
 
       - name: Update Market Breadth + Market Structure (official TW only)
-        if: ${{ inputs.run_type == 'official_TW' || inputs.run_type == 'both' }}
+        if: ${{ github.event_name == 'schedule' || inputs.run_type == 'official_TW' || inputs.run_type == 'both' }}
         run: |
           python tools/vcpulse_market_breadth_recorder_v0_3.py --input screening.json
 
