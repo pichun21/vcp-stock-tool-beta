@@ -1593,11 +1593,14 @@ def scan(market):
     results.sort(key=lambda r:(state_rank.get(r["type"],9),-r["score"],abs(r["distance"])))
     today=datetime.now(TAIPEI).strftime("%Y-%m-%d")
     valid=len(latest_dates); today_count=sum(1 for d in latest_dates if d==today)
+    latest_date=max(latest_dates,default="")
+    latest_count=sum(1 for d in latest_dates if d==latest_date)
     stats={
         "universe":len(universe), "valid":valid, "today":today_count,
         "valid_pct":round(valid/max(len(universe),1)*100,1),
         "today_pct":round(today_count/max(valid,1)*100,1),
-        "latest_date":max(latest_dates,default="")
+        "latest_date":latest_date,
+        "latest_pct":round(latest_count/max(valid,1)*100,1)
     }
     hotspots=build_capital_hotspots(flow_rows,results) if market=="TW" else []
     print(f"{market} DATA CHECK: latest={stats['latest_date']} today={stats['today']}/{stats['valid']} ({stats['today_pct']}%) valid={stats['valid']}/{stats['universe']} ({stats['valid_pct']}%)")
@@ -1922,17 +1925,24 @@ def main():
 
         if official:
             # V2.39 safety guard for TW official snapshots.
-            # Do not overwrite a good official snapshot when today's daily bars are not sufficiently ready.
+            # Accept a completed prior trading day's bars on a later morning, while
+            # retaining the same coverage threshold and never going backwards.
             if market=="TW":
-                today=datetime.now(TAIPEI).strftime("%Y-%m-%d")
+                now_tw=datetime.now(TAIPEI)
+                today=now_tw.strftime("%Y-%m-%d")
+                previous_date=(official_markets.get("TW") or {}).get("data_date") or ""
+                latest_date=scan_stats.get("latest_date") or ""
+                completed_today=latest_date==today and (now_tw.hour,now_tw.minute)>=(14,30)
+                completed_prior=latest_date<today and latest_date>previous_date
                 ready=(
-                    scan_stats.get("latest_date")==today and
-                    scan_stats.get("today_pct",0)>=95.0 and
+                    current_date==latest_date and
+                    (completed_today or completed_prior) and
+                    scan_stats.get("latest_pct",0)>=95.0 and
                     scan_stats.get("valid_pct",0)>=85.0
                 )
                 print(
-                    f"TW OFFICIAL GUARD: today bars={scan_stats.get('today',0)}/{scan_stats.get('valid',0)} "
-                    f"({scan_stats.get('today_pct',0)}%), valid coverage={scan_stats.get('valid_pct',0)}% -> "
+                    f"TW OFFICIAL GUARD: latest={latest_date} ({scan_stats.get('latest_pct',0)}% of valid bars), "
+                    f"previous={previous_date or 'NONE'}, valid coverage={scan_stats.get('valid_pct',0)}% -> "
                     f"{'PASS' if ready else 'BLOCK'}"
                 )
                 if not ready:
