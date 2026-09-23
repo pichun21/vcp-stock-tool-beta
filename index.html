@@ -2582,7 +2582,7 @@ async function run(){
   }
 
   updateSingleQuickRead(radarMatch,d,a,liveQuote);
-  updateAuxMarketAndForeign(s,d,currentMarket);
+  updateAuxMarketAndForeign(s,d,currentMarket,liveQuote);
 
   const singlePrev=d.length>1?Number(d[d.length-2]?.close):NaN;
   const singleLast=Number(a.last ?? d[d.length-1]?.close);
@@ -4501,7 +4501,7 @@ function resetAuxMarketAndForeign(){
  ['auxRet5','auxRet20','auxYearHigh','auxVolRatio','foreignToday','foreign5','foreign20','foreignStreak','foreignHolding','foreignHolding5'].forEach(id=>auxSet(id,'—'));
  const as=document.getElementById('foreignAsOf');if(as)as.textContent='正式收盤資料'; const ma=document.getElementById('momentumAsOf');if(ma)ma.textContent='正式收盤資料'; const fl=document.getElementById('foreignDayLabel');if(fl)fl.textContent='前一交易日';
 }
-function updateMarketMomentum(d){
+function updateMarketMomentum(d,isIntraday=false){
  if(!Array.isArray(d)||d.length<21)return;
  const closes=d.map(x=>Number(x.close)).filter(Number.isFinite), vols=d.map(x=>Number(x.Trading_Volume??x.volume)).filter(Number.isFinite);
  if(closes.length<21)return;
@@ -4511,7 +4511,7 @@ function updateMarketMomentum(d){
  if(vols.length>=20){const a5=avg(vols.slice(-5)),a20=avg(vols.slice(-20));if(a20>0)vr=a5/a20}
  auxSet('auxRet5',auxPct(r5),r5);auxSet('auxRet20',auxPct(r20),r20);auxSet('auxYearHigh',Number.isFinite(distHi)?`${distHi.toFixed(1)}%`:'—',distHi,'neutral');
  auxSet('auxVolRatio',Number.isFinite(vr)?`${vr.toFixed(2)}×`:'—',null,'neutral');
- const lastRow=d.at(-1)||{}; const dataDate=String(lastRow.date||lastRow.Date||'').slice(0,10); const ma=document.getElementById('momentumAsOf');if(ma)ma.textContent=dataDate?`截至 ${dataDate} 收盤`:'正式收盤資料';
+ const lastRow=d.at(-1)||{}; const dataDate=String(lastRow.date||lastRow.Date||'').slice(0,10); const ma=document.getElementById('momentumAsOf');if(ma)ma.textContent=dataDate?`截至 ${dataDate} ${isIntraday?'盤中':'收盤'}`:'正式收盤資料';
 }
 async function fetchFinMindRows(dataset,symbol,start,end){
  const u=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(symbol)}&start_date=${start}&end_date=${end}`;
@@ -4536,8 +4536,12 @@ async function updateForeign(symbol){
   if(h.length){const cur=Number(h.at(-1).ForeignInvestmentSharesRatio),old=Number(h[Math.max(0,h.length-6)].ForeignInvestmentSharesRatio),chg=cur-old;auxSet('foreignHolding',`${cur.toFixed(2)}%`,null,'neutral');auxSet('foreignHolding5',`${chg>0?'+':''}${chg.toFixed(2)} pp`,chg)} const flowDate=a.length?a.at(-1).date:'';const as=document.getElementById('foreignAsOf');if(as)as.textContent=flowDate?`截至 ${flowDate} 收盤`:'正式收盤資料';const fl=document.getElementById('foreignDayLabel');if(fl)fl.textContent=flowDate?`${flowDate.slice(5).replace('-','/')} 買賣超`:'前一交易日';
  }catch(e){console.warn('Foreign flow unavailable',e);const as=document.getElementById('foreignAsOf');if(as)as.textContent='外資資料暫時無法取得'}
 }
-function updateAuxMarketAndForeign(symbol,d,market){
- const p=document.getElementById('auxMarketPanel');if(!p)return;p.hidden=false;updateMarketMomentum(d);
+function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
+ const p=document.getElementById('auxMarketPanel');if(!p)return;p.hidden=false;
+ const today=new Date();const td=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+ const liveDate=String(liveQuote?.data_date||'').slice(0,10);
+ const intraday=String(market).toUpperCase()==='TW' && liveDate===td && !isIntradayLockedAfterOfficial('TW');
+ updateMarketMomentum(d,intraday);
  const fb=document.getElementById('foreignBlock');if(fb)fb.hidden=String(market).toUpperCase()!=='TW';if(String(market).toUpperCase()==='TW')updateForeign(symbol);
 }
 </script></body></html>
