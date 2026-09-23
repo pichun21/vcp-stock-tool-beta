@@ -1,15 +1,24 @@
 <!doctype html>
-<!-- VCPulse BUILD 2.44.8 BETA STRUCTURE QUALITY UI + 2.43.1 SCORE CHECK SYNC + CONTRACTION GUARD + 2.43.0 BETA MARKET PULSE v0.6 + 2.42.9.2 DESKTOP HISTORY OFFICIAL FALLBACK + 2.42.9 LIQUIDITY QUALITY + 2.42.8.1 TODAY CHANGE SORT DIRECTION CONTROL + 2.42.7 PRODUCTION THEME RADAR RELEASE + 2.42.6.20 DESKTOP HELP CARDS + 2.42.6.19 MOBILE COMPACT THEME UI + 2.42.6.18 CAPITAL HELP CLICK FIX + 2.42.6.17 THEME HELP TABLE + 2.42.6.16 THEME HELP WORDING + 2.42.6.14 SCORE INTERPRETATION HINT + 2.42.6.13 THEME SCORE CLARITY + 2.42.6.12 LIFECYCLE WORDING + 2.42.6.11 THEME RENDER FIX + 2.42.6.10 THEME COUNT CLARITY + 2.42.6.9 LAYOUT BALANCE FIX + 2.42.6.8 RADAR LAYOUT POLISH + 2.42.6.7 THEME RADAR VISUAL SEPARATION + 2.42.6.6 DISPLAY NAME SUFFIX CLEANUP + 2.42.6.4 BETA MODE PARITY + THEME NAME MAP GUARD-SAFE + CLICKABLE TOP STOCKS + 2.42.6 THEME TOP5 UI + 2.42.5 BREAKOUT METRICS HARD FIX + 2.42.4 FAVORITE TAB CONTRAST + 2.42.3 FAVORITE NAME HYDRATION + 2.41.51 MOBILE VCP TITLE-AWARE SCROLL -->
+<!-- VCPulse OFFICIAL + MARKET DATA AUX 2026-09-23 -->
+<!-- VCPulse BUILD 2.46.2 NEWS IMPACT EMPTY-STATE COPY -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5f4ef">
+<meta name="application-name" content="VCPulse">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="VCP健檢">
-<title>VCPulse｜VCP × PowerSqueeze 智慧選股雷達</title>
+<meta name="apple-mobile-web-app-title" content="VCPulse">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png?v=2443">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=2443">
+<link rel="icon" type="image/png" sizes="64x64" href="./favicon-64.png?v=2443">
+<link rel="shortcut icon" href="./favicon.ico?v=2443">
+<link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png?v=2443">
+<link rel="manifest" href="./site.webmanifest?v=2443">
+<title>VCPulse｜PowerSqueeze 智慧選股雷達</title>
 <style>
 :root{--bg:#f5f4ef;--card:#fff;--ink:#20231f;--muted:#70756e;--line:#dddcd4;--good:#2f7d52;--warn:#a06a14;--bad:#a33d36}
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink)}
@@ -93,20 +102,18 @@ canvas{width:100%;height:auto;border-radius:12px;background:#fcfcfa;margin-top:1
   box-shadow:0 12px 32px rgba(53,46,38,.06);
 }
 .brand-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:24px}
-.brand-name{font-size:64px;line-height:.95;font-weight:900;letter-spacing:-4px;margin:0;color:#24231f}
-.brand-name .pulse{color:#c58d58}
+.brand-name{margin:0;line-height:1}.brand-logo-img{display:block;width:min(220px,100%);height:auto;max-height:90px;object-fit:contain;object-position:left center}
 .brand-tag{margin-top:12px;font-size:13px;letter-spacing:2.2px;text-transform:uppercase;color:#55524c}
 .brand-sub{font-size:20px;font-weight:800;margin-top:16px}
 .brand-copy{margin-top:14px;color:#6f6b63;line-height:1.7}
 .brand-mascot{display:flex;justify-content:center;align-items:center;min-height:230px}
 .brand-mascot img{width:min(360px,100%);max-height:270px;object-fit:contain;mix-blend-mode:multiply}
-.brand-wave{display:inline-block;margin-left:6px;color:#c9a77f;letter-spacing:-4px;transform:translateY(-10px)}
 .brand-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
 .brand-pill{padding:7px 11px;border-radius:999px;background:#f7f4ee;border:1px solid #ebe5da;font-size:13px;color:#625d54}
 @media(max-width:760px){
  .brand-hero{padding:22px 20px}
  .brand-grid{grid-template-columns:1fr}
- .brand-name{font-size:48px;letter-spacing:-3px}
+ .brand-logo-img{width:min(145px,48vw);max-height:60px}
  .brand-tag{font-size:10px;letter-spacing:1.35px}
  .brand-sub{font-size:17px}
  .brand-copy{font-size:14px}
@@ -1285,12 +1292,6 @@ th{color:#716c64}
   .help-section .muted{font-size:11px}
 }
 
-
-/* ===== VCPulse Beta · Market Structure v1.0 frozen research ===== */
-.market-structure-card{margin:0 0 18px;padding:18px 22px;background:#fffdfa;border:1px solid var(--vp-line,#e8e1d7);border-radius:20px;box-shadow:0 8px 22px rgba(57,46,33,.035)}
-.ms-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.ms-title{font-size:20px;font-weight:900}.ms-beta{font-size:10px;padding:4px 7px;border-radius:999px;background:#f3eee6;color:#8a6848;vertical-align:middle}.ms-body{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:18px}.ms-state-wrap{display:flex;align-items:center;gap:12px}.ms-icon{font-size:28px}.ms-state{font-size:25px;font-weight:950}.ms-code{font-size:11px;color:#918a80;margin-top:2px}.ms-metrics{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.ms-chip{padding:8px 10px;background:#f7f4ee;border-radius:11px;font-size:12px;color:#6f685f}.ms-chip b{color:#2c2924}.ms-note{margin-top:10px;font-size:11px;color:#918a80;line-height:1.55}.ms-help{margin-top:10px;font-size:12px;color:#625d54;line-height:1.6}.ms-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ms-help-btn{border:1px solid #ddd4c8;background:#fffdfa;color:#6f6658;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer}.ms-help-btn:hover{background:#f7f4ee}.ms-help-box{display:none;margin-top:14px;padding:14px 16px;background:#faf7f1;border:1px solid #ebe3d8;border-radius:14px;font-size:12px;color:#625d54;line-height:1.65}.ms-help-box.open{display:block}.ms-help-box h4{margin:0 0 7px;font-size:13px;color:#2c2924}.ms-help-box p{margin:7px 0}.ms-help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0}.ms-help-item{padding:9px 10px;background:#fffdfa;border-radius:10px}.ms-help-item b{display:block;color:#2c2924;margin-bottom:2px}.ms-help-flow{font-weight:800;color:#5d554b}.ms-wait{color:#777168;font-size:13px}
-@media(max-width:760px){.market-structure-card{padding:15px;margin-bottom:14px}.ms-title{font-size:18px}.ms-body{align-items:flex-start;flex-direction:column}.ms-state{font-size:23px}.ms-metrics{justify-content:flex-start}.ms-chip{padding:7px 9px}.ms-help-grid{grid-template-columns:1fr}.ms-help-btn{padding:5px 9px}}
-
 /* ===== VCPulse 2.43.0 BETA · Market Pulse v0.6 ===== */
 .market-pulse-card{margin:0 0 18px;padding:20px 22px;background:#fffdfa;border:1px solid var(--vp-line,#e8e1d7);border-radius:20px;box-shadow:0 8px 22px rgba(57,46,33,.035)}
 .mp-head,.mp-scoreline{display:flex;justify-content:space-between;align-items:center;gap:12px}.mp-title{font-size:20px;font-weight:900}.mp-beta{font-size:10px;padding:4px 7px;border-radius:999px;background:#f3eee6;color:#8a6848;vertical-align:middle}.mp-score{font-size:38px;font-weight:900;letter-spacing:-1px}.mp-state{font-size:17px;font-weight:800}.mp-signals{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}.mp-signal{padding:10px;background:#f7f4ee;border-radius:12px;min-width:0}.mp-signal span{display:block;font-size:11px;color:#777168;white-space:nowrap}.mp-signal b{display:block;margin-top:4px;font-size:15px}.mp-up{color:var(--good)}.mp-down{color:var(--bad)}.mp-flat{color:var(--muted)}.mp-reason{margin-top:12px;font-size:13px;color:#625d54;line-height:1.55}.mp-meta{margin-top:7px;font-size:11px;color:#918a80}.mp-wait{color:#777168;font-size:13px}.mp-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mp-help-btn{min-width:0;padding:5px 9px;border:1px solid #ddd2c5;border-radius:999px;background:#fffdfa;color:#625d54;font-size:11px;font-weight:800;cursor:pointer}.mp-help{display:none;margin-top:14px;padding:15px 16px;background:#f8f5ef;border:1px solid #e9e1d6;border-radius:14px;color:#625d54;font-size:13px;line-height:1.7}.mp-help.open{display:block}.mp-help h4{margin:0 0 6px;font-size:14px;color:#2c2924}.mp-help p{margin:5px 0}.mp-help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:9px 0}.mp-help-item{padding:9px 10px;background:#fffdfa;border-radius:10px}.mp-help-item b{display:block;color:#2c2924}.mp-help-scale{margin:8px 0;padding:10px 12px;border-radius:11px;background:#fffdfa}.mp-help-flow{font-weight:800;color:#514b43}
@@ -1346,20 +1347,49 @@ th{color:#716c64}
 
 
 <style>
-.structure-quality-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(140,110,30,.22);background:rgba(255,246,205,.72);font-size:12px;font-weight:800;line-height:1.4;white-space:nowrap}
-.single-structure-quality{margin-top:8px;min-height:22px}
-.mobile-structure-quality{margin-top:6px}
+/* V2.46.0 — News Impact TW v1 */
+.news-impact-card{margin-top:16px}
+.news-impact-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.news-impact-title{font-size:17px;font-weight:950;letter-spacing:-.2px}
+.news-impact-beta{flex:0 0 auto;padding:4px 7px;border-radius:999px;background:#f4eee5;border:1px solid #e6d8c8;color:#8a6746;font-size:10px;font-weight:900}
+.news-impact-content{display:grid;gap:9px;margin-top:13px}
+.news-impact-item{border:1px solid #e8e1d7;border-radius:14px;background:#fffdfa;overflow:hidden}
+.news-impact-item>summary{list-style:none;cursor:pointer;padding:12px 13px;display:grid;gap:5px}
+.news-impact-item>summary::-webkit-details-marker{display:none}
+.news-impact-summary-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.news-impact-event{font-size:11px;font-weight:900;padding:4px 7px;border-radius:999px;background:#f6f1e9;color:#76583c}
+.news-impact-horizon{font-size:10px;color:#888078;font-weight:800}
+.news-impact-news-title{font-size:13px;font-weight:900;line-height:1.45;color:#2c2924}
+.news-impact-source{font-size:10px;color:#8b857c}
+.news-impact-detail{padding:0 13px 13px;display:grid;gap:8px}
+.news-impact-row{padding:9px 10px;border-radius:11px;background:#f8f5ef;font-size:12px;line-height:1.55;color:#625d55}
+.news-impact-row b{color:#2e2a25}
+.news-impact-link{display:inline-flex;align-items:center;gap:4px;color:#8d6037;font-size:11px;font-weight:900;text-decoration:none}
+.news-impact-link:hover{text-decoration:underline}
+.news-impact-empty{padding:15px 4px;color:#888178;font-size:12px;line-height:1.6}
+.news-impact-foot{margin-top:10px;padding-top:9px;border-top:1px dashed #e8e0d6;color:#938b81;font-size:10px;line-height:1.5}
+@media(max-width:760px){
+  .news-impact-card{margin-top:12px}
+  .news-impact-title{font-size:15px}
+  .news-impact-item>summary{padding:11px 12px}
+  .news-impact-news-title{font-size:12px}
+  .news-impact-detail{padding:0 12px 12px}
+}
 </style>
+
 </head>
 <body>
 
 <div id="authGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#f7f4ee">
   <div style="width:min(430px,100%);background:#fffdfa;border:1px solid #e8e1d7;border-radius:24px;padding:30px;box-shadow:0 12px 32px rgba(53,46,38,.08);text-align:center">
     <div style="font-size:42px;font-weight:900;letter-spacing:-2px;color:#24231f">VCP<span style="color:#c58d58">ulse</span></div>
-    <div style="margin-top:8px;color:#777168;font-size:13px;letter-spacing:1px">VCP × PowerSqueeze 智慧選股雷達</div>
+    <div style="margin-top:8px;color:#777168;font-size:13px;letter-spacing:1px">PowerSqueeze 智慧選股雷達</div>
     <div id="authStatus" style="margin:24px 0 16px;color:#625d54;line-height:1.6">正在確認登入狀態…</div>
     <button id="googleLoginBtn" type="button" style="display:none;width:100%;padding:13px 16px;border-radius:14px;background:#20231f;color:#fff;border:0;font-weight:800;cursor:pointer">使用 Google 帳號登入</button>
     <div id="authError" style="display:none;margin-top:14px;padding:10px 12px;border-radius:12px;background:#fff0ed;color:#8d302b;font-size:13px;line-height:1.5"></div>
+    <div id="authBrowserHint" style="display:none;margin-top:14px;padding:11px 12px;border-radius:12px;background:#fff7e8;border:1px solid #ead8b9;color:#7a5a22;font-size:13px;line-height:1.6;text-align:left">
+      偵測到 Samsung Internet。若登入後出現黑色英文錯誤頁，請關閉該分頁並改用 <b>Google Chrome</b> 開啟 VCPulse；這是瀏覽器未保留 Firebase 登入狀態，並非帳號未授權。
+    </div>
     <div style="margin-top:16px;color:#918a80;font-size:11px">VCPulse 授權登入版</div>
   </div>
 </div>
@@ -1376,10 +1406,10 @@ th{color:#716c64}
 <section class="brand-hero">
   <div class="brand-grid">
     <div>
-      <h1 class="brand-name">VCP<span class="pulse">ulse</span><span class="brand-wave">◔</span></h1>
+      <h1 class="brand-name"><img class="brand-logo-img" src="vcp-monogram.png" alt="VCPulse VCP logo"></h1>
       <div class="brand-tag">Catch the Contraction. Watch the Breakout.</div>
-      <div class="brand-sub">VCP × PowerSqueeze 智慧選股雷達</div>
-      <div class="brand-copy">好股票，總在收斂之後出發。<br>從 VCP、波動壓縮到 Momentum，一起找出值得觀察的訊號。</div>
+      <div class="brand-sub">PowerSqueeze 智慧選股雷達</div>
+      <div class="brand-copy">好股票，往往從收斂開始。<br>從 VCP、波動壓縮到 Momentum，一起找出值得觀察的訊號。</div>
       <div class="brand-mini">
         <span class="brand-pill">📡 每日自動掃描</span>
         
@@ -1458,7 +1488,7 @@ th{color:#716c64}
 
 <section class="market-pulse-card" id="marketPulseCard" aria-live="polite">
   <div class="mp-head">
-    <div class="mp-title-row"><div class="mp-title">🌐 Market Pulse <span class="mp-beta">BETA</span></div><button type="button" class="mp-help-btn" id="mpHelpBtn" aria-expanded="false">？ Market Pulse 說明</button></div>
+    <div class="mp-title-row"><div class="mp-title">🌐 Market Pulse </div><button type="button" class="mp-help-btn" id="mpHelpBtn" aria-expanded="false">？ Market Pulse 說明</button></div>
     <div class="mp-wait" id="mpUpdated">讀取中…</div>
   </div>
   <div id="mpBody" class="mp-wait" style="margin-top:12px">正在讀取市場環境…</div>
@@ -1476,40 +1506,10 @@ th{color:#716c64}
       <div class="mp-help-item"><b>USD/TWD</b>觀察美元與新台幣相對強弱及資金環境。</div>
     </div>
     <p><b>資料時間：</b>市場快照採當日 07:00 前最新已完成資料；海外市場因時區不同，實際交易日期可能不同。</p>
-    <p><b>訊號一致度：</b>高／中／低表示各項訊號方向是否集中。即使分數偏多，一致度只有「中」，仍代表部分市場訊號互相衝突。</p>
+    <p><b>訊號一致度：</b>高／中／低代表各項市場訊號是否朝相同方向。分數高不代表一致度一定高；若部分訊號互相衝突，整體分數仍可能偏多，但一致度只有中或低。</p>
     <p class="mp-help-flow">Market Pulse 看環境 → 題材雷達看資金方向 → VCP 看型態 → 單股查詢看個股結構</p>
-    <p>歷史驗證使用 2021–2026 資料；70 分以上樣本整體明顯偏多、30 分以下樣本整體明顯偏空。此功能仍為 Beta 實驗性指標。</p>
+    <p>歷史驗證使用 2021–2026 資料；70 分以上樣本整體明顯偏多、30 分以下樣本整體明顯偏空。此指標用於輔助判讀市場環境。</p>
     <p style="font-size:11px;color:#918a80">Market Pulse 不代表未來報酬，也不構成投資建議。</p>
-  </div>
-</section>
-
-
-<section class="market-structure-card" id="marketStructureCard" aria-live="polite">
-  <div class="ms-head">
-    <div class="ms-title-row"><div class="ms-title">🧭 市場結構狀態 <span class="ms-beta">BETA · RESEARCH</span></div><button type="button" class="ms-help-btn" id="msHelpBtn" aria-expanded="false">？ 市場結構說明</button></div>
-    <div class="ms-wait" id="msUpdated">讀取中…</div>
-  </div>
-  <div id="msBody" class="ms-wait" style="margin-top:12px">正在讀取台股市場內部結構…</div>
-  <div class="ms-help">依 VCP Market Breadth 的 <b>Level × Direction × Extension Risk</b> 描述市場生命週期；它不是漲跌預測，也不是台指期進出場訊號。</div>
-  <div class="ms-help-box" id="msHelpBox">
-    <h4>市場結構狀態是什麼？</h4>
-    <p>利用 VCPulse 每日篩選結果觀察台股整體的「市場內部結構」，而不是只看加權指數漲跌。系統綜合 <b>市場廣度 Level × 變化方向 Direction × 延伸風險 Extension Risk</b>，描述目前所處的市場生命週期。</p>
-    <h4>市場廣度（Market Breadth）是什麼？</h4>
-    <p>市場廣度用來觀察市場中有多少股票正在形成、接近或完成較健康的 VCP 結構，以及這些結構的參與程度。畫面上的 0–100 分是綜合結構分數，<b>不是「有幾％股票會上漲」</b>，也不能單獨解讀為多空預測。</p>
-    <div class="ms-help-grid">
-      <div class="ms-help-item"><b>🌱 擴張 EXPANSION</b>市場內部結構正在改善，符合條件的 VCP 結構逐漸增加。</div>
-      <div class="ms-help-item"><b>🌿 成熟 MATURE_BULL</b>市場廣度已處於較高水準，代表 VCP 結構參與程度較廣，目前尚未出現明顯惡化。<b>成熟不代表即將下跌</b>。</div>
-      <div class="ms-help-item"><b>⚠️ 惡化 DETERIORATION</b>市場廣度原本位於較高水準，但近期內部結構明顯轉弱；目前仍屬研究觀察狀態，不等於放空訊號。</div>
-      <div class="ms-help-item"><b>🍂 收縮 CONTRACTION</b>市場廣度偏低且持續轉弱，符合健康 VCP 結構的股票相對較少。</div>
-      <div class="ms-help-item"><b>↔️ 過渡 NEUTRAL_TRANSITION</b>目前尚未形成明確的擴張、成熟、惡化或收縮狀態。</div>
-    </div>
-    <h4>畫面上的數字怎麼看？</h4>
-    <p><b>市場廣度</b>：0–100 的 VCP 市場結構綜合分數。<br>
-    <b>1日變化</b>：相較前一個正式交易日的市場廣度變化。<br>
-    <b>5日變化</b>：相較 5 個交易日前的市場廣度變化；資料不足時顯示「—」。<br>
-    <b>延伸比</b>：已明顯延伸的股票占候選股比例，用來輔助辨識市場結構是否逐漸成熟。</p>
-    <p class="ms-help-flow">Market Pulse 看外部環境 → 市場結構看台股內部週期 → 題材雷達看資金方向 → VCP 看個股型態</p>
-    <p><b>研究階段：</b>本模型規則已於 2026/09/17 凍結，目前持續累積未見資料（OOS）驗證。市場結構用來描述市場內部週期，不代表未來漲跌預測，也不是台指期或個股買賣訊號。</p>
   </div>
 </section>
 
@@ -1529,7 +1529,7 @@ th{color:#716c64}
 <canvas id="chart" width="720" height="360"></canvas>
 <div id="contractionLegend" class="contraction-legend"></div>
 <div class="note">圖：近約 120 個交易日收盤價；上方圖例標示收盤價、MA20（月線）與 Pivot（突破價）；圖中 C1～C4 標示各次回檔區間，跌幅與日期統一列於下方。VCP 是型態辨識，不代表突破一定成功。</div></div>
-<div class="card"><div class="muted">VCP 綜合評分</div><div class="score" id="score">—</div><div class="stars" id="stars">☆☆☆☆☆</div><div id="structureQualityBadge" class="single-structure-quality"></div>
+<div class="card"><div class="muted">VCP 綜合評分</div><div class="score" id="score">—</div><div class="stars" id="stars">☆☆☆☆☆</div><div id="singleStructureQuality" class="structure-quality-badge" hidden>💎 結構品質佳</div><div id="scoreContext" class="muted" style="margin-top:8px;line-height:1.55" hidden></div>
 <div class="single-quick-read">
   <div class="single-quick-item"><span>今日漲跌</span><b id="singleChange">—</b></div>
   <div class="single-quick-item"><span>對應大盤</span><b id="singleMarketChange">—</b><small id="singleMarketName"></small></div>
@@ -1564,6 +1564,21 @@ th{color:#716c64}
 <div class="metrics"><div class="metric"><span class="muted">Pivot（突破價）</span><b id="pivot">—</b></div><div class="metric"><span class="muted">距 Pivot</span><b id="dist">—</b></div><div class="metric"><span class="muted">收縮序列</span><b id="contracts">—</b></div><div class="metric"><span class="muted">量能</span><b id="volume">—</b></div></div>
 <div class="checks" id="checks"></div><div class="note" id="summary" aria-hidden="true">輸入股票代號後開始。</div></div>
 
+
+</div>
+
+<div class="card news-impact-card" id="newsImpactCard">
+  <div class="news-impact-head">
+    <div>
+      <div class="news-impact-title">📰 News Impact｜近期新聞影響</div>
+      <div class="muted" id="newsImpactMeta">V1 先支援台股｜整理事件、可能影響與價格反應</div>
+    </div>
+    <span class="news-impact-beta">BETA</span>
+  </div>
+  <div id="newsImpactContent" class="news-impact-content">
+    <div class="news-impact-empty">輸入台股代號後，查看近期重要新聞與目前價格反應。</div>
+  </div>
+  <div class="news-impact-foot">新聞是資訊層，不納入 VCP 星等或雷達排名；市場反應以 VCPulse 最新資料為準。</div>
 </div>
 
 <div class="section radar-section">
@@ -1642,14 +1657,15 @@ th{color:#716c64}
     </div>
   </div>
   <div class="user-live-refresh">
-    <button type="button" id="userLiveRefreshBtn" class="user-live-btn">🔄 更新即時行情</button>
-    <span id="userLiveRefreshStatus" class="user-live-status">更新目前雷達股票的價格、今日漲跌與距 Pivot；大盤指數隨每次完整雷達掃描同步更新。</span>
+    <button type="button" id="userLiveRefreshBtn" class="user-live-btn">🔄 重新讀取行情</button>
+    <span id="userLiveRefreshStatus" class="user-live-status">台股行情每 5 分鐘更新；價格、今日漲跌與距 Pivot 使用行情快取，VCP 結構維持完整雷達掃描結果。</span>
   </div>
   <div class="card radar-card">
     <div class="radar-snapshot-switch" id="radarSnapshotSwitch">
       <button type="button" class="snapshot-btn active" data-snapshot="official" onclick="setRadarSnapshot('official')"><span class="snapshot-main" id="officialSnapshotLabel">✅ 正式收盤 <span id="officialCount"></span></span><span class="snapshot-update-note" id="officialSnapshotNote">18:10 起更新</span></button>
       <button type="button" class="snapshot-btn" data-snapshot="intraday" onclick="setRadarSnapshot('intraday')">👀 盤中即時 <span id="intradayCount"></span></button>
     </div>
+    <div id="snapshotStatus" class="muted" role="status" style="margin:7px 0 12px;font-size:12px"></div>
     <div class="radar-head">
       <div class="radar-tabs">
         <button class="radar-tab active" data-radar="all">全部</button>
@@ -1663,6 +1679,7 @@ th{color:#716c64}
         <button class="radar-tab" data-radar="postbreakout">🔵 突破後</button>
         <button class="radar-tab" data-radar="near">🟡 近 Pivot</button>
         <button class="radar-tab" data-radar="forming">⚪ 成形中</button>
+        <button class="radar-tab" data-radar="quality">💎 結構品質佳</button>
         <button class="radar-tab" data-radar="combo">⚡ VCP＋Squeeze</button>
       </div>
       <div class="radar-sort-wrap">
@@ -1679,6 +1696,30 @@ th{color:#716c64}
         <div class="muted">預計顯示 4 分以上</div>
       </div>
     </div>
+    <details class="signal-guide-collapsible radar-signal-guide">
+      <summary>
+        <span class="signal-guide-title">ⓘ VCPulse 訊號怎麼看？</span>
+        <span class="signal-guide-action"><span class="when-closed">查看說明</span><span class="when-open">收合說明</span><span class="signal-guide-chevron">›</span></span>
+      </summary>
+      <div class="signal-guide-content">
+        <div class="pulse-help-detail">
+          <h3>VCPulse 綜合訊號怎麼看？</h3>
+          <p>VCP 星等只評估「VCP 型態品質」；VCPulse 綜合訊號則加入 <b>Pivot 位置、PowerSqueeze 與 Momentum</b>，表示目前值得關注的程度。</p>
+          <div class="pulse-help-grid">
+            <div><b>💎 結構品質佳</b><span>代表這檔股票的 VCP 結構在趨勢、整體價格收斂、量縮、波動收斂與 Pivot 等條件上整體表現較完整。<br><b>不等同 5/5 星：</b>此標籤採用整體結構判定，因此即使部分單項未通過，仍可能被標示為結構品質佳。這是型態品質標記，不代表未來一定上漲。</span></div>
+            <div><b>🔥 高關注</b><span>VCP 結構佳，而且位置、壓縮或動能有多項條件同時配合，屬於雷達中優先留意的型態。</span></div>
+            <div><b>👀 觀察</b><span>VCP 已具一定品質，且 Pivot 位置、PowerSqueeze 或 Momentum 已有進一步配合，值得提高注意力。</span></div>
+            <div><b>⏳ 等待</b><span>雖符合 VCP 雷達基本條件，但目前位置、壓縮或動能的配合仍不足，等待條件進一步改善。</span></div>
+            <div><b>⚠️ 過度延伸</b><span>突破後已距 Pivot 超過 8%，提醒目前位置已不像剛突破時那麼接近 Pivot。</span></div>
+          </div>
+          <p class="pulse-help-note"><b>重點：</b>「等待」不代表看空；「觀察／高關注」也不代表買進。標籤只是協助比較 VCP 候選股目前所處的階段。</p>
+          <details class="pulse-rule-detail">
+            <summary>查看訊號判斷規則</summary>
+            <p>系統依 VCP 分數、今日突破／突破後／接近 Pivot 狀態、PowerSqueeze 強度與 Momentum 方向綜合判斷。條件配合越多，關注層級越高；突破後若距 Pivot 超過 8%，則優先標示為「過度延伸」。</p>
+          </details>
+        </div>
+      </div>
+    </details>
     <div class="radar-table-wrap">
       <table class="radar-table">
         <thead>
@@ -1710,7 +1751,6 @@ th{color:#716c64}
 </div>
 </div></div>
 <script>
-// V2.44.6 BETA — V1.1e structure-quality annotation only; no ranking/filter changes.
 const $=id=>document.getElementById(id), API='https://api.finmindtrade.com/api/v4/data';
 function pct(x){return (x>=0?'+':'')+x.toFixed(1)+'%'}
 function sma(a,n){return a.map((_,i)=>i<n-1?null:a.slice(i-n+1,i+1).reduce((x,y)=>x+y,0)/n)}
@@ -1721,7 +1761,10 @@ function analyze(d){
  let piv=[]; for(let i=3;i<n-3;i++){let w=close.slice(i-3,i+4); if(close[i]===Math.max(...w))piv.push({i,t:'H',p:close[i]}); if(close[i]===Math.min(...w))piv.push({i,t:'L',p:close[i]})}
  piv=piv.filter((x,i)=>!i||x.t!==piv[i-1].t);
  let drops=[]; for(let i=0;i<piv.length-1;i++) if(piv[i].t==='H'&&piv[i+1].t==='L') drops.push({h:piv[i],l:piv[i+1],drop:(piv[i].p-piv[i+1].p)/piv[i].p*100});
- drops=drops.slice(-4); let seq=drops.map(x=>x.drop), contracting=seq.length>=2&&seq.slice(1).every((x,i)=>x<seq[i]*1.12);
+ // V2.43.2 — keep browser-side single-stock contraction logic identical to scanner.py.
+ // Near-100% peak-to-trough legs are broken/unusable price-series artifacts, not VCP contractions.
+ drops=drops.filter(x=>Number.isFinite(Number(x.drop)) && Number(x.drop)>0 && Number(x.drop)<95).slice(-4);
+ let seq=drops.map(x=>x.drop), contracting=seq.length>=2&&seq.slice(1).every((x,i)=>x<seq[i]*1.12);
  let recent=close.slice(-35), pivot=Math.max(...recent.slice(0,-3)), last=close[n-1], distance=(last/pivot-1)*100;
  let v20=vol.slice(-20).reduce((a,b)=>a+b,0)/20, v60=vol.slice(-60,-20).reduce((a,b)=>a+b,0)/Math.max(1,vol.slice(-60,-20).length), dry=v20<v60*.85;
  const avgVolume20=rawVolume.slice(-20).reduce((a,b)=>a+b,0)/Math.max(1,rawVolume.slice(-20).length);
@@ -1747,28 +1790,7 @@ function analyze(d){
  let prev=close[n-2], todayBreakout=prev<=pivot && breakout && breakoutVol;
  let pts=0; if(trend)pts++; if(seq.length>=2)pts++; if(contracting)pts++; if(dry)pts++; if(todayBreakout||(!breakout&&distance>-8))pts++;
  let state=todayBreakout?'🟢 今日帶量突破':(!breakout&&distance>-5?'🟡 接近 Pivot':(!breakout?'⚪ VCP 成形中':'🔵 突破後觀察'));
-
- // V1.1e BETA — annotation-only validated structure-quality flag.
- let regressionContracting=false;
- if(seq.length>=2 && seq.every(Number.isFinite) && seq.every(x=>x>0)){
-   const m=seq.length, sx=(m-1)*m/2, sy=seq.reduce((a,b)=>a+b,0), sxx=(m-1)*m*(2*m-1)/6;
-   const sxy=seq.reduce((a,y,i)=>a+i*y,0);
-   const den=m*sxx-sx*sx;
-   const slope=den?((m*sxy-sx*sy)/den):0;
-   regressionContracting=slope<0 && seq[seq.length-1]<seq[0];
- }
- let trAll=[];
- for(let i=1;i<n;i++){
-   const hi=+(d[i].max??d[i].High??d[i].high), lo=+(d[i].min??d[i].Low??d[i].low);
-   if(Number.isFinite(hi)&&Number.isFinite(lo)&&Number.isFinite(close[i-1])) trAll.push(Math.max(hi-lo,Math.abs(hi-close[i-1]),Math.abs(lo-close[i-1])));
-   else trAll.push(NaN);
- }
- const avgLast=k=>{const a=trAll.slice(-k).filter(Number.isFinite);return a.length===k?a.reduce((x,y)=>x+y,0)/k:NaN};
- const atr20Core=avgLast(20), atr60Core=avgLast(60), atr20To60=(Number.isFinite(atr20Core)&&Number.isFinite(atr60Core)&&atr60Core>0)?atr20Core/atr60Core:NaN;
- const clearTrigger=todayBreakout||(!breakout&&distance>-5&&distance<=0);
- const structureQualityGood=!!(trend&&seq.length>=2&&regressionContracting&&dry&&clearTrigger&&Number.isFinite(atr20To60)&&atr20To60<=1.00);
-
- return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),avgVolume20,avgValue20,dates:d.map(x=>x.date),structureQualityGood,atr20To60}
+ return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),avgVolume20,avgValue20,dates:d.map(x=>x.date)}
 }
 function draw(a){
  let c=$('chart');
@@ -2125,6 +2147,8 @@ function applyRestoreEvents(rows,events){
 
 async function resolveTaiwanInput(raw){
  const q=raw.trim();
+ if(/^\d+$/.test(q) && !/^\d{4,6}$/.test(q))
+   throw new Error(`「${q}」不是有效的台股代號格式，請輸入 4 至 6 位數的股票代號，例如 2330。`);
  if(/^\d{4,6}$/.test(q)) return {symbol:q,name:''};
  try{
   let r=await fetch(`${API}?dataset=TaiwanStockInfo`);
@@ -2305,7 +2329,14 @@ async function getSingleLatestQuote(market,symbol){
  }
 
  // 瀏覽器直連交易所/Yahoo 若被 CORS 或裝置網路擋住，
- // 改讀 GitHub Actions 掃描時留下的「全市場盤中快取」。
+ // 先讀每 5 分鐘更新的輕量台股行情快取。它只提供價格欄位，
+ // 不會覆蓋 VCP 結構。
+ if(m==='TW'){
+   const liveCache=serverLiveQuoteFor(m,sym);
+   if(liveCache) return {...liveCache,source:'VCPulse 5 分鐘行情快取'};
+ }
+
+ // 再退回 GitHub Actions 完整掃描時留下的「全市場盤中快取」。
  // 這包含所有可下載股票，不只每日雷達候選股。
  const scannerQuote=getScannerCachedQuote(m,sym);
  if(scannerQuote) return scannerQuote;
@@ -2340,9 +2371,16 @@ function findLatestRadarMatch(market,symbol){
  const m=String(market).toUpperCase(), sym=String(symbol).toUpperCase();
  const intraday=(typeof radarSnapshotData!=='undefined' ? radarSnapshotData.intraday : [])||[];
  const official=(typeof radarSnapshotData!=='undefined' ? radarSnapshotData.official : [])||[];
- return intraday.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym)
-     || official.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym)
-     || null;
+ const live=intraday.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym) || null;
+ const base=official.find(x=>String(x.market||'').toUpperCase()===m && String(x.symbol||'').toUpperCase()===sym) || null;
+ // V2.43.2 — intraday rows intentionally carry lighter fields. Enrich them with
+ // official structural VCP fields so live price/status never replaces the scanner's
+ // score components or contractions with a second browser-side calculation.
+ if(live && base) return {...base,...live,
+   score_components:live.score_components||base.score_components,
+   contractions:Array.isArray(live.contractions)?live.contractions:base.contractions
+ };
+ return live || base || null;
 }
 
 
@@ -2399,7 +2437,9 @@ function renderSingleFromRadarFallback(symbol,row){
   }
 
   $('score').textContent=Number.isFinite(pts)?`${pts}/5`:'—';
+  if($('scoreContext')){$('scoreContext').hidden=true;$('scoreContext').textContent='';}
   $('stars').textContent=Number.isFinite(pts)?'★'.repeat(Math.max(0,Math.min(5,pts)))+'☆'.repeat(Math.max(0,5-Math.min(5,pts))):'☆☆☆☆☆';
+  if($('singleStructureQuality')) $('singleStructureQuality').hidden=!row.structure_quality_good;
   $('pivot').textContent=Number.isFinite(pivot)?pivot.toFixed(2):'—';
   $('dist').textContent=Number.isFinite(distance)?pct(distance):'—';
   $('contracts').textContent=row.contracts || '—';
@@ -2444,6 +2484,7 @@ function renderSingleFromRadarFallback(symbol,row){
   updateSingleLiquidity(row,null);
 
   drawRadarFallbackMessage();
+  renderNewsImpact(currentMarket,symbol);
   return true;
 }
 
@@ -2485,6 +2526,102 @@ async function fetchTwseOfficialHistory(symbol,months=14){
  return [...map.values()].sort((a,b)=>a.date.localeCompare(b.date));
 }
 
+
+let newsImpactCache=null;
+let newsImpactPromise=null;
+
+function newsImpactSafeUrl(v){
+  try{
+    const u=new URL(String(v||''),location.href);
+    return /^https?:$/.test(u.protocol)?u.href:'';
+  }catch(e){ return ''; }
+}
+function newsImpactDate(v){
+  const s=String(v||'');
+  const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m?`${Number(m[2])}/${Number(m[3])}`:'';
+}
+async function getNewsImpactData(){
+  if(newsImpactCache) return newsImpactCache;
+  if(newsImpactPromise) return newsImpactPromise;
+  newsImpactPromise=fetch(`data/news_impact.json?t=${Date.now()}`,{cache:'no-store'})
+    .then(r=>{if(!r.ok) throw new Error('News Impact 尚未建立');return r.json();})
+    .then(x=>(newsImpactCache=x))
+    .catch(e=>({status:'error',error:String(e?.message||e),stocks:{}}))
+    .finally(()=>{newsImpactPromise=null;});
+  return newsImpactPromise;
+}
+function currentNewsVcpRelation(market,symbol,fallback=''){
+  const row=currentSingleFavoriteData;
+  const same=row && String(row.market||'').toUpperCase()===String(market||'').toUpperCase()
+    && String(row.symbol||'').toUpperCase()===String(symbol||'').toUpperCase();
+  if(!same) return fallback||'';
+  const bits=[];
+  // News Impact must not keep its own stale VCP judgement. Reuse the exact
+  // single-stock analysis currently shown above whenever that analysis exists.
+  if(row.structure_quality_good===true) bits.push('💎 結構品質佳');
+  const score=Number(row.score);
+  if(Number.isFinite(score)) bits.push(`VCP ${score}/5`);
+  if(row.volume_dry===true) bits.push('量縮');
+  return bits.length?bits.join('；'):(fallback||'');
+}
+
+function resetNewsImpact(message='輸入台股代號後，查看近期重要新聞與目前價格反應。'){
+  const box=document.getElementById('newsImpactContent');
+  const meta=document.getElementById('newsImpactMeta');
+  if(box) box.innerHTML=`<div class="news-impact-empty">${escHtml(message)}</div>`;
+  if(meta) meta.textContent='V1 先支援台股｜整理事件、可能影響與價格反應';
+}
+async function renderNewsImpact(market,symbol){
+  const box=document.getElementById('newsImpactContent');
+  const meta=document.getElementById('newsImpactMeta');
+  if(!box) return;
+  const radarRow=typeof findAnyRadarMatch==='function'?findAnyRadarMatch(market,symbol):null;
+  const stockLabel=radarRow?.name?`${radarRow.name}（${symbol}）`:`${symbol}`;
+  if(String(market||'').toUpperCase()!=='TW'){
+    resetNewsImpact('News Impact V1 目前先支援台股；美股版之後再獨立加入。');
+    return;
+  }
+  const sym=String(symbol||'').toUpperCase();
+  box.innerHTML='<div class="news-impact-empty">正在讀取近期新聞…</div>';
+  const data=await getNewsImpactData();
+  const stock=data?.stocks?.[sym];
+  if(meta){
+    const t=String(data?.generated_at||'').replace('T',' ').slice(0,16);
+    meta.textContent=t?`台股｜資料更新 ${t}`:'台股｜等待首次新聞資料更新';
+  }
+  if(!stock){
+    box.innerHTML=`<div class="news-impact-empty">目前尚未納入「${escHtml(stockLabel)}」的本次 News Impact 更新；下一次完整更新後會再嘗試整理。</div>`;
+    return;
+  }
+  const items=Array.isArray(stock.items)?stock.items.slice(0,3):[];
+  if(!items.length){
+    box.innerHTML=`<div class="news-impact-empty">近期未發現「${escHtml(stockLabel)}」需要特別整理的重要公開消息。可搭配 VCP 結構、成交量與價格反應持續觀察。</div>`;
+    return;
+  }
+  box.innerHTML=items.map((n,i)=>{
+    const url=newsImpactSafeUrl(n.url);
+    const src=[n.source,newsImpactDate(n.published_at)].filter(Boolean).join(' · ');
+    return `<details class="news-impact-item" ${i===0?'open':''}>
+      <summary>
+        <div class="news-impact-summary-top">
+          <span class="news-impact-event">${escHtml(n.event||'公司／產業動態')}</span>
+          <span class="news-impact-horizon">${escHtml(n.horizon||'')}</span>
+        </div>
+        <div class="news-impact-news-title">${escHtml(n.title||'')}</div>
+        <div class="news-impact-source">${escHtml(src)}</div>
+      </summary>
+      <div class="news-impact-detail">
+        <div class="news-impact-row"><b>為什麼重要：</b>${escHtml(n.why||'')}</div>
+        ${n.possible_impact?`<div class="news-impact-row"><b>可能影響：</b>${escHtml(n.possible_impact)}</div>`:''}
+        <div class="news-impact-row"><b>市場目前反應：</b>${escHtml(n.market_reaction||'')}</div>
+        <div class="news-impact-row"><b>與 VCP 的關係：</b>${escHtml(currentNewsVcpRelation(market,sym,n.vcp_relation||''))}</div>
+        ${url?`<a class="news-impact-link" href="${escHtml(url)}" target="_blank" rel="noopener noreferrer">查看原始新聞 ↗</a>`:''}
+      </div>
+    </details>`;
+  }).join('');
+}
+
 async function run(){
  let raw=$('symbol').value.trim(), s=raw.toUpperCase(), resolvedName='';
  $('go').disabled=true;$('go').textContent='分析中…';$('err').style.display='none';
@@ -2496,6 +2633,7 @@ async function run(){
   }else if(!/^[A-Z][A-Z0-9.\-^]{0,9}$/.test(s)){
    throw new Error('請輸入美股代號，例如 NVDA、TSLA、AAPL。');
   }
+  renderNewsImpact(currentMarket,s);
  let end=new Date(), start=new Date();start.setDate(end.getDate()-420);let f=d=>d.toISOString().slice(0,10);
   let dataset=currentMarket==='US'?'USStockPrice':'TaiwanStockPrice';
   let u=`${API}?dataset=${dataset}&data_id=${encodeURIComponent(s)}&start_date=${f(start)}&end_date=${f(end)}`;
@@ -2601,15 +2739,16 @@ async function run(){
     market:String(currentMarket).toUpperCase(),symbol:String(s).toUpperCase(),name:stockName||s,
     score:Number.isFinite(Number(a.pts))?Number(a.pts):null,pivot:Number.isFinite(Number(a.pivot))?Number(a.pivot):null,
     distance:Number.isFinite(Number(a.distance))?Number(a.distance):null,change_pct:Number.isFinite(singleChange)?singleChange:null,
-    volume_dry:!!a.dry,type:radarMatch?.type||(a.todayBreakout?'breakout':(a.breakout?'postbreakout':(Number(a.distance)>-5?'near':'forming'))),
+    volume_dry:!!a.dry,structure_quality_good:radarMatch?.structure_quality_good===true,type:radarMatch?.type||(a.todayBreakout?'breakout':(a.breakout?'postbreakout':(Number(a.distance)>-5?'near':'forming'))),
     state:a.state,squeeze_level:radarMatch?.squeeze_level||a.squeezeLevel||'',squeeze_state:a.squeezeState||'',
     momentum:radarMatch?.momentum||a.momentum||'',momentum_dir:radarMatch?.momentum_dir||'',combo:!!a.combo,
     pulse_signal:radarMatch?.pulse_signal||'wait',pulse_label:radarMatch?.pulse_label||'⭐ 單股收藏',
-    structure_quality_good:typeof radarMatch?.structure_quality_good==='boolean'?radarMatch.structure_quality_good:!!a.structureQualityGood,
-    structure_quality_label:(radarMatch?.structure_quality_label||((radarMatch?.structure_quality_good||a.structureQualityGood)?'💎 結構品質佳':'')),
     contractions:Array.isArray(a.seq)?a.seq:[],data_date:d[d.length-1]?.date||'',_favorite_only:!radarMatch
   };
   if(getFavorites().has(favoriteKey(currentMarket,s))) rememberFavoriteMeta(currentSingleFavoriteData);
+  // Refresh News Impact now that the live single-stock VCP analysis is available.
+  // This makes its VCP score/volume/quality line use the same source as the card above.
+  renderNewsImpact(currentMarket,s);
   $('title').textContent=stockName ? `${stockName}（${s}）` : `${s} · ${currentMarket==='US'?'美股':'台股'}`;renderSingleFavorite(currentMarket,s);$('period').textContent=d[0].date+' ～ '+d[d.length-1].date;$('state').textContent=a.state;
   const liveNote=$('singleLiveNote');
   if(liveNote){
@@ -2623,10 +2762,24 @@ async function run(){
       liveNote.hidden=true; liveNote.textContent='';
     }
   }
-  $('score').textContent=a.pts+'/5';$('stars').textContent='★'.repeat(a.pts)+'☆'.repeat(5-a.pts);
-  const structureGood=typeof radarMatch?.structure_quality_good==='boolean'?radarMatch.structure_quality_good:!!a.structureQualityGood;
-  const sqb=$('structureQualityBadge'); if(sqb) sqb.innerHTML=structureGood?'<span class="structure-quality-badge">💎 結構品質佳</span>':'';
-  $('pivot').textContent=a.pivot.toFixed(2);$('dist').textContent=pct(a.distance);
+  $('score').textContent=a.pts+'/5';$('stars').textContent='★'.repeat(a.pts)+'☆'.repeat(5-a.pts);if($('singleStructureQuality')) $('singleStructureQuality').hidden=!radarMatch?.structure_quality_good;$('pivot').textContent=a.pivot.toFixed(2);$('dist').textContent=pct(a.distance);
+  // V2.43.4 — score is VCP shape quality; post-breakout is radar tracking state.
+  const scoreContext=$('scoreContext');
+  if(scoreContext){
+    if(radarMatch?.type==='postbreakout'){
+      const days=Number(radarMatch.breakout_days);
+      const dtext=Number.isFinite(days)?` D+${days}`:'';
+      const ret=Number(radarMatch.breakout_return_pct ?? radarMatch.distance);
+      const high=Number(radarMatch.breakout_high_pct);
+      const extended=String(radarMatch.pulse_signal||'')==='extended';
+      const bits=[`🔵 突破後${dtext}｜雷達追蹤中`];
+      if(Number.isFinite(ret)) bits.push(`目前距 Pivot ${pct(ret)}`);
+      if(Number.isFinite(high)) bits.push(`突破後最高 ${pct(high)}`);
+      if(extended) bits.push('⚠️ 過度延伸');
+      scoreContext.hidden=false;
+      scoreContext.innerHTML=`<b>型態品質 ${a.pts}/5</b><br>${bits.map(escHtml).join('｜')}`;
+    }else{ scoreContext.hidden=true; scoreContext.textContent=''; }
+  }
   $('contracts').textContent=a.seq.length?a.seq.map(x=>'-'+Math.abs(x).toFixed(0)+'%').join(' → '):'未辨識';$('volume').textContent=a.dry?'量縮 ✓':'未明顯量縮';
   // V2.43.1 — when Daily Radar supplied the score, render the five checks from
   // the exact same scanner components. This prevents e.g. 1/5 beside three ✓.
@@ -2647,7 +2800,8 @@ async function run(){
  }catch(e){
    const fallback=findAnyRadarMatch(currentMarket,s);
    if(!renderSingleFromRadarFallback(s,fallback)){
-     showErr('目前這台裝置無法取得完整歷史資料，且此股票不在目前每日雷達快取中。請稍後再試，或切換 Wi‑Fi／行動網路後重試。');
+     const inputError=e?.message && (e.message.includes('不是有效的台股代號格式') || e.message.startsWith('找不到「') || e.message.includes('符合多檔股票') || e.message.startsWith('請輸入美股代號'));
+     showErr(inputError ? e.message : `查無「${s}」可供分析的完整歷史資料。請確認股票代號是否正確；若代號正確，請稍後再試。`);
    }
  }
  finally{$('go').disabled=false;$('go').textContent='開始分析'}
@@ -2673,11 +2827,64 @@ function toggleCapitalHotspot(industry,mode){
  }
  renderCapitalHotspots();
 }
-function openCapitalStock(symbol){
+let capitalReturnState=null;
+
+function rememberCapitalPosition(symbol,sourceEl){
+ capitalReturnState={
+   symbol:String(symbol||'').toUpperCase(),
+   industry:String(capitalHotspotExpanded||''),
+   mode:String(capitalHotspotMode||'vcp'),
+   scrollY:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+   element:sourceEl || null
+ };
+ const btn=document.getElementById('radarBackFloat');
+ if(btn){
+   btn.hidden=false;
+   btn.textContent='← 返回資金熱區';
+   btn.setAttribute('onclick','returnToCapitalPosition()');
+ }
+}
+
+function returnToCapitalPosition(){
+ if(!capitalReturnState) return;
+ const saved=capitalReturnState;
+ capitalHotspotExpanded=saved.industry || '';
+ capitalHotspotMode=saved.mode || 'vcp';
+ renderCapitalHotspots();
+
+ let target=[...document.querySelectorAll('.capital-stock-btn')].find(el=>{
+   const txt=String(el.textContent||'').toUpperCase();
+   return txt.includes(String(saved.symbol||'').toUpperCase());
+ }) || null;
+ if(target){
+   const card=target.closest('.capital-hotspot') || target;
+   try{ target.scrollIntoView({behavior:'smooth',block:'center'}); }
+   catch(e){ target.scrollIntoView(); }
+   card.classList.remove('radar-return-highlight-3s');
+   void card.offsetWidth;
+   card.classList.add('radar-return-highlight-3s');
+   setTimeout(()=>{ if(card && document.documentElement.contains(card)) card.classList.remove('radar-return-highlight-3s'); },3000);
+ }else{
+   const y=Number(saved.scrollY)||0;
+   try{ window.scrollTo({top:y,behavior:'smooth'}); }
+   catch(e){ window.scrollTo(0,y); }
+ }
+ const btn=document.getElementById('radarBackFloat');
+ if(btn) setTimeout(()=>btn.hidden=true,650);
+}
+
+function openCapitalStock(symbol,sourceEl){
  const input=document.getElementById('symbol');
  if(!input) return;
+ rememberCapitalPosition(symbol,sourceEl);
  input.value=String(symbol||'');
- window.scrollTo({top:0,behavior:'smooth'});
+ const singleSection=input.closest('.section') || input;
+ if(singleSection){
+   try{ singleSection.scrollIntoView({behavior:'smooth',block:'start'}); }
+   catch(e){ singleSection.scrollIntoView(); }
+ }else{
+   window.scrollTo({top:0,behavior:'smooth'});
+ }
  run();
 }
 function renderCapitalHotspots(){
@@ -2700,7 +2907,7 @@ function renderCapitalHotspots(){
    const shown=capitalHotspotMode==='breakout'?breakoutStocks:stocks;
    const title=capitalHotspotMode==='breakout'?`突破 ${breakoutStocks.length} 檔`:`VCP ${stocks.length} 檔`;
    const stockHtml=shown.length
-     ? shown.map(x=>`<button type="button" class="capital-stock-btn ${String(x.type||'')==='breakout'?'breakout':''}" onclick="event.stopPropagation();openCapitalStock('${escHtml(String(x.symbol||''))}')">${escHtml(x.name||x.symbol||'—')} <span class="muted">${escHtml(x.symbol||'')}</span></button>`).join('')
+     ? shown.map(x=>`<button type="button" class="capital-stock-btn ${String(x.type||'')==='breakout'?'breakout':''}" onclick="event.stopPropagation();openCapitalStock('${escHtml(String(x.symbol||''))}',this)">${escHtml(x.name||x.symbol||'—')} <span class="muted">${escHtml(x.symbol||'')}</span></button>`).join('')
      : '<div class="capital-hotspot-none">目前沒有符合的個股。</div>';
    return `
    <div class="capital-hotspot">
@@ -2871,10 +3078,10 @@ function updateMarketSpecificSnapshotUI(){
 function setMarket(m,{reset=true}={}){
  const prevMarket=String(currentMarket||'').toUpperCase();
  currentMarket=m;
- const msCard=document.getElementById('marketStructureCard'); if(msCard) msCard.style.display=(String(m).toUpperCase()==='TW'?'':'none');
  if(reset || prevMarket!==String(m||'').toUpperCase()) mobileRadarPage=1;
  updateMarketSpecificSnapshotUI();
  document.querySelectorAll('.radar-market-btn').forEach(b=>b.classList.toggle('active',b.dataset.market===m));
+ renderFreshness();
  renderMarketOverview();
  renderCapitalHotspots();
  renderThemeLeaderboards();
@@ -2887,14 +3094,15 @@ function setMarket(m,{reset=true}={}){
  if(officialCount) officialCount.textContent=oc?`(${oc})`:'';
  if(intradayCount) intradayCount.textContent=ic?`(${ic})`:'';
  updateMarketSpecificSnapshotUI();
- if(intradayBtn) intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(m);
+ if(intradayBtn) intradayBtn.disabled=!ic;
  updateSnapshotAvailability();
  document.querySelectorAll('.marketbtn').forEach(b=>b.classList.toggle('active',b.dataset.market===m));
  $('symbol').placeholder=currentMarket==='US'?'例如：NVDA、TSLA、AAPL':'例如：2330、台積電';
  if(reset){
+  resetNewsImpact(currentMarket==='US'?'News Impact V1 目前先支援台股；美股版之後再獨立加入。':'輸入台股代號後，查看近期重要新聞與目前價格反應。');
   $('symbol').value=currentMarket==='US'?'NVDA':'2330';
   $('title').textContent='等待分析';renderSingleFavorite(null,null);$('period').textContent='';if($('singleLiveNote')){$('singleLiveNote').hidden=true;$('singleLiveNote').textContent='';}if($('singleRestoreNote')){$('singleRestoreNote').hidden=true;$('singleRestoreNote').textContent='';}$('state').textContent='—';
-  $('score').textContent='—';$('stars').textContent='☆☆☆☆☆';$('pivot').textContent='—';$('dist').textContent='—';
+  $('score').textContent='—';$('stars').textContent='☆☆☆☆☆';if($('singleStructureQuality')) $('singleStructureQuality').hidden=true;if($('scoreContext')){$('scoreContext').hidden=true;$('scoreContext').textContent='';}$('pivot').textContent='—';$('dist').textContent='—';
   $('contracts').textContent='—';$('volume').textContent='—';$('checks').innerHTML='';$('summary').textContent='輸入股票代號後開始。';resetSingleQuickRead();
  }
  renderRadar(radarFilter);
@@ -2903,23 +3111,12 @@ document.querySelectorAll('.marketbtn').forEach(btn=>{
  btn.onclick=()=>setMarket(btn.dataset.market,{reset:true});
 });
 $('go').onclick=run;$('symbol').onkeydown=e=>{if(e.key==='Enter')run()};
-// Initial single-stock analysis: the default ticker is already shown in the input,
-// but some async page data/auth initialization can make the immediate first run too early.
-// Run once after the page is fully loaded so 2330/NVDA is populated automatically.
-let initialSingleAutoRunDone=false;
-function autoRunInitialSingle(){
- if(initialSingleAutoRunDone) return;
- initialSingleAutoRunDone=true;
- const input=$('symbol');
- if(input && String(input.value||'').trim()) run();
-}
-if(document.readyState==='complete') setTimeout(autoRunInitialSingle,250);
-else window.addEventListener('load',()=>setTimeout(autoRunInitialSingle,250),{once:true});
 
 
 // Daily radar: load results generated by GitHub Actions.
 let radarRows=[];
 let radarSnapshot='official';
+let radarSnapshotManuallyChosen=false;
 let radarSnapshotData={official:[],intraday:[]};
 let radarSnapshotMeta={official:{},intraday:{}};
 let radarBenchmarkData={official:{},intraday:{}};
@@ -2928,6 +3125,12 @@ let radarThemeLeaderboards={official:{},intraday:{}};
 let radarThemeStockNames={};
 let radarAllQuotes={official:{},intraday:{}};
 let radarRestoreEvents={official:{},intraday:{}};
+// V2.44 — lightweight TW market quote cache. This is intentionally separate
+// from VCP structure snapshots: only price/change/distance are overlaid.
+let serverLiveQuotesTW=new Map();
+let serverLiveQuotesMeta={generated_at:'',latest_quote_time:'',data_dates:[],quote_count:0,target_count:0};
+let serverLiveQuotePollTimer=null;
+
 let userLiveQuotes=new Map();
 let userLiveUpdatedAt='';
 
@@ -3229,14 +3432,85 @@ function pivotDistanceVisual(distance){
 }
 
 
+function twTodayYmd(){
+ try{
+   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+   const obj=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+   return `${obj.year}-${obj.month}-${obj.day}`;
+ }catch(e){ return ''; }
+}
+function serverLiveQuoteFor(market,symbol){
+ if(String(market||'').toUpperCase()!=='TW') return null;
+ const q=serverLiveQuotesTW.get(String(symbol||'').toUpperCase())||null;
+ if(!q) return null;
+ // Never paint a previous trading day's quote as today's "live" price.
+ const qd=String(q.data_date||'');
+ const today=twTodayYmd();
+ if(qd && today && qd!==today) return null;
+ return q;
+}
+function liveQuoteBadgeText(r){
+ if(!r?._live) return '';
+ const t=String(r._quote_time||serverLiveQuotesMeta.latest_quote_time||'').slice(0,5);
+ return t?`行情 ${t}`:'行情';
+}
+async function loadServerLiveQuotesTW(showStatus=false){
+ const status=document.getElementById('userLiveRefreshStatus');
+ try{
+   const res=await fetch(`data/live_quotes_tw.json?t=${Date.now()}`,{cache:'no-store'});
+   if(!res.ok) throw new Error(`HTTP ${res.status}`);
+   const j=await res.json();
+   const quotes=j&&typeof j.quotes==='object'&&j.quotes?j.quotes:{};
+   const next=new Map();
+   Object.entries(quotes).forEach(([sym,q])=>{
+     const price=Number(q?.price), prev=Number(q?.prev_close);
+     if(Number.isFinite(price)&&price>0&&Number.isFinite(prev)&&prev>0){
+       next.set(String(sym).toUpperCase(),{...q,price,prev_close:prev});
+     }
+   });
+   serverLiveQuotesTW=next;
+   serverLiveQuotesMeta={
+     generated_at:String(j.generated_at||''),
+     latest_quote_time:String(j.latest_quote_time||''),
+     data_dates:Array.isArray(j.data_dates)?j.data_dates:[],
+     quote_count:Number(j.quote_count)||next.size,
+     target_count:Number(j.target_count)||0
+   };
+   const qt=serverLiveQuotesMeta.latest_quote_time?serverLiveQuotesMeta.latest_quote_time.slice(0,5):'';
+   if(status && (showStatus || currentMarket==='TW')){
+     status.textContent=next.size
+       ? `台股行情快取 ${qt||'—'}｜${next.size} 檔；價格／今日漲跌／距 Pivot 使用行情快取，VCP 結構仍依完整掃描。`
+       : '台股行情快取尚未建立；目前保留雷達掃描價格。';
+   }
+   return next.size;
+ }catch(e){
+   console.warn('TW live quote cache unavailable',e);
+   if(status && showStatus) status.textContent='暫時讀不到盤中行情快取；已保留雷達掃描資料，不會用錯誤行情覆蓋。';
+   return 0;
+ }
+}
+function startServerLiveQuotePolling(){
+ if(serverLiveQuotePollTimer) return;
+ serverLiveQuotePollTimer=setInterval(async()=>{
+   if(String(currentMarket||'').toUpperCase()!=='TW' || radarSnapshot!=='intraday') return;
+   const before=serverLiveQuotesMeta.generated_at;
+   const count=await loadServerLiveQuotesTW(false);
+   if(count && serverLiveQuotesMeta.generated_at!==before) renderRadar(radarFilter);
+ },60000);
+}
+
 function liveQuoteKey(market,symbol){ return `${String(market||'').toUpperCase()}:${String(symbol||'').toUpperCase()}`; }
 function effectiveRadarRow(r){
- const q=userLiveQuotes.get(liveQuoteKey(r.market,r.symbol));
+ const manual=userLiveQuotes.get(liveQuoteKey(r.market,r.symbol));
+ const cached=(radarSnapshot==='intraday')?serverLiveQuoteFor(r.market,r.symbol):null;
+ const q=manual||cached;
  if(!q) return r;
  const price=Number(q.price), prev=Number(q.prev_close), pivot=Number(r.pivot);
  const change=(Number.isFinite(price)&&Number.isFinite(prev)&&prev!==0)?((price/prev)-1)*100:Number(r.change_pct);
  const distance=(Number.isFinite(price)&&Number.isFinite(pivot)&&pivot!==0)?((price/pivot)-1)*100:Number(r.distance);
- return {...r, live_price:price, change_pct:change, distance:distance, _live:true};
+ return {...r, live_price:price, change_pct:change, distance:distance, _live:true,
+   _quote_time:String(q.quote_time||q.fetched_at||serverLiveQuotesMeta.latest_quote_time||''),
+   _quote_source:String(q.source||'TW live cache')};
 }
 async function fetchUserLiveQuote(r){
  const market=String(r.market||'').toUpperCase(), symbol=String(r.symbol||'').toUpperCase();
@@ -3259,6 +3533,15 @@ async function fetchUserLiveQuote(r){
 }
 async function refreshUserLiveQuotes(){
  const btn=document.getElementById('userLiveRefreshBtn');
+ if(String(currentMarket||'TW').toUpperCase()==='TW'){
+   const status=document.getElementById('userLiveRefreshStatus');
+   if(btn){ btn.disabled=true; btn.textContent='讀取中…'; }
+   if(status) status.textContent='正在重新讀取最近一筆台股行情快取…';
+   const count=await loadServerLiveQuotesTW(true);
+   renderRadar(radarFilter);
+   if(btn){ btn.disabled=false; btn.textContent='🔄 重新讀取行情'; }
+   return count;
+ }
  const status=document.getElementById('userLiveRefreshStatus');
  const targets=radarRows.filter(r=>String(r.market||'').toUpperCase()===String(currentMarket||'TW').toUpperCase());
  if(!targets.length){
@@ -3313,7 +3596,8 @@ function renderRadar(filter='all'){
    (filter==='favorites' ? isFavorite(r) :
    (['hot','watch','wait','extended'].includes(filter) ? r.pulse_signal===filter :
    (filter==='new' ? r.is_new===true :
-   (filter==='combo' ? r.combo : r.type===filter))));
+   (filter==='quality' ? r.structure_quality_good===true :
+   (filter==='combo' ? r.combo : r.type===filter)))));
  });
  for(let i=0;i<rows.length;i++) rows[i]=effectiveRadarRow(rows[i]);
  const countEl=$('radarCount'); if(countEl) countEl.textContent=rows.length;
@@ -3367,7 +3651,7 @@ function renderRadar(filter='all'){
      </div>
    </td>
    <td>${esc(marketLabel(r.market))}</td>
-   <td>${stars(r.score)}${r.structure_quality_good?'<div style="margin-top:5px"><span class="structure-quality-badge">💎 結構品質佳</span></div>':''}</td>
+   <td><div>${stars(r.score)}</div>${r.structure_quality_good?'<div class="structure-quality-badge structure-quality-compact">💎 結構品質佳</div>':''}</td>
    
    <td>${fmtNum(r.pivot,2)}</td>
    <td>
@@ -3381,7 +3665,7 @@ function renderRadar(filter='all'){
        })()}
      </div>
    </td>
-   <td><span class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}</span>${r._live?'<span class="live-quote-badge">即時</span>':''}</td>
+   <td><span class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}</span>${r._live?`<span class="live-quote-badge">${escHtml(liveQuoteBadgeText(r))}</span>`:''}</td>
    <td>${esc(volumeLabel(r))}${liquidityDesktop(r)?`<div class="liquidity-desktop">${esc(liquidityDesktop(r))}</div>`:''}</td>
    <td>${esc(squeezeLabel(r))}</td>
    <td>${esc(momentumLabel(r))}</td>
@@ -3480,9 +3764,9 @@ function renderRadar(filter='all'){
        if(r.is_new) reasons.push(`<div class="reason-item reason-new">🆕 ${esc(r.new_reason||'今日新進 VCP 雷達')}</div>`);
        reasons.push(`<div class="reason-item reason-ok"><b>VCP ${r.score}/5</b>，符合本站主要候選門檻</div>`);
      }
-     if(r.structure_quality_good) reasons.push(`<div class="reason-item reason-ok"><b>💎 結構品質佳</b>：趨勢、整體收斂、量縮、波動收斂與 Pivot 位置皆符合驗證條件</div>`);
      if((r.contractions||[]).length>=2) reasons.push(`<div class="reason-item reason-ok">收縮：${esc(contractionText(r))}</div>`);
      if(r.volume_dry) reasons.push(`<div class="reason-item reason-ok">整理期間成交量呈現量縮</div>`);
+     if(r.structure_quality_good) reasons.push(`<div class="reason-item reason-ok">💎 VCP 結構品質佳，收斂與量縮條件整體較完整</div>`);
      if(r.squeeze_level && r.squeeze_level!=='none') reasons.push(`<div class="reason-item reason-ok">${esc(squeezeLabel(r))}，波動處於壓縮狀態</div>`);
      else reasons.push(`<div class="reason-item reason-note">${esc(squeezeLabel(r))}</div>`);
      if(r.momentum) reasons.push(`<div class="reason-item reason-note">Momentum：${esc(momentumLabel(r))}</div>`);
@@ -3510,7 +3794,7 @@ function renderRadar(filter='all'){
          </div>
        </div>
        <div class="mobile-state">${esc(stageLabel(r))}</div>
-       ${r.structure_quality_good?'<div class="mobile-structure-quality"><span class="structure-quality-badge">💎 結構品質佳</span></div>':''}
+       ${r.structure_quality_good?'<div class="structure-quality-badge mobile-structure-quality">💎 結構品質佳</div>':''}
        ${r.type==='postbreakout'?`<div class="mobile-postbreakout-performance" aria-label="突破後績效">
          <span>突破後 ${esc(signedPct(r.breakout_return_pct ?? r.distance))}</span>
          <span class="high">最高漲幅 ${esc(signedPct(r.breakout_high_pct ?? r.breakout_return_pct ?? r.distance))}</span>
@@ -3532,7 +3816,7 @@ function renderRadar(filter='all'){
             </div>`;
           })()}
          </div>
-         <div class="mobile-metric">今日漲跌<b class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}${r._live?' <span class="live-quote-badge">即時</span>':''}</b></div>
+         <div class="mobile-metric">今日漲跌<b class="change-pct ${changePctClass(r.change_pct)}">${changePctText(r.change_pct)}${r._live?` <span class="live-quote-badge">${escHtml(liveQuoteBadgeText(r))}</span>`:''}</b></div>
          <div class="mobile-metric">量能<b>${esc(volumeLabel(r))}</b></div>
        </div>
        <div class="mobile-signal-row">
@@ -3859,6 +4143,16 @@ function renderFreshness(){
  });
  box.innerHTML=pieces.join('');
  box.hidden=!pieces.length;
+ const status=document.getElementById('snapshotStatus');
+ if(status){
+   const m=String(currentMarket||'TW').toUpperCase();
+   const info=radarSnapshotMeta?.[radarSnapshot]?.[m]||{};
+   const scanned=String(info.scanned_at||'').trim();
+   const date=String(info.data_date||'').trim();
+   const today=taiwanMarketClock().date;
+   const label=radarSnapshot==='intraday'?'盤中即時':'正式收盤';
+   status.textContent=`目前顯示：${m==='TW'?'台股':'美股'} ${label}｜資料日期 ${date||'尚未更新'}｜掃描時間 ${scanned||'尚未更新'}${m==='TW' && radarSnapshot==='intraday' && isIntradayLockedAfterOfficial('TW')?'｜今日已收盤，此為盤中快照':''}${m==='TW' && date && date!==today?'｜這不是今天的資料':''}。`;
+ }
 }
 
 function forceRadarAllRender(){
@@ -3882,11 +4176,7 @@ function isIntradayLockedAfterOfficial(market=currentMarket){
  if(!dataDate || !scannedAt) return false;
 
  // Browser-local date is Asia/Taipei for the intended deployment/user context.
- const now=new Date();
- const y=now.getFullYear();
- const mo=String(now.getMonth()+1).padStart(2,'0');
- const d=String(now.getDate()).padStart(2,'0');
- const today=`${y}-${mo}-${d}`;
+ const today=taiwanMarketClock().date;
 
  // Yesterday's official snapshot must never lock today's intraday tab.
  if(dataDate!==today) return false;
@@ -3897,18 +4187,33 @@ function isIntradayLockedAfterOfficial(market=currentMarket){
  const mins=(+mm[2])*60+(+mm[3]);
  return mins>=18*60+10;
 }
+function taiwanMarketClock(){
+ const parts=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).map(p=>[p.type,p.value]));
+ return {date:`${parts.year}-${parts.month}-${parts.day}`,weekday:parts.weekday,minutes:Number(parts.hour)*60+Number(parts.minute)};
+}
+function shouldDefaultToTwIntraday(){
+ const now=taiwanMarketClock();
+ const info=radarSnapshotMeta?.intraday?.TW||{};
+ return currentMarket==='TW' && ['Mon','Tue','Wed','Thu','Fri'].includes(now.weekday)
+   && now.minutes>=9*60 && now.minutes<13*60+30
+   && String(info.data_date||'')===now.date
+   && String(info.scanned_at||'').startsWith(now.date)
+   && radarSnapshotData.intraday.some(x=>String(x.market||'').toUpperCase()==='TW')
+   && !isIntradayLockedAfterOfficial('TW');
+}
 function updateSnapshotAvailability(){
  const intradayBtn=document.querySelector('.snapshot-btn[data-snapshot="intraday"]');
  if(!intradayBtn) return;
  const m=String(currentMarket||'TW').toUpperCase();
  const ic=(radarSnapshotData.intraday||[]).filter(x=>String(x.market||'').toUpperCase()===m).length;
- intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(m);
- intradayBtn.title=isIntradayLockedAfterOfficial(m)?'今日正式收盤版已完成更新，盤中即時已停用':'';
+ intradayBtn.disabled=!ic;
+ intradayBtn.title=ic?'可查看最近一次盤中掃描資料；請留意上方的資料日期與掃描時間':'';
 }
 function setRadarSnapshot(kind){
  mobileRadarPage=1;
  const rows=Array.isArray(radarSnapshotData[kind]) ? radarSnapshotData[kind] : [];
- if(kind==='intraday' && (rows.length===0 || isIntradayLockedAfterOfficial(currentMarket))) return;
+ if(kind==='intraday' && rows.length===0) return;
+ radarSnapshotManuallyChosen=true;
 
  radarSnapshot=kind;
  radarRows=rows.slice();
@@ -3927,42 +4232,18 @@ function setRadarSnapshot(kind){
 }
 
 
-async function loadMarketStructure(){
- const body=document.getElementById('msBody'), updated=document.getElementById('msUpdated'); if(!body)return;
- const icon={EXPANSION:'🌱',MATURE_BULL:'🌿',DETERIORATION:'⚠️',CONTRACTION:'🍂',NEUTRAL_TRANSITION:'↔️',OVERHEATED:'🌡️',INSUFFICIENT_HISTORY:'⏳'};
- const fmtDelta=v=>(v===null||v===undefined||v==='')?'—':(Number.isFinite(Number(v))?`${Number(v)>0?'+':''}${Number(v).toFixed(1)}`:'—');
- try{
-  const r=await fetch(`data/market_structure_latest.json?t=${Date.now()}`,{cache:'no-store'}); if(!r.ok)throw new Error('市場結構資料尚未建立'); const x=await r.json();
-  if(x.status!=='ok'){
-    body.innerHTML=`<div class="ms-state-wrap"><div class="ms-icon">⏳</div><div><div class="ms-state">資料累積中</div><div class="ms-code">至少需要前一個正式收盤 Breadth 才能判斷方向</div></div></div>`;
-  }else{
-    body.innerHTML=`<div class="ms-body"><div class="ms-state-wrap"><div class="ms-icon">${icon[x.state]||'🧭'}</div><div><div class="ms-state">${escHtml(x.label||'—')}</div><div class="ms-code">${escHtml(x.state||'—')}</div></div></div><div class="ms-metrics"><div class="ms-chip">市場廣度 <b>${Number(x.breadth_score).toFixed(1)}</b></div><div class="ms-chip">1日變化 <b>${fmtDelta(x.delta_1d)}</b></div><div class="ms-chip">5日變化 <b>${fmtDelta(x.delta_5d)}</b></div><div class="ms-chip">延伸比 <b>${(Number(x.extension_ratio)*100).toFixed(1)}%</b></div></div></div><div class="ms-note">研究規則已於 2026/09/17 凍結；顯示市場內部結構，不代表未來報酬。</div>`;
-  }
-  updated.textContent=x.data_date?`正式收盤｜${String(x.data_date).slice(5).replace('-','/')}`:'等待資料';
- }catch(e){body.innerHTML=`<div class="ms-wait">市場結構暫時無法讀取：${escHtml(e.message||String(e))}</div>`;updated.textContent='讀取失敗';}
-}
-
-async function loadMarketPulse(privateData=null){
+async function loadMarketPulse(){
  const body=document.getElementById('mpBody'), updated=document.getElementById('mpUpdated'); if(!body)return;
  const fmt=(v,unit='%')=>{const n=Number(v);return Number.isFinite(n)?`${n>0?'+':''}${n.toFixed(2)}${unit}`:'—'};
  const cls=(v)=>Number(v)>0?'mp-up':(Number(v)<0?'mp-down':'mp-flat');
  try{
-  let x=privateData;
-  if(!x){
-    throw new Error('尚未完成登入授權');
-  }
-  if(x.status!=='ok'){body.innerHTML='<div class="mp-wait">Market Pulse 尚未產生，請先執行 Market Pulse Daily (Beta)。</div>';updated.textContent='等待首次更新';return;}
+  const r=await fetch(`market_pulse.json?t=${Date.now()}`,{cache:'no-store'}); if(!r.ok)throw new Error('market_pulse.json 尚未建立'); const x=await r.json();
+  if(x.status!=='ok'){body.innerHTML='<div class="mp-wait">Market Pulse 尚未產生，請先執行 Market Pulse Daily。</div>';updated.textContent='等待首次更新';return;}
   const s=x.signals||{}; const items=[['台指夜盤',s.tx_night,'%'],['費半',s.sox,'%'],['Nasdaq',s.nasdaq,'%'],['美債10Y',s.us10y,' bp'],['Brent',s.brent,'%'],['USD/TWD',s.usdtwd,'%']];
   body.innerHTML=`<div class="mp-scoreline"><div><div class="mp-score">${Number(x.score).toFixed(0)}<span style="font-size:16px;color:#918a80"> / 100</span></div><div class="mp-state">${x.emoji||''} ${escHtml(x.state||'—')}</div></div><div style="text-align:right"><div class="muted">訊號一致度</div><b>${escHtml(x.consistency||'—')}</b></div></div><div class="mp-signals">${items.map(([n,o,u])=>`<div class="mp-signal"><span>${n}</span><b class="${cls(o&&o.value)}">${fmt(o&&o.value,u)}</b></div>`).join('')}</div><div class="mp-reason">${escHtml(x.reason||'')}</div><div class="mp-meta">實驗性市場環境指標 · 30 以下偏空／70 以上偏多 · 不代表未來報酬或投資建議</div>`;
   const basis=String(x.target_date||x.as_of_date||'').trim(); const dt=x.generated_at?new Date(x.generated_at):null; const md=basis&&/^\d{4}-\d{2}-\d{2}$/.test(basis)?basis.slice(5).replace('-','/'):(dt&&!isNaN(dt)?dt.toLocaleDateString('zh-TW',{month:'2-digit',day:'2-digit'}):''); updated.textContent=md?`市場快照｜${md} 07:00`:'市場快照｜07:00';
  }catch(e){body.innerHTML=`<div class="mp-wait">Market Pulse 暫時無法讀取：${escHtml(e.message||String(e))}</div>`;updated.textContent='讀取失敗';}
 }
-window.applyPrivateMarketPulse=(data)=>loadMarketPulse(data);
-window.showPrivateMarketPulseError=(error)=>{
- const body=document.getElementById('mpBody'), updated=document.getElementById('mpUpdated');
- if(body) body.innerHTML=`<div class="mp-wait">Market Pulse 暫時無法讀取：${escHtml(error?.message||String(error))}</div>`;
- if(updated) updated.textContent='讀取失敗';
-};
 
 (function(){
  const btn=document.getElementById('mpHelpBtn'), box=document.getElementById('mpHelpBox');
@@ -3970,15 +4251,12 @@ window.showPrivateMarketPulseError=(error)=>{
  btn.addEventListener('click',()=>{const open=box.classList.toggle('open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'收起說明':'？ Market Pulse 說明';});
 })();
 
-(function(){
- const btn=document.getElementById('msHelpBtn'), box=document.getElementById('msHelpBox');
- if(!btn||!box)return;
- btn.addEventListener('click',()=>{const open=box.classList.toggle('open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'收起說明':'？ 市場結構說明';});
-})();
-
-function applyPrivateRadarData(j){
+async function loadRadar(){
  const updated=document.getElementById('radarUpdated'), empty=document.getElementById('radarEmpty');
  try{
+   const r=await fetch(`screening.json?t=${Date.now()}`,{cache:'no-store'});
+   if(!r.ok) throw new Error('screening.json 尚未建立');
+   const j=await r.json();
    radarSnapshotData={
      official:Array.isArray(j.official_results)?j.official_results:(Array.isArray(j.results)?j.results:[]),
      intraday:Array.isArray(j.intraday_results)?j.intraday_results:[]
@@ -4008,8 +4286,15 @@ function applyPrivateRadarData(j){
      official:j.official_restore_events||{},
      intraday:j.intraday_restore_events||{}
    };
-   radarSnapshot='official';
-   radarRows=radarSnapshotData.official;
+   await loadServerLiveQuotesTW(false);
+   startServerLiveQuotePolling();
+   if(!radarSnapshotManuallyChosen && isIntradayLockedAfterOfficial(currentMarket)){
+     radarSnapshot='official';
+   }else if(!radarSnapshotManuallyChosen && shouldDefaultToTwIntraday()){
+     radarSnapshot='intraday';
+   }
+   radarRows=radarSnapshotData[radarSnapshot];
+   document.querySelectorAll('.snapshot-btn').forEach(b=>b.classList.toggle('active',b.dataset.snapshot===radarSnapshot));
 
    const officialCount=document.getElementById('officialCount');
    const marketCount=(arr,m)=>arr.filter(x=>String(x.market||'').toUpperCase()===String(m||'TW').toUpperCase()).length;
@@ -4019,7 +4304,7 @@ function applyPrivateRadarData(j){
    const intradayBtn=document.querySelector('.snapshot-btn[data-snapshot="intraday"]');
    const intradayCount=document.getElementById('intradayCount');
    const ic=marketCount(radarSnapshotData.intraday,currentMarket);
-   if(intradayBtn) intradayBtn.disabled=!ic || isIntradayLockedAfterOfficial(currentMarket);
+   if(intradayBtn) intradayBtn.disabled=!ic;
    if(intradayCount) intradayCount.textContent=ic?`(${ic})`:'';
    updateSnapshotAvailability();
 
@@ -4051,7 +4336,6 @@ function applyPrivateRadarData(j){
    }
  }
 }
-window.applyPrivateRadarData=applyPrivateRadarData;
 
 document.querySelectorAll('.radar-tab').forEach(btn=>{
  btn.addEventListener('click',()=>{
@@ -4116,7 +4400,8 @@ function goMobileRadarPage(delta){
    (radarFilter==='favorites' ? isFavorite(r) :
    (['hot','watch','wait','extended'].includes(radarFilter) ? r.pulse_signal===radarFilter :
    (radarFilter==='new' ? r.is_new===true :
-   (radarFilter==='combo' ? r.combo : r.type===radarFilter))));
+   (radarFilter==='quality' ? r.structure_quality_good===true :
+   (radarFilter==='combo' ? r.combo : r.type===radarFilter)))));
  });
  const totalPages=Math.max(1,Math.ceil(marketRows.length/MOBILE_RADAR_PAGE_SIZE));
  mobileRadarPage=Math.max(1,Math.min(totalPages,mobileRadarPage+delta));
@@ -4151,45 +4436,19 @@ if(document.readyState==='loading'){
 
 const helpBtn=document.getElementById('helpBtn'), helpBox=document.getElementById('helpBox');
 if(helpBtn&&helpBox) helpBtn.onclick=()=>helpBox.classList.toggle('open');
-loadMarketStructure();
-
-</script>
-<div id="pulseHelpExtra" style="display:none">
-<details class="signal-guide-collapsible">
-  <summary>
-    <span class="signal-guide-title">ⓘ VCPulse 訊號怎麼看？</span>
-    <span class="signal-guide-action"><span class="when-closed">查看說明</span><span class="when-open">收合說明</span><span class="signal-guide-chevron">›</span></span>
-  </summary>
-  <div class="signal-guide-content">
-<div class="pulse-help-detail">
-  <h3>VCPulse 綜合訊號怎麼看？</h3>
-  <p>VCP 星等只評估「VCP 型態品質」；VCPulse 綜合訊號則加入 <b>Pivot 位置、PowerSqueeze 與 Momentum</b>，表示目前值得關注的程度。</p>
-  <div class="pulse-help-grid">
-    <div><b>🔥 高關注</b><span>VCP 結構佳，而且位置、壓縮或動能有多項條件同時配合，屬於雷達中優先留意的型態。</span></div>
-    <div><b>👀 觀察</b><span>VCP 已具一定品質，且 Pivot 位置、PowerSqueeze 或 Momentum 已有進一步配合，值得提高注意力。</span></div>
-    <div><b>⏳ 等待</b><span>雖符合 VCP 雷達基本條件，但目前位置、壓縮或動能的配合仍不足，等待條件進一步改善。</span></div>
-    <div><b>⚠️ 過度延伸</b><span>突破後已距 Pivot 超過 8%，提醒目前位置已不像剛突破時那麼接近 Pivot。</span></div>
-  </div>
-  <p class="pulse-help-note"><b>重點：</b>「等待」不代表看空；「觀察／高關注」也不代表買進。標籤只是協助比較 VCP 候選股目前所處的階段。</p>
-  <details class="pulse-rule-detail">
-    <summary>查看訊號判斷規則</summary>
-    <p>系統依 VCP 分數、今日突破／突破後／接近 Pivot 狀態、PowerSqueeze 強度與 Momentum 方向綜合判斷。條件配合越多，關注層級越高；突破後若距 Pivot 超過 8%，則優先標示為「過度延伸」。</p>
-  </details>
-</div>
-  </div>
-</details>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
-  const extra=document.getElementById('pulseHelpExtra');
-  const candidates=[...document.querySelectorAll('div')].filter(el=>el.textContent.includes('指標使用說明'));
-  const target=candidates.sort((a,b)=>a.textContent.length-b.textContent.length)[0];
-  if(extra && target){
-    const block=extra.firstElementChild;
-    if(block) target.appendChild(block);
-    extra.remove();
-  }
+loadMarketPulse();
+// Initial single-stock analysis waits until radar snapshots are loaded, so the default 2330 can reuse the same scanner data as manual selections.
+loadRadar().finally(()=>run());
+// Refresh during trading and after the official scan is expected to start.
+setInterval(()=>{
+ const now=taiwanMarketClock();
+ if(!document.hidden && currentMarket==='TW' && ['Mon','Tue','Wed','Thu','Fri'].includes(now.weekday)
+   && ((now.minutes>=9*60 && now.minutes<13*60+35) || (now.minutes>=18*60+10 && !isIntradayLockedAfterOfficial('TW')))) loadRadar();
+},120000);
+document.addEventListener('visibilitychange',()=>{
+ if(!document.hidden && currentMarket==='TW') loadRadar();
 });
+
 </script>
 
 
@@ -4210,9 +4469,7 @@ import {
 import {
   getFirestore,
   doc,
-  getDoc,
-  collection,
-  getDocs
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -4236,6 +4493,10 @@ const userBar = document.getElementById("userBar");
 const statusEl = document.getElementById("authStatus");
 const errorEl = document.getElementById("authError");
 const loginBtn = document.getElementById("googleLoginBtn");
+const browserHintEl = document.getElementById("authBrowserHint");
+const isSamsungInternet = /SamsungBrowser/i.test(navigator.userAgent || "");
+
+if (isSamsungInternet) browserHintEl.style.display = "block";
 
 function showError(message){
   errorEl.textContent = message;
@@ -4247,6 +4508,24 @@ function showSignedOut(){
   userBar.style.display = "none";
   statusEl.textContent = "請先登入 Google 帳號，才能進入 VCPulse。";
   loginBtn.style.display = "block";
+}
+
+function friendlyAuthError(e){
+  const code = String(e?.code || "");
+  const message = String(e?.message || "");
+  if (/web-storage-unsupported|missing.initial.state|sessionStorage/i.test(code + " " + message)) {
+    return "登入狀態沒有被瀏覽器保留。請關閉錯誤分頁，回到 VCPulse 後重試；若使用 Samsung Internet，請改用 Google Chrome。";
+  }
+  if (code === "auth/popup-blocked") {
+    return "瀏覽器封鎖了 Google 登入視窗，請允許彈出式視窗後再試一次。";
+  }
+  if (code === "auth/network-request-failed") {
+    return "登入服務連線失敗，請確認網路後再試一次；切換網路時請重新開始登入。";
+  }
+  if (code === "auth/cancelled-popup-request") {
+    return "登入視窗已被新的登入要求取代，請稍候再按一次登入。";
+  }
+  return "Google 登入失敗，請關閉登入視窗後重試；Android 使用者建議改用 Google Chrome。";
 }
 
 function maskUid(uid){
@@ -4296,65 +4575,21 @@ function showSignedIn(user){
   document.getElementById("signedInEmail").textContent = user.email || "Google 使用者";
   document.getElementById("signedInUid").textContent = maskUid(user.uid);
 }
-
-function base64ToBytes(value){
-  const binary=atob(value);
-  const bytes=new Uint8Array(binary.length);
-  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
-  return bytes;
-}
-
-async function sha256Hex(bytes){
-  const digest=await crypto.subtle.digest("SHA-256",bytes);
-  return [...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join("");
-}
-
-async function loadPrivateJson(dataset){
-  if(typeof DecompressionStream!=="function"){
-    throw new Error("目前瀏覽器不支援安全資料解壓縮，請改用最新版 Chrome、Edge 或 Safari。");
-  }
-  const pointer=await getDoc(doc(db,"privateData",dataset));
-  if(!pointer.exists()) throw new Error(`私人資料 ${dataset} 尚未建立`);
-  const pointerData=pointer.data()||{};
-  const version=String(pointerData.current_version||"");
-  if(!version) throw new Error(`私人資料 ${dataset} 缺少目前版本`);
-
-  const versionRef=doc(db,"privateData",dataset,"versions",version);
-  const versionSnap=await getDoc(versionRef);
-  if(!versionSnap.exists() || versionSnap.data()?.status!=="ready"){
-    throw new Error(`私人資料 ${dataset} 目前版本尚未就緒`);
-  }
-
-  const chunksSnap=await getDocs(collection(versionRef,"chunks"));
-  const chunks=chunksSnap.docs
-    .map(s=>({id:s.id,...s.data()}))
-    .sort((a,b)=>(Number(a.index)-Number(b.index)) || a.id.localeCompare(b.id));
-  const expectedCount=Number(pointerData.chunk_count||versionSnap.data()?.chunk_count||0);
-  if(!chunks.length || (expectedCount && chunks.length!==expectedCount)){
-    throw new Error(`私人資料 ${dataset} 分段不完整`);
-  }
-
-  const encoded=chunks.map(x=>String(x.payload||"")).join("");
-  const compressed=base64ToBytes(encoded);
-  const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream("gzip"));
-  const bytes=new Uint8Array(await new Response(stream).arrayBuffer());
-  const expectedHash=String(pointerData.sha256||versionSnap.data()?.sha256||"");
-  if(expectedHash && (await sha256Hex(bytes))!==expectedHash){
-    throw new Error(`私人資料 ${dataset} 完整性驗證失敗`);
-  }
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
 loginBtn.addEventListener("click", async () => {
   errorEl.style.display = "none";
   loginBtn.disabled = true;
   loginBtn.textContent = "登入中…";
+  const slowLoginTimer = setTimeout(() => {
+    showError("登入仍在等待中。若另一個分頁出現黑色英文錯誤，請將它關閉並回到這裡；Samsung Internet 使用者請改用 Google Chrome。請勿在登入途中切換網路。");
+  }, 12000);
   try {
     await signInWithPopup(auth, provider);
   } catch (e) {
     if (e.code !== "auth/popup-closed-by-user") {
-      showError("Google 登入失敗：" + (e.message || e.code || "未知錯誤"));
+      showError(friendlyAuthError(e));
     }
   } finally {
+    clearTimeout(slowLoginTimer);
     loginBtn.disabled = false;
     loginBtn.textContent = "使用 Google 帳號登入";
   }
@@ -4388,24 +4623,6 @@ onAuthStateChanged(auth, async user => {
   try {
     const snap = await getDoc(doc(db, "authorizedUsers", user.uid));
     if (snap.exists() && snap.data()?.enabled === true) {
-      statusEl.textContent = "正在安全載入 VCPulse 私人資料…";
-      const screening=await loadPrivateJson("screening");
-      if(typeof window.applyPrivateRadarData!=="function"){
-        throw new Error("VCPulse 雷達初始化程式尚未就緒");
-      }
-      window.applyPrivateRadarData(screening);
-      try{
-        const marketPulse=await loadPrivateJson("market_pulse");
-        if(typeof window.applyPrivateMarketPulse!=="function"){
-          throw new Error("Market Pulse 初始化程式尚未就緒");
-        }
-        await window.applyPrivateMarketPulse(marketPulse);
-      }catch(marketPulseError){
-        console.error("Private Market Pulse load failed",marketPulseError);
-        if(typeof window.showPrivateMarketPulseError==="function"){
-          window.showPrivateMarketPulseError(marketPulseError);
-        }
-      }
       showSignedIn(user);
     } else {
       showUnauthorized(user);
@@ -4415,7 +4632,7 @@ onAuthStateChanged(auth, async user => {
     appEl.style.display = "none";
     userBar.style.display = "none";
     statusEl.textContent = "無法確認使用權限。";
-    showError("VCPulse 安全資料載入失敗：" + (e.message || e.code || "未知錯誤"));
+    showError("Firestore 權限檢查失敗：" + (e.message || e.code || "未知錯誤"));
   }
 });
 </script>
@@ -4460,13 +4677,13 @@ onAuthStateChanged(auth, async user => {
 <button type="button" id="backToTopBtn" class="back-to-top-btn" aria-label="回到頂端" title="回到頂端">
   <span aria-hidden="true">↑</span>
 </button>
-<script>(()=>{const C={hot:["🔥 高關注","VCP 結構佳，而且位置、壓縮或動能有多項條件同時配合，屬於雷達中優先留意的型態。","留意是否接近或突破 Pivot、突破時量能是否配合，以及突破後是否能守住關鍵位置。"],watch:["👀 觀察","VCP 已具一定品質，且 Pivot 位置、PowerSqueeze 或 Momentum 已有進一步配合，值得提高注意力。","觀察距離 Pivot 是否持續縮短、壓縮是否增強，以及 Momentum 是否往較有利的方向改善。"],wait:["⏳ 等待","已符合 VCP 雷達基本條件，但目前位置、壓縮或動能的配合仍不足，先等待條件進一步改善。","持續看是否更接近 Pivot、PowerSqueeze 是否出現或增強，以及 Momentum 是否改善。"],extended:["⚠️ 過度延伸","突破後距離 Pivot 已超過 8%，代表目前位置不像剛突破時那麼接近關鍵價位。","先留意是否出現整理或回測，以及價格與 Pivot 的距離是否回到較容易觀察的位置。"]};const close=()=>{const p=document.getElementById("pulseHelpPopover");if(p){p.hidden=true;document.body.style.overflow=""}};document.addEventListener("click",e=>{
-  const t=e.target.closest(".pulse-help-trigger");
+<script>(()=>{const C={hot:["🔥 高關注","VCP 結構佳，而且位置、壓縮或動能有多項條件同時配合，屬於雷達中優先留意的型態。","留意是否接近或突破 Pivot、突破時量能是否配合，以及突破後是否能守住關鍵位置。"],watch:["👀 觀察","VCP 已具一定品質，且 Pivot 位置、PowerSqueeze 或 Momentum 已有進一步配合，值得提高注意力。","觀察距離 Pivot 是否持續縮短、壓縮是否增強，以及 Momentum 是否往較有利的方向改善。"],wait:["⏳ 等待","已符合 VCP 雷達基本條件，但目前位置、壓縮或動能的配合仍不足，先等待條件進一步改善。","持續看是否更接近 Pivot、PowerSqueeze 是否出現或增強，以及 Momentum 是否改善。"],extended:["⚠️ 過度延伸","突破後距離 Pivot 已超過 8%，代表目前位置不像剛突破時那麼接近關鍵價位。","先留意是否出現整理或回測，以及價格與 Pivot 的距離是否回到較容易觀察的位置。"],quality:["💎 結構品質佳","代表這檔股票的 VCP 結構在趨勢、整體價格收斂、量縮、波動收斂與 Pivot 等條件上整體表現較完整。它不等同 5/5 星；品質標籤看的是整體結構，而星等是五項條件的符合數，因此即使部分單項未通過，仍可能被標示為結構品質佳。","可搭配星等、距 Pivot、PowerSqueeze 與 Momentum 一起看。星等較低時，可再查看是哪幾個單項未通過；💎 代表整體結構仍符合品質條件。"]};const close=()=>{const p=document.getElementById("pulseHelpPopover");if(p){p.hidden=true;document.body.style.overflow=""}};document.addEventListener("click",e=>{
+  const t=e.target.closest(".pulse-help-trigger,.structure-quality-badge");
   if(!t)return;
   e.preventDefault();
   e.stopPropagation();
   e.stopImmediatePropagation();
-  const i=C[t.dataset.pulse]||C.wait;
+  const i=t.classList.contains("structure-quality-badge")?C.quality:(C[t.dataset.pulse]||C.wait);
   const p=document.getElementById("pulseHelpPopover");
   document.getElementById("pulseHelpTitle").textContent=i[0];
   document.getElementById("pulseHelpDesc").textContent=i[1];
@@ -4495,8 +4712,7 @@ document.addEventListener('click',(e)=>{
  box.hidden=!willOpen;
  btn.setAttribute('aria-expanded',String(willOpen));
 });
-</script>
-<style>
+</script><style>
 .aux-market-panel{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 2px}
 .aux-block{border:1px solid #e9e2d8;border-radius:16px;padding:12px;background:#fbfaf7}
 .aux-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.aux-head b{font-size:14px}.aux-head span{font-size:11px;color:#918a80}
@@ -4565,7 +4781,8 @@ function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
  updateMarketMomentum(d,intraday);
  const fb=document.getElementById('foreignBlock');if(fb)fb.hidden=String(market).toUpperCase()!=='TW';if(String(market).toUpperCase()==='TW')updateForeign(symbol);
 }
-</script></body></html>
+</script>
+</body></html>
 
 <style>
 /* V2.36.5 — 收藏星星緊貼股票名稱 */
@@ -4872,6 +5089,20 @@ function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
 </style>
 
 <style>
+/* V2.44.9 — structure quality label UI */
+.structure-quality-badge{
+  display:inline-flex;align-items:center;width:max-content;max-width:100%;
+  margin-top:7px;padding:5px 9px;border-radius:999px;
+  border:1px solid #e2d4a7;background:#fff9df;color:#6f5720;
+  font-size:12px;font-weight:900;line-height:1.15;white-space:nowrap;cursor:pointer;
+}
+.structure-quality-badge[hidden]{display:none!important}
+.structure-quality-compact{margin-top:5px;padding:4px 7px;font-size:11px}
+.mobile-structure-quality{margin-top:7px}
+@media(max-width:760px){
+  .structure-quality-badge{font-size:11px;padding:5px 8px}
+}
+
 /* V2.42.9 — mobile long US company names must not widen the whole page */
 @media(max-width:720px){
   html,body{max-width:100%;overflow-x:hidden}
