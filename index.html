@@ -1535,7 +1535,8 @@ th{color:#716c64}
       <div><span>近 5 日</span><b id="auxRet5">—</b></div>
       <div><span>近 20 日</span><b id="auxRet20">—</b></div>
       <div><span>距一年高點</span><b id="auxYearHigh">—</b></div>
-      <div><span>量能比（5日/20日）</span><b id="auxVolRatio">—</b></div>
+      <div><span>成交量比</span><b id="auxTodayVolRatio">—</b></div>
+      <div><span>5日/20日均量</span><b id="auxVolRatio">—</b></div>
     </div>
   </div>
   <div class="aux-block" id="foreignBlock">
@@ -4490,7 +4491,7 @@ document.addEventListener('click',(e)=>{
 .aux-market-panel{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 2px}
 .aux-block{border:1px solid #e9e2d8;border-radius:16px;padding:12px;background:#fbfaf7}
 .aux-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.aux-head b{font-size:14px}.aux-head span{font-size:11px;color:#918a80}
-.aux-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.aux-block#foreignBlock .aux-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.aux-grid>div{padding:8px 9px;border-radius:11px;background:#fff;border:1px solid #eee8df;min-width:0}.aux-grid span{display:block;color:#81796f;font-size:11px;margin-bottom:3px}.aux-grid b{font-size:14px;overflow-wrap:anywhere}.aux-grid b.up{color:#238a65}.aux-grid b.down{color:#d34b52}.aux-grid b.neutral{color:#282d29}.aux-foot{font-size:10px;color:#9a938a;margin-top:8px;line-height:1.45}
+.aux-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.aux-block#foreignBlock .aux-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.aux-grid>div{padding:8px 9px;border-radius:11px;background:#fff;border:1px solid #eee8df;min-width:0}.aux-grid span{display:block;color:#81796f;font-size:11px;margin-bottom:3px}.aux-grid b{font-size:14px;overflow-wrap:anywhere}.aux-grid b.up{color:#238a65}.aux-grid b.down{color:#d34b52}.aux-grid b.neutral{color:#282d29}.aux-foot{font-size:10px;color:#9a938a;margin-top:8px;line-height:1.45}
 @media(max-width:760px){.aux-market-panel{grid-template-columns:1fr}.aux-grid,.aux-block#foreignBlock .aux-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <script>
@@ -4498,7 +4499,7 @@ function auxPct(v,d=1){return Number.isFinite(v)?`${v>0?'+':''}${v.toFixed(d)}%`
 function auxSet(id,text,v=null,mode='direction'){const e=document.getElementById(id);if(!e)return;e.textContent=text;if(mode==='neutral'){e.className='neutral';return}e.className=Number.isFinite(v)?(v>0?'up':v<0?'down':'neutral'):'neutral'}
 function resetAuxMarketAndForeign(){
  const p=document.getElementById('auxMarketPanel');if(p)p.hidden=true;
- ['auxRet5','auxRet20','auxYearHigh','auxVolRatio','foreignToday','foreign5','foreign20','foreignStreak','foreignHolding','foreignHolding5'].forEach(id=>auxSet(id,'—'));
+ ['auxRet5','auxRet20','auxYearHigh','auxTodayVolRatio','auxVolRatio','foreignToday','foreign5','foreign20','foreignStreak','foreignHolding','foreignHolding5'].forEach(id=>auxSet(id,'—'));
  const as=document.getElementById('foreignAsOf');if(as)as.textContent='正式收盤資料'; const ma=document.getElementById('momentumAsOf');if(ma)ma.textContent='正式收盤資料'; const fl=document.getElementById('foreignDayLabel');if(fl)fl.textContent='前一交易日';
 }
 function updateMarketMomentum(d,isIntraday=false){
@@ -4507,10 +4508,21 @@ function updateMarketMomentum(d,isIntraday=false){
  if(closes.length<21)return;
  const last=closes.at(-1), r5=(last/closes.at(-6)-1)*100, r20=(last/closes.at(-21)-1)*100;
  const year=closes.slice(-252), hi=Math.max(...year), distHi=(last/hi-1)*100;
- const avg=a=>a.reduce((x,y)=>x+y,0)/a.length; let vr=NaN;
+ const avg=a=>a.reduce((x,y)=>x+y,0)/a.length; let vr=NaN,todayVr=NaN;
+ if(vols.length>=21){
+   const prior20=vols.slice(-21,-1), avg20prior=avg(prior20), todayVol=vols.at(-1);
+   if(avg20prior>0 && Number.isFinite(todayVol)){
+     if(isIntraday){
+       const now=new Date(), mins=now.getHours()*60+now.getMinutes(), open=9*60, close=13*60+30;
+       const frac=Math.max(0.05,Math.min(1,(mins-open)/(close-open)));
+       todayVr=(todayVol/frac)/avg20prior;
+     }else todayVr=todayVol/avg20prior;
+   }
+ }
  if(vols.length>=20){const a5=avg(vols.slice(-5)),a20=avg(vols.slice(-20));if(a20>0)vr=a5/a20}
  auxSet('auxRet5',auxPct(r5),r5);auxSet('auxRet20',auxPct(r20),r20);auxSet('auxYearHigh',Number.isFinite(distHi)?`${distHi.toFixed(1)}%`:'—',distHi,'neutral');
- auxSet('auxVolRatio',Number.isFinite(vr)?`${vr.toFixed(2)}×`:'—',null,'neutral');
+ auxSet('auxTodayVolRatio',Number.isFinite(todayVr)?`${todayVr.toFixed(2)} 倍`:'—',null,'neutral');
+ auxSet('auxVolRatio',Number.isFinite(vr)?`${vr.toFixed(2)} 倍`:'—',null,'neutral');
  const lastRow=d.at(-1)||{}; const dataDate=String(lastRow.date||lastRow.Date||'').slice(0,10); const ma=document.getElementById('momentumAsOf');if(ma)ma.textContent=dataDate?`截至 ${dataDate} ${isIntraday?'盤中':'收盤'}`:'正式收盤資料';
 }
 async function fetchFinMindRows(dataset,symbol,start,end){
