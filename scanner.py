@@ -1,4 +1,4 @@
-# VCPulse BUILD 2.44.6 BETA V1.1e STRUCTURE QUALITY + 2.42.8 PRODUCTION THEME RADAR + THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
+# VCPulse BUILD 2.44.6 BETA V1.1e + RESEARCH-200 UNIVERSE OUTPUT STRUCTURE QUALITY + 2.42.8 PRODUCTION THEME RADAR + THEME NAME MAP GUARD-SAFE + PROD THEME + ALPHA138 DEDUP MAX + BREAKOUT METRICS HARD FIX + FAVORITES FRONTEND SUPPORT + CLICKABLE CAPITAL HOTSPOTS + 2.39 OFFICIAL SAFETY GUARD
 #!/usr/bin/env python3
 import argparse, json, time, os, re, math
 from pathlib import Path
@@ -1612,7 +1612,13 @@ def scan(market):
     print(f"{market} ALL-STOCK QUOTE CACHE: {len(quote_cache)} symbols")
     if restore_event_cache:
         print(f"{market} RESTORE-DATE CACHE: {len(restore_event_cache)} symbols / {sum(len(v) for v in restore_event_cache.values())} events")
-    return results[:150], stats, hotspots, quote_cache, restore_event_cache, flow_rows
+    # Research isolation: keep the production/frozen radar at 150, while exposing
+    # a separate top-200 TW candidate universe for experimental breadth research.
+    # This MUST NOT replace or mutate the frozen 150-stock Market Structure series.
+    research_rows_200 = results[:200] if market=="TW" else []
+    if market=="TW":
+        print(f"TW RESEARCH-200 UNIVERSE: actual={len(research_rows_200)} | frozen_radar={min(len(results),150)}")
+    return results[:150], stats, hotspots, quote_cache, restore_event_cache, flow_rows, research_rows_200
 
 def build_theme_stock_name_map(official_quotes=None, intraday_quotes=None, official_results=None, intraday_results=None):
     """Persistent TW symbol->name map for Theme UI, independent of leaderboard rebuild."""
@@ -1846,6 +1852,8 @@ def main():
     official_restore_events=dict(old.get("official_restore_events",{}) or {})
     intraday_restore_events=dict(old.get("intraday_restore_events",{}) or {})
     theme_stock_names=dict(old.get("theme_stock_names",{}) or {})
+    research_tw_results_200=list(old.get("research_tw_results_200",[]) or [])
+    research_tw_market_200=dict(old.get("research_tw_market_200",{}) or {})
 
     # Migration from pre-V2.21 payloads.
     if not old.get("dual_snapshot_version"):
@@ -1889,7 +1897,7 @@ def main():
     targets=["TW","US"] if args.market=="both" else [args.market]
 
     for market in targets:
-        rows,scan_stats,capital_hotspots,market_quote_cache,market_restore_events,theme_market_rows=scan(market)
+        rows,scan_stats,capital_hotspots,market_quote_cache,market_restore_events,theme_market_rows,research_rows_200=scan(market)
 
         # V2.42.6.4: hydrate Theme names from this run's full-market quote cache
         # BEFORE snapshot guards. Even if official_TW is blocked/preserved, the
@@ -1963,6 +1971,19 @@ def main():
                 if market=="TW" else {"themeTop5":[],"setupTop5":[]}
             )
             official_results=_replace_market(official_results,market,rows)
+            # Experimental TW-200 snapshot is updated only by a PASSED official TW run.
+            # Frozen/production rows remain the original top 150 above.
+            if market=="TW":
+                research_tw_results_200=list(research_rows_200 or [])
+                research_tw_market_200={
+                    "data_date":current_date,
+                    "count":len(research_tw_results_200),
+                    "scanned_at":nowstamp,
+                    "snapshot_type":"official",
+                    "purpose":"experimental_breadth_200",
+                    "frozen_market_structure_unchanged":True
+                }
+                print(f"TW RESEARCH-200 OFFICIAL SAVED: {len(research_tw_results_200)} rows | date={current_date}")
             official_markets[market]={
                 "data_date":current_date,
                 "count":len(rows),
@@ -2045,6 +2066,10 @@ def main():
         "restore_date_engine_version":1,
         "official_restore_events":official_restore_events,
         "intraday_restore_events":intraday_restore_events,
+        # Separate research-only universe. Never consumed by the frozen 150-stock
+        # Market Structure unless an experimental recorder explicitly requests it.
+        "research_tw_results_200":research_tw_results_200,
+        "research_tw_market_200":research_tw_market_200,
         "results":official_results,
         "official_results":official_results,
         "intraday_results":intraday_results
