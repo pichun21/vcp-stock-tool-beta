@@ -3,7 +3,7 @@
 
 Parallel OOS experiment only.
 - Does NOT change the official 150-stock Market Structure.
-- Uses the first 200 TW official candidates from screening.json.
+- Uses screening.json research_tw_results_200 only (never official_results).
 - Reuses frozen Breadth v0.1/v0.2 formulas and frozen Cycle v0.6 state rules.
 - Writes only *_200_experimental files.
 """
@@ -112,11 +112,24 @@ def main():
     v1m=load_module(here/"vcpulse_market_breadth_v0_1.py","mb_v01_200")
     v2m=load_module(here/"vcpulse_market_breadth_v0_2.py","mb_v02_200")
     snap=json.loads(Path(a.input).read_text(encoding="utf-8"))
-    rows=snap.get("official_results")
+    rows=snap.get("research_tw_results_200")
+    meta=snap.get("research_tw_results_200_meta") or {}
     if not isinstance(rows,list):
-        raise RuntimeError("screening.json has no official_results.")
+        raise RuntimeError("screening.json has no research_tw_results_200. Run the updated BETA scanner official TW first.")
+    tw_rows=[r for r in rows if str(r.get("market","")).upper()=="TW"]
+    if len(tw_rows) != 200:
+        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: expected exactly 200 TW rows, got {len(tw_rows)}. Refusing to write experimental history.")
+    dates=sorted({str(r.get("data_date") or "") for r in tw_rows if r.get("data_date")})
+    if len(dates) != 1:
+        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: expected one data_date, got {dates}.")
+    meta_date=str(meta.get("data_date") or "")
+    if meta_date and meta_date != dates[0]:
+        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: meta date {meta_date} != rows date {dates[0]}.")
     snap=dict(snap)
-    snap["official_results"]=[r for r in rows if str(r.get("market","")).upper()=="TW"][:200]
+    # Frozen breadth modules expect official_results, so feed them an isolated
+    # synthetic snapshot containing ONLY the experimental 200-stock universe.
+    snap["official_results"]=tw_rows
+    print(f"RESEARCH-200 INPUT VERIFIED: actual={len(tw_rows)} date={dates[0]} source=research_tw_results_200")
     v1,v2=v1m.compute(snap),v2m.compute(snap)
     row=flat_row(v1,v2)
     latest={"data_date":row["data_date"],"universe":200,"v0.1":v1,"v0.2":v2,
