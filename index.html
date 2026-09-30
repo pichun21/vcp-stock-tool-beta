@@ -1553,6 +1553,588 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 }
 
 </style>
+
+<style>
+/* ===== VCPulse Beta · UI/UX Strong Hierarchy v2 ===== */
+
+/* ---- Design tokens ---- */
+:root{
+  --ux2-bg:#f3f1ec;
+  --ux2-surface:#ffffff;
+  --ux2-surface-soft:#faf8f4;
+  --ux2-ink:#1f2528;
+  --ux2-muted:#73777a;
+  --ux2-line:#e3ded5;
+  --ux2-dark:#20282d;
+  --ux2-dark-2:#2b3439;
+  --ux2-accent:#c58d58;
+  --ux2-accent-2:#a96f3f;
+  --ux2-positive:#2f7d52;
+  --ux2-warning:#b07a23;
+  --ux2-danger:#a64a43;
+  --ux2-shadow:0 12px 30px rgba(35,40,42,.065);
+}
+body{background:var(--ux2-bg)!important;color:var(--ux2-ink)}
+.wrap{
+  max-width:1360px!important;
+  margin:24px auto 56px!important;
+  padding:0 22px!important;
+}
+
+/* ---- 1. Command header: immediate visible redesign ---- */
+.brand-hero{
+  position:relative;
+  overflow:hidden;
+  min-height:260px;
+  padding:34px 38px!important;
+  border:0!important;
+  border-radius:28px!important;
+  background:
+    radial-gradient(circle at 78% 24%,rgba(197,141,88,.20),transparent 25%),
+    linear-gradient(135deg,#1d2529 0%,#283136 62%,#30393e 100%)!important;
+  box-shadow:0 18px 44px rgba(25,31,34,.18)!important;
+}
+.brand-hero::before{
+  content:"BETA WORKSPACE";
+  position:absolute;
+  left:38px;
+  top:22px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.18em;
+  color:#d6b28e;
+}
+.brand-grid{
+  grid-template-columns:minmax(0,1fr) 330px!important;
+  gap:30px!important;
+  min-height:190px;
+}
+.brand-name{
+  margin-top:17px!important;
+  color:#fff!important;
+  font-size:68px!important;
+  line-height:.95!important;
+  letter-spacing:-4.5px!important;
+}
+.brand-name .pulse{color:#d7a16d!important}
+.brand-tag{
+  color:#bfc6c9!important;
+  font-size:11px!important;
+  letter-spacing:2.4px!important;
+}
+.brand-sub{
+  color:#fff!important;
+  font-size:22px!important;
+  margin-top:15px!important;
+}
+.brand-copy{
+  color:#c7cdcf!important;
+  max-width:650px!important;
+  font-size:14px!important;
+  line-height:1.7!important;
+}
+.brand-mini{margin-top:18px!important}
+.brand-pill{
+  color:#f2e7db!important;
+  background:rgba(255,255,255,.07)!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  backdrop-filter:blur(4px);
+}
+.brand-mascot{
+  justify-content:flex-end!important;
+  opacity:.94;
+}
+.brand-mascot img{
+  width:min(300px,100%)!important;
+  max-height:230px!important;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.18));
+}
+.brand-hero .helpbtn{
+  color:#fff!important;
+  background:rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  backdrop-filter:blur(6px);
+}
+.brand-hero .helpbtn:hover{background:rgba(255,255,255,.14)!important}
+
+/* ---- 2. Market dashboard: two related modules become one composition ---- */
+.ux-market-dashboard{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr);
+  gap:14px;
+  margin:18px 0 22px;
+  align-items:stretch;
+}
+.ux-market-dashboard .market-pulse-card,
+.ux-market-dashboard .market-structure-card{
+  margin:0!important;
+  min-height:100%;
+  border-radius:22px!important;
+}
+.market-pulse-card{
+  position:relative;
+  padding:22px 24px!important;
+  border:1px solid #decfbd!important;
+  border-top:0!important;
+  background:
+    linear-gradient(135deg,#fffdf9 0%,#fbf3e9 100%)!important;
+  box-shadow:var(--ux2-shadow)!important;
+}
+.market-pulse-card::before{
+  content:"MARKET ENVIRONMENT";
+  display:block;
+  margin-bottom:10px;
+  font-size:9px;
+  letter-spacing:.18em;
+  font-weight:900;
+  color:#a47042;
+}
+.mp-title{font-size:22px!important}
+.mp-score{
+  font-size:46px!important;
+  letter-spacing:-2px!important;
+  color:#22292d;
+}
+.mp-state{font-size:16px!important}
+.mp-signals{
+  gap:7px!important;
+  margin-top:16px!important;
+}
+.mp-signal{
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid #eadfD2;
+  border-radius:11px!important;
+}
+.market-structure-card{
+  padding:22px!important;
+  border:1px solid #dfe2e3!important;
+  background:#f7f9f9!important;
+  box-shadow:none!important;
+}
+.market-structure-card::before{
+  content:"INTERNAL STRUCTURE";
+  display:block;
+  margin-bottom:10px;
+  font-size:9px;
+  letter-spacing:.18em;
+  font-weight:900;
+  color:#798186;
+}
+.ms-title{font-size:18px!important}
+.ms-body{margin-top:15px!important}
+.ms-state{font-size:24px!important}
+.ms-chip{
+  background:#fff!important;
+  border:1px solid #e2e5e6;
+}
+.ms-help{
+  padding-top:11px;
+  margin-top:12px!important;
+  border-top:1px solid #e3e6e7;
+}
+
+/* ---- 3. Single stock becomes a compact utility instead of stealing focus ---- */
+#singleStockAnalysis{
+  margin:18px 0 28px!important;
+  padding:16px 18px 18px;
+  border:1px solid var(--ux2-line);
+  border-radius:18px;
+  background:rgba(255,255,255,.74);
+  box-shadow:0 5px 18px rgba(40,43,44,.035);
+}
+#singleStockAnalysis>.section-title{
+  margin:0 0 10px!important;
+}
+#singleStockAnalysis>.section-title h2{
+  font-size:17px!important;
+}
+#singleStockAnalysis>.section-title .muted{
+  font-size:11px!important;
+}
+#singleStockAnalysis .marketbar{
+  display:inline-flex!important;
+  margin:0 8px 10px 0!important;
+  vertical-align:middle;
+}
+#singleStockAnalysis .marketbtn{
+  min-height:34px!important;
+  padding:7px 11px!important;
+  font-size:12px!important;
+}
+#singleStockAnalysis .search{
+  display:flex!important;
+  max-width:650px;
+  margin:0 0 12px!important;
+}
+#singleStockAnalysis .search input{
+  min-height:42px;
+  border-radius:12px!important;
+}
+#singleStockAnalysis .search button{
+  min-height:42px;
+  background:var(--ux2-dark)!important;
+}
+#singleStockAnalysis .grid{
+  margin-top:8px;
+}
+
+/* ---- 4. Radar is now the primary workspace ---- */
+.radar-section{
+  margin-top:30px!important;
+  padding-top:4px;
+}
+.radar-section>.section-title{
+  align-items:flex-end!important;
+  padding:0 2px 8px;
+  margin-bottom:6px!important;
+  border-bottom:1px solid #ded9d1;
+}
+.radar-section>.section-title h2{
+  position:relative;
+  font-size:29px!important;
+  letter-spacing:-.7px!important;
+}
+.radar-section>.section-title h2::after{
+  content:"PRIMARY WORKSPACE";
+  display:block;
+  margin-top:5px;
+  font-size:9px;
+  letter-spacing:.16em;
+  color:#a07957;
+  font-weight:900;
+}
+.radar-count-pill{
+  background:#252d31!important;
+  border-color:#252d31!important;
+  color:#d8dcde!important;
+}
+.radar-count-pill b{color:#fff!important}
+.radar-market-switch{
+  margin:10px 0 12px!important;
+  padding:4px!important;
+  background:#e7e3dc!important;
+  border:0!important;
+}
+.radar-market-btn{
+  min-height:38px!important;
+}
+.radar-market-btn.active{
+  background:#fff!important;
+  color:#20272b!important;
+  box-shadow:0 4px 10px rgba(30,35,37,.08)!important;
+}
+.radar-freshness{
+  margin:0 0 12px!important;
+}
+.freshness-item{
+  background:#fff!important;
+  border:1px solid var(--ux2-line)!important;
+}
+.market-overview{
+  gap:9px!important;
+}
+.market-index-card{
+  background:#fff!important;
+  border-color:var(--ux2-line)!important;
+}
+.capital-hotspots,
+.theme-leaderboards{
+  padding:15px 16px;
+  border:1px solid var(--ux2-line);
+  border-radius:17px;
+  background:#fff;
+}
+.capital-hotspots{margin:12px 0!important}
+.theme-leaderboards{margin:12px 0 14px!important}
+.capital-hotspots-head,
+.theme-leaderboards-head{margin-bottom:11px!important}
+.capital-hotspot,
+.theme-board{
+  border-color:#e5e0d8!important;
+  box-shadow:none!important;
+}
+.theme-board-hot{background:#fff9f0!important}
+.theme-board-setup{background:#f7f5fb!important}
+
+/* Core radar card */
+.radar-card{
+  padding:18px!important;
+  border:1px solid #dcd6cd!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:0 14px 34px rgba(32,37,40,.07)!important;
+}
+.radar-snapshot-switch{
+  width:100%!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+  padding:5px!important;
+  border:0!important;
+  background:#e9e5df!important;
+  border-radius:15px!important;
+}
+.snapshot-btn{
+  min-height:46px!important;
+  border-radius:11px!important;
+  font-size:12px!important;
+}
+.snapshot-btn.active{
+  background:#222a2e!important;
+  color:#fff!important;
+  box-shadow:0 5px 13px rgba(32,37,40,.16)!important;
+}
+.snapshot-update-note{
+  display:block;
+  margin-top:2px;
+  font-size:9px;
+  opacity:.65;
+}
+.radar-head{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #ece8e2;
+}
+.radar-tabs{gap:6px!important}
+.radar-tab{
+  min-height:39px!important;
+  border-radius:999px!important;
+  padding:8px 14px!important;
+  background:#f6f4f0!important;
+}
+.radar-tab.active{
+  background:#252d31!important;
+  border-color:#252d31!important;
+}
+.radar-tab[data-radar="postbreakout"].active{
+  background:#315f8d!important;
+  border-color:#315f8d!important;
+}
+.radar-sort{
+  min-height:39px;
+  background-color:#fff!important;
+}
+.radar-table-wrap{
+  margin-top:13px;
+  border:1px solid #e9e5de;
+  border-radius:15px;
+  overflow:hidden;
+}
+.radar-table{margin-top:0!important}
+.radar-table th{
+  padding:12px 9px!important;
+  background:#f6f4f0!important;
+  border-bottom:1px solid #ded9d1!important;
+  color:#6f716f!important;
+}
+.radar-table td{
+  padding:12px 9px!important;
+}
+.radar-table tbody tr:nth-child(even){background:#fdfcf9}
+.radar-table tbody tr:hover{background:#fbf3e8!important}
+
+/* ---- 5. Mobile: clearly different, more app-like ---- */
+@media(max-width:760px){
+  body{background:#f1efea!important}
+  .wrap{
+    margin:0 auto 36px!important;
+    padding:0 10px!important;
+  }
+  .brand-hero{
+    min-height:0;
+    margin:10px 0 12px!important;
+    padding:26px 16px 16px!important;
+    border-radius:21px!important;
+  }
+  .brand-hero::before{
+    left:17px;top:12px;font-size:8px;
+  }
+  .brand-grid{
+    grid-template-columns:minmax(0,1fr) 96px!important;
+    gap:6px!important;
+    min-height:130px;
+  }
+  .brand-name{
+    margin-top:7px!important;
+    font-size:38px!important;
+    letter-spacing:-2.6px!important;
+  }
+  .brand-tag{
+    font-size:7.5px!important;
+    letter-spacing:1.2px!important;
+  }
+  .brand-sub{
+    font-size:14px!important;
+    margin-top:9px!important;
+  }
+  .brand-copy{
+    font-size:10.5px!important;
+    line-height:1.45!important;
+    margin-top:5px!important;
+  }
+  .brand-mascot img{
+    width:94px!important;
+    max-height:120px!important;
+  }
+
+  .ux-market-dashboard{
+    grid-template-columns:1fr;
+    gap:8px;
+    margin:8px 0 13px;
+  }
+  .market-pulse-card,
+  .market-structure-card{
+    border-radius:16px!important;
+    padding:14px!important;
+  }
+  .market-pulse-card::before,
+  .market-structure-card::before{
+    margin-bottom:6px;
+    font-size:7.5px;
+  }
+  .mp-head,.ms-head{align-items:flex-start!important}
+  .mp-title{font-size:17px!important}
+  .mp-score{font-size:32px!important}
+  .mp-signals{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:5px!important;
+    margin-top:10px!important;
+  }
+  .mp-signal{
+    padding:7px!important;
+  }
+  .market-structure-card{
+    background:#f7f8f8!important;
+  }
+  .ms-body{
+    flex-direction:row!important;
+    align-items:center!important;
+    margin-top:9px!important;
+  }
+  .ms-state{font-size:20px!important}
+  .ms-metrics{gap:5px!important}
+  .ms-chip{font-size:10px!important;padding:6px 7px!important}
+  .ms-help{font-size:10px!important;line-height:1.45!important}
+
+  #singleStockAnalysis{
+    padding:12px!important;
+    border-radius:15px!important;
+    margin:10px 0 18px!important;
+  }
+  #singleStockAnalysis>.section-title{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    margin-bottom:8px!important;
+  }
+  #singleStockAnalysis>.section-title h2{font-size:15px!important}
+  #singleStockAnalysis>.section-title .muted{font-size:9px!important}
+  #singleStockAnalysis .marketbar{
+    width:100%;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:5px!important;
+    margin:0 0 7px!important;
+  }
+  #singleStockAnalysis .marketbtn{
+    width:100%;
+    min-height:34px!important;
+  }
+  #singleStockAnalysis .search{
+    margin:0 0 8px!important;
+  }
+
+  .radar-section{
+    margin-top:21px!important;
+  }
+  .radar-section>.section-title{
+    display:flex!important;
+    align-items:flex-end!important;
+    padding-bottom:8px!important;
+  }
+  .radar-section>.section-title h2{
+    font-size:23px!important;
+  }
+  .radar-section>.section-title h2::after{
+    font-size:7.5px;
+    margin-top:3px;
+  }
+  .radar-count-pill{
+    padding:5px 8px!important;
+    font-size:9.5px!important;
+  }
+  .radar-count-pill b{font-size:13px!important}
+
+  .capital-hotspots,
+  .theme-leaderboards{
+    padding:11px!important;
+    border-radius:14px!important;
+  }
+  .capital-hotspots-grid{
+    gap:7px!important;
+  }
+  .capital-hotspot{min-width:160px!important}
+
+  .radar-card{
+    padding:10px!important;
+    border-radius:17px!important;
+  }
+  .radar-snapshot-switch{
+    gap:4px!important;
+    border-radius:13px!important;
+  }
+  .snapshot-btn{
+    min-height:44px!important;
+    padding:7px 6px!important;
+    font-size:11px!important;
+  }
+  .radar-head{
+    margin-top:10px;
+    padding-top:10px;
+  }
+  .radar-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .radar-tab{
+    border-radius:11px!important;
+    min-height:38px!important;
+    padding:7px 5px!important;
+  }
+  .mobile-stock-card{
+    margin-top:7px!important;
+    padding:12px!important;
+    border-radius:15px!important;
+    background:#fff!important;
+    box-shadow:0 5px 14px rgba(34,39,42,.05)!important;
+  }
+  .mobile-stock-top{
+    align-items:flex-start!important;
+  }
+  .mobile-stock-name{
+    font-size:16px!important;
+  }
+  .mobile-score{
+    color:#8b673f!important;
+  }
+  .mobile-metrics{
+    margin-top:8px!important;
+    padding:8px 9px!important;
+    border-radius:10px!important;
+    background:#f7f6f2!important;
+  }
+  .mobile-analysis-btn{
+    background:#252d31!important;
+    border-color:#252d31!important;
+  }
+}
+
+@media(max-width:390px){
+  .brand-grid{grid-template-columns:minmax(0,1fr) 78px!important}
+  .brand-mascot img{width:76px!important}
+  .brand-name{font-size:34px!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -1659,6 +2241,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 </div>
 
 
+<div class="ux-market-dashboard">
 <section class="market-pulse-card" id="marketPulseCard" aria-live="polite">
   <div class="mp-head">
     <div class="mp-title-row"><div class="mp-title">🌐 Market Pulse <span class="mp-beta">BETA</span></div><button type="button" class="mp-help-btn" id="mpHelpBtn" aria-expanded="false">？ Market Pulse 說明</button></div>
@@ -1713,6 +2296,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
     <p style="font-size:11px;color:#918a80">研究規則已於 2026/09/17 凍結，目前持續累積 OOS 資料；不代表未來報酬，也不是台指期或個股買賣訊號。</p>
   </div>
 </section>
+</div>
 
 <div class="section" id="singleStockAnalysis">
   <div class="section-title">
