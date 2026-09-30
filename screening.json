@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29 18:54",
+  "generated_at": "2026-09-30 10:44",
   "timezone": "Asia/Taipei",
   "new_feature_version": 2,
   "dual_snapshot_version": 1,
@@ -52504,6 +52504,8 @@
       ]
     }
   },
+  "research_tw_results_200": [],
+  "research_tw_market_200": {},
   "results": [
     {
       "market": "US",
