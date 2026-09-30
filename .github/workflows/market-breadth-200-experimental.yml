@@ -1,0 +1,40 @@
+name: Market Breadth 200 Experimental
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 18:50 Asia/Taipei = 10:50 UTC, after official close data is normally committed.
+    - cron: "50 10 * * 1-5"
+
+permissions:
+  contents: write
+
+jobs:
+  breadth-200:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build experimental 200-stock Breadth
+        run: |
+          python tools/vcpulse_market_breadth_200_experimental.py
+
+      - name: Commit experimental OOS data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/market_breadth_200_experimental_latest.json \
+                  data/market_breadth_200_experimental_history.csv \
+                  data/market_structure_200_experimental_latest.json
+          if git diff --cached --quiet; then
+            echo "No experimental data changes."
+          else
+            git commit -m "research: update Market Breadth 200 experimental"
+            git push
+          fi
