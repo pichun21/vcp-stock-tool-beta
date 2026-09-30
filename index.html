@@ -1928,6 +1928,258 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 }
 </style>
 
+
+<style>
+/* ===== Restore original formal hero only v4.1 ===== */
+.brand-hero{
+  position:relative!important;
+  overflow:hidden!important;
+  margin-bottom:18px!important;
+  padding:24px 34px 20px!important;
+  border:1px solid var(--vp-line,#e8e1d7)!important;
+  border-radius:28px!important;
+  background:var(--vp-card,#fffdfa)!important;
+  box-shadow:0 12px 30px rgba(57,46,33,.05)!important;
+  min-height:unset!important;
+}
+.brand-hero::after{display:none!important}
+.brand-grid{
+  display:grid!important;
+  grid-template-columns:1fr 420px!important;
+  align-items:center!important;
+  gap:18px!important;
+}
+.brand-name{
+  font-size:72px!important;
+  line-height:.95!important;
+  font-weight:900!important;
+  letter-spacing:-5px!important;
+  margin:0!important;
+  color:#24231f!important;
+}
+.brand-name .pulse{color:var(--vp-caramel,#c58d58)!important}
+.brand-tag{
+  margin-top:10px!important;
+  font-size:12px!important;
+  letter-spacing:2.7px!important;
+  text-transform:uppercase!important;
+  color:#55524c!important;
+}
+.brand-sub{
+  font-size:22px!important;
+  font-weight:800!important;
+  margin-top:14px!important;
+  color:inherit!important;
+}
+.brand-copy{
+  margin-top:10px!important;
+  font-size:15px!important;
+  color:#6f6b63!important;
+  line-height:1.7!important;
+  max-width:none!important;
+}
+.brand-mini{
+  display:flex!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+  margin-top:14px!important;
+}
+.brand-pill{
+  padding:7px 11px!important;
+  border-radius:999px!important;
+  background:#f7f4ee!important;
+  border:1px solid #ebe5da!important;
+  font-size:13px!important;
+  color:#625d54!important;
+  box-shadow:none!important;
+}
+.brand-mascot{
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  min-height:190px!important;
+}
+.brand-mascot img{
+  width:330px!important;
+  max-height:230px!important;
+  object-fit:contain!important;
+  mix-blend-mode:multiply!important;
+  filter:none!important;
+}
+.brand-hero .helpbtn{
+  background:#fff!important;
+  color:#20231f!important;
+  border:1px solid var(--line,#dddcd4)!important;
+  box-shadow:none!important;
+}
+
+@media(max-width:900px) and (min-width:761px){
+  .brand-grid{grid-template-columns:1fr 370px!important}
+  .brand-mascot img{width:370px!important;max-height:275px!important}
+}
+
+@media(max-width:760px){
+  .brand-hero{
+    padding:18px 18px 16px!important;
+    border-radius:22px!important;
+    margin-bottom:16px!important;
+  }
+  .brand-grid{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 118px!important;
+    grid-template-areas:"copy dog"!important;
+    align-items:center!important;
+    gap:8px!important;
+  }
+  .brand-grid>div:first-child{grid-area:copy!important;min-width:0!important}
+  .brand-mascot{grid-area:dog!important;min-height:0!important;align-self:end!important}
+  .brand-mascot img{
+    width:118px!important;
+    max-height:150px!important;
+    mix-blend-mode:multiply!important;
+  }
+  .brand-name{
+    font-size:43px!important;
+    line-height:1!important;
+    letter-spacing:-3px!important;
+    white-space:nowrap!important;
+  }
+  .brand-tag{
+    font-size:8px!important;
+    letter-spacing:1.15px!important;
+    white-space:nowrap!important;
+    margin-top:8px!important;
+  }
+  .brand-sub{
+    font-size:15px!important;
+    line-height:1.35!important;
+    margin-top:12px!important;
+    max-width:230px!important;
+  }
+  .brand-copy{
+    font-size:12px!important;
+    line-height:1.55!important;
+    margin-top:8px!important;
+    max-width:220px!important;
+  }
+  .brand-copy br{display:none!important}
+  .brand-mini{display:none!important}
+  .brand-hero .helpbtn{
+    position:absolute!important;
+    right:12px!important;
+    top:12px!important;
+    padding:0!important;
+    font-size:0!important;
+    border-radius:999px!important;
+    width:34px!important;
+    height:34px!important;
+    z-index:3!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    line-height:1!important;
+  }
+  .brand-hero .helpbtn::after{
+    content:"ⓘ"!important;
+    font-size:18px!important;
+    line-height:1!important;
+    display:block!important;
+    width:18px!important;
+    height:18px!important;
+    text-align:center!important;
+  }
+}
+@media(max-width:390px){
+  .brand-grid{grid-template-columns:minmax(0,1fr) 98px!important}
+  .brand-mascot img{width:98px!important}
+  .brand-name{font-size:38px!important}
+  .brand-sub{font-size:14px!important}
+}
+</style>
+
+
+<style>
+/* ===== Restore viewed-stock yellow return highlight v4.2 ===== */
+
+/* Desktop/table row + generic return target */
+.radar-return-highlight,
+.radar-return-highlight-3s{
+  position:relative!important;
+  z-index:2!important;
+  animation:vcpReturnHighlightRestored 3s ease-out!important;
+}
+
+@keyframes vcpReturnHighlightRestored{
+  0%{
+    background:#ffe9a8!important;
+    box-shadow:
+      0 0 0 4px rgba(214,157,43,.34),
+      0 10px 26px rgba(112,81,25,.13)!important;
+  }
+  15%,70%{
+    background:#fff4c9!important;
+    box-shadow:
+      0 0 0 3px rgba(214,157,43,.24),
+      0 8px 20px rgba(112,81,25,.09)!important;
+  }
+  100%{
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+}
+
+/* Mobile stock card needs its own final background restore */
+.mobile-stock-card.radar-return-highlight,
+.mobile-stock-card.radar-return-highlight-3s{
+  animation:vcpReturnCardHighlightRestored 3s ease-out!important;
+}
+
+@keyframes vcpReturnCardHighlightRestored{
+  0%{
+    background:#ffe9a8!important;
+    border-color:#e5c66f!important;
+    box-shadow:
+      0 0 0 4px rgba(214,157,43,.32),
+      0 10px 24px rgba(112,81,25,.13)!important;
+  }
+  15%,70%{
+    background:#fff5cf!important;
+    border-color:#ead58e!important;
+    box-shadow:
+      0 0 0 3px rgba(214,157,43,.22),
+      0 8px 20px rgba(112,81,25,.09)!important;
+  }
+  100%{
+    background:#fff!important;
+    border-color:#e7dfd5!important;
+    box-shadow:0 5px 14px rgba(65,51,37,.04)!important;
+  }
+}
+
+/* Desktop table row cells can have their own backgrounds, so tint cells too */
+.radar-table tbody tr.radar-return-highlight td,
+.radar-table tbody tr.radar-return-highlight-3s td{
+  animation:vcpReturnCellHighlightRestored 3s ease-out!important;
+}
+
+@keyframes vcpReturnCellHighlightRestored{
+  0%{background:#ffe9a8!important}
+  15%,70%{background:#fff5cf!important}
+  100%{background:transparent!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .radar-return-highlight,
+  .radar-return-highlight-3s,
+  .mobile-stock-card.radar-return-highlight,
+  .mobile-stock-card.radar-return-highlight-3s,
+  .radar-table tbody tr.radar-return-highlight td,
+  .radar-table tbody tr.radar-return-highlight-3s td{
+    animation-duration:1.2s!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
