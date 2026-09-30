@@ -1,14 +1,14 @@
 {
-  "status": "waiting",
+  "status": "ok",
   "version": "market-structure-200-experimental",
   "universe": 200,
-  "data_date": "2026-09-29",
-  "state": "INSUFFICIENT_HISTORY",
-  "label": "資料累積中",
-  "breadth_score": 72.7,
-  "delta_1d": null,
+  "data_date": "2026-09-30",
+  "state": "MATURE_BULL",
+  "label": "成熟",
+  "breadth_score": 72.5,
+  "delta_1d": -0.2,
   "delta_5d": null,
-  "extension_ratio": 0.2333,
-  "history_sessions": 1,
+  "extension_ratio": 0.21,
+  "history_sessions": 2,
   "note": "Experimental 200-stock OOS series. Does not replace official frozen 150-stock Market Structure."
 }
