@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30 15:50",
+  "generated_at": "2026-09-30 18:54",
   "timezone": "Asia/Taipei",
   "new_feature_version": 2,
   "dual_snapshot_version": 1,
@@ -13,7 +13,7 @@
     "TW": {
       "data_date": "2026-09-30",
       "count": 150,
-      "scanned_at": "2026-09-30 15:50",
+      "scanned_at": "2026-09-30 18:54",
       "snapshot_type": "official"
     }
   },
@@ -27,7 +27,7 @@
     "TW": {
       "data_date": "2026-09-30",
       "count": 150,
-      "scanned_at": "2026-09-30 15:50",
+      "scanned_at": "2026-09-30 18:54",
       "snapshot_type": "official"
     }
   },
@@ -65219,7 +65219,7 @@
   "research_tw_market_200": {
     "data_date": "2026-09-30",
     "count": 200,
-    "scanned_at": "2026-09-30 15:50",
+    "scanned_at": "2026-09-30 18:54",
     "snapshot_type": "official",
     "purpose": "experimental_breadth_200",
     "frozen_market_structure_unchanged": true
