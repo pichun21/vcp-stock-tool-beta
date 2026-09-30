@@ -1341,6 +1341,218 @@ th{color:#716c64}
 .single-structure-quality{margin-top:8px;min-height:22px}
 .mobile-structure-quality{margin-top:6px}
 </style>
+<style>
+/* ===== VCPulse Beta · UI/UX hierarchy experiment v1 ===== */
+:root{
+  --ux-bg:#f6f3ed;
+  --ux-surface:#fffdf9;
+  --ux-surface-strong:#ffffff;
+  --ux-ink:#25231f;
+  --ux-muted:#746f67;
+  --ux-line:#e5ded4;
+  --ux-accent:#9b6c42;
+  --ux-accent-soft:#f4ece2;
+  --ux-radius-lg:20px;
+  --ux-radius-md:14px;
+  --ux-shadow:0 8px 24px rgba(55,43,31,.055);
+  --ux-shadow-hover:0 12px 30px rgba(55,43,31,.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--ux-bg);color:var(--ux-ink)}
+.wrap{max-width:1320px;margin:30px auto 54px;padding:0 22px}
+.card,.market-pulse-card,.market-structure-card,.radar-card{
+  border-color:var(--ux-line);
+  box-shadow:var(--ux-shadow);
+}
+.brand-hero{
+  padding:22px 30px 18px;
+  border-color:var(--ux-line);
+  box-shadow:0 8px 24px rgba(55,43,31,.045);
+}
+.brand-name{font-size:64px}
+.brand-copy{max-width:680px;color:var(--ux-muted)}
+.brand-pill{background:#faf7f2;border-color:#ece4d9}
+
+.market-pulse-card{
+  position:relative;
+  border-top:4px solid #c58d58;
+  background:linear-gradient(180deg,#fffefa 0%,#fffaf4 100%);
+}
+.market-structure-card{
+  background:#fbfaf7;
+  box-shadow:none;
+}
+.mp-title,.ms-title{letter-spacing:-.2px}
+.mp-beta,.ms-beta{font-weight:850;letter-spacing:.02em}
+
+.helpbtn,.mp-help-btn,.ms-help-btn,.user-live-btn,.return-radar-btn,
+.capital-hotspot-action,.theme-help-btn,.capital-hotspots-note{
+  min-height:36px;
+}
+.radar-tab,.snapshot-btn,.radar-market-btn{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.radar-tab:not(.active),.snapshot-btn:not(.active),.radar-market-btn:not(.active){
+  background:#fffdfa;
+  border-color:#ded7cd;
+  color:#5f5a53;
+}
+.radar-tab.active,.snapshot-btn.active{
+  box-shadow:0 3px 10px rgba(38,35,31,.12);
+}
+
+.radar-snapshot-switch{
+  padding:5px;
+  border:1px solid var(--ux-line);
+  border-radius:16px;
+  background:#eee9e1;
+  width:max-content;
+  max-width:100%;
+  margin-bottom:8px;
+}
+.snapshot-btn{border:0!important;min-width:118px}
+.radar-freshness{
+  background:transparent;
+  border:0;
+  padding:0;
+  gap:7px;
+  margin-bottom:14px;
+}
+.freshness-item{
+  box-shadow:none;
+  border-color:var(--ux-line);
+  background:rgba(255,253,249,.82);
+}
+
+.radar-section{
+  position:relative;
+  margin-top:26px;
+}
+.radar-section>.section-title{
+  margin-bottom:12px;
+}
+.radar-section .section-title h2{
+  font-size:24px;
+  letter-spacing:-.35px;
+}
+.radar-card{
+  background:var(--ux-surface-strong);
+  border-radius:var(--ux-radius-lg);
+  padding:18px;
+}
+.radar-intro{
+  border:0;
+  box-shadow:none;
+  background:var(--ux-accent-soft);
+  padding:15px 17px;
+}
+.radar-intro h2{font-size:24px}
+.radar-summary{
+  box-shadow:none;
+  border-color:#e2d5c5;
+  background:#fffaf4;
+}
+.radar-count-pill{background:#f8f4ee}
+
+.radar-table th{
+  text-transform:none;
+  letter-spacing:.02em;
+  color:#7a746c;
+  background:#faf8f4;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+.radar-table tbody tr{transition:background .14s ease}
+.radar-table tbody tr:hover{background:#fcf7f0}
+.pulse-badge,.mobile-state,.mobile-signal,.single-signal-chip{
+  box-shadow:none;
+}
+.attention-summary,.pulse-explain,.reason-item{color:#6f6961}
+
+.mobile-stock-card{
+  background:#fff;
+  border-color:#e5ded4;
+  box-shadow:0 5px 16px rgba(55,43,31,.045);
+}
+.mobile-stock-card:focus-within{
+  border-color:#c9aa88;
+  box-shadow:0 0 0 3px rgba(155,108,66,.08);
+}
+.mobile-stock-name{color:#25231f}
+.mobile-score{color:#8a6948}
+.mobile-metrics{
+  background:#fbfaf7;
+  border:0!important;
+  border-radius:12px;
+  padding:9px 10px 7px!important;
+}
+.mobile-metric{color:#817a72}
+.mobile-signal-row{opacity:.86}
+.mobile-why{
+  border-top:1px solid #eee7de;
+}
+.mobile-analysis-btn{
+  min-height:42px;
+  background:#5f4934;
+  border-color:#5f4934;
+  box-shadow:none;
+}
+
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid rgba(155,108,66,.28)!important;
+  outline-offset:2px!important;
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+@media(max-width:760px){
+  .wrap{margin:12px auto 36px;padding:0 12px}
+  .brand-hero{padding:15px 15px 13px;border-radius:18px;margin-bottom:12px}
+  .brand-grid{grid-template-columns:minmax(0,1fr) 104px}
+  .brand-name{font-size:38px;letter-spacing:-2.6px}
+  .brand-sub{font-size:14px;margin-top:9px}
+  .brand-copy{font-size:11.5px;line-height:1.48;margin-top:6px}
+  .brand-mascot img{width:104px;max-height:132px}
+  .market-pulse-card,.market-structure-card{border-radius:16px;padding:13px;margin-bottom:10px}
+  .market-pulse-card{border-top-width:3px}
+  .mp-title,.ms-title{font-size:16px}
+  .mp-score{font-size:28px}
+  .mp-signals{gap:6px}
+  .mp-signal{padding:8px;border-radius:10px}
+  .mp-signal span{font-size:9.5px}
+  .mp-signal b{font-size:12.5px}
+  .ms-state{font-size:20px}
+  .radar-section{margin-top:18px}
+  .radar-section .section-title h2{font-size:20px}
+  .radar-card{padding:11px;border-radius:16px}
+  .radar-intro{padding:12px;margin:10px 0 8px;border-radius:14px}
+  .radar-intro h2{font-size:19px}
+  .radar-snapshot-switch{display:grid;width:100%;grid-template-columns:1fr 1fr}
+  .snapshot-btn{width:100%;min-width:0}
+  .freshness-item{border-radius:12px}
+  .radar-tabs{gap:6px!important}
+  .radar-tab{min-height:38px}
+  .mobile-stock-card{margin-top:8px;padding:12px;border-radius:15px}
+  .mobile-stock-name{font-size:16px}
+  .mobile-metrics{margin-top:8px!important}
+  .mobile-signal-row{margin-top:7px;gap:5px}
+  .mobile-signal{font-size:10px;padding:4px 6px}
+  .mobile-why{margin-top:8px;padding-top:8px}
+  .reason-item{font-size:11px;line-height:1.4}
+  .mobile-analysis-btn{margin-top:8px!important}
+}
+@media(max-width:390px){
+  .brand-grid{grid-template-columns:minmax(0,1fr) 88px}
+  .brand-name{font-size:34px}
+  .brand-mascot img{width:88px}
+}
+
+</style>
 </head>
 <body>
 
