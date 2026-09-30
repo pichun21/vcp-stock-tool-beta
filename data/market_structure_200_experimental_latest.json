@@ -6,9 +6,9 @@
   "state": "MATURE_BULL",
   "label": "成熟",
   "breadth_score": 72.5,
-  "delta_1d": -0.2,
+  "delta_1d": null,
   "delta_5d": null,
   "extension_ratio": 0.21,
-  "history_sessions": 2,
+  "history_sessions": 1,
   "note": "Experimental 200-stock OOS series. Does not replace official frozen 150-stock Market Structure."
 }
