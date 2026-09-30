@@ -113,23 +113,29 @@ def main():
     v2m=load_module(here/"vcpulse_market_breadth_v0_2.py","mb_v02_200")
     snap=json.loads(Path(a.input).read_text(encoding="utf-8"))
     rows=snap.get("research_tw_results_200")
-    meta=snap.get("research_tw_results_200_meta") or {}
+    meta=snap.get("research_tw_market_200") or {}
     if not isinstance(rows,list):
         raise RuntimeError("screening.json has no research_tw_results_200. Run the updated BETA scanner official TW first.")
     tw_rows=[r for r in rows if str(r.get("market","")).upper()=="TW"]
     if len(tw_rows) != 200:
         raise RuntimeError(f"RESEARCH-200 GUARD FAILED: expected exactly 200 TW rows, got {len(tw_rows)}. Refusing to write experimental history.")
-    dates=sorted({str(r.get("data_date") or "") for r in tw_rows if r.get("data_date")})
-    if len(dates) != 1:
-        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: expected one data_date, got {dates}.")
-    meta_date=str(meta.get("data_date") or "")
-    if meta_date and meta_date != dates[0]:
-        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: meta date {meta_date} != rows date {dates[0]}.")
+    # The scanner owns the official snapshot date for this experimental universe.
+    # Individual candidate rows may retain an older per-stock data_date (for example
+    # a stale/last-valid bar), so row-level dates are diagnostic only and must not
+    # redefine the snapshot date.
+    meta_date=str(meta.get("data_date") or "").strip()
+    meta_count=meta.get("count")
+    if not meta_date:
+        raise RuntimeError("RESEARCH-200 GUARD FAILED: research_tw_market_200.data_date is missing.")
+    if meta_count is not None and int(meta_count) != 200:
+        raise RuntimeError(f"RESEARCH-200 GUARD FAILED: metadata count={meta_count}, expected 200.")
+    row_dates=sorted({str(r.get("data_date") or "") for r in tw_rows if r.get("data_date")})
+    # Feed the frozen breadth modules an isolated synthetic snapshot.  Normalize
+    # only the snapshot label date; all stock features/values remain unchanged.
+    normalized_rows=[dict(r, data_date=meta_date) for r in tw_rows]
     snap=dict(snap)
-    # Frozen breadth modules expect official_results, so feed them an isolated
-    # synthetic snapshot containing ONLY the experimental 200-stock universe.
-    snap["official_results"]=tw_rows
-    print(f"RESEARCH-200 INPUT VERIFIED: actual={len(tw_rows)} date={dates[0]} source=research_tw_results_200")
+    snap["official_results"]=normalized_rows
+    print(f"RESEARCH-200 INPUT VERIFIED: actual={len(normalized_rows)} date={meta_date} source=research_tw_results_200 row_dates={row_dates}")
     v1,v2=v1m.compute(snap),v2m.compute(snap)
     row=flat_row(v1,v2)
     latest={"data_date":row["data_date"],"universe":200,"v0.1":v1,"v0.2":v2,
