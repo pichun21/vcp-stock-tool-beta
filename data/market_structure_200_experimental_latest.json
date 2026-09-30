@@ -1,10 +1,10 @@
 {
-  "status": "ok",
+  "status": "waiting",
   "version": "market-structure-200-experimental",
   "universe": 200,
   "data_date": "2026-09-30",
-  "state": "MATURE_BULL",
-  "label": "成熟",
+  "state": "INSUFFICIENT_HISTORY",
+  "label": "資料累積中",
   "breadth_score": 72.5,
   "delta_1d": null,
   "delta_5d": null,
