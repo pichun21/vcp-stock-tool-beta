@@ -1954,6 +1954,24 @@ def main():
                     f"{'PASS' if ready else 'BLOCK'}"
                 )
                 if not ready:
+                    # Research-200 is an independent experimental stream.  Do not
+                    # weaken or bypass the frozen official-150 guard, but preserve a
+                    # complete 200-row research universe from an explicit official_TW
+                    # run so the experiment is not blocked by the production guard.
+                    if len(research_rows_200 or []) == 200 and (completed_today or completed_prior):
+                        research_tw_results_200=list(research_rows_200)
+                        research_tw_market_200={
+                            "data_date":latest_date or current_date,
+                            "count":len(research_tw_results_200),
+                            "scanned_at":nowstamp,
+                            "snapshot_type":"official_research_experimental",
+                            "purpose":"experimental_breadth_200",
+                            "official_guard":"BLOCK",
+                            "frozen_market_structure_unchanged":True
+                        }
+                        print(f"TW RESEARCH-200 INDEPENDENT SAVED: {len(research_tw_results_200)} rows | date={latest_date or current_date} | official150_guard=BLOCK")
+                    else:
+                        print(f"TW RESEARCH-200 NOT SAVED: rows={len(research_rows_200 or [])} | completed_today={completed_today} | completed_prior={completed_prior}")
                     print("TW official NOT overwritten: daily data completeness is below safety threshold; preserving previous official and intraday snapshots.")
                     continue
             previous=_split_market(official_results,market)
