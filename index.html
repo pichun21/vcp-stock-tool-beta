@@ -3009,6 +3009,760 @@ body{
 }
 </style>
 
+
+<style>
+/* ===== VCPulse 2.0 Bold Layout v12 =====
+   Real presentational change, with HTML structure update for the overview area.
+   Data logic and stock-card behaviors remain untouched. */
+
+:root{
+  --v12-bg:#f4efe8;
+  --v12-paper:#ffffff;
+  --v12-paper-soft:#fbf7f2;
+  --v12-ink:#21231f;
+  --v12-muted:#7d786f;
+  --v12-line:#e5ddd2;
+  --v12-brand:#b7733d;
+  --v12-brand-deep:#724728;
+  --v12-brand-soft:#f3dfcd;
+  --v12-sage:#6b8a77;
+  --v12-sage-deep:#4e6657;
+  --v12-sage-soft:#e7f0ea;
+  --v12-slate:#6f8598;
+  --v12-slate-soft:#eef3f7;
+  --v12-shadow:0 18px 48px rgba(72,55,40,.08);
+  --v12-shadow-soft:0 10px 28px rgba(72,55,40,.05);
+}
+
+body{
+  background:
+    radial-gradient(circle at 0% 0%, rgba(183,115,61,.12), transparent 26rem),
+    radial-gradient(circle at 100% 10%, rgba(107,138,119,.10), transparent 20rem),
+    linear-gradient(180deg,#f7f3ed 0%, #f4efe8 100%) !important;
+}
+
+/* ===== Hero becomes a true brand stage ===== */
+.brand-hero{
+  position:relative!important;
+  overflow:visible!important;
+  padding:34px 36px 26px!important;
+  border:1px solid #e6ddd1!important;
+  border-radius:36px!important;
+  background:#fff!important;
+  box-shadow:var(--v12-shadow)!important;
+}
+.brand-hero::before{
+  content:"VCPulse";
+  position:absolute;
+  left:26px;
+  bottom:16px;
+  font-size:104px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-6px;
+  color:rgba(183,115,61,.045);
+  pointer-events:none;
+  user-select:none;
+}
+.brand-hero::after{
+  content:"";
+  position:absolute;
+  right:26px;
+  top:18px;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(183,115,61,.09) 0%, rgba(107,138,119,.06) 52%, transparent 72%);
+  pointer-events:none;
+}
+.brand-grid{
+  position:relative!important;
+  z-index:1!important;
+  grid-template-columns:minmax(0,1fr) 390px!important;
+  gap:18px!important;
+  align-items:end!important;
+}
+.brand-grid > div:first-child{
+  padding:6px 0 12px!important;
+}
+.brand-logo-img{
+  width:220px!important;
+  max-width:100%!important;
+}
+.brand-tag{
+  margin-top:14px!important;
+  font-size:10px!important;
+  letter-spacing:2.6px!important;
+  text-transform:uppercase!important;
+  color:#95887d!important;
+}
+.brand-sub{
+  margin-top:18px!important;
+  font-size:28px!important;
+  line-height:1.18!important;
+  font-weight:900!important;
+  color:#242622!important;
+}
+.brand-copy{
+  margin-top:12px!important;
+  max-width:560px!important;
+  font-size:14px!important;
+  line-height:1.72!important;
+  color:#6d665e!important;
+}
+.brand-mini{
+  margin-top:18px!important;
+  gap:10px!important;
+}
+.brand-pill{
+  padding:10px 14px!important;
+  border-radius:999px!important;
+  border:1px solid #e6ddd2!important;
+  background:#fff!important;
+  color:#5c554e!important;
+  font-weight:700!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.03)!important;
+}
+.brand-mascot{
+  position:relative!important;
+  min-height:280px!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+}
+.brand-mascot::before{
+  content:"";
+  position:absolute;
+  inset:0 6px 8px 36px;
+  border-radius:30px;
+  background:
+    linear-gradient(145deg,#fbf4eb 0%,#f4f7f2 100%);
+  border:1px solid #ece2d6;
+  box-shadow:0 16px 34px rgba(78,62,45,.08);
+}
+.brand-mascot img{
+  position:relative!important;
+  z-index:1!important;
+  width:min(360px,100%)!important;
+  max-height:260px!important;
+  transform:translate(12px,8px)!important;
+  filter:drop-shadow(0 18px 30px rgba(79,59,41,.12))!important;
+}
+.brand-hero .helpbtn{
+  position:absolute!important;
+  right:18px!important;
+  top:18px!important;
+  z-index:2!important;
+  background:#fff!important;
+  border:1px solid #e6ddcf!important;
+  color:var(--v12-brand-deep)!important;
+  padding:11px 14px!important;
+  border-radius:16px!important;
+  font-weight:800!important;
+  box-shadow:0 8px 16px rgba(0,0,0,.04)!important;
+}
+
+/* ===== Overview area: real new composition ===== */
+.v12-overview-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 330px!important;
+  grid-template-areas:
+    "pulse guide"
+    "pulse structure";
+  gap:16px!important;
+  align-items:start!important;
+  margin-bottom:22px!important;
+}
+.v12-overview-grid > #vcpReadingGuide{
+  grid-area:guide!important;
+  margin:0!important;
+}
+.v12-overview-grid > .market-pulse-card{
+  grid-area:pulse!important;
+  margin:0!important;
+}
+.v12-overview-grid > .market-structure-card{
+  grid-area:structure!important;
+  margin:0!important;
+}
+
+/* Reading guide now looks like a product side panel */
+#vcpReadingGuide{
+  padding:14px!important;
+  border:1px solid #e6ddd2!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:var(--v12-shadow-soft)!important;
+}
+#vcpReadingGuide .guide-title{
+  display:block!important;
+  margin-bottom:10px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  color:var(--v12-brand-deep)!important;
+}
+#vcpReadingGuide .guide-desktop{
+  display:none!important;
+}
+#vcpReadingGuide .guide-mobile{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:9px!important;
+}
+#vcpReadingGuide .guide-step{
+  position:relative!important;
+  min-height:0!important;
+  padding:12px 12px 12px 48px!important;
+  border:1px solid #ece4da!important;
+  border-radius:14px!important;
+  background:#fcfaf7!important;
+}
+#vcpReadingGuide .guide-step::after{
+  display:none!important;
+}
+#vcpReadingGuide .guide-num{
+  left:10px!important;
+  top:11px!important;
+  width:26px!important;
+  height:26px!important;
+  border-radius:50%!important;
+  background:linear-gradient(180deg,#d9a777 0%,#b7733d 100%)!important;
+  color:#fff!important;
+  border:0!important;
+  box-shadow:none!important;
+  font-size:10px!important;
+}
+#vcpReadingGuide .guide-name{
+  font-size:13px!important;
+  font-weight:800!important;
+  color:#2d2e2b!important;
+}
+#vcpReadingGuide .guide-desc{
+  margin-top:2px!important;
+  font-size:11px!important;
+  color:#7a756d!important;
+}
+
+/* ===== Market Pulse ===== */
+.market-pulse-card{
+  position:relative!important;
+  padding:22px 24px 22px!important;
+  border:1px solid #eadfd2!important;
+  border-radius:28px!important;
+  background:
+    linear-gradient(180deg,#fffdfa 0%,#fff9f3 100%)!important;
+  box-shadow:var(--v12-shadow)!important;
+}
+.market-pulse-card::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:10px;
+  border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#b7733d 0%,#d7a06d 55%,#efe0d0 100%);
+}
+.mp-head{padding-top:6px!important}
+.mp-title{
+  font-size:23px!important;
+  letter-spacing:-.35px!important;
+}
+.mp-beta{
+  background:var(--v12-brand-soft)!important;
+  color:var(--v12-brand-deep)!important;
+  font-weight:900!important;
+  border:0!important;
+}
+.mp-help-btn{
+  background:#fff!important;
+  border:1px solid #eadfd2!important;
+  color:#7d583a!important;
+}
+.mp-score{
+  font-size:54px!important;
+  letter-spacing:-2.2px!important;
+  color:#242622!important;
+}
+.mp-state{
+  font-size:16px!important;
+}
+.mp-signals{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin-top:16px!important;
+}
+.mp-signal{
+  position:relative!important;
+  padding:13px 12px 12px!important;
+  border:1px solid #eee4da!important;
+  border-radius:16px!important;
+  background:#fff!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.025)!important;
+}
+.mp-signal::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:5px;
+  border-radius:16px 16px 0 0;
+  background:#e9e0d4;
+}
+.mp-signal:nth-child(1)::before,
+.mp-signal:nth-child(4)::before{background:#d39a68}
+.mp-signal:nth-child(2)::before,
+.mp-signal:nth-child(5)::before{background:#8cae99}
+.mp-signal:nth-child(3)::before,
+.mp-signal:nth-child(6)::before{background:#98aec0}
+.mp-signal span{
+  font-size:9px!important;
+  font-weight:800!important;
+  letter-spacing:.05em!important;
+  text-transform:uppercase!important;
+  color:#908980!important;
+}
+.mp-signal b{
+  font-size:16px!important;
+}
+.mp-reason{
+  margin-top:16px!important;
+  color:#686159!important;
+}
+
+/* ===== Market Structure ===== */
+.market-structure-card{
+  position:relative!important;
+  padding:18px 18px!important;
+  border:1px solid #d9e4dd!important;
+  border-radius:24px!important;
+  background:
+    linear-gradient(180deg,#fbfffc 0%,#f1f7f3 100%)!important;
+  box-shadow:var(--v12-shadow-soft)!important;
+}
+.market-structure-card::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:10px;
+  border-radius:24px 24px 0 0;
+  background:linear-gradient(90deg,#6b8a77 0%,#97b3a3 58%,#dde9e1 100%);
+}
+.ms-head{padding-top:6px!important}
+.ms-title{
+  font-size:18px!important;
+}
+.ms-beta{
+  background:var(--v12-sage-soft)!important;
+  color:var(--v12-sage-deep)!important;
+  font-weight:900!important;
+  border:0!important;
+}
+.ms-help-btn{
+  background:#fff!important;
+  border:1px solid #d9e5de!important;
+  color:var(--v12-sage-deep)!important;
+}
+.ms-state{
+  font-size:25px!important;
+  color:#456251!important;
+}
+.ms-chip{
+  padding:8px 10px!important;
+  border:1px solid #d8e5de!important;
+  border-radius:12px!important;
+  background:#fff!important;
+}
+.ms-help{
+  margin-top:12px!important;
+  padding-top:10px!important;
+  border-top:1px solid rgba(107,138,119,.14)!important;
+  color:#6e7972!important;
+}
+
+/* ===== Section headers and single stock ===== */
+.section-title{
+  margin-top:24px!important;
+  margin-bottom:11px!important;
+}
+.section-title h2{
+  font-size:23px!important;
+  letter-spacing:-.35px!important;
+  color:#242622!important;
+}
+.section-title .muted{
+  color:#918b82!important;
+}
+#singleStockAnalysis{
+  padding-top:2px!important;
+}
+.marketbtn{
+  border:1px solid #dfd5c9!important;
+  background:#fff!important;
+  color:#5d574f!important;
+  font-weight:800!important;
+}
+.marketbtn.active{
+  background:#292a27!important;
+  border-color:#292a27!important;
+  color:#fff!important;
+}
+.search input{
+  border-color:#dfd5c9!important;
+  border-radius:14px!important;
+  background:#fff!important;
+}
+.search button{
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#8a5a37 0%,#b7733d 100%)!important;
+  box-shadow:0 10px 20px rgba(135,91,56,.16)!important;
+  color:#fff!important;
+}
+
+/* ===== Capital / themes ===== */
+.capital-hotspots,
+.theme-leaderboards{
+  padding:16px!important;
+  border:1px solid #e6ddd2!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:var(--v12-shadow-soft)!important;
+}
+.capital-hotspots-head h3,
+.theme-leaderboards-head h3{
+  font-size:16px!important;
+  letter-spacing:-.2px!important;
+}
+.capital-top5-badge{
+  background:#eef5f1!important;
+  color:#5a7665!important;
+  border-color:#d9e4dc!important;
+}
+.capital-hotspot{
+  border:1px solid #ece4da!important;
+  border-radius:14px!important;
+  background:#fcfbf9!important;
+}
+.theme-board{
+  border:1px solid #e7e1d9!important;
+  border-radius:14px!important;
+}
+.theme-board-hot{
+  background:#fff8f0!important;
+  border-color:#f0dbc6!important;
+}
+.theme-board-setup{
+  background:#f1f6f3!important;
+  border-color:#d7e3db!important;
+}
+
+/* ===== Radar workspace ===== */
+.radar-section{
+  margin-top:30px!important;
+}
+.radar-section>.section-title{
+  padding-bottom:12px!important;
+  border-bottom:1px solid #e0d9d0!important;
+}
+.radar-section>.section-title h2{
+  font-size:27px!important;
+  letter-spacing:-.55px!important;
+}
+.radar-count-pill{
+  background:#fff!important;
+  border:1px solid #e3dbd1!important;
+  color:#6d675f!important;
+  box-shadow:var(--v12-shadow-soft)!important;
+}
+.radar-market-switch{
+  padding:5px!important;
+  border-radius:15px!important;
+  background:#ece7df!important;
+  border:0!important;
+}
+.radar-market-btn{
+  border-radius:11px!important;
+  border:0!important;
+}
+.radar-market-btn.active{
+  background:#fff!important;
+  color:var(--v12-sage-deep)!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.06)!important;
+}
+.radar-card{
+  padding:18px!important;
+  border:1px solid #e0d8ce!important;
+  border-radius:26px!important;
+  background:#fff!important;
+  box-shadow:0 16px 38px rgba(63,49,36,.065)!important;
+}
+.radar-intro{
+  padding:14px 16px!important;
+  border-radius:18px!important;
+  background:linear-gradient(135deg,#f7efe6 0%,#eef4f0 100%)!important;
+}
+.radar-intro h2{
+  font-size:22px!important;
+}
+.radar-summary{
+  border-color:#e5ddd3!important;
+  background:#fff!important;
+}
+.radar-snapshot-switch{
+  padding:5px!important;
+  border-radius:15px!important;
+  background:#ece7df!important;
+  border:0!important;
+}
+.snapshot-btn{
+  min-height:44px!important;
+  border-radius:11px!important;
+  border:0!important;
+  background:transparent!important;
+  color:#666159!important;
+}
+.snapshot-btn.active{
+  background:#fff!important;
+  color:#272925!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.06)!important;
+}
+.radar-tabs{
+  gap:7px!important;
+}
+.radar-tab{
+  min-height:40px!important;
+  padding:8px 14px!important;
+  border-radius:999px!important;
+  border:1px solid #e2dcd3!important;
+  background:#f7f4ef!important;
+  color:#635e56!important;
+  font-weight:800!important;
+}
+.radar-tab.active{
+  background:#353632!important;
+  border-color:#353632!important;
+  color:#fff!important;
+}
+.radar-tab[data-radar="postbreakout"].active{
+  background:#566b7a!important;
+  border-color:#566b7a!important;
+}
+.radar-sort{
+  min-height:40px!important;
+  border-radius:13px!important;
+  border:1px solid #e2dcd3!important;
+  background:#fff!important;
+}
+.freshness-item{
+  border:1px solid #e5ddd4!important;
+  border-radius:13px!important;
+  background:#fff!important;
+}
+@media(min-width:761px){
+  .radar-table-wrap{
+    margin-top:12px!important;
+    border:1px solid #e7e0d7!important;
+    border-radius:16px!important;
+    overflow:hidden!important;
+  }
+  .radar-table th{
+    background:#f7f4ef!important;
+    color:#7b756d!important;
+  }
+  .radar-table tbody tr:hover{
+    background:#fcf6ef!important;
+  }
+}
+
+/* ===== Responsive ===== */
+@media(max-width:960px) and (min-width:761px){
+  .brand-grid{
+    grid-template-columns:minmax(0,1fr) 300px!important;
+  }
+  .brand-sub{
+    font-size:24px!important;
+  }
+  .brand-logo-img{
+    width:190px!important;
+  }
+  .brand-mascot{
+    min-height:230px!important;
+  }
+  .brand-mascot img{
+    width:290px!important;
+    max-height:220px!important;
+  }
+  .v12-overview-grid{
+    grid-template-columns:minmax(0,1fr) 290px!important;
+  }
+}
+
+@media(max-width:760px){
+  .brand-hero{
+    padding:18px 15px 14px!important;
+    border-radius:24px!important;
+    overflow:hidden!important;
+  }
+  .brand-hero::before{
+    font-size:52px!important;
+    left:16px!important;
+    bottom:10px!important;
+    letter-spacing:-3px!important;
+  }
+  .brand-hero::after{
+    width:150px!important;
+    height:150px!important;
+    right:-18px!important;
+    top:-8px!important;
+  }
+  .brand-grid{
+    grid-template-columns:minmax(0,1fr) 116px!important;
+    gap:6px!important;
+    align-items:center!important;
+  }
+  .brand-logo-img{
+    width:120px!important;
+  }
+  .brand-tag{
+    margin-top:8px!important;
+    font-size:7.5px!important;
+    letter-spacing:1.1px!important;
+  }
+  .brand-sub{
+    margin-top:10px!important;
+    font-size:16px!important;
+  }
+  .brand-copy{
+    margin-top:6px!important;
+    font-size:10.5px!important;
+    line-height:1.45!important;
+  }
+  .brand-copy br{display:none!important}
+  .brand-mini{display:none!important}
+  .brand-mascot{
+    min-height:0!important;
+  }
+  .brand-mascot::before{
+    inset:6px 0 4px 8px!important;
+    border-radius:18px!important;
+  }
+  .brand-mascot img{
+    width:120px!important;
+    max-height:136px!important;
+    transform:translate(8px,6px)!important;
+  }
+  .brand-hero .helpbtn{
+    position:static!important;
+    margin-top:12px!important;
+    width:100%!important;
+    justify-content:center!important;
+  }
+
+  .v12-overview-grid{
+    display:block!important;
+    margin-bottom:14px!important;
+  }
+  #vcpReadingGuide,
+  .v12-overview-grid > .market-pulse-card,
+  .v12-overview-grid > .market-structure-card{
+    margin-bottom:8px!important;
+  }
+  #vcpReadingGuide{
+    padding:11px!important;
+    border-radius:15px!important;
+    box-shadow:none!important;
+  }
+  #vcpReadingGuide .guide-title{
+    margin-bottom:8px!important;
+    font-size:12px!important;
+  }
+  #vcpReadingGuide .guide-mobile{
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+  #vcpReadingGuide .guide-step{
+    padding:9px 8px 9px 34px!important;
+    border-radius:11px!important;
+  }
+  #vcpReadingGuide .guide-num{
+    left:7px!important;
+    top:8px!important;
+    width:20px!important;
+    height:20px!important;
+    font-size:8px!important;
+  }
+  #vcpReadingGuide .guide-name{font-size:11px!important}
+  #vcpReadingGuide .guide-desc{font-size:9px!important}
+
+  .market-pulse-card{
+    padding:14px!important;
+    border-radius:18px!important;
+  }
+  .market-pulse-card::before{
+    height:6px!important;
+    border-radius:18px 18px 0 0!important;
+  }
+  .mp-title{font-size:17px!important}
+  .mp-score{font-size:34px!important}
+  .mp-signals{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+  .mp-signal{
+    padding:8px 7px!important;
+    border-radius:10px!important;
+  }
+  .mp-signal::before{
+    height:3px!important;
+    border-radius:10px 10px 0 0!important;
+  }
+
+  .market-structure-card{
+    padding:13px 14px!important;
+    border-radius:18px!important;
+  }
+  .market-structure-card::before{
+    height:6px!important;
+    border-radius:18px 18px 0 0!important;
+  }
+  .ms-title{font-size:15px!important}
+  .ms-state{font-size:20px!important}
+  .ms-chip{
+    padding:6px 7px!important;
+    font-size:9.5px!important;
+  }
+
+  .capital-hotspots,
+  .theme-leaderboards{
+    padding:11px!important;
+    border-radius:15px!important;
+    box-shadow:none!important;
+  }
+
+  .radar-section>.section-title h2{
+    font-size:22px!important;
+  }
+  .radar-card{
+    padding:10px!important;
+    border-radius:18px!important;
+  }
+  .radar-intro{
+    padding:10px 11px!important;
+    border-radius:13px!important;
+  }
+  .radar-intro h2{font-size:18px!important}
+  .radar-tab{
+    min-height:36px!important;
+    padding:7px 4px!important;
+    border-radius:10px!important;
+    font-size:10px!important;
+  }
+}
+
+/* Intentionally untouched:
+   .mobile-stock-card, .mobile-metrics, .mobile-signal,
+   .mobile-why, .mobile-analysis-btn, .radar-return-highlight*
+   so stable behavior stays intact. */
+</style>
+
 </head>
 <body>
 
@@ -3176,6 +3930,7 @@ body{
   #vcpReadingGuide .guide-desc{margin-top:3px;font-size:13px;opacity:.68;line-height:1.3}
 }
 </style>
+<div class="v12-overview-grid">
 <div id="vcpReadingGuide">
   <span class="guide-title">📍 建議閱讀順序</span>
   <span class="guide-desktop">
@@ -3261,6 +4016,7 @@ body{
     <p style="font-size:11px;color:#918a80">研究規則已於 2026/09/17 凍結，目前持續累積 OOS 資料；不代表未來報酬，也不是台指期或個股買賣訊號。</p>
   </div>
 </section>
+</div>
 
 <div class="section" id="singleStockAnalysis">
   <div class="section-title">
