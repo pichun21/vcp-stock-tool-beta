@@ -3763,6 +3763,177 @@ body{
    so stable behavior stays intact. */
 </style>
 
+
+<style>
+/* ===== VCPulse v12.1 desktop balance + freer mascot ===== */
+
+/* Hero mascot: remove the "image inside a card" feeling */
+.brand-mascot{
+  min-height:250px!important;
+  overflow:visible!important;
+}
+.brand-mascot::before{
+  inset:24px 4px 6px 88px!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:
+    radial-gradient(circle at 48% 48%,
+      rgba(244,226,209,.92) 0%,
+      rgba(232,240,235,.72) 48%,
+      rgba(255,255,255,0) 72%)!important;
+  box-shadow:none!important;
+}
+.brand-mascot img{
+  width:min(405px,112%)!important;
+  max-height:282px!important;
+  transform:translate(34px,18px)!important;
+  filter:drop-shadow(0 20px 30px rgba(79,59,41,.13))!important;
+}
+
+/* Make the overview feel like one deliberate composition */
+.v12-overview-grid{
+  grid-template-columns:minmax(0,1.55fr) minmax(350px,.72fr)!important;
+  grid-template-areas:
+    "pulse guide"
+    "pulse structure"!important;
+  gap:14px!important;
+  align-items:stretch!important;
+}
+
+/* Keep Pulse visually substantial but avoid pointless empty height */
+.v12-overview-grid > .market-pulse-card{
+  align-self:stretch!important;
+  min-height:0!important;
+}
+
+/* Reading guide: 2x2 compact dashboard navigator */
+#vcpReadingGuide{
+  padding:12px!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 22px rgba(72,55,40,.045)!important;
+}
+#vcpReadingGuide .guide-title{
+  margin-bottom:8px!important;
+  font-size:12px!important;
+}
+#vcpReadingGuide .guide-mobile{
+  grid-template-columns:1fr 1fr!important;
+  gap:6px!important;
+}
+#vcpReadingGuide .guide-step{
+  padding:9px 8px 9px 36px!important;
+  border-radius:11px!important;
+}
+#vcpReadingGuide .guide-num{
+  left:8px!important;
+  top:9px!important;
+  width:21px!important;
+  height:21px!important;
+  font-size:8px!important;
+}
+#vcpReadingGuide .guide-name{
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+#vcpReadingGuide .guide-desc{
+  margin-top:1px!important;
+  font-size:9px!important;
+  line-height:1.3!important;
+}
+
+/* Market structure: condense it so the right column aligns with Pulse */
+.market-structure-card{
+  padding:15px 16px!important;
+  border-radius:18px!important;
+}
+.market-structure-card::before{
+  height:7px!important;
+  border-radius:18px 18px 0 0!important;
+}
+.ms-head{
+  padding-top:3px!important;
+}
+.ms-title{
+  font-size:16px!important;
+}
+.ms-body{
+  margin-top:9px!important;
+  gap:8px!important;
+}
+.ms-state{
+  font-size:21px!important;
+}
+.ms-metrics{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+}
+.ms-chip{
+  padding:6px 7px!important;
+  font-size:10px!important;
+}
+.ms-help{
+  display:none!important;
+}
+
+/* Slightly tighten Pulse so its height pairs better with the right rail */
+.market-pulse-card{
+  padding:19px 21px 18px!important;
+}
+.mp-score{
+  font-size:48px!important;
+}
+.mp-signals{
+  gap:7px!important;
+  margin-top:12px!important;
+}
+.mp-signal{
+  padding:10px 9px 9px!important;
+}
+.mp-reason{
+  margin-top:12px!important;
+}
+
+/* Tablet: keep the same balance without squeezing */
+@media(max-width:960px) and (min-width:761px){
+  .v12-overview-grid{
+    grid-template-columns:minmax(0,1.3fr) minmax(300px,.8fr)!important;
+  }
+  #vcpReadingGuide .guide-mobile{
+    grid-template-columns:1fr!important;
+  }
+  .brand-mascot img{
+    width:320px!important;
+    max-height:235px!important;
+    transform:translate(22px,12px)!important;
+  }
+}
+
+/* Mobile: mascot can still feel freer, but don't overflow the viewport */
+@media(max-width:760px){
+  .brand-mascot{
+    overflow:hidden!important;
+  }
+  .brand-mascot::before{
+    inset:8px -10px 0 12px!important;
+  }
+  .brand-mascot img{
+    width:128px!important;
+    max-height:142px!important;
+    transform:translate(9px,7px)!important;
+  }
+  .v12-overview-grid{
+    display:block!important;
+  }
+  #vcpReadingGuide .guide-mobile{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .ms-help{
+    display:block!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
