@@ -2269,6 +2269,104 @@ button:active,
    so the stable stock-card behavior and yellow return highlight remain intact. */
 </style>
 
+
+<style>
+/* ===== VCPulse 2.0 v10.1 hero white + visible sage ===== */
+
+/* Hero: return to clean white, no warm gradient */
+.brand-hero{
+  background:#fff!important;
+  border:1px solid #e8e1d8!important;
+  box-shadow:0 14px 34px rgba(56,46,37,.055)!important;
+}
+.brand-hero::before{
+  display:none!important;
+}
+.brand-hero .helpbtn{
+  background:#fff!important;
+  border-color:#e4ddd4!important;
+  color:#6c6259!important;
+}
+.brand-pill{
+  background:#faf8f4!important;
+  border-color:#e7dfd5!important;
+}
+
+/* Make sage green actually visible as a secondary brand accent */
+:root{
+  --v10-sage:#6f8f7c;
+  --v10-sage-deep:#587363;
+  --v10-sage-soft:#e8f0eb;
+  --v10-sage-line:#cfddd4;
+}
+
+/* Market Structure gets a clear sage identity */
+.market-structure-card{
+  background:#f7fbf8!important;
+  border-color:var(--v10-sage-line)!important;
+}
+.ms-beta{
+  background:var(--v10-sage-soft)!important;
+  color:var(--v10-sage-deep)!important;
+}
+.ms-chip{
+  border-color:var(--v10-sage-line)!important;
+  background:#fff!important;
+}
+.ms-state{
+  color:#3f5f4d!important;
+}
+.ms-help-btn{
+  color:var(--v10-sage-deep)!important;
+  border-color:var(--v10-sage-line)!important;
+  background:#fff!important;
+}
+
+/* Reading guide: subtle sage line instead of only brown */
+#vcpReadingGuide{
+  border-color:#dfe7e1!important;
+}
+#vcpReadingGuide .guide-title{
+  color:var(--v10-sage-deep)!important;
+}
+
+/* Secondary controls can carry sage */
+.radar-market-btn.active{
+  color:#355346!important;
+}
+.radar-count-pill{
+  border-color:#d9e3dc!important;
+}
+.freshness-item{
+  border-color:#dfe7e1!important;
+}
+
+/* Setup theme card gets sage instead of blue-gray */
+.theme-board-setup{
+  background:#f1f6f3!important;
+  border-color:#d5e1d9!important;
+}
+.theme-board-setup .theme-board-title,
+.theme-board-setup .theme-board-badge{
+  color:#557262!important;
+}
+
+/* A small sage accent for helper/secondary badges */
+.capital-top5-badge{
+  background:#eef4f0!important;
+  color:#587363!important;
+  border-color:#d6e2da!important;
+}
+
+/* Mobile keeps the same clean white hero */
+@media(max-width:760px){
+  .brand-hero{
+    background:#fff!important;
+    box-shadow:0 8px 20px rgba(56,46,37,.045)!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
