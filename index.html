@@ -1705,6 +1705,523 @@ body{
 }
 </style>
 
+
+<style>
+/* ===== VCPulse EPS Dashboard Refine v7 =====
+   Inspired by the user's attached dashboard artwork:
+   light canvas, white modules, soft shadow, restrained accent color.
+   Stock cards + yellow return highlight remain untouched. */
+
+:root{
+  --eps-bg:#f6f4ef;
+  --eps-paper:#ffffff;
+  --eps-paper-soft:#fbfaf7;
+  --eps-line:#ebe6df;
+  --eps-ink:#262824;
+  --eps-muted:#85827b;
+  --eps-caramel:#b88456;
+  --eps-caramel-soft:#f4e8dc;
+  --eps-green:#4d8d6b;
+  --eps-blue:#6d8fa8;
+  --eps-shadow:0 10px 28px rgba(48,43,37,.055);
+  --eps-shadow-soft:0 5px 16px rgba(48,43,37,.035);
+}
+
+/* Canvas */
+body{
+  background:
+    radial-gradient(circle at 8% 0%,rgba(208,185,158,.10),transparent 20rem),
+    var(--eps-bg)!important;
+}
+.wrap{
+  max-width:1340px!important;
+  margin:26px auto 54px!important;
+  padding:0 22px!important;
+}
+
+/* Keep original formal hero identity; just reduce the gap below it. */
+.brand-hero{margin-bottom:14px!important}
+
+/* Reading guide becomes a compact dashboard strip instead of a large instructional card. */
+#vcpReadingGuide{
+  margin:10px 0 16px!important;
+  padding:12px 16px!important;
+  border:1px solid var(--eps-line)!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.78)!important;
+  box-shadow:var(--eps-shadow-soft)!important;
+}
+#vcpReadingGuide .guide-title{
+  color:#6f604f!important;
+  font-size:12px!important;
+  letter-spacing:.02em!important;
+}
+#vcpReadingGuide .guide-desktop{
+  color:#5f5d58!important;
+  font-size:12px!important;
+}
+#vcpReadingGuide .guide-arrow{opacity:.26!important}
+
+/* Market overview pair — this is the clearest EPS-inspired structural change. */
+.eps-market-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(330px,.8fr);
+  gap:14px;
+  align-items:start;
+  margin-bottom:18px;
+}
+.eps-market-grid .market-pulse-card,
+.eps-market-grid .market-structure-card{
+  margin:0!important;
+  border:1px solid var(--eps-line)!important;
+  background:var(--eps-paper)!important;
+  box-shadow:var(--eps-shadow)!important;
+}
+
+/* Market Pulse = primary summary card */
+.market-pulse-card{
+  position:relative;
+  padding:20px 22px!important;
+  border-radius:20px!important;
+}
+.market-pulse-card::before{
+  content:"";
+  position:absolute;
+  left:0;top:18px;bottom:18px;
+  width:4px;
+  border-radius:0 4px 4px 0;
+  background:linear-gradient(180deg,#d2a16f,#b88456);
+}
+.mp-head{padding-left:4px}
+.mp-title{
+  font-size:20px!important;
+  letter-spacing:-.25px!important;
+}
+.mp-help-btn{
+  background:#fbf8f3!important;
+  border-color:#eadfd3!important;
+  color:#755d47!important;
+}
+.mp-score{
+  font-size:42px!important;
+  letter-spacing:-1.5px!important;
+}
+.mp-signals{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:8px!important;
+  margin-top:14px!important;
+}
+.mp-signal{
+  min-height:70px;
+  padding:10px 11px!important;
+  border:1px solid #eee8e0!important;
+  border-radius:13px!important;
+  background:#fbfaf7!important;
+}
+.mp-signal span{
+  font-size:10px!important;
+  color:#8a857d!important;
+}
+.mp-signal b{font-size:15px!important}
+.mp-reason{
+  margin-top:13px!important;
+  color:#69665f!important;
+}
+.mp-meta{color:#9a958d!important}
+
+/* Market Structure = compact secondary summary */
+.market-structure-card{
+  padding:18px 18px!important;
+  border-radius:20px!important;
+  background:#fcfcfa!important;
+  box-shadow:var(--eps-shadow-soft)!important;
+}
+.market-structure-card::before{
+  content:"市場內部狀態";
+  display:block;
+  margin-bottom:9px;
+  color:#9a958d;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.ms-title{
+  font-size:17px!important;
+  letter-spacing:-.15px!important;
+}
+.ms-help-btn{
+  padding:5px 8px!important;
+  background:#fff!important;
+  border-color:#e8e2da!important;
+}
+.ms-body{
+  align-items:flex-start!important;
+  flex-direction:column!important;
+  gap:12px!important;
+}
+.ms-state{font-size:23px!important}
+.ms-metrics{
+  width:100%;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:7px!important;
+  justify-content:stretch!important;
+}
+.ms-chip{
+  padding:9px 10px!important;
+  border:1px solid #ece7e0!important;
+  border-radius:11px!important;
+  background:#fff!important;
+}
+.ms-help{
+  padding-top:10px;
+  border-top:1px solid #eee9e2;
+  color:#7b7770!important;
+}
+
+/* Single stock search feels like a utility bar, not another major panel. */
+#singleStockAnalysis{
+  margin-top:16px!important;
+  padding:14px 16px 16px;
+  border:1px solid var(--eps-line);
+  border-radius:17px;
+  background:rgba(255,255,255,.72);
+  box-shadow:var(--eps-shadow-soft);
+}
+#singleStockAnalysis>.section-title{
+  margin:0 0 9px!important;
+}
+#singleStockAnalysis>.section-title h2{
+  font-size:17px!important;
+}
+#singleStockAnalysis .marketbar{
+  margin:0 0 8px!important;
+}
+#singleStockAnalysis .search{
+  max-width:720px;
+  margin:0 0 10px!important;
+}
+
+/* Radar heading: stronger workspace hierarchy */
+.radar-section{
+  margin-top:28px!important;
+}
+.radar-section>.section-title{
+  margin-bottom:10px!important;
+  padding:0 2px 10px!important;
+  border-bottom:1px solid #dfdbd4!important;
+}
+.radar-section>.section-title h2{
+  font-size:25px!important;
+  letter-spacing:-.45px!important;
+}
+.radar-count-pill{
+  background:#fff!important;
+  border-color:#e3ddd5!important;
+  color:#6f6a62!important;
+  box-shadow:var(--eps-shadow-soft);
+}
+
+/* Freshness / switch modules are compact and data-like */
+.radar-freshness{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px!important;
+  margin-bottom:10px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+.radar-freshness[hidden]{display:none!important}
+.freshness-item{
+  min-height:54px;
+  padding:9px 11px!important;
+  border:1px solid var(--eps-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+.radar-snapshot-switch{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+  padding:5px!important;
+  margin-bottom:11px!important;
+  border:0!important;
+  border-radius:14px!important;
+  background:#eae7e2!important;
+}
+.snapshot-btn{
+  min-height:42px!important;
+  border:0!important;
+  border-radius:10px!important;
+  background:transparent!important;
+  color:#6b675f!important;
+}
+.snapshot-btn.active{
+  background:#fff!important;
+  color:#292a27!important;
+  box-shadow:0 4px 10px rgba(49,44,39,.07)!important;
+}
+
+/* Capital + themes read like small dashboard modules */
+.capital-hotspots,
+.theme-leaderboards{
+  padding:14px 15px;
+  border:1px solid var(--eps-line);
+  border-radius:18px;
+  background:var(--eps-paper);
+  box-shadow:var(--eps-shadow-soft);
+}
+.capital-hotspots{margin:11px 0!important}
+.theme-leaderboards{margin:11px 0 14px!important}
+.capital-hotspots-head h3,
+.theme-leaderboards-head h3{
+  font-size:15px!important;
+}
+.section-kicker{
+  margin-top:2px!important;
+  font-size:10px!important;
+  color:#9a958d!important;
+}
+.capital-hotspots-grid{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.capital-hotspot{
+  min-height:120px;
+  border-color:#ece7e0!important;
+  background:#fcfbf9!important;
+  box-shadow:none!important;
+}
+.theme-board{
+  border-color:#ece7e0!important;
+  box-shadow:none!important;
+}
+.theme-board-hot{
+  background:#fff9f2!important;
+  border-color:#f0dfca!important;
+}
+.theme-board-setup{
+  background:#f7f8fa!important;
+  border-color:#dde4e9!important;
+}
+
+/* Radar card = main canvas */
+.radar-card{
+  padding:16px!important;
+  border:1px solid #dfdad2!important;
+  border-radius:20px!important;
+  background:#fff!important;
+  box-shadow:0 14px 34px rgba(48,43,37,.065)!important;
+}
+.radar-intro{
+  margin:10px 0!important;
+  padding:13px 15px!important;
+  border:0!important;
+  border-radius:14px!important;
+  background:#f7f4ef!important;
+  box-shadow:none!important;
+}
+.radar-intro h2{
+  font-size:21px!important;
+  letter-spacing:-.25px!important;
+}
+.radar-summary{
+  background:#fff!important;
+  border-color:#e6dfd6!important;
+  box-shadow:none!important;
+}
+.radar-tabs{
+  gap:6px!important;
+}
+.radar-tab{
+  min-height:38px!important;
+  padding:8px 13px!important;
+  border-radius:999px!important;
+  border-color:#e3ddd5!important;
+  background:#f7f5f1!important;
+  color:#666159!important;
+}
+.radar-tab.active{
+  background:#4f4a43!important;
+  border-color:#4f4a43!important;
+  color:#fff!important;
+}
+.radar-tab[data-radar="postbreakout"].active{
+  background:#647f94!important;
+  border-color:#647f94!important;
+}
+.radar-sort{
+  min-height:38px!important;
+  border-color:#e3ddd5!important;
+  background:#fff!important;
+}
+
+/* Desktop table only. Mobile stock cards remain completely untouched. */
+@media(min-width:761px){
+  .radar-table-wrap{
+    margin-top:12px!important;
+    border:1px solid #ebe6df!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+  }
+  .radar-table{margin-top:0!important}
+  .radar-table th{
+    padding:11px 8px!important;
+    background:#f7f5f1!important;
+    border-bottom-color:#e5e0d9!important;
+    color:#7b7770!important;
+  }
+  .radar-table td{
+    padding:11px 8px!important;
+    border-bottom-color:#efebe5!important;
+  }
+  .radar-table tbody tr:nth-child(even){background:#fdfcfb}
+}
+
+/* Tablet */
+@media(max-width:980px) and (min-width:761px){
+  .eps-market-grid{
+    grid-template-columns:minmax(0,1.35fr) minmax(300px,.9fr);
+  }
+  .mp-signals{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .capital-hotspots-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+}
+
+/* Mobile: same design language, stacked and compact */
+@media(max-width:760px){
+  .wrap{
+    margin:12px auto 34px!important;
+    padding:0 11px!important;
+  }
+
+  #vcpReadingGuide{
+    margin:8px 0 11px!important;
+    padding:12px 13px!important;
+    border-radius:14px!important;
+    box-shadow:none!important;
+  }
+  #vcpReadingGuide .guide-title{
+    font-size:13px!important;
+    margin-bottom:11px!important;
+  }
+  #vcpReadingGuide .guide-step{
+    padding-bottom:11px!important;
+  }
+
+  .eps-market-grid{
+    display:block;
+    margin-bottom:12px;
+  }
+  .eps-market-grid .market-pulse-card{
+    margin-bottom:8px!important;
+  }
+  .market-pulse-card{
+    padding:13px!important;
+    border-radius:15px!important;
+  }
+  .market-pulse-card::before{
+    top:13px;bottom:13px;width:3px;
+  }
+  .mp-title{font-size:16px!important}
+  .mp-score{font-size:30px!important}
+  .mp-signals{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:5px!important;
+    margin-top:9px!important;
+  }
+  .mp-signal{
+    min-height:0;
+    padding:7px!important;
+    border-radius:9px!important;
+  }
+  .mp-signal span{font-size:9px!important}
+  .mp-signal b{font-size:12px!important}
+
+  .market-structure-card{
+    padding:12px 13px!important;
+    border-radius:14px!important;
+  }
+  .market-structure-card::before{
+    margin-bottom:6px;
+    font-size:7.5px;
+  }
+  .ms-title{font-size:15px!important}
+  .ms-state{font-size:19px!important}
+  .ms-body{gap:8px!important}
+  .ms-metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .ms-chip{
+    padding:6px 7px!important;
+    font-size:9.5px!important;
+  }
+
+  #singleStockAnalysis{
+    margin-top:10px!important;
+    padding:11px!important;
+    border-radius:14px;
+    box-shadow:none;
+  }
+
+  .radar-section{margin-top:19px!important}
+  .radar-section>.section-title h2{font-size:21px!important}
+
+  .radar-freshness{
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+  .freshness-item{
+    min-height:0;
+    border-radius:10px!important;
+  }
+
+  .capital-hotspots,
+  .theme-leaderboards{
+    padding:11px!important;
+    border-radius:14px!important;
+    box-shadow:none!important;
+  }
+  .capital-hotspots-grid{
+    display:flex!important;
+    overflow-x:auto!important;
+    gap:7px!important;
+    padding-bottom:2px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .capital-hotspot{
+    flex:0 0 165px!important;
+    min-width:165px!important;
+  }
+
+  .radar-card{
+    padding:10px!important;
+    border-radius:16px!important;
+  }
+  .radar-intro{
+    padding:10px 11px!important;
+    border-radius:12px!important;
+  }
+  .radar-intro h2{font-size:18px!important}
+  .radar-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+  .radar-tab{
+    width:100%!important;
+    min-height:37px!important;
+    padding:7px 5px!important;
+    border-radius:10px!important;
+    font-size:10.5px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -1904,6 +2421,7 @@ body{
   </div>
 </div>
 
+<div class="eps-market-grid">
 <section class="market-pulse-card" id="marketPulseCard" aria-live="polite">
   <div class="mp-head">
     <div class="mp-title-row">
@@ -1957,6 +2475,7 @@ body{
     <p style="font-size:11px;color:#918a80">研究規則已於 2026/09/17 凍結，目前持續累積 OOS 資料；不代表未來報酬，也不是台指期或個股買賣訊號。</p>
   </div>
 </section>
+</div>
 
 <div class="section" id="singleStockAnalysis">
   <div class="section-title">
