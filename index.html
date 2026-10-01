@@ -1752,6 +1752,58 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 }
 </style>
 
+
+<style>
+/* ===== Return highlight pure yellow v5.1 ===== */
+
+/* Keep the whole returned stock card in a clean cream-yellow state.
+   No brown/tan glow in the middle phase. */
+.mobile-stock-card.radar-return-highlight-3s{
+  animation:vcpReturnCardHighlightPureYellow 3s ease-out!important;
+}
+
+@keyframes vcpReturnCardHighlightPureYellow{
+  0%{
+    background:#fff1b8!important;
+    border-color:#f1d36f!important;
+    box-shadow:
+      0 0 0 4px rgba(244,201,62,.30),
+      0 8px 22px rgba(244,201,62,.12)!important;
+  }
+  18%,72%{
+    background:#fff8d9!important;
+    border-color:#f0dda0!important;
+    box-shadow:
+      0 0 0 3px rgba(244,201,62,.20),
+      0 6px 18px rgba(244,201,62,.08)!important;
+  }
+  100%{
+    background:#fff!important;
+    border-color:#e7dfd5!important;
+    box-shadow:0 5px 14px rgba(65,51,37,.04)!important;
+  }
+}
+
+/* Desktop/table equivalent */
+.radar-return-highlight-3s{
+  animation:vcpReturnHighlightPureYellow 3s ease-out!important;
+}
+@keyframes vcpReturnHighlightPureYellow{
+  0%{
+    background:#fff1b8!important;
+    box-shadow:0 0 0 4px rgba(244,201,62,.30)!important;
+  }
+  18%,72%{
+    background:#fff8d9!important;
+    box-shadow:0 0 0 3px rgba(244,201,62,.20)!important;
+  }
+  100%{
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
