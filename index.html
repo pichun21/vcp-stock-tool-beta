@@ -4149,34 +4149,51 @@ function renderRadar(filter='all'){
    setMarket(market,{reset:false});
    $('symbol').value=symbol;
 
-   // Desktop keeps the original section-first behavior. On mobile, run the
-   // analysis first and then land directly on the existing VCP chart card.
+   // Desktop keeps the original section-first behavior.
+   // Mobile starts moving immediately, then runs the analysis while the page is scrolling.
+   // This removes the tiny pause caused by waiting for run() before starting the scroll.
    const input=$('symbol');
    const singleSection=input?.closest('.section') || input;
-   if(window.matchMedia('(min-width:761px)').matches && singleSection){
+   const isMobile=window.matchMedia('(max-width:760px)').matches;
+
+   const getMobileTargetY=()=>{
+     const chart=$('chart');
+     const chartCard=chart?.closest('.card') || chart || singleSection;
+     if(!chartCard) return null;
+     const stickyBar=document.getElementById('userBar');
+     const stickyH=(stickyBar && getComputedStyle(stickyBar).display!=='none')
+       ? stickyBar.getBoundingClientRect().height : 0;
+     const gap=12;
+     return Math.max(0,
+       (window.pageYOffset||document.documentElement.scrollTop||0)
+       + chartCard.getBoundingClientRect().top - stickyH - gap
+     );
+   };
+
+   if(isMobile){
+     const y=getMobileTargetY();
+     if(y!=null){
+       try{ window.scrollTo({top:y,behavior:'smooth'}); }
+       catch(e){ window.scrollTo(0,y); }
+     }
+   }else if(singleSection){
      singleSection.scrollIntoView({behavior:'smooth',block:'start'});
    }
 
    await run();
 
-   if(window.matchMedia('(max-width:760px)').matches){
-     const chart=$('chart');
-     const chartCard=chart?.closest('.card') || chart;
-     if(chartCard){
-       requestAnimationFrame(()=>{
-         // V2.41.51: keep the stock name/title visible below the sticky login bar.
-         // scrollIntoView(block:start) placed the top of the card underneath #userBar,
-         // so users landed on the chart without seeing which stock they were viewing.
-         const stickyBar=document.getElementById('userBar');
-         const stickyH=(stickyBar && getComputedStyle(stickyBar).display!=='none')
-           ? stickyBar.getBoundingClientRect().height : 0;
-         const gap=12;
-         const y=(window.pageYOffset||document.documentElement.scrollTop||0)
-           + chartCard.getBoundingClientRect().top - stickyH - gap;
-         try{ window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }
-         catch(e){ window.scrollTo(0,Math.max(0,y)); }
-       });
-     }
+   if(isMobile){
+     // run() can slightly change element height. Correct only when necessary,
+     // and do it without a second visible smooth-scroll animation.
+     requestAnimationFrame(()=>{
+       const y=getMobileTargetY();
+       if(y==null) return;
+       const now=window.pageYOffset||document.documentElement.scrollTop||0;
+       if(Math.abs(now-y)>18){
+         try{ window.scrollTo({top:y,behavior:'auto'}); }
+         catch(e){ window.scrollTo(0,y); }
+       }
+     });
    }
  };
 
