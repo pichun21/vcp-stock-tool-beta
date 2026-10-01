@@ -1422,22 +1422,23 @@ body.help-modal-open{overflow:hidden}
 </style>
 
 <style>
-/* ===== VCPulse Soft Refine SAFE v5 · latest formal baseline ===== */
+/* ===== VCPulse SAFE UI REFINE v6 =====
+   Latest formal baseline.
+   IMPORTANT: stock cards + return highlight are intentionally untouched. */
 :root{
-  --soft-bg:#f7f4ee;
-  --soft-paper:#fffdfa;
-  --soft-ink:#282521;
-  --soft-muted:#7c766e;
-  --soft-line:#e7dfd5;
-  --soft-caramel:#b98250;
-  --soft-shadow:0 8px 24px rgba(65,51,37,.045);
-  --soft-shadow-strong:0 12px 32px rgba(65,51,37,.07);
+  --safe-bg:#f7f4ee;
+  --safe-paper:#fffdfa;
+  --safe-ink:#282521;
+  --safe-muted:#7c766e;
+  --safe-line:#e7dfd5;
+  --safe-caramel:#b98250;
+  --safe-shadow:0 8px 24px rgba(65,51,37,.045);
 }
 body{
   background:
     radial-gradient(circle at 90% 0%,rgba(205,174,139,.10),transparent 24rem),
-    var(--soft-bg)!important;
-  color:var(--soft-ink)!important;
+    var(--safe-bg)!important;
+  color:var(--safe-ink)!important;
 }
 .wrap{
   max-width:1320px!important;
@@ -1445,23 +1446,16 @@ body{
   padding:0 22px!important;
 }
 
-/* Do NOT restyle brand-hero: keep the latest formal-site header exactly as designed. */
-
-/* Unified card language below the hero */
-.card,
-.market-pulse-card,
-.market-structure-card,
-.radar-card{
-  border-color:var(--soft-line)!important;
-  box-shadow:var(--soft-shadow);
-}
+/* Header/hero intentionally remains formal-site original. */
 
 /* Market Pulse */
 .market-pulse-card{
   padding:19px 21px!important;
   margin-bottom:12px!important;
+  border:1px solid var(--safe-line)!important;
   border-radius:20px!important;
   background:linear-gradient(135deg,#fffdfa 0%,#fcf7f0 100%)!important;
+  box-shadow:var(--safe-shadow)!important;
 }
 .mp-title{font-size:19px!important;letter-spacing:-.2px!important}
 .mp-beta{background:#f1e7dc!important;color:#8b6544!important}
@@ -1469,16 +1463,17 @@ body{
 .mp-signals{gap:7px!important;margin-top:12px!important}
 .mp-signal{
   padding:9px!important;
-  border:1px solid #ece4da;
+  border:1px solid #ece4da!important;
   background:rgba(255,255,255,.72)!important;
   border-radius:11px!important;
 }
 .mp-reason{color:#686158!important}
 
-/* Market Structure stays a little quieter */
+/* Market Structure */
 .market-structure-card{
   padding:17px 20px!important;
   margin-bottom:16px!important;
+  border:1px solid var(--safe-line)!important;
   border-radius:18px!important;
   background:#faf9f6!important;
   box-shadow:none!important;
@@ -1489,7 +1484,7 @@ body{
 .ms-chip{
   padding:7px 9px!important;
   background:#fff!important;
-  border:1px solid #e7e1d8;
+  border:1px solid #e7e1d8!important;
 }
 .ms-help{color:#7d756c!important;font-size:11px!important}
 
@@ -1498,7 +1493,7 @@ body{
 .section-title h2{color:#2d2925!important;letter-spacing:-.25px!important}
 .section-title .muted{color:#918a82!important}
 
-/* Single-stock controls */
+/* Single-stock search/control area only — NOT result cards */
 #singleStockAnalysis{margin-top:18px!important}
 #singleStockAnalysis .marketbar{margin:10px 0 7px!important}
 .marketbtn{
@@ -1515,13 +1510,12 @@ body{
 .search{gap:7px!important;margin:8px 0 14px!important}
 .search input{border-color:#dfd7cc!important;background:#fff!important}
 .search button{background:#4f473f!important;color:#fff!important;box-shadow:none!important}
-.search button:hover{background:#403a34!important}
 
-/* Radar work area */
+/* Radar wrapper + controls only — stock cards are excluded */
 .radar-section{margin-top:26px!important}
 .radar-section>.section-title{
-  padding-bottom:9px;
-  border-bottom:1px solid #e5ddd3;
+  padding-bottom:9px!important;
+  border-bottom:1px solid #e5ddd3!important;
 }
 .radar-section>.section-title h2{
   font-size:25px!important;
@@ -1534,8 +1528,10 @@ body{
 }
 .radar-card{
   padding:16px!important;
+  border:1px solid var(--safe-line)!important;
   border-radius:20px!important;
-  box-shadow:var(--soft-shadow-strong)!important;
+  background:var(--safe-paper)!important;
+  box-shadow:0 12px 32px rgba(65,51,37,.07)!important;
 }
 .radar-intro{
   margin:12px 0 10px!important;
@@ -1553,7 +1549,6 @@ body{
   box-shadow:none!important;
 }
 
-/* Snapshot + freshness */
 .radar-freshness{
   gap:7px!important;
   margin-bottom:10px!important;
@@ -1586,7 +1581,6 @@ body{
   box-shadow:0 3px 9px rgba(68,52,37,.08)!important;
 }
 
-/* Radar tabs */
 .radar-tabs{gap:6px!important}
 .radar-tab{
   border-radius:999px!important;
@@ -1607,25 +1601,26 @@ body{
 }
 .radar-sort{border-color:#dfd7cd!important;background-color:#fff!important}
 
-/* Table */
-.radar-table-wrap{
-  margin-top:11px!important;
-  border:1px solid #ebe4db;
-  border-radius:14px;
-  overflow:hidden;
+/* Desktop table only; mobile cards remain untouched */
+@media(min-width:761px){
+  .radar-table-wrap{
+    margin-top:11px!important;
+    border:1px solid #ebe4db!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+  }
+  .radar-table{margin-top:0!important}
+  .radar-table th{
+    padding:11px 8px!important;
+    background:#f8f5f0!important;
+    color:#7c756d!important;
+    border-bottom:1px solid #e5ddd4!important;
+  }
+  .radar-table td{
+    padding:11px 8px!important;
+    border-bottom-color:#eee8e0!important;
+  }
 }
-.radar-table{margin-top:0!important}
-.radar-table th{
-  padding:11px 8px!important;
-  background:#f8f5f0!important;
-  color:#7c756d!important;
-  border-bottom:1px solid #e5ddd4!important;
-}
-.radar-table td{
-  padding:11px 8px!important;
-  border-bottom-color:#eee8e0!important;
-}
-.radar-table tbody tr:hover{background:#fcf8f3}
 
 /* Supporting modules */
 .market-index-card,
@@ -1639,44 +1634,10 @@ body{
 .theme-board-hot{background:#fffaf3!important}
 .theme-board-setup{background:#faf8fc!important}
 
-/* Mobile stock cards: NO !important on background, so formal yellow highlight animation can win */
-.mobile-stock-card{
-  border-color:#e7dfd5!important;
-  background:#fff;
-  box-shadow:0 5px 14px rgba(65,51,37,.04);
-}
-.mobile-metrics{
-  border-top:0!important;
-  border-radius:11px;
-  padding:8px 9px!important;
-  background:#f8f6f2;
-}
-.mobile-analysis-btn{
-  background:#6b523c!important;
-  border-color:#6b523c!important;
-  box-shadow:none!important;
-}
-
-/* Explicitly preserve the formal return-highlight behavior */
-.mobile-stock-card.radar-return-highlight-3s{
-  animation:vcpReturnCardHighlight3s 3s ease-out!important;
-}
-.radar-return-highlight-3s{
-  animation:vcpReturnHighlight3s 3s ease-out!important;
-}
-
-/* Accessibility */
-button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{
-  outline:3px solid rgba(185,130,80,.22)!important;
-  outline-offset:2px!important;
-}
-
-/* Tablet */
 @media(max-width:900px){
   .wrap{padding:0 15px!important}
 }
 
-/* Mobile */
 @media(max-width:760px){
   .wrap{
     margin:12px auto 34px!important;
@@ -1741,121 +1702,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
     padding:8px 5px!important;
     font-size:10.5px!important;
   }
-
-  .mobile-stock-card{
-    margin-top:7px!important;
-    padding:12px!important;
-    border-radius:15px!important;
-  }
-  .mobile-stock-name{font-size:16px!important}
-  .mobile-signal{font-size:10px!important}
-}
-</style>
-
-
-<style>
-/* ===== Return highlight pure yellow v5.1 ===== */
-
-/* Keep the whole returned stock card in a clean cream-yellow state.
-   No brown/tan glow in the middle phase. */
-.mobile-stock-card.radar-return-highlight-3s{
-  animation:vcpReturnCardHighlightPureYellow 3s ease-out!important;
-}
-
-@keyframes vcpReturnCardHighlightPureYellow{
-  0%{
-    background:#fff1b8!important;
-    border-color:#f1d36f!important;
-    box-shadow:
-      0 0 0 4px rgba(244,201,62,.30),
-      0 8px 22px rgba(244,201,62,.12)!important;
-  }
-  18%,72%{
-    background:#fff8d9!important;
-    border-color:#f0dda0!important;
-    box-shadow:
-      0 0 0 3px rgba(244,201,62,.20),
-      0 6px 18px rgba(244,201,62,.08)!important;
-  }
-  100%{
-    background:#fff!important;
-    border-color:#e7dfd5!important;
-    box-shadow:0 5px 14px rgba(65,51,37,.04)!important;
-  }
-}
-
-/* Desktop/table equivalent */
-.radar-return-highlight-3s{
-  animation:vcpReturnHighlightPureYellow 3s ease-out!important;
-}
-@keyframes vcpReturnHighlightPureYellow{
-  0%{
-    background:#fff1b8!important;
-    box-shadow:0 0 0 4px rgba(244,201,62,.30)!important;
-  }
-  18%,72%{
-    background:#fff8d9!important;
-    box-shadow:0 0 0 3px rgba(244,201,62,.20)!important;
-  }
-  100%{
-    background:transparent!important;
-    box-shadow:none!important;
-  }
-}
-</style>
-
-
-<style>
-/* ===== Return highlight inner panels sync v5.2 ===== */
-
-/* The outer card was turning yellow, but .mobile-metrics has its own background.
-   Synchronize the inner panel so the whole card reads as one yellow highlight. */
-.mobile-stock-card.radar-return-highlight-3s .mobile-metrics{
-  animation:vcpReturnMetricsHighlight 3s ease-out!important;
-}
-
-@keyframes vcpReturnMetricsHighlight{
-  0%{
-    background:#ffefad!important;
-    border-color:#efd26a!important;
-  }
-  18%,72%{
-    background:#fff6cf!important;
-    border-color:#eedb99!important;
-  }
-  100%{
-    background:#f8f6f2!important;
-    border-color:transparent!important;
-  }
-}
-
-/* Keep the smaller chips visually coherent while highlighted,
-   without wiping out their semantic text/colors. */
-.mobile-stock-card.radar-return-highlight-3s .mobile-signal{
-  animation:vcpReturnChipHighlight 3s ease-out!important;
-}
-@keyframes vcpReturnChipHighlight{
-  0%{
-    background:#fff4c5!important;
-    border-color:#ecd47e!important;
-  }
-  18%,72%{
-    background:#fff9df!important;
-    border-color:#eadca8!important;
-  }
-  100%{
-    background:#f7f3ed!important;
-    border-color:#ece4da!important;
-  }
-}
-
-/* The reason area should not look like a separate brown block during the flash. */
-.mobile-stock-card.radar-return-highlight-3s .mobile-why{
-  animation:vcpReturnWhyBorderHighlight 3s ease-out!important;
-}
-@keyframes vcpReturnWhyBorderHighlight{
-  0%,72%{border-top-color:#ead58b!important}
-  100%{border-top-color:#eee7de!important}
 }
 </style>
 
