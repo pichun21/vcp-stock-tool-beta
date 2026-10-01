@@ -1707,295 +1707,243 @@ body{
 
 
 <style>
-/* ===== VCPulse EPS Dashboard Refine v7 =====
-   Inspired by the user's attached dashboard artwork:
-   light canvas, white modules, soft shadow, restrained accent color.
-   Stock cards + yellow return highlight remain untouched. */
+/* ===== VCPulse Dashboard v8 structural redesign =====
+   Real layout change inspired by the attached EPS dashboard.
+   Stock result cards and return highlight are intentionally untouched. */
 
 :root{
-  --eps-bg:#f6f4ef;
-  --eps-paper:#ffffff;
-  --eps-paper-soft:#fbfaf7;
-  --eps-line:#ebe6df;
-  --eps-ink:#262824;
-  --eps-muted:#85827b;
-  --eps-caramel:#b88456;
-  --eps-caramel-soft:#f4e8dc;
-  --eps-green:#4d8d6b;
-  --eps-blue:#6d8fa8;
-  --eps-shadow:0 10px 28px rgba(48,43,37,.055);
-  --eps-shadow-soft:0 5px 16px rgba(48,43,37,.035);
+  --v8-bg:#f4f2ee;
+  --v8-card:#ffffff;
+  --v8-soft:#faf8f4;
+  --v8-line:#e8e2da;
+  --v8-ink:#252622;
+  --v8-muted:#85817a;
+  --v8-caramel:#b78659;
+  --v8-caramel-soft:#f2e6da;
+  --v8-blue:#6f8fa6;
+  --v8-green:#5d8c70;
+  --v8-shadow:0 12px 30px rgba(46,42,37,.055);
+  --v8-shadow-soft:0 6px 18px rgba(46,42,37,.035);
 }
 
-/* Canvas */
 body{
   background:
-    radial-gradient(circle at 8% 0%,rgba(208,185,158,.10),transparent 20rem),
-    var(--eps-bg)!important;
+    radial-gradient(circle at 4% 0%,rgba(201,178,151,.12),transparent 26rem),
+    var(--v8-bg)!important;
 }
 .wrap{
-  max-width:1340px!important;
-  margin:26px auto 54px!important;
+  max-width:1380px!important;
+  margin:24px auto 56px!important;
   padding:0 22px!important;
 }
 
-/* Keep original formal hero identity; just reduce the gap below it. */
-.brand-hero{margin-bottom:14px!important}
+/* Hero: retain formal design, slightly tighter below */
+.brand-hero{margin-bottom:12px!important}
 
-/* Reading guide becomes a compact dashboard strip instead of a large instructional card. */
+/* Reading guide becomes a slim dashboard navigation cue */
 #vcpReadingGuide{
-  margin:10px 0 16px!important;
-  padding:12px 16px!important;
-  border:1px solid var(--eps-line)!important;
-  border-radius:16px!important;
-  background:rgba(255,255,255,.78)!important;
-  box-shadow:var(--eps-shadow-soft)!important;
+  margin:0 0 14px!important;
+  padding:9px 13px!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.58)!important;
+  box-shadow:none!important;
 }
 #vcpReadingGuide .guide-title{
-  color:#6f604f!important;
-  font-size:12px!important;
-  letter-spacing:.02em!important;
+  color:#8e735d!important;
+  font-size:11px!important;
 }
 #vcpReadingGuide .guide-desktop{
-  color:#5f5d58!important;
-  font-size:12px!important;
+  color:#77736d!important;
+  font-size:11px!important;
 }
-#vcpReadingGuide .guide-arrow{opacity:.26!important}
+#vcpReadingGuide .guide-arrow{
+  margin:0 5px!important;
+  opacity:.26!important;
+}
 
-/* Market overview pair — this is the clearest EPS-inspired structural change. */
-.eps-market-grid{
+/* ===== REAL dashboard overview ===== */
+.v8-dashboard-overview{
+  margin:0 0 20px;
+  padding:18px;
+  border:1px solid var(--v8-line);
+  border-radius:24px;
+  background:rgba(255,255,255,.52);
+  box-shadow:var(--v8-shadow-soft);
+}
+.v8-overview-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin:0 2px 14px;
+}
+.v8-overview-head h2{
+  margin:2px 0 0;
+  font-size:22px;
+  letter-spacing:-.35px;
+  color:#292a26;
+}
+.v8-kicker{
+  font-size:9px;
+  letter-spacing:.18em;
+  font-weight:900;
+  color:#aa7b52;
+}
+.v8-overview-note{
+  font-size:11px;
+  color:#8d8982;
+}
+
+.v8-market-row{
   display:grid;
-  grid-template-columns:minmax(0,1.6fr) minmax(330px,.8fr);
-  gap:14px;
-  align-items:start;
-  margin-bottom:18px;
-}
-.eps-market-grid .market-pulse-card,
-.eps-market-grid .market-structure-card{
-  margin:0!important;
-  border:1px solid var(--eps-line)!important;
-  background:var(--eps-paper)!important;
-  box-shadow:var(--eps-shadow)!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);
+  gap:12px;
+  align-items:stretch;
 }
 
-/* Market Pulse = primary summary card */
-.market-pulse-card{
+/* Market Pulse = hero data card */
+.v8-market-row .market-pulse-card{
   position:relative;
+  margin:0!important;
   padding:20px 22px!important;
-  border-radius:20px!important;
+  border:1px solid var(--v8-line)!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:var(--v8-shadow)!important;
 }
-.market-pulse-card::before{
+.v8-market-row .market-pulse-card::before{
   content:"";
   position:absolute;
-  left:0;top:18px;bottom:18px;
+  left:0;
+  top:20px;
+  bottom:20px;
   width:4px;
   border-radius:0 4px 4px 0;
-  background:linear-gradient(180deg,#d2a16f,#b88456);
+  background:linear-gradient(#d6a273,#b57c4b);
 }
-.mp-head{padding-left:4px}
-.mp-title{
-  font-size:20px!important;
-  letter-spacing:-.25px!important;
-}
-.mp-help-btn{
-  background:#fbf8f3!important;
-  border-color:#eadfd3!important;
-  color:#755d47!important;
-}
-.mp-score{
-  font-size:42px!important;
-  letter-spacing:-1.5px!important;
-}
+.mp-title{font-size:19px!important;letter-spacing:-.2px!important}
+.mp-score{font-size:42px!important;letter-spacing:-1.5px!important}
 .mp-signals{
+  display:grid!important;
   grid-template-columns:repeat(3,minmax(0,1fr))!important;
-  gap:8px!important;
-  margin-top:14px!important;
+  gap:7px!important;
+  margin-top:13px!important;
 }
 .mp-signal{
-  min-height:70px;
-  padding:10px 11px!important;
-  border:1px solid #eee8e0!important;
-  border-radius:13px!important;
+  min-height:66px!important;
+  padding:9px 10px!important;
+  border:1px solid #eee8e1!important;
+  border-radius:12px!important;
   background:#fbfaf7!important;
 }
-.mp-signal span{
-  font-size:10px!important;
-  color:#8a857d!important;
-}
-.mp-signal b{font-size:15px!important}
-.mp-reason{
-  margin-top:13px!important;
-  color:#69665f!important;
-}
-.mp-meta{color:#9a958d!important}
+.mp-signal span{font-size:9.5px!important;color:#89857f!important}
+.mp-signal b{font-size:14px!important}
 
-/* Market Structure = compact secondary summary */
-.market-structure-card{
-  padding:18px 18px!important;
-  border-radius:20px!important;
-  background:#fcfcfa!important;
-  box-shadow:var(--eps-shadow-soft)!important;
-}
-.market-structure-card::before{
-  content:"市場內部狀態";
-  display:block;
-  margin-bottom:9px;
-  color:#9a958d;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.12em;
-}
-.ms-title{
-  font-size:17px!important;
-  letter-spacing:-.15px!important;
-}
-.ms-help-btn{
-  padding:5px 8px!important;
+/* Structure = compact secondary KPI card */
+.v8-market-row .market-structure-card{
+  margin:0!important;
+  padding:18px!important;
+  border:1px solid var(--v8-line)!important;
+  border-radius:18px!important;
   background:#fff!important;
-  border-color:#e8e2da!important;
+  box-shadow:var(--v8-shadow-soft)!important;
 }
+.ms-head{align-items:flex-start!important}
+.ms-title{font-size:16px!important}
 .ms-body{
-  align-items:flex-start!important;
   flex-direction:column!important;
-  gap:12px!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  margin-top:13px!important;
 }
 .ms-state{font-size:23px!important}
 .ms-metrics{
-  width:100%;
   display:grid!important;
   grid-template-columns:1fr 1fr!important;
   gap:7px!important;
-  justify-content:stretch!important;
+  width:100%;
 }
 .ms-chip{
-  padding:9px 10px!important;
+  padding:9px!important;
   border:1px solid #ece7e0!important;
   border-radius:11px!important;
-  background:#fff!important;
+  background:#faf9f7!important;
 }
 .ms-help{
-  padding-top:10px;
-  border-top:1px solid #eee9e2;
-  color:#7b7770!important;
+  margin-top:12px!important;
+  padding-top:10px!important;
+  border-top:1px solid #eee9e3!important;
+  font-size:10.5px!important;
+  line-height:1.5!important;
+  color:#807b74!important;
 }
 
-/* Single stock search feels like a utility bar, not another major panel. */
-#singleStockAnalysis{
-  margin-top:16px!important;
-  padding:14px 16px 16px;
-  border:1px solid var(--eps-line);
-  border-radius:17px;
-  background:rgba(255,255,255,.72);
-  box-shadow:var(--eps-shadow-soft);
+/* Second dashboard row: funding direction + themes */
+.v8-direction-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:12px;
+  margin-top:12px;
 }
-#singleStockAnalysis>.section-title{
-  margin:0 0 9px!important;
+.v8-direction-panel{
+  min-width:0;
 }
-#singleStockAnalysis>.section-title h2{
-  font-size:17px!important;
+.v8-direction-panel .capital-hotspots,
+.v8-direction-panel .theme-leaderboards{
+  display:block;
+  height:100%;
+  margin:0!important;
+  padding:14px!important;
+  border:1px solid var(--v8-line)!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:var(--v8-shadow-soft)!important;
 }
-#singleStockAnalysis .marketbar{
-  margin:0 0 8px!important;
-}
-#singleStockAnalysis .search{
-  max-width:720px;
-  margin:0 0 10px!important;
-}
-
-/* Radar heading: stronger workspace hierarchy */
-.radar-section{
-  margin-top:28px!important;
-}
-.radar-section>.section-title{
+.v8-direction-panel .capital-hotspots[hidden],
+.v8-direction-panel .theme-leaderboards[hidden]{display:none!important}
+.capital-hotspots-head,
+.theme-leaderboards-head{
+  align-items:flex-start!important;
   margin-bottom:10px!important;
-  padding:0 2px 10px!important;
-  border-bottom:1px solid #dfdbd4!important;
 }
-.radar-section>.section-title h2{
-  font-size:25px!important;
-  letter-spacing:-.45px!important;
-}
-.radar-count-pill{
-  background:#fff!important;
-  border-color:#e3ddd5!important;
-  color:#6f6a62!important;
-  box-shadow:var(--eps-shadow-soft);
-}
-
-/* Freshness / switch modules are compact and data-like */
-.radar-freshness{
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:8px!important;
-  margin-bottom:10px!important;
-  padding:0!important;
-  border:0!important;
-  background:transparent!important;
-}
-.radar-freshness[hidden]{display:none!important}
-.freshness-item{
-  min-height:54px;
-  padding:9px 11px!important;
-  border:1px solid var(--eps-line)!important;
-  border-radius:12px!important;
-  background:#fff!important;
-  box-shadow:none!important;
-}
-.radar-snapshot-switch{
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  gap:5px!important;
-  padding:5px!important;
-  margin-bottom:11px!important;
-  border:0!important;
-  border-radius:14px!important;
-  background:#eae7e2!important;
-}
-.snapshot-btn{
-  min-height:42px!important;
-  border:0!important;
-  border-radius:10px!important;
-  background:transparent!important;
-  color:#6b675f!important;
-}
-.snapshot-btn.active{
-  background:#fff!important;
-  color:#292a27!important;
-  box-shadow:0 4px 10px rgba(49,44,39,.07)!important;
-}
-
-/* Capital + themes read like small dashboard modules */
-.capital-hotspots,
-.theme-leaderboards{
-  padding:14px 15px;
-  border:1px solid var(--eps-line);
-  border-radius:18px;
-  background:var(--eps-paper);
-  box-shadow:var(--eps-shadow-soft);
-}
-.capital-hotspots{margin:11px 0!important}
-.theme-leaderboards{margin:11px 0 14px!important}
 .capital-hotspots-head h3,
 .theme-leaderboards-head h3{
+  margin:0!important;
   font-size:15px!important;
+  letter-spacing:-.15px!important;
 }
 .section-kicker{
   margin-top:2px!important;
-  font-size:10px!important;
-  color:#9a958d!important;
+  font-size:9.5px!important;
+  color:#97928b!important;
 }
 .capital-hotspots-grid{
+  display:grid!important;
   grid-template-columns:repeat(5,minmax(0,1fr))!important;
-  gap:7px!important;
+  gap:6px!important;
 }
 .capital-hotspot{
-  min-height:120px;
-  border-color:#ece7e0!important;
+  min-width:0!important;
+  padding:9px!important;
+  border:1px solid #eee9e2!important;
+  border-radius:11px!important;
   background:#fcfbf9!important;
   box-shadow:none!important;
 }
+.capital-top5-badge{
+  background:#faf4ed!important;
+  color:#a57751!important;
+}
+.theme-leaderboards-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:8px!important;
+}
 .theme-board{
-  border-color:#ece7e0!important;
+  padding:10px!important;
+  border:1px solid #ece7e0!important;
+  border-radius:12px!important;
   box-shadow:none!important;
 }
 .theme-board-hot{
@@ -2003,66 +1951,141 @@ body{
   border-color:#f0dfca!important;
 }
 .theme-board-setup{
-  background:#f7f8fa!important;
-  border-color:#dde4e9!important;
+  background:#f6f8fa!important;
+  border-color:#dde5ea!important;
 }
 
-/* Radar card = main canvas */
+/* Single-stock utility visually separates dashboard from work area */
+#singleStockAnalysis{
+  margin:18px 0 24px!important;
+  padding:14px 16px 16px;
+  border:1px solid var(--v8-line);
+  border-radius:17px;
+  background:rgba(255,255,255,.72);
+  box-shadow:var(--v8-shadow-soft);
+}
+#singleStockAnalysis>.section-title{
+  margin:0 0 9px!important;
+}
+#singleStockAnalysis>.section-title h2{
+  font-size:17px!important;
+}
+#singleStockAnalysis .marketbar{margin:0 0 8px!important}
+#singleStockAnalysis .search{
+  max-width:720px;
+  margin:0 0 10px!important;
+}
+
+/* Daily Radar becomes the big primary work canvas */
+.radar-section{
+  margin-top:28px!important;
+}
+.radar-section>.section-title{
+  padding:0 2px 11px!important;
+  margin-bottom:10px!important;
+  border-bottom:1px solid #dcd7d0!important;
+}
+.radar-section>.section-title h2{
+  font-size:27px!important;
+  letter-spacing:-.55px!important;
+}
+.radar-head-meta{
+  align-items:center!important;
+}
+.radar-count-pill{
+  padding:7px 11px!important;
+  border:1px solid #e0dad2!important;
+  background:#fff!important;
+  box-shadow:var(--v8-shadow-soft)!important;
+}
+.radar-market-switch{
+  margin:9px 0!important;
+  padding:4px!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:#e9e6e1!important;
+}
+.radar-market-btn{
+  min-height:36px!important;
+  border:0!important;
+  border-radius:9px!important;
+}
+.radar-market-btn.active{
+  background:#fff!important;
+  color:#2b2c28!important;
+  box-shadow:0 3px 9px rgba(45,40,35,.07)!important;
+}
+
+/* These were moved to dashboard overview, so radar begins directly with live controls */
+.user-live-refresh{
+  margin:10px 0!important;
+  padding:9px 11px!important;
+  border:1px solid var(--v8-line)!important;
+  border-radius:12px!important;
+  background:#fbfaf8!important;
+}
 .radar-card{
-  padding:16px!important;
-  border:1px solid #dfdad2!important;
+  padding:17px!important;
+  border:1px solid #ddd8d1!important;
   border-radius:20px!important;
   background:#fff!important;
-  box-shadow:0 14px 34px rgba(48,43,37,.065)!important;
+  box-shadow:0 14px 34px rgba(46,42,37,.065)!important;
 }
-.radar-intro{
-  margin:10px 0!important;
-  padding:13px 15px!important;
+.radar-snapshot-switch{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+  padding:5px!important;
   border:0!important;
   border-radius:14px!important;
-  background:#f7f4ef!important;
-  box-shadow:none!important;
+  background:#eae7e2!important;
 }
-.radar-intro h2{
-  font-size:21px!important;
-  letter-spacing:-.25px!important;
+.snapshot-btn{
+  min-height:44px!important;
+  border:0!important;
+  border-radius:10px!important;
+  background:transparent!important;
+  color:#67635d!important;
 }
-.radar-summary{
+.snapshot-btn.active{
   background:#fff!important;
-  border-color:#e6dfd6!important;
-  box-shadow:none!important;
+  color:#282925!important;
+  box-shadow:0 4px 11px rgba(45,40,35,.08)!important;
 }
-.radar-tabs{
-  gap:6px!important;
+.radar-head{
+  margin-top:13px!important;
+  padding-top:13px!important;
+  border-top:1px solid #eeeae4!important;
 }
+.radar-tabs{gap:6px!important}
 .radar-tab{
   min-height:38px!important;
-  padding:8px 13px!important;
+  padding:8px 12px!important;
   border-radius:999px!important;
-  border-color:#e3ddd5!important;
+  border-color:#e2ddd5!important;
   background:#f7f5f1!important;
-  color:#666159!important;
+  color:#625e57!important;
 }
 .radar-tab.active{
-  background:#4f4a43!important;
-  border-color:#4f4a43!important;
+  background:#4b4842!important;
+  border-color:#4b4842!important;
   color:#fff!important;
 }
 .radar-tab[data-radar="postbreakout"].active{
-  background:#647f94!important;
-  border-color:#647f94!important;
+  background:#678198!important;
+  border-color:#678198!important;
 }
 .radar-sort{
   min-height:38px!important;
-  border-color:#e3ddd5!important;
+  border-color:#e2ddd5!important;
   background:#fff!important;
 }
 
-/* Desktop table only. Mobile stock cards remain completely untouched. */
+/* Desktop table only. Never touch mobile stock cards. */
 @media(min-width:761px){
   .radar-table-wrap{
     margin-top:12px!important;
-    border:1px solid #ebe6df!important;
+    border:1px solid #e9e4dd!important;
     border-radius:14px!important;
     overflow:hidden!important;
   }
@@ -2071,29 +2094,26 @@ body{
     padding:11px 8px!important;
     background:#f7f5f1!important;
     border-bottom-color:#e5e0d9!important;
-    color:#7b7770!important;
+    color:#77736d!important;
   }
   .radar-table td{
     padding:11px 8px!important;
-    border-bottom-color:#efebe5!important;
+    border-bottom-color:#eeeae4!important;
   }
   .radar-table tbody tr:nth-child(even){background:#fdfcfb}
 }
 
 /* Tablet */
-@media(max-width:980px) and (min-width:761px){
-  .eps-market-grid{
-    grid-template-columns:minmax(0,1.35fr) minmax(300px,.9fr);
-  }
-  .mp-signals{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+@media(max-width:1040px) and (min-width:761px){
+  .v8-market-row{
+    grid-template-columns:minmax(0,1.35fr) minmax(290px,.9fr);
   }
   .capital-hotspots-grid{
     grid-template-columns:repeat(3,minmax(0,1fr))!important;
   }
 }
 
-/* Mobile: same design language, stacked and compact */
+/* Mobile: overview stacks but still looks like a dashboard rather than a long report */
 @media(max-width:760px){
   .wrap{
     margin:12px auto 34px!important;
@@ -2101,123 +2121,136 @@ body{
   }
 
   #vcpReadingGuide{
-    margin:8px 0 11px!important;
-    padding:12px 13px!important;
-    border-radius:14px!important;
-    box-shadow:none!important;
+    padding:8px 10px!important;
+    margin:0 0 9px!important;
+    background:transparent!important;
   }
   #vcpReadingGuide .guide-title{
-    font-size:13px!important;
-    margin-bottom:11px!important;
+    margin-bottom:8px!important;
+    font-size:11px!important;
+  }
+  #vcpReadingGuide .guide-mobile{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:5px!important;
   }
   #vcpReadingGuide .guide-step{
-    padding-bottom:11px!important;
+    min-height:0!important;
+    padding:8px 8px 8px 34px!important;
+    border:1px solid #e9e2d9;
+    border-radius:10px;
+    background:rgba(255,255,255,.60);
   }
+  #vcpReadingGuide .guide-step:not(:last-child)::after{display:none!important}
+  #vcpReadingGuide .guide-num{
+    left:7px!important;
+    top:8px!important;
+    width:21px!important;
+    height:21px!important;
+    font-size:9px!important;
+  }
+  #vcpReadingGuide .guide-name{font-size:11px!important}
+  #vcpReadingGuide .guide-desc{font-size:9px!important;margin-top:1px!important}
 
-  .eps-market-grid{
-    display:block;
-    margin-bottom:12px;
+  .v8-dashboard-overview{
+    padding:10px!important;
+    border-radius:17px!important;
+    margin-bottom:13px!important;
   }
-  .eps-market-grid .market-pulse-card{
-    margin-bottom:8px!important;
+  .v8-overview-head{
+    align-items:flex-start!important;
+    margin:0 2px 9px!important;
   }
-  .market-pulse-card{
-    padding:13px!important;
-    border-radius:15px!important;
+  .v8-overview-head h2{font-size:17px!important}
+  .v8-kicker{font-size:7.5px!important}
+  .v8-overview-note{font-size:9px!important;max-width:115px;text-align:right}
+
+  .v8-market-row{
+    display:block!important;
   }
-  .market-pulse-card::before{
-    top:13px;bottom:13px;width:3px;
+  .v8-market-row .market-pulse-card{
+    margin-bottom:7px!important;
+    padding:12px!important;
+    border-radius:14px!important;
   }
-  .mp-title{font-size:16px!important}
-  .mp-score{font-size:30px!important}
+  .v8-market-row .market-pulse-card::before{
+    top:12px;bottom:12px;width:3px;
+  }
+  .mp-title{font-size:15px!important}
+  .mp-score{font-size:29px!important}
   .mp-signals{
     grid-template-columns:repeat(3,minmax(0,1fr))!important;
     gap:5px!important;
-    margin-top:9px!important;
+    margin-top:8px!important;
   }
   .mp-signal{
-    min-height:0;
-    padding:7px!important;
-    border-radius:9px!important;
+    min-height:0!important;
+    padding:6px!important;
+    border-radius:8px!important;
   }
-  .mp-signal span{font-size:9px!important}
-  .mp-signal b{font-size:12px!important}
+  .mp-signal span{font-size:8.5px!important}
+  .mp-signal b{font-size:11.5px!important}
 
-  .market-structure-card{
-    padding:12px 13px!important;
+  .v8-market-row .market-structure-card{
+    padding:11px 12px!important;
     border-radius:14px!important;
   }
-  .market-structure-card::before{
-    margin-bottom:6px;
-    font-size:7.5px;
-  }
-  .ms-title{font-size:15px!important}
-  .ms-state{font-size:19px!important}
-  .ms-body{gap:8px!important}
-  .ms-metrics{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  }
-  .ms-chip{
-    padding:6px 7px!important;
-    font-size:9.5px!important;
-  }
+  .ms-title{font-size:14px!important}
+  .ms-state{font-size:18px!important}
+  .ms-metrics{gap:5px!important}
+  .ms-chip{padding:6px!important;font-size:9px!important}
 
-  #singleStockAnalysis{
-    margin-top:10px!important;
-    padding:11px!important;
-    border-radius:14px;
-    box-shadow:none;
+  .v8-direction-grid{
+    display:block!important;
+    margin-top:7px!important;
   }
-
-  .radar-section{margin-top:19px!important}
-  .radar-section>.section-title h2{font-size:21px!important}
-
-  .radar-freshness{
-    grid-template-columns:1fr!important;
-    gap:6px!important;
-  }
-  .freshness-item{
-    min-height:0;
-    border-radius:10px!important;
-  }
-
-  .capital-hotspots,
-  .theme-leaderboards{
-    padding:11px!important;
+  .v8-direction-panel+.v8-direction-panel{margin-top:7px}
+  .v8-direction-panel .capital-hotspots,
+  .v8-direction-panel .theme-leaderboards{
+    padding:10px!important;
     border-radius:14px!important;
-    box-shadow:none!important;
   }
   .capital-hotspots-grid{
     display:flex!important;
     overflow-x:auto!important;
-    gap:7px!important;
+    gap:6px!important;
     padding-bottom:2px;
     -webkit-overflow-scrolling:touch;
   }
   .capital-hotspot{
-    flex:0 0 165px!important;
-    min-width:165px!important;
+    flex:0 0 145px!important;
+    min-width:145px!important;
   }
+  .theme-leaderboards-grid{
+    display:block!important;
+  }
+  .theme-board+.theme-board{margin-top:6px}
+
+  #singleStockAnalysis{
+    margin:10px 0 17px!important;
+    padding:10px!important;
+    border-radius:13px!important;
+    box-shadow:none!important;
+  }
+
+  .radar-section{margin-top:18px!important}
+  .radar-section>.section-title h2{font-size:21px!important}
+  .radar-count-pill{padding:5px 8px!important;font-size:9.5px!important}
 
   .radar-card{
     padding:10px!important;
     border-radius:16px!important;
   }
-  .radar-intro{
-    padding:10px 11px!important;
-    border-radius:12px!important;
-  }
-  .radar-intro h2{font-size:18px!important}
   .radar-tabs{
     grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:6px!important;
+    gap:5px!important;
   }
   .radar-tab{
     width:100%!important;
-    min-height:37px!important;
-    padding:7px 5px!important;
+    min-height:36px!important;
+    padding:7px 4px!important;
     border-radius:10px!important;
-    font-size:10.5px!important;
+    font-size:10px!important;
   }
 }
 </style>
@@ -2421,7 +2454,9 @@ body{
   </div>
 </div>
 
-<div class="eps-market-grid">
+<section class="v8-dashboard-overview">
+<div class="v8-overview-head"><div><div class="v8-kicker">MARKET OVERVIEW</div><h2>今日市場儀表板</h2></div><div class="v8-overview-note">先看環境，再看資金方向</div></div>
+<div class="v8-market-row">
 <section class="market-pulse-card" id="marketPulseCard" aria-live="polite">
   <div class="mp-head">
     <div class="mp-title-row">
@@ -2476,6 +2511,76 @@ body{
   </div>
 </section>
 </div>
+
+<div class="v8-direction-grid">
+  <div class="v8-direction-panel v8-capital-panel">
+    <div id="capitalHotspots" class="capital-hotspots" hidden>
+    <div class="capital-hotspots-head">
+      <div class="capital-hotspots-title"><div><h3>🔥 資金熱區</h3><div class="section-kicker">看資金目前集中在哪些產業</div></div><span class="capital-top5-badge">👑 Top 5 產業</span></div>
+      <button type="button" class="capital-hotspots-note" id="capitalHelpBtn" aria-expanded="false">ⓘ 熱區怎麼算？</button>
+    </div>
+    <div class="capital-helpbox" id="capitalHelpBox" hidden>
+      <b>🔥 資金熱區</b>會綜合觀察產業的成交活躍度、市場占比、上漲廣度與 VCP 訊號集中程度。<br>
+      <span><b>分數越高</b>，代表當下資金與強勢訊號在該產業的集中程度越明顯；適合用來比較目前市場資金聚焦方向，不代表未來一定上漲。</span>
+    </div>
+    <div id="capitalHotspotsGrid" class="capital-hotspots-grid"></div>
+  </div>
+  </div>
+  <div class="v8-direction-panel v8-theme-panel">
+    <div id="themeLeaderboards" class="theme-leaderboards" hidden>
+    <div class="theme-leaderboards-head"><div><h3>🧭 題材雷達</h3><div class="section-kicker">從熱門到蓄勢，找市場正在發酵的方向</div></div><button type="button" class="theme-help-btn" id="themeHelpBtn">ⓘ 怎麼看？</button></div>
+    <div class="theme-helpbox" id="themeHelpBox" hidden>
+<div class="theme-help-intro"><b>🔥 市場熱度</b>：觀察題材目前的市場活躍與 VCP 訊號集中程度。<br><b>👀 蓄勢程度</b>：觀察尚未全面發動、但型態與訊號正在累積的程度。</div>
+<div class="theme-help-table-wrap"><table class="theme-help-table">
+<thead><tr><th></th><th>🔥 熱門題材</th><th>👀 蓄勢題材</th></tr></thead>
+<tbody>
+<tr><th>代表什麼</th><td>現在市場正在發動</td><td>尚未全面發動、正在醞釀</td></tr>
+<tr><th>市場熱度</th><td>通常較高</td><td>通常較低</td></tr>
+<tr><th>蓄勢程度</th><td>不一定高</td><td>通常較高</td></tr>
+<tr><th>適合用來</th><td>找目前市場主流</td><td>找下一批觀察方向</td></tr>
+<tr><th>要注意</th><td>可能已漲一段，留意追高</td><td>可能持續蓄勢、未必發動</td></tr>
+</tbody></table></div>
+<div class="theme-help-mobile-cards">
+  <div class="theme-help-mobile-card hot">
+    <div class="theme-help-mobile-title">🔥 熱門題材</div>
+    <div><b>代表什麼：</b>現在市場正在發動</div>
+    <div><b>市場熱度：</b>通常較高</div>
+    <div><b>蓄勢程度：</b>不一定高</div>
+    <div><b>適合用來：</b>找目前市場主流</div>
+    <div><b>要注意：</b>可能已漲一段，留意追高</div>
+  </div>
+  <div class="theme-help-mobile-card setup">
+    <div class="theme-help-mobile-title">👀 蓄勢題材</div>
+    <div><b>代表什麼：</b>尚未全面發動、正在醞釀</div>
+    <div><b>市場熱度：</b>通常較低</div>
+    <div><b>蓄勢程度：</b>通常較高</div>
+    <div><b>適合用來：</b>找下一批觀察方向</div>
+    <div><b>要注意：</b>可能持續蓄勢、未必發動</div>
+  </div>
+</div>
+<div class="theme-help-note"><b>分數越高</b>，代表該項特徵越明顯；適合比較當下不同題材的相對強弱，不代表未來一定上漲或漲得更多。</div>
+</div>
+<div class="theme-leaderboards-grid">
+      <div class="theme-board theme-board-hot">
+        <div class="theme-board-title">
+          <div><div class="theme-board-main">🔥 熱門題材 Top 5</div><div class="theme-board-desc">現在市場資金正在聚焦</div></div>
+          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="themeTop5List">展開全部 ＋</button><span class="theme-board-tag">熱度</span></div>
+        </div>
+        <div id="themeTop5List" class="theme-board-list"></div>
+      </div>
+      <div class="theme-board theme-board-setup">
+        <div class="theme-board-title">
+          <div><div class="theme-board-main">👀 蓄勢題材 Top 5</div><div class="theme-board-desc">尚未最熱，但型態正在醞釀</div></div>
+          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="setupTop5List">展開全部 ＋</button><span class="theme-board-tag">蓄勢</span></div>
+        </div>
+        <div id="setupTop5List" class="theme-board-list"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+</section>
 
 <div class="section" id="singleStockAnalysis">
   <div class="section-title">
@@ -2567,67 +2672,6 @@ body{
   </div>
   <div id="radarFreshness" class="radar-freshness" hidden></div>
   <div id="marketOverview" class="market-overview" hidden></div>
-  <div id="capitalHotspots" class="capital-hotspots" hidden>
-    <div class="capital-hotspots-head">
-      <div class="capital-hotspots-title"><div><h3>🔥 資金熱區</h3><div class="section-kicker">看資金目前集中在哪些產業</div></div><span class="capital-top5-badge">👑 Top 5 產業</span></div>
-      <button type="button" class="capital-hotspots-note" id="capitalHelpBtn" aria-expanded="false">ⓘ 熱區怎麼算？</button>
-    </div>
-    <div class="capital-helpbox" id="capitalHelpBox" hidden>
-      <b>🔥 資金熱區</b>會綜合觀察產業的成交活躍度、市場占比、上漲廣度與 VCP 訊號集中程度。<br>
-      <span><b>分數越高</b>，代表當下資金與強勢訊號在該產業的集中程度越明顯；適合用來比較目前市場資金聚焦方向，不代表未來一定上漲。</span>
-    </div>
-    <div id="capitalHotspotsGrid" class="capital-hotspots-grid"></div>
-  </div>
-  <div id="themeLeaderboards" class="theme-leaderboards" hidden>
-    <div class="theme-leaderboards-head"><div><h3>🧭 題材雷達</h3><div class="section-kicker">從熱門到蓄勢，找市場正在發酵的方向</div></div><button type="button" class="theme-help-btn" id="themeHelpBtn">ⓘ 怎麼看？</button></div>
-    <div class="theme-helpbox" id="themeHelpBox" hidden>
-<div class="theme-help-intro"><b>🔥 市場熱度</b>：觀察題材目前的市場活躍與 VCP 訊號集中程度。<br><b>👀 蓄勢程度</b>：觀察尚未全面發動、但型態與訊號正在累積的程度。</div>
-<div class="theme-help-table-wrap"><table class="theme-help-table">
-<thead><tr><th></th><th>🔥 熱門題材</th><th>👀 蓄勢題材</th></tr></thead>
-<tbody>
-<tr><th>代表什麼</th><td>現在市場正在發動</td><td>尚未全面發動、正在醞釀</td></tr>
-<tr><th>市場熱度</th><td>通常較高</td><td>通常較低</td></tr>
-<tr><th>蓄勢程度</th><td>不一定高</td><td>通常較高</td></tr>
-<tr><th>適合用來</th><td>找目前市場主流</td><td>找下一批觀察方向</td></tr>
-<tr><th>要注意</th><td>可能已漲一段，留意追高</td><td>可能持續蓄勢、未必發動</td></tr>
-</tbody></table></div>
-<div class="theme-help-mobile-cards">
-  <div class="theme-help-mobile-card hot">
-    <div class="theme-help-mobile-title">🔥 熱門題材</div>
-    <div><b>代表什麼：</b>現在市場正在發動</div>
-    <div><b>市場熱度：</b>通常較高</div>
-    <div><b>蓄勢程度：</b>不一定高</div>
-    <div><b>適合用來：</b>找目前市場主流</div>
-    <div><b>要注意：</b>可能已漲一段，留意追高</div>
-  </div>
-  <div class="theme-help-mobile-card setup">
-    <div class="theme-help-mobile-title">👀 蓄勢題材</div>
-    <div><b>代表什麼：</b>尚未全面發動、正在醞釀</div>
-    <div><b>市場熱度：</b>通常較低</div>
-    <div><b>蓄勢程度：</b>通常較高</div>
-    <div><b>適合用來：</b>找下一批觀察方向</div>
-    <div><b>要注意：</b>可能持續蓄勢、未必發動</div>
-  </div>
-</div>
-<div class="theme-help-note"><b>分數越高</b>，代表該項特徵越明顯；適合比較當下不同題材的相對強弱，不代表未來一定上漲或漲得更多。</div>
-</div>
-<div class="theme-leaderboards-grid">
-      <div class="theme-board theme-board-hot">
-        <div class="theme-board-title">
-          <div><div class="theme-board-main">🔥 熱門題材 Top 5</div><div class="theme-board-desc">現在市場資金正在聚焦</div></div>
-          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="themeTop5List">展開全部 ＋</button><span class="theme-board-tag">熱度</span></div>
-        </div>
-        <div id="themeTop5List" class="theme-board-list"></div>
-      </div>
-      <div class="theme-board theme-board-setup">
-        <div class="theme-board-title">
-          <div><div class="theme-board-main">👀 蓄勢題材 Top 5</div><div class="theme-board-desc">尚未最熱，但型態正在醞釀</div></div>
-          <div class="theme-board-actions"><button type="button" class="theme-expand-all" data-theme-expand-all="setupTop5List">展開全部 ＋</button><span class="theme-board-tag">蓄勢</span></div>
-        </div>
-        <div id="setupTop5List" class="theme-board-list"></div>
-      </div>
-    </div>
-  </div>
   <div class="user-live-refresh">
     <button type="button" id="userLiveRefreshBtn" class="user-live-btn">🔄 重新讀取行情</button>
     <span id="userLiveRefreshStatus" class="user-live-status">台股行情每 5 分鐘更新；價格、今日漲跌與距 Pivot 使用行情快取，VCP 結構維持完整雷達掃描結果。</span>
