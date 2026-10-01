@@ -3934,6 +3934,15 @@ body{
 }
 </style>
 
+
+<style>
+/* ===== v12.2 chart crispness fix ===== */
+#chart{
+  image-rendering:auto!important;
+  transform:translateZ(0);
+}
+</style>
+
 </head>
 <body>
 
@@ -4477,14 +4486,20 @@ function analyze(d){
  return {close,trend,seq,drops,contracting,dry,pivot,last,distance,breakout,breakoutVol,todayBreakout,pts,state,squeezeLevel,squeezeState,momentum,combo:(pts>=4&&squeezeLevel!=='none'),avgVolume20,avgValue20,dates:d.map(x=>x.date)}
 }
 function draw(a){
+ window.__vcpLastChartData=a;
  let c=$('chart');
- const cssW=Math.max(320,Math.round(c.getBoundingClientRect().width||720));
+ const parentW=(c.parentElement && c.parentElement.clientWidth) ? c.parentElement.clientWidth-2 : 0;
+ const boxW=Math.round(c.getBoundingClientRect().width||0);
+ const cssW=Math.max(320,Math.round(parentW||boxW||720));
  const cssH=Math.round(cssW*0.50);
  const dpr=Math.min(window.devicePixelRatio||1,2.5);
 
  // High-DPI backing store keeps lines/text crisp on phones and Retina screens.
- c.style.width='100%';
- c.style.height='auto';
+ // Important: set explicit CSS pixels too, so later layout changes do not upscale
+ // a smaller drawing buffer and make the contraction waves look blurry.
+ c.style.width=cssW+'px';
+ c.style.maxWidth='100%';
+ c.style.height=cssH+'px';
  c.width=Math.round(cssW*dpr);
  c.height=Math.round(cssH*dpr);
 
@@ -6416,7 +6431,34 @@ function renderRadar(filter='all'){
    if(isMobile){
      // run() can slightly change element height. Correct only when necessary,
      // and do it without a second visible smooth-scroll animation.
-     requestAnimationFrame(()=>{
+     
+/* ===== v12.2 chart crispness fix ===== */
+let __vcpChartRedrawTimer=null;
+function redrawSingleChartIfNeeded(){
+  if(window.__vcpLastChartData){
+    try{ draw(window.__vcpLastChartData); }catch(e){ console.warn('chart redraw skipped',e); }
+  }
+}
+function scheduleSingleChartRedraw(delay=80){
+  clearTimeout(__vcpChartRedrawTimer);
+  __vcpChartRedrawTimer=setTimeout(redrawSingleChartIfNeeded,delay);
+}
+window.addEventListener('resize',()=>scheduleSingleChartRedraw(100));
+window.addEventListener('load',()=>scheduleSingleChartRedraw(140));
+requestAnimationFrame(()=>scheduleSingleChartRedraw(120));
+
+if('ResizeObserver' in window){
+  const __vcpChartCanvas=$('chart');
+  const __vcpChartTarget=__vcpChartCanvas?.parentElement || __vcpChartCanvas;
+  if(__vcpChartTarget){
+    const __vcpChartRO=new ResizeObserver(()=>scheduleSingleChartRedraw(60));
+    __vcpChartRO.observe(__vcpChartTarget);
+  }
+}
+
+// Force a final layout-stable redraw so the chart remains crisp after UI changes.
+
+requestAnimationFrame(()=>{
        const y=getMobileTargetY();
        if(y==null) return;
        const now=window.pageYOffset||document.documentElement.scrollTop||0;
