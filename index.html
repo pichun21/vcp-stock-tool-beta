@@ -1804,6 +1804,61 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 }
 </style>
 
+
+<style>
+/* ===== Return highlight inner panels sync v5.2 ===== */
+
+/* The outer card was turning yellow, but .mobile-metrics has its own background.
+   Synchronize the inner panel so the whole card reads as one yellow highlight. */
+.mobile-stock-card.radar-return-highlight-3s .mobile-metrics{
+  animation:vcpReturnMetricsHighlight 3s ease-out!important;
+}
+
+@keyframes vcpReturnMetricsHighlight{
+  0%{
+    background:#ffefad!important;
+    border-color:#efd26a!important;
+  }
+  18%,72%{
+    background:#fff6cf!important;
+    border-color:#eedb99!important;
+  }
+  100%{
+    background:#f8f6f2!important;
+    border-color:transparent!important;
+  }
+}
+
+/* Keep the smaller chips visually coherent while highlighted,
+   without wiping out their semantic text/colors. */
+.mobile-stock-card.radar-return-highlight-3s .mobile-signal{
+  animation:vcpReturnChipHighlight 3s ease-out!important;
+}
+@keyframes vcpReturnChipHighlight{
+  0%{
+    background:#fff4c5!important;
+    border-color:#ecd47e!important;
+  }
+  18%,72%{
+    background:#fff9df!important;
+    border-color:#eadca8!important;
+  }
+  100%{
+    background:#f7f3ed!important;
+    border-color:#ece4da!important;
+  }
+}
+
+/* The reason area should not look like a separate brown block during the flash. */
+.mobile-stock-card.radar-return-highlight-3s .mobile-why{
+  animation:vcpReturnWhyBorderHighlight 3s ease-out!important;
+}
+@keyframes vcpReturnWhyBorderHighlight{
+  0%,72%{border-top-color:#ead58b!important}
+  100%{border-top-color:#eee7de!important}
+}
+</style>
+
 </head>
 <body>
 
