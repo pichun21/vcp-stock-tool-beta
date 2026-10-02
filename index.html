@@ -1465,6 +1465,12 @@ body.help-modal-open{overflow:hidden}
   </div>
   <button class="helpbtn" id="helpBtn" style="position:absolute;right:18px;top:18px">？ 指標使用說明</button>
 </section>
+<div class="kpi-strip" id="kpiStrip" hidden aria-label="今日雷達摘要">
+  <button type="button" class="kpi-card kpi-breakout" data-kpi="breakout" onclick="kpiGo('breakout')"><span class="kpi-label">今日突破</span><b class="kpi-num">—</b><span class="kpi-cap">首次帶量站上 Pivot</span></button>
+  <button type="button" class="kpi-card kpi-hot" data-kpi="hot" onclick="kpiGo('hot')"><span class="kpi-label">高關注</span><b class="kpi-num">—</b><span class="kpi-cap">多項條件同時配合</span></button>
+  <button type="button" class="kpi-card kpi-near" data-kpi="near" onclick="kpiGo('near')"><span class="kpi-label">近 Pivot</span><b class="kpi-num">—</b><span class="kpi-cap">接近突破價</span></button>
+  <button type="button" class="kpi-card kpi-combo" data-kpi="combo" onclick="kpiGo('combo')"><span class="kpi-label">VCP＋Squeeze</span><b class="kpi-num">—</b><span class="kpi-cap">收斂與壓縮同時出現</span></button>
+</div>
 <div class="card helpbox" id="helpBox">
   <button type="button" class="help-modal-close" id="helpCloseBtn" aria-label="關閉指標使用說明">×</button>
   <section class="help-section">
@@ -3365,6 +3371,24 @@ function stageLabel(r){
   }
   return RADAR_UI.stage[r.type] || r.state || '—';
 }
+function stagePill(r){
+  const raw=String(stageLabel(r)); const t=raw.replace(/^[^\p{L}\p{N}]+/u,'')||raw;
+  const cls=String(r.type||'').replace(/[^a-z]/g,'');
+  return `<span class="st-pill st-${cls}">${t.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}</span>`;
+}
+function updateKpiStrip(filter){
+  const box=document.getElementById('kpiStrip'); if(!box) return;
+  const mk=String(currentMarket||'TW').toUpperCase();
+  const rows=(Array.isArray(radarRows)?radarRows:[]).filter(r=>String(r.market||'').toUpperCase()===mk);
+  const cnt={breakout:rows.filter(r=>r.type==='breakout').length,hot:rows.filter(r=>r.pulse_signal==='hot').length,near:rows.filter(r=>r.type==='near').length,combo:rows.filter(r=>r.combo).length};
+  box.querySelectorAll('[data-kpi]').forEach(b=>{const n=b.querySelector('.kpi-num'); if(n) n.textContent=cnt[b.dataset.kpi]; b.classList.toggle('active',filter===b.dataset.kpi);});
+  box.hidden=!rows.length;
+}
+function kpiGo(k){
+  const key=(typeof radarFilter!=='undefined'&&radarFilter===k)?'all':k;
+  const t=document.querySelector('.radar-tab[data-radar="'+key+'"]'); if(t) t.click();
+  const sec=document.querySelector('.radar-section'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function squeezeLabel(r){ return RADAR_UI.squeeze[r.squeeze_level] || r.squeeze_state || '—'; }
 function momentumLabel(r){ return RADAR_UI.momentum[r.momentum_dir] || r.momentum || '—'; }
 function attentionReason(r){
@@ -3759,6 +3783,7 @@ async function refreshUserLiveQuotes(){
 
 function renderRadar(filter='all'){
  updateFavoriteCount();
+ try{updateKpiStrip(filter);}catch(e){}
  const body=$('radarBody'), mobile=$('radarMobile');
  // 若收藏是從舊版或單股分析留下、當下只有代號，背景補齊名稱後重畫一次。
  if(filter==='favorites'){
@@ -3857,7 +3882,7 @@ function renderRadar(filter='all'){
    <td>${esc(volumeLabel(r))}${liquidityDesktop(r)?`<div class="liquidity-desktop">${esc(liquidityDesktop(r))}</div>`:''}</td>
    <td>${esc(squeezeLabel(r))}</td>
    <td>${esc(momentumLabel(r))}</td>
-   <td class="status-dot">${esc(stageLabel(r))}${r.type==='postbreakout'?`<div class="muted postbreakout-mini">目前 ${esc(signedPct(r.breakout_return_pct ?? r.distance))} · 最高漲幅 ${esc(signedPct(r.breakout_high_pct ?? r.breakout_return_pct ?? r.distance))}</div>`:''}</td>
+   <td class="status-dot">${stagePill(r)}${r.type==='postbreakout'?`<div class="muted postbreakout-mini">目前 ${esc(signedPct(r.breakout_return_pct ?? r.distance))} · 最高漲幅 ${esc(signedPct(r.breakout_high_pct ?? r.breakout_return_pct ?? r.distance))}</div>`:''}</td>
    <td><button type="button" class="pulse-badge pulse-${esc(r.pulse_signal||'wait')} pulse-help-trigger" data-pulse="${esc(r.pulse_signal||'wait')}">${esc(pulseLabel(r))}</button>${r.pulse_signal==='hot'?`<div class="attention-summary desktop-attention">${esc(attentionReason(r))}</div>`:''}</td>
  </tr>`).join('');
 
@@ -3981,7 +4006,7 @@ function renderRadar(filter='all'){
            <button type="button" class="mobile-cta mobile-analysis-btn" data-market="${esc(r.market)}" data-symbol="${esc(r.symbol)}">📈 看 VCP 圖 →</button>
          </div>
        </div>
-       <div class="mobile-state">${esc(stageLabel(r))}</div>
+       <div class="mobile-state">${stagePill(r)}</div>
        ${r.structure_quality_good?'<div class="structure-quality-badge mobile-structure-quality">💎 結構品質佳</div>':''}
        ${r.type==='postbreakout'?`<div class="mobile-postbreakout-performance" aria-label="突破後績效">
          <span>突破後 ${esc(signedPct(r.breakout_return_pct ?? r.distance))}</span>
@@ -5078,6 +5103,32 @@ input:focus,select:focus{outline:none;border-color:var(--vp-accent);box-shadow:0
  .brand-name{font-size:42px!important;letter-spacing:-1.8px!important}
  .card{border-radius:16px!important}
 }
+</style>
+<style id="ui-kpi-pills">
+/* 摘要卡 */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 4px}
+.kpi-strip[hidden]{display:none!important}
+.kpi-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;text-align:left;padding:14px 16px 13px 20px!important;background:#fffcf6!important;color:var(--ink)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:0 8px 22px rgba(92,64,32,.07)!important;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.kpi-card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:5px;border-radius:0 4px 4px 0;background:var(--k,#c8692b)}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(92,64,32,.13)!important}
+.kpi-card.active{border-color:var(--k,#c8692b)!important;background:#fff6e8!important;box-shadow:0 0 0 3px rgba(200,105,43,.16),0 8px 22px rgba(92,64,32,.1)!important}
+.kpi-label{font-size:13px;font-weight:800;color:#6f5f4b}
+.kpi-num{font-size:36px;line-height:1.1;font-weight:800;letter-spacing:-1px;color:var(--k,#c8692b);font-variant-numeric:tabular-nums}
+.kpi-cap{font-size:12px;color:#9a8a74;font-weight:600}
+.kpi-breakout{--k:#2f8a58}.kpi-hot{--k:#d4772f}.kpi-near{--k:#c9961a}.kpi-combo{--k:#7a5fc0}
+@media(max-width:760px){
+ .kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .kpi-card{padding:12px 12px 11px 16px!important;border-radius:16px!important}
+ .kpi-num{font-size:30px}
+ .kpi-cap{font-size:11px}
+}
+/* 狀態色塊標籤 */
+.st-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:800;line-height:1.2;white-space:nowrap;background:var(--pb,#efe7d8);color:var(--pc,#6f5f4b)}
+.st-pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pc,#6f5f4b);flex:0 0 auto}
+.st-breakout{--pb:#dff3e7;--pc:#1f7a4a}
+.st-postbreakout{--pb:#e1ebfb;--pc:#2c5fb3}
+.st-near{--pb:#fbf0cf;--pc:#8f6a0b}
+.st-forming{--pb:#ece6da;--pc:#7a6c58}
 </style>
 </body></html>
 
