@@ -5131,6 +5131,83 @@ input:focus,select:focus{outline:none;border-color:var(--vp-accent);box-shadow:0
 .st-near{--pb:#fbf0cf;--pc:#8f6a0b}
 .st-forming{--pb:#ece6da;--pc:#7a6c58}
 </style>
+<style id="ui-icons-type">
+/* 圖示：統一線條風格；色點對應狀態色 */
+.eic{width:1.05em;height:1.05em;vertical-align:-.17em;margin-right:.32em;flex:0 0 auto}
+.edot{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--c);margin-right:.45em;vertical-align:.04em;box-shadow:0 0 0 2.5px color-mix(in srgb,var(--c) 24%,transparent)}
+.mkt-tag,.new-tag{display:inline-block;padding:1px 6px;margin-right:6px;border-radius:6px;font-size:.78em;font-weight:800;letter-spacing:.04em;vertical-align:.06em;line-height:1.5}
+.mkt-tag{background:#efe3cf;color:#6f5f4b}
+.new-tag{background:#fbeadb;color:#c0601f}
+.radar-tab.active .mkt-tag,.radar-tab.active .new-tag{background:rgba(255,255,255,.18);color:#fbf3e4}
+/* 字級層次：標題 22／小標 17／導言 15／內文 14／備註 12.5（手機各降 0.5～3px） */
+:root{--fs-title:22px;--fs-h3:17px;--fs-lead:15px;--fs-body:14px;--fs-note:12.5px}
+.section-title h2{font-size:var(--fs-title)!important}
+.helpbox h3,.help-section h3,.pulse-help-detail h3{font-size:var(--fs-h3)!important;font-weight:800;line-height:1.4}
+.pulse-help-detail>p{font-size:var(--fs-lead)!important;line-height:1.75!important;color:#4a3b2c}
+.helpbox p,.helpbox li,.help-section p,.help-section li{font-size:var(--fs-body)!important;line-height:1.75}
+.helpbox table,.help-section table{font-size:var(--fs-body)!important}
+.pulse-help-grid b{font-size:16px!important;font-weight:800}
+.pulse-help-grid span{font-size:var(--fs-body)!important;line-height:1.7}
+.helpbox .muted,.help-section .muted{font-size:var(--fs-note)!important}
+.radar-table,.radar-table td{font-size:14.5px}
+@media(max-width:760px){
+ :root{--fs-title:19px;--fs-h3:16px;--fs-lead:14.5px;--fs-body:13.5px;--fs-note:12px}
+ .pulse-help-grid b{font-size:15px!important}
+}
+</style>
+<script>
+/* 把常見彩色 emoji 換成統一的線條圖示／色點（含動態產生的內容） */
+(function(){
+ try{
+  const I=d=>'<svg class="eic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
+  const D=c=>'<i class="edot" style="--c:'+c+'"></i>';
+  const MAP={
+   '🔥':I('<path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>'),
+   '👀':I('<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+   '⏳':I('<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>'),
+   '⚠':I('<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4.5M12 17.5v.5"/>'),
+   '💎':I('<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>'),
+   '⚡':I('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'),
+   '📈':I('<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>'),
+   '📡':I('<path d="M3 12h4l3-8 4 16 3-8h4"/>'),
+   '🔄':I('<path d="M21 12a9 9 0 0 1-15 6.7L3 16M3 12a9 9 0 0 1 15-6.7L21 8M3 21v-5h5M21 3v5h-5"/>'),
+   '✅':I('<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>'),
+   '⭐':I('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'),
+   '🟢':D('#2f8a58'),'🔵':D('#2c5fb3'),'🟡':D('#c9961a'),'⚪':D('#cfc6b6'),
+   '🔴':D('#d64545'),'🟠':D('#e08a2e'),'🩷':D('#e68aa8'),
+   '🆕':'<span class="new-tag">NEW</span>',
+   '🇹🇼':'<span class="mkt-tag">TW</span>','🇺🇸':'<span class="mkt-tag">US</span>'
+  };
+  const keys=Object.keys(MAP).sort((a,b)=>b.length-a.length);
+  const src='(?:'+keys.join('|')+')\uFE0F?';
+  const reG=new RegExp(src,'g'), reT=new RegExp(src);
+  const SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,OPTION:1,SELECT:1,TITLE:1,NOSCRIPT:1};
+  const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function conv(n){
+   const par=n.parentNode; if(!par||SKIP[par.nodeName]) return;
+   const v=n.nodeValue; if(!v||!reT.test(v)) return;
+   const html=esc(v).replace(reG,m=>MAP[m.replace('\uFE0F','')]||m);
+   const t=document.createElement('template'); t.innerHTML=html;
+   par.replaceChild(t.content,n);
+  }
+  function walk(root){
+   if(!root) return;
+   if(root.nodeType===3){conv(root);return;}
+   if(root.nodeType!==1||SKIP[root.nodeName]) return;
+   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT), list=[];
+   while(w.nextNode()) list.push(w.currentNode);
+   list.forEach(conv);
+  }
+  walk(document.body);
+  new MutationObserver(ms=>{
+   for(const m of ms){
+    if(m.type==='characterData') conv(m.target);
+    else m.addedNodes.forEach(walk);
+   }
+  }).observe(document.body,{childList:true,subtree:true,characterData:true});
+ }catch(e){console.warn('emoji polish skipped',e);}
+})();
+</script>
 </body></html>
 
 <style>
