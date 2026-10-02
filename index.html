@@ -5033,6 +5033,51 @@ function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
  const isTW=String(market).toUpperCase()==='TW';const fb=document.getElementById('foreignBlock');if(fb)fb.hidden=!isTW;const wb=document.getElementById('whaleBlock');if(wb)wb.hidden=!isTW;if(isTW){updateForeign(symbol);updateWhales(symbol)}
 }
 </script>
+<style id="ui-restyle-2026-10">
+/* VCPulse 新風格：冷調灰白底＋深藍墨色＋單一靛藍強調色（手機與桌機共用） */
+:root{
+ --bg:#f4f6fa;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--good:#0f9d6b;--warn:#b7791f;--bad:#d64545;
+ --vp-bg:#f4f6fa;--vp-card:#fff;--vp-ink:#0f172a;--vp-muted:#64748b;--vp-line:#e2e8f0;--vp-caramel:#4f46e5;--vp-soft:#eef2ff;
+ --vp-accent:#4f46e5;--vp-accent-soft:#eef2ff;--vp-radius:14px;
+}
+body{background:var(--bg)!important;color:var(--ink);font-family:"Inter",system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;letter-spacing:.005em;-webkit-font-smoothing:antialiased}
+/* 版頭：由大型奶油卡片改成乾淨的白底卡，縮小字級讓內容更快上來 */
+.brand-hero{background:linear-gradient(135deg,#fff 0%,#f5f7ff 100%)!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05)!important;padding:20px 28px 18px!important}
+.brand-name{font-size:56px!important;letter-spacing:-2.5px!important;font-weight:800}
+.brand-name .pulse{color:var(--vp-accent)!important}
+.brand-tag{color:var(--vp-accent)!important;font-weight:700}
+.brand-sub{font-size:19px!important;font-weight:700}
+/* 卡片與區塊標題 */
+.card{background:#fff!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:0 1px 2px rgba(15,23,42,.04)!important}
+.section-title h2{font-weight:800;letter-spacing:-.01em}
+.section-title h2::before{content:"";display:inline-block;width:4px;height:.95em;margin-right:9px;border-radius:2px;background:var(--vp-accent);vertical-align:-.1em}
+/* 按鈕與輸入框：主按鈕改用強調色，次要按鈕用白底描邊 */
+button{border-radius:10px}
+.searchrow button,.search button,#searchBtn{background:var(--vp-accent)!important;color:#fff!important}
+.helpbtn,.marketbtn{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important}
+.marketbtn.active{background:var(--ink)!important;color:#fff!important;border-color:var(--ink)!important}
+input,select{border-radius:10px;border-color:var(--line);background:#fff}
+input:focus,select:focus{outline:none;border-color:var(--vp-accent);box-shadow:0 0 0 3px rgba(79,70,229,.15)}
+/* 雷達篩選膠囊：未選＝白底灰框，已選＝靛藍 */
+.radar-head .radar-tab{background:#fff!important;border:1px solid var(--line)!important;color:#334155!important;font-weight:600}
+.radar-head .radar-tab:hover{border-color:#c7d2fe!important;background:var(--vp-accent-soft)!important}
+.radar-head .radar-tab.active{background:var(--vp-accent)!important;border-color:var(--vp-accent)!important;color:#fff!important;box-shadow:0 2px 8px rgba(79,70,229,.28)}
+.radar-group-label{color:#94a3b8!important;font-weight:700}
+/* 雷達表：標題列淡底、列 hover 高亮、數字等寬對齊 */
+.radar-table th{background:#f8fafc;color:#64748b;font-weight:700;letter-spacing:.03em;border-bottom:1px solid var(--line)}
+.radar-table td{border-bottom:1px solid #eef2f7;font-variant-numeric:tabular-nums}
+.radar-row:hover{background:#f5f7ff!important}
+.radar-table-wrap{border:1px solid var(--line);border-radius:14px;background:#fff}
+/* 浮動按鈕改成統一的白底圓鈕，並避開表格最右欄 */
+.back-to-top-btn,.radar-back-float{background:#fff!important;border:1px solid var(--line)!important;color:var(--vp-accent)!important;box-shadow:0 6px 18px rgba(15,23,42,.14)!important}
+@media(min-width:761px){.back-to-top-btn{bottom:28px!important;right:22px!important}}
+/* 手機：版頭更緊湊、卡片內距縮小 */
+@media(max-width:760px){
+ .brand-hero{padding:16px 16px 14px!important;border-radius:16px!important}
+ .brand-name{font-size:40px!important;letter-spacing:-1.5px!important}
+ .card{border-radius:14px!important}
+}
+</style>
 </body></html>
 
 <style>
@@ -5386,13 +5431,14 @@ function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
 <style id="ui-polish-2026-10">
 /* 1) 篩選列分組：快速／關注訊號／位置與型態（不改動 JS 綁定的 .radar-tab） */
 .radar-head .radar-tabs{display:flex!important;flex-direction:column;gap:10px!important;overflow:visible!important;padding:0!important}
-.radar-group{display:flex;align-items:center;gap:10px}
-.radar-group-label{flex:0 0 76px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.02em}
-.radar-group-chips{display:flex;flex-wrap:wrap;gap:7px;min-width:0}
+.radar-head .radar-tabs{flex:1 1 100%;width:100%;align-content:flex-start;justify-content:flex-start;grid-template-rows:none!important;grid-auto-rows:auto!important}
+.radar-group{display:flex;align-items:flex-start;gap:10px;flex:0 0 auto;width:100%;max-width:100%;height:auto;min-height:0}
+.radar-group-label{flex:0 0 84px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.02em;line-height:38px;white-space:nowrap}
+.radar-group-chips{display:flex;flex-wrap:wrap;gap:7px;min-width:0;flex:1 1 auto}
 .radar-head .radar-tab{width:auto;min-height:38px;padding:8px 13px!important;font-size:13px!important;border-radius:999px!important;white-space:nowrap}
 @media(max-width:760px){
  .radar-group{flex-direction:column;align-items:stretch;gap:6px}
- .radar-group-label{flex:none;font-size:11px}
+ .radar-group-label{flex:none;font-size:11px;line-height:1.2}
  /* 手機：每組一列、可左右滑動，避免 11 顆按鈕擠成多列 */
  .radar-group-chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -12px;padding:2px 12px 4px;scroll-snap-type:x proximity}
  .radar-group-chips::-webkit-scrollbar{display:none}
