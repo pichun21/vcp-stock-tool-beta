@@ -1974,6 +1974,7 @@ function analyze(d){
 function draw(a){
  let c=$('chart');
  const cssW=Math.max(320,Math.round(c.getBoundingClientRect().width||720));
+ window.__chartA=a; window.__chartDrawnW=cssW;
  const cssH=Math.round(cssW*0.50);
  const dpr=Math.min(window.devicePixelRatio||1,2.5);
 
@@ -5280,6 +5281,25 @@ html[data-market="TW"]{--up:#dc2626;--down:#15803d}
 .theme-board-setup .theme-stock-link{background:#f5f3ff!important;border-color:#ddd6fe!important;color:#4c1d95}
 .theme-board-setup .theme-stock-link:hover{background:#ede9fe!important}
 </style>
+<script>
+/* 走勢圖：畫布顯示寬度改變時（版面重排、視窗縮放、區塊展開）自動以新寬度重繪，避免被 CSS 拉伸而模糊 */
+(function(){
+ try{
+  const c=document.getElementById('chart');
+  if(!c||!window.ResizeObserver) return;
+  let t=0;
+  const redraw=function(){
+   const a=window.__chartA; if(!a) return;
+   const w=Math.round(c.getBoundingClientRect().width);
+   if(!w||Math.abs(w-(window.__chartDrawnW||0))<2) return;
+   clearTimeout(t);
+   t=setTimeout(function(){try{draw(a);}catch(e){}},100);
+  };
+  new ResizeObserver(redraw).observe(c);
+  window.addEventListener('resize',redraw);
+ }catch(e){}
+})();
+</script>
 </body></html>
 
 <style>
