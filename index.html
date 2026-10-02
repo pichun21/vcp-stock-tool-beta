@@ -5041,14 +5041,14 @@ function updateAuxMarketAndForeign(symbol,d,market,liveQuote=null){
  --vp-accent:#c8692b;--vp-accent-soft:#fbeadb;--vp-espresso:#2b2118;
 }
 body{background:radial-gradient(1100px 520px at 12% -8%,#fdebd2 0%,rgba(253,235,210,0) 62%),radial-gradient(900px 480px at 100% 0,#f6e3cf 0%,rgba(246,227,207,0) 58%),var(--bg)!important;background-attachment:fixed;color:var(--ink);font-family:"Inter",system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;-webkit-font-smoothing:antialiased}
-/* 版頭：大膽的深咖啡色橫幅，奶油色大字 */
-.brand-hero{background:linear-gradient(135deg,#2b2118 0%,#3d2d20 100%)!important;border:0!important;border-radius:26px!important;box-shadow:0 18px 40px rgba(43,33,24,.22)!important;padding:26px 34px 22px!important;color:#f8efe0}
-.brand-hero *{border-color:rgba(248,239,224,.16)}
-.brand-name{font-size:60px!important;letter-spacing:-3px!important;font-weight:800;color:#fbf3e4!important}
-.brand-name .pulse{color:#f0a05c!important}
-.brand-tag{color:#f0a05c!important;font-weight:700}
-.brand-sub{color:#fbf3e4!important;font-size:20px!important;font-weight:700}
-.brand-copy,.brand-mini,.brand-hero .muted{color:#d9c9b0!important}
+/* 版頭：改為亮奶油到蜜桃色漸層（Logo 與吉祥物原本就是為淺底設計，深色底會把它們吃掉） */
+.brand-hero{background:radial-gradient(520px 260px at 88% 40%,#fff3df 0%,rgba(255,243,223,0) 70%),linear-gradient(135deg,#fffaf0 0%,#fbe8d0 100%)!important;border:1px solid #efd9bb!important;border-radius:26px!important;box-shadow:0 16px 36px rgba(140,92,40,.14)!important;padding:26px 34px 22px!important}
+.brand-logo-img{width:min(250px,100%)!important;max-height:105px!important}
+.brand-name{font-size:48px!important;letter-spacing:-2px!important;font-weight:800;color:var(--ink)!important}
+.brand-tag{color:#c0601f!important;font-weight:700}
+.brand-sub{color:var(--ink)!important;font-size:20px!important;font-weight:800}
+.brand-copy{color:#6f5f4b!important}
+.brand-mascot img{mix-blend-mode:multiply}
 /* 卡片與區塊標題 */
 .card{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 10px 28px rgba(92,64,32,.07)!important}
 .section-title h2{font-weight:800;letter-spacing:-.01em;color:var(--ink)}
@@ -5066,7 +5066,7 @@ input:focus,select:focus{outline:none;border-color:var(--vp-accent);box-shadow:0
 .radar-head .radar-tab.active{background:var(--vp-espresso)!important;border-color:var(--vp-espresso)!important;color:#fbf3e4!important;box-shadow:0 4px 12px rgba(43,33,24,.25)}
 .radar-group-label{color:#a8977f!important;font-weight:700;letter-spacing:.04em}
 /* 雷達表：暖色標題列、細分隔線、等寬數字 */
-.radar-table th{background:#f6ecdc;color:#8a7a66;font-weight:700;letter-spacing:.04em;border-bottom:1px solid var(--line)}
+.radar-table th{background:#f4e6d0;color:#5c4a34;font-size:15px!important;font-weight:800;letter-spacing:.02em;padding:15px 10px!important;border-bottom:1px solid #e3cfb0}
 .radar-table td{border-bottom:1px solid #f0e5d3;font-variant-numeric:tabular-nums}
 .radar-row:hover{background:#fdf1e2!important}
 .radar-table-wrap{border:1px solid var(--line);border-radius:18px;background:#fffcf6}
