@@ -2129,6 +2129,7 @@ function draw(a){
  const contractionDotRadius=mobileChart?4.5:6;
  const contractionLabelSize=mobileChart?14:16;
  const contractionLabelOffset=mobileChart?15:18;
+ const placedBadges=[];
 
  (a.drops||[]).forEach((d,k)=>{
    if(k>3)return;
@@ -2141,8 +2142,8 @@ function draw(a){
    // soft ribbon underlay
    x.save();
    x.strokeStyle=cc;
-   x.globalAlpha=.20;
-   x.lineWidth=contractionGlowWidth;
+   x.globalAlpha=.16;
+   x.lineWidth=contractionGlowWidth+2;
    x.lineCap='round';
    x.lineJoin='round';
    x.beginPath();
@@ -2151,7 +2152,7 @@ function draw(a){
    x.stroke();
    x.restore();
 
-   // saturated center line
+   // center line
    x.strokeStyle=cc;
    x.lineWidth=contractionLineWidth;
    x.lineCap='round';
@@ -2160,27 +2161,38 @@ function draw(a){
    x.lineTo(x2,y2);
    x.stroke();
 
-   // fuller endpoints
-   x.fillStyle=cc;
-   x.beginPath();x.arc(x1,y1,contractionDotRadius,0,Math.PI*2);x.fill();
-   x.beginPath();x.arc(x2,y2,contractionDotRadius,0,Math.PI*2);x.fill();
+   // endpoints: white halo + colored dot (start point gets a white core)
+   [[x1,y1],[x2,y2]].forEach(function(pt,pi){
+     x.beginPath(); x.fillStyle='#fff'; x.arc(pt[0],pt[1],contractionDotRadius+2,0,Math.PI*2); x.fill();
+     x.beginPath(); x.fillStyle=cc; x.arc(pt[0],pt[1],contractionDotRadius,0,Math.PI*2); x.fill();
+     if(pi===0){ x.beginPath(); x.fillStyle='#fff'; x.arc(pt[0],pt[1],contractionDotRadius*.38,0,Math.PI*2); x.fill(); }
+   });
 
-   // bold C label with white halo for readability
+   // pill badge: solid color, white text, soft shadow
    const mx=(x1+x2)/2, my=(y1+y2)/2;
    const label=`C${k+1}`;
-   x.font=`800 ${contractionLabelSize}px system-ui,-apple-system,sans-serif`;
+   x.font=`800 ${mobileChart?11:12.5}px system-ui,-apple-system,sans-serif`;
    x.textBaseline='middle';
    const lw=x.measureText(label).width;
-   let ly=my+(k%2===0?-contractionLabelOffset:contractionLabelOffset);
-   ly=Math.max(pad.t+13,Math.min(H-pad.b-13,ly));
-   let lx=Math.max(pad.l+4,Math.min(W-pad.r-lw-4,mx-lw/2));
-
+   const bw=lw+(mobileChart?12:16), bh=mobileChart?18:21;
+   let ly=my+(k%2===0?-contractionLabelOffset-2:contractionLabelOffset+2);
+   const clampY=v=>Math.max(pad.t+bh/2+2,Math.min(H-pad.b-bh/2-2,v));
+   ly=clampY(ly);
+   let lx=Math.max(pad.l+2,Math.min(W-pad.r-bw-2,mx-bw/2));
+   placedBadges.forEach(function(q){
+     if(lx<q.x+q.w+3&&lx+bw+3>q.x&&Math.abs(ly-q.y)<bh+3){ ly=clampY(q.y+(ly>=q.y?1:-1)*(bh+4)); }
+   });
+   placedBadges.push({x:lx,y:ly,w:bw});
    x.save();
-   x.lineWidth=3.5;
-   x.strokeStyle='rgba(255,255,255,.92)';
-   x.strokeText(label,lx,ly);
+   x.shadowColor='rgba(15,23,42,.28)'; x.shadowBlur=6; x.shadowOffsetY=2;
    x.fillStyle=cc;
-   x.fillText(label,lx,ly);
+   x.beginPath();
+   if(x.roundRect) x.roundRect(lx,ly-bh/2,bw,bh,bh/2); else x.rect(lx,ly-bh/2,bw,bh);
+   x.fill();
+   x.shadowColor='transparent';
+   x.strokeStyle='#fff'; x.lineWidth=1.6; x.stroke();
+   x.fillStyle='#fff';
+   x.fillText(label,lx+(bw-lw)/2,ly+.5);
    x.restore();
  });
  x.textBaseline='alphabetic';
@@ -5300,6 +5312,16 @@ html[data-market="TW"]{--up:#dc2626;--down:#15803d}
  }catch(e){}
 })();
 </script>
+<style id="ui-contraction">
+/* 圖下方 C1~C4 卡片：與圖上徽章同色，上緣色帶＋實心徽章＋大字跌幅 */
+.contraction-item{--cc:#64748b;position:relative;background:#fff!important;border:1px solid #e2e8f0!important;border-top:3px solid var(--cc)!important;border-radius:14px!important;box-shadow:0 1px 2px rgba(15,23,42,.05),0 6px 16px rgba(15,23,42,.04)!important}
+.contraction-item.c1{--cc:#e23b4f}.contraction-item.c2{--cc:#2468d8}.contraction-item.c3{--cc:#15945a}.contraction-item.c4{--cc:#8745cf}
+.contraction-head{display:flex!important;align-items:center;gap:8px}
+.contraction-dot{display:none!important}
+.contraction-head span:nth-child(2){background:var(--cc);color:#fff!important;padding:2px 10px;border-radius:999px;font-size:12.5px;font-weight:800;line-height:1.5}
+.contraction-head span:nth-child(3){margin-left:auto;color:var(--cc)!important;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.contraction-date{margin-top:6px;color:#94a3b8!important;font-size:12px;font-variant-numeric:tabular-nums}
+</style>
 </body></html>
 
 <style>
