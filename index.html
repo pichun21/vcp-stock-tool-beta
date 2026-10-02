@@ -1465,12 +1465,6 @@ body.help-modal-open{overflow:hidden}
   </div>
   <button class="helpbtn" id="helpBtn" style="position:absolute;right:18px;top:18px">？ 指標使用說明</button>
 </section>
-<div class="kpi-strip" id="kpiStrip" hidden aria-label="今日雷達摘要">
-  <button type="button" class="kpi-card kpi-breakout" data-kpi="breakout" onclick="kpiGo('breakout')"><span class="kpi-label">今日突破</span><b class="kpi-num">—</b><span class="kpi-cap">首次帶量站上 Pivot</span></button>
-  <button type="button" class="kpi-card kpi-hot" data-kpi="hot" onclick="kpiGo('hot')"><span class="kpi-label">高關注</span><b class="kpi-num">—</b><span class="kpi-cap">多項條件同時配合</span></button>
-  <button type="button" class="kpi-card kpi-near" data-kpi="near" onclick="kpiGo('near')"><span class="kpi-label">近 Pivot</span><b class="kpi-num">—</b><span class="kpi-cap">接近突破價</span></button>
-  <button type="button" class="kpi-card kpi-combo" data-kpi="combo" onclick="kpiGo('combo')"><span class="kpi-label">VCP＋Squeeze</span><b class="kpi-num">—</b><span class="kpi-cap">收斂與壓縮同時出現</span></button>
-</div>
 <div class="card helpbox" id="helpBox">
   <button type="button" class="help-modal-close" id="helpCloseBtn" aria-label="關閉指標使用說明">×</button>
   <section class="help-section">
@@ -1840,6 +1834,12 @@ body.help-modal-open{overflow:hidden}
       <button type="button" class="snapshot-btn" data-snapshot="intraday" onclick="setRadarSnapshot('intraday')">👀 盤中即時 <span id="intradayCount"></span></button>
     </div>
     <div id="snapshotStatus" class="muted" role="status" style="margin:7px 0 12px;font-size:12px"></div>
+    <div class="kpi-strip" id="kpiStrip" hidden aria-label="今日雷達摘要">
+      <button type="button" class="kpi-card kpi-breakout" data-kpi="breakout" onclick="kpiGo('breakout')"><span class="kpi-label">今日突破</span><b class="kpi-num">—</b><span class="kpi-cap">首次帶量站上 Pivot</span></button>
+      <button type="button" class="kpi-card kpi-hot" data-kpi="hot" onclick="kpiGo('hot')"><span class="kpi-label">高關注</span><b class="kpi-num">—</b><span class="kpi-cap">多項條件同時配合</span></button>
+      <button type="button" class="kpi-card kpi-near" data-kpi="near" onclick="kpiGo('near')"><span class="kpi-label">近 Pivot</span><b class="kpi-num">—</b><span class="kpi-cap">接近突破價</span></button>
+      <button type="button" class="kpi-card kpi-combo" data-kpi="combo" onclick="kpiGo('combo')"><span class="kpi-label">VCP＋Squeeze</span><b class="kpi-num">—</b><span class="kpi-cap">收斂與壓縮同時出現</span></button>
+    </div>
     <div class="radar-head">
       <div class="radar-tabs">
         <div class="radar-group" role="group" aria-label="快速"><span class="radar-group-label">快速</span><div class="radar-group-chips">
@@ -3387,7 +3387,8 @@ function updateKpiStrip(filter){
 function kpiGo(k){
   const key=(typeof radarFilter!=='undefined'&&radarFilter===k)?'all':k;
   const t=document.querySelector('.radar-tab[data-radar="'+key+'"]'); if(t) t.click();
-  const sec=document.querySelector('.radar-section'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  const w=document.querySelector('.radar-table-wrap'), mb=document.getElementById('radarMobile');
+  const tg=(w&&w.offsetParent)?w:mb; if(tg) setTimeout(()=>tg.scrollIntoView({behavior:'smooth',block:'start'}),60);
 }
 function squeezeLabel(r){ return RADAR_UI.squeeze[r.squeeze_level] || r.squeeze_state || '—'; }
 function momentumLabel(r){ return RADAR_UI.momentum[r.momentum_dir] || r.momentum || '—'; }
@@ -5106,7 +5107,7 @@ input:focus,select:focus{outline:none;border-color:var(--vp-accent);box-shadow:0
 </style>
 <style id="ui-kpi-pills">
 /* 摘要卡 */
-.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 4px}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 22px}
 .kpi-strip[hidden]{display:none!important}
 .kpi-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;text-align:left;padding:14px 16px 13px 20px!important;background:#fffcf6!important;color:var(--ink)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:0 8px 22px rgba(92,64,32,.07)!important;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
 .kpi-card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:5px;border-radius:0 4px 4px 0;background:var(--k,#c8692b)}
