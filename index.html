@@ -3,7 +3,7 @@
 <!-- VCPulse BUILD 2.46.2 NEWS IMPACT EMPTY-STATE COPY -->
 <!-- VCPulse BUILD 2.41.43 OFFICIAL-EVENT RESTORE ENGINE V2 -->
 <!-- VCPulse BUILD 2.40.2.1 UI POLISH -->
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-market="TW">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5f4ef">
@@ -3270,7 +3270,7 @@ function updateMarketSpecificSnapshotUI(){
 
 function setMarket(m,{reset=true}={}){
  const prevMarket=String(currentMarket||'').toUpperCase();
- currentMarket=m;
+ currentMarket=m;document.documentElement.setAttribute('data-market',String(m||'TW').toUpperCase());
  const msCard=document.getElementById('marketStructureCard'); if(msCard) msCard.style.display=(String(m).toUpperCase()==='TW'?'':'none');
  if(reset || prevMarket!==String(m||'').toUpperCase()) mobileRadarPage=1;
  updateMarketSpecificSnapshotUI();
@@ -5242,6 +5242,43 @@ input:focus,select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 4px 
 .check span{font-size:15px!important;font-weight:600;color:#1e293b}
 .check b.good{color:#16a34a!important}.check b.bad{color:#dc2626!important}
 .radar-kicker{color:#2563eb!important}
+</style>
+<style id="ui-market-theme">
+/* 漲跌色依市場切換：預設（美股）綠漲紅跌；台股紅漲綠跌 */
+:root{--up:#15803d;--down:#dc2626}
+html[data-market="TW"]{--up:#dc2626;--down:#15803d}
+.change-pct.up,.market-index-change.up,.single-quick-item b.up,.single-relative-strong,.aux-grid b.up{color:var(--up)!important}
+.change-pct.down,.market-index-change.down,.single-quick-item b.down,.single-relative-weak,.aux-grid b.down{color:var(--down)!important}
+.pivot-distance-fill.positive{background:var(--up)!important}
+.pivot-distance-fill.negative{background:var(--down)!important}
+/* 題材雷達：熱門＝橘紅，蓄勢＝靛紫，頂部色帶＋底色＋名次＋膠囊全面區隔 */
+.theme-board{position:relative;overflow:hidden;border-radius:20px!important}
+.theme-board::before{content:"";position:absolute;left:0;right:0;top:0;height:5px}
+.theme-board-hot{background:linear-gradient(180deg,#fff2e6 0,#fffaf5 150px,#fff 100%)!important;border:1px solid #fdba74!important}
+.theme-board-hot::before{background:linear-gradient(90deg,#f97316,#ef4444)}
+.theme-board-setup{background:linear-gradient(180deg,#efe9ff 0,#f8f6ff 150px,#fff 100%)!important;border:1px solid #c4b5fd!important}
+.theme-board-setup::before{background:linear-gradient(90deg,#7c3aed,#3b82f6)}
+.theme-board-hot .theme-board-main{color:#c2410c}
+.theme-board-setup .theme-board-main{color:#6d28d9}
+.theme-board-hot .theme-board-tag{background:#ffedd5!important;border-color:#fdba74!important;color:#c2410c}
+.theme-board-setup .theme-board-tag{background:#ede9fe!important;border-color:#c4b5fd!important;color:#6d28d9}
+.theme-board-hot .theme-row{background:#fff!important;border-color:#fde3c8!important}
+.theme-board-setup .theme-row{background:#fff!important;border-color:#e6defd!important}
+.theme-board-hot .theme-row .theme-rank{background:#ffedd5!important;color:#9a3412!important}
+.theme-board-hot .theme-row:nth-child(1) .theme-rank{background:#f97316!important;color:#fff!important}
+.theme-board-hot .theme-row:nth-child(2) .theme-rank{background:#fb923c!important;color:#fff!important}
+.theme-board-hot .theme-row:nth-child(3) .theme-rank{background:#fdba74!important;color:#7c2d12!important}
+.theme-board-setup .theme-row .theme-rank{background:#ede9fe!important;color:#5b21b6!important}
+.theme-board-setup .theme-row:nth-child(1) .theme-rank{background:#7c3aed!important;color:#fff!important}
+.theme-board-setup .theme-row:nth-child(2) .theme-rank{background:#8b5cf6!important;color:#fff!important}
+.theme-board-setup .theme-row:nth-child(3) .theme-rank{background:#c4b5fd!important;color:#4c1d95!important}
+.theme-board-hot .theme-score{color:#c2410c}
+.theme-board-setup .theme-score{color:#6d28d9}
+.theme-board-hot .theme-score small,.theme-board-setup .theme-score small{color:#94a3b8}
+.theme-board-hot .theme-stock-link{background:#fff7ed!important;border-color:#fed7aa!important;color:#7c2d12}
+.theme-board-hot .theme-stock-link:hover{background:#ffedd5!important}
+.theme-board-setup .theme-stock-link{background:#f5f3ff!important;border-color:#ddd6fe!important;color:#4c1d95}
+.theme-board-setup .theme-stock-link:hover{background:#ede9fe!important}
 </style>
 </body></html>
 
