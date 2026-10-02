@@ -1688,7 +1688,7 @@ body.help-modal-open{overflow:hidden}
 <div class="card"><div class="topline"><div><div class="single-title-row"><div class="ticker" id="title">等待分析</div><button type="button" id="singleFavorite" class="single-title-favorite" hidden aria-label="收藏股票" title="收藏股票">☆</button></div><div class="muted" id="period"></div><div id="singleLiveNote" class="muted" style="margin-top:5px;color:#9a6a1c" hidden></div><div id="singleRestoreNote" class="muted" style="margin-top:5px;color:#64686f" hidden></div></div><div class="badge" id="state">—</div></div>
 <canvas id="chart" width="720" height="360"></canvas>
 <div id="contractionLegend" class="contraction-legend"></div>
-<div class="note">圖：近約 120 個交易日收盤價；上方圖例標示收盤價、MA20（月線）與 Pivot（突破價）；圖中 C1～C4 標示各次回檔區間，跌幅與日期統一列於下方。VCP 是型態辨識，不代表突破一定成功。</div></div>
+<div class="note">圖：近約 120 個交易日收盤價；上方圖例標示收盤價、MA20（月線）與 Pivot（突破價）；圖中 C1～C4 標示各次回檔區間，跌幅與日期統一列於下方，滑鼠移到區間上（手機點一下）可直接看詳細數字。VCP 是型態辨識，不代表突破一定成功。</div></div>
 <div class="card"><div class="muted">VCP 綜合評分</div><div class="score" id="score">—</div><div class="stars" id="stars">☆☆☆☆☆</div><div id="singleStructureQuality" class="structure-quality-badge" hidden>💎 結構品質佳</div><div id="scoreContext" class="muted" style="margin-top:8px;line-height:1.55" hidden></div>
 <div class="single-quick-read">
   <div class="single-quick-item"><span>今日漲跌</span><b id="singleChange">—</b></div>
@@ -1974,7 +1974,8 @@ function analyze(d){
 function draw(a){
  let c=$('chart');
  const cssW=Math.max(320,Math.round(c.getBoundingClientRect().width||720));
- window.__chartA=a; window.__chartDrawnW=cssW;
+ if(window.__chartA!==a) window.__chartHover=null;
+  window.__chartA=a; window.__chartDrawnW=cssW;
  const cssH=Math.round(cssW*0.50);
  const dpr=Math.min(window.devicePixelRatio||1,2.5);
 
@@ -2015,10 +2016,10 @@ function draw(a){
  legendX += cssW<=760 ? 80 : 92;
 
  // MA20（月線）
- x.strokeStyle='#71879a';
- x.lineWidth=2.15;
+ x.strokeStyle='#0891b2';
+ x.lineWidth=2.8;
  x.beginPath(); x.moveTo(legendX,legendY); x.lineTo(legendX+22,legendY); x.stroke();
- x.fillStyle='#5f7181';
+ x.fillStyle='#0e7490';
  x.fillText('MA20（月線）',legendX+28,legendY);
  legendX += cssW<=760 ? 122 : 136;
 
@@ -2065,21 +2066,24 @@ function draw(a){
  const fullMA20=sma(a.close,20);
  const ma20=fullMA20.slice(-120);
 
- x.save();
- x.strokeStyle='#71879a';
- x.globalAlpha=.92;
- x.lineWidth=2.15;
- x.lineJoin='round';
- x.lineCap='round';
- x.beginPath();
- let maStarted=false;
- ma20.forEach((v,i)=>{
-   if(v==null || !Number.isFinite(v)) return;
-   if(!maStarted){x.moveTo(X(i),Y(v));maStarted=true;}
-   else x.lineTo(X(i),Y(v));
- });
- if(maStarted) x.stroke();
- x.restore();
+ const drawMALine=function(withHalo){
+   x.save();
+   x.lineJoin='round';
+   x.lineCap='round';
+   x.beginPath();
+   let maStarted=false;
+   ma20.forEach((v,i)=>{
+     if(v==null || !Number.isFinite(v)) return;
+     if(!maStarted){x.moveTo(X(i),Y(v));maStarted=true;}
+     else x.lineTo(X(i),Y(v));
+   });
+   if(maStarted){
+     if(withHalo){ x.strokeStyle='rgba(255,255,255,.9)'; x.lineWidth=5.6; x.stroke(); }
+     x.strokeStyle='#0891b2'; x.lineWidth=withHalo?2.8:2.4; x.stroke();
+   }
+   x.restore();
+ };
+ drawMALine(true);
 
 
  // stronger main price line
@@ -2130,6 +2134,10 @@ function draw(a){
  const contractionLabelSize=mobileChart?14:16;
  const contractionLabelOffset=mobileChart?15:18;
  const placedBadges=[];
+ const badgeQueue=[];
+ const segs=[];
+ const hoverK=(typeof window.__chartHover==='number')?window.__chartHover:null;
+ const fmtD=function(v){const m=String(v||'').match(/^\d{4}-(\d{2})-(\d{2})$/);return m?(m[1]+'/'+m[2]):String(v||'');};
 
  (a.drops||[]).forEach((d,k)=>{
    if(k>3)return;
@@ -2139,11 +2147,13 @@ function draw(a){
    let x1=X(hi),y1=Y(d.h.p),x2=X(lo),y2=Y(d.l.p);
    const cc=colors[k];
 
+   const isHover=hoverK===k, isDim=hoverK!==null&&!isHover;
+
    // soft ribbon underlay
    x.save();
    x.strokeStyle=cc;
-   x.globalAlpha=.16;
-   x.lineWidth=contractionGlowWidth+2;
+   x.globalAlpha=isHover?.28:(isDim?.06:.16);
+   x.lineWidth=contractionGlowWidth+(isHover?4:2);
    x.lineCap='round';
    x.lineJoin='round';
    x.beginPath();
@@ -2152,53 +2162,83 @@ function draw(a){
    x.stroke();
    x.restore();
 
-   // center line
+   // center line + endpoints
+   x.save();
+   x.globalAlpha=isDim?.32:1;
    x.strokeStyle=cc;
-   x.lineWidth=contractionLineWidth;
+   x.lineWidth=contractionLineWidth+(isHover?1.2:0);
    x.lineCap='round';
    x.beginPath();
    x.moveTo(x1,y1);
    x.lineTo(x2,y2);
    x.stroke();
-
-   // endpoints: white halo + colored dot (start point gets a white core)
    [[x1,y1],[x2,y2]].forEach(function(pt,pi){
      x.beginPath(); x.fillStyle='#fff'; x.arc(pt[0],pt[1],contractionDotRadius+2,0,Math.PI*2); x.fill();
      x.beginPath(); x.fillStyle=cc; x.arc(pt[0],pt[1],contractionDotRadius,0,Math.PI*2); x.fill();
      if(pi===0){ x.beginPath(); x.fillStyle='#fff'; x.arc(pt[0],pt[1],contractionDotRadius*.38,0,Math.PI*2); x.fill(); }
    });
+   x.restore();
 
-   // pill badge: solid color, white text, soft shadow
+   // 小圓徽章位置：沿線段法線方向外推，避免壓住線與端點
    const mx=(x1+x2)/2, my=(y1+y2)/2;
-   const label=`C${k+1}`;
-   x.font=`800 ${mobileChart?11:12.5}px system-ui,-apple-system,sans-serif`;
-   x.textBaseline='middle';
-   const lw=x.measureText(label).width;
-   const bw=lw+(mobileChart?12:16), bh=mobileChart?18:21;
-   const clampY=v=>Math.max(pad.t+bh/2+2,Math.min(H-pad.b-bh/2-2,v));
+   const cr=mobileChart?8:9;
+   const clampY=v=>Math.max(pad.t+cr+2,Math.min(H-pad.b-cr-2,v));
    const ddx=x2-x1, ddy=y2-y1, dlen=Math.max(Math.hypot(ddx,ddy),1);
    let nx=-ddy/dlen, ny=ddx/dlen;
    if(Math.abs(nx)>=Math.abs(ny)){ if(nx*(k%2===0?1:-1)<0){nx=-nx;ny=-ny;} }
    else { if(ny*(k%2===0?-1:1)<0){nx=-nx;ny=-ny;} }
-   const off=Math.abs(nx)*bw/2+Math.abs(ny)*bh/2+(dlen<40?13:8);
-   let ly=clampY(my+ny*off);
-   let lx=Math.max(pad.l+2,Math.min(W-pad.r-bw-2,mx+nx*off-bw/2));
+   const off=cr*(Math.abs(nx)+Math.abs(ny))+(dlen<40?12:7);
+   let cy=clampY(my+ny*off);
+   let cx=Math.max(pad.l+cr+2,Math.min(W-pad.r-cr-2,mx+nx*off));
    placedBadges.forEach(function(q){
-     if(lx<q.x+q.w+3&&lx+bw+3>q.x&&Math.abs(ly-q.y)<bh+3){ ly=clampY(q.y+(ly>=q.y?1:-1)*(bh+4)); }
+     if(Math.hypot(cx-q.x,cy-q.y)<cr*2+3){ cy=clampY(q.y+(cy>=q.y?1:-1)*(cr*2+4)); }
    });
-   placedBadges.push({x:lx,y:ly,w:bw});
-   x.save();
-   x.shadowColor='rgba(15,23,42,.28)'; x.shadowBlur=6; x.shadowOffsetY=2;
-   x.fillStyle=cc;
-   x.beginPath();
-   if(x.roundRect) x.roundRect(lx,ly-bh/2,bw,bh,bh/2); else x.rect(lx,ly-bh/2,bw,bh);
-   x.fill();
-   x.shadowColor='transparent';
-   x.strokeStyle='#fff'; x.lineWidth=1.6; x.stroke();
-   x.fillStyle='#fff';
-   x.fillText(label,lx+(bw-lw)/2,ly+.5);
-   x.restore();
+   placedBadges.push({x:cx,y:cy});
+   segs.push({k:k,x1:x1,y1:y1,x2:x2,y2:y2,cx:cx,cy:cy,cr:cr});
+
+   badgeQueue.push(function(){
+     x.save();
+     if(isHover){
+       const dropTxt='C'+(k+1)+'  −'+Math.abs(Number(d.drop)||0).toFixed(1)+'%';
+       const hiD=(a.dates&&a.dates[d.h.i])||'', loD=(a.dates&&a.dates[d.l.i])||'';
+       const subTxt=(hiD&&loD)?(fmtD(hiD)+' → '+fmtD(loD)):'';
+       x.font='800 13px system-ui,-apple-system,sans-serif';
+       const w1=x.measureText(dropTxt).width;
+       x.font='600 11px system-ui,-apple-system,sans-serif';
+       const w2=subTxt?x.measureText(subTxt).width:0;
+       const pw=Math.max(w1,w2)+22, ph=subTxt?40:26;
+       let pcx=cx+nx*(pw/2-cr), pcy=cy+ny*(ph/2-cr);
+       pcx=Math.max(pad.l+pw/2+2,Math.min(W-pad.r-pw/2-2,pcx));
+       pcy=Math.max(pad.t+ph/2+2,Math.min(H-pad.b-ph/2-2,pcy));
+       const px0=pcx-pw/2, py0=pcy-ph/2;
+       x.shadowColor='rgba(15,23,42,.30)'; x.shadowBlur=10; x.shadowOffsetY=3;
+       x.fillStyle=cc;
+       x.beginPath();
+       if(x.roundRect) x.roundRect(px0,py0,pw,ph,11); else x.rect(px0,py0,pw,ph);
+       x.fill();
+       x.shadowColor='transparent';
+       x.strokeStyle='#fff'; x.lineWidth=1.8; x.stroke();
+       x.fillStyle='#fff'; x.textBaseline='middle'; x.textAlign='center';
+       x.font='800 13px system-ui,-apple-system,sans-serif';
+       x.fillText(dropTxt,pcx,subTxt?py0+14:pcy+.5);
+       if(subTxt){ x.globalAlpha=.92; x.font='600 11px system-ui,-apple-system,sans-serif'; x.fillText(subTxt,pcx,py0+29); }
+     }else{
+       x.globalAlpha=isDim?.45:1;
+       x.shadowColor='rgba(15,23,42,.25)'; x.shadowBlur=5; x.shadowOffsetY=2;
+       x.fillStyle=cc;
+       x.beginPath(); x.arc(cx,cy,cr,0,Math.PI*2); x.fill();
+       x.shadowColor='transparent';
+       x.strokeStyle='#fff'; x.lineWidth=1.6; x.stroke();
+       x.fillStyle='#fff'; x.textBaseline='middle'; x.textAlign='center';
+       x.font='800 '+(mobileChart?10:11)+'px system-ui,-apple-system,sans-serif';
+       x.fillText(String(k+1),cx,cy+.5);
+     }
+     x.restore();
+   });
  });
+ window.__chartSegs=segs;
+ drawMALine(false);
+ badgeQueue.forEach(function(f){f();});
  x.textBaseline='alphabetic';
 }
 
@@ -5339,6 +5379,45 @@ html[data-market="TW"]{--up:#dc2626;--down:#15803d}
 #singleLiveNote{color:#b45309!important}
 #singleRestoreNote{color:#64748b!important}
 </style>
+<script>
+/* 走勢圖：滑鼠移到 C1～C4 區間上（手機點一下）才顯示完整標籤，其餘區間淡化 */
+(function(){
+ try{
+  const c=document.getElementById('chart'); if(!c) return;
+  let raf=0;
+  const hit=function(e){
+   const segs=window.__chartSegs||[]; if(!segs.length) return null;
+   const r=c.getBoundingClientRect(); const sc=(window.__chartDrawnW||r.width)/Math.max(r.width,1);
+   const px=(e.clientX-r.left)*sc, py=(e.clientY-r.top)*sc;
+   let best=null,bd=1e9;
+   segs.forEach(function(g){
+    const dx=g.x2-g.x1,dy=g.y2-g.y1,l2=(dx*dx+dy*dy)||1;
+    let t=((px-g.x1)*dx+(py-g.y1)*dy)/l2; t=Math.max(0,Math.min(1,t));
+    const dl=Math.hypot(px-(g.x1+t*dx),py-(g.y1+t*dy));
+    const db=Math.hypot(px-g.cx,py-g.cy)-g.cr;
+    const d=Math.min(dl-1,db);
+    if(d<=12&&d<bd){bd=d;best=g.k;}
+   });
+   return best;
+  };
+  const set=function(k){
+   const cur=(typeof window.__chartHover==='number')?window.__chartHover:null;
+   if(cur===k) return;
+   window.__chartHover=k;
+   c.style.cursor=(k===null?'':'pointer');
+   cancelAnimationFrame(raf);
+   raf=requestAnimationFrame(function(){try{if(window.__chartA) draw(window.__chartA);}catch(err){}});
+  };
+  c.addEventListener('pointermove',function(e){ if(e.pointerType==='touch') return; set(hit(e)); });
+  c.addEventListener('pointerleave',function(e){ if(e.pointerType!=='touch') set(null); });
+  c.addEventListener('pointerdown',function(e){
+   if(e.pointerType!=='touch') return;
+   const k=hit(e), cur=(typeof window.__chartHover==='number')?window.__chartHover:null;
+   set(k!==null&&cur===k?null:k);
+  });
+ }catch(e){}
+})();
+</script>
 </body></html>
 
 <style>
