@@ -5418,6 +5418,75 @@ html[data-market="TW"]{--up:#dc2626;--down:#15803d}
  }catch(e){}
 })();
 </script>
+<style id="ui-palette">
+/* 新配色：鼠尾草綠 #c0d7d1／芥末黃 #edce7c／駝色 #bb9f73／陶土橘 #d28963／鏽紅 #b66749，底色維持乾淨白 */
+:root{
+ --ink:#2b2622;--muted:#7c7368;--line:#e9e5de;
+ --vp-ink:#2b2622;--vp-muted:#7c7368;--vp-line:#e9e5de;
+ --vp-accent:#c4694a;--vp-caramel:#c4694a;--vp-accent-soft:#fbeae2;--vp-espresso:#2b2622;
+}
+body{background:radial-gradient(900px 420px at 8% -10%,rgba(192,215,209,.5) 0,rgba(192,215,209,0) 60%),radial-gradient(800px 400px at 100% 0,rgba(237,206,124,.30) 0,rgba(237,206,124,0) 55%),#fbfaf8!important;background-attachment:fixed;color:var(--ink)}
+/* 版頭 */
+.brand-hero{background:radial-gradient(520px 260px at 88% 40%,rgba(237,206,124,.38) 0,rgba(237,206,124,0) 70%),linear-gradient(135deg,#fff 0%,#f3f8f6 100%)!important;border:1px solid #dfe8e4!important;box-shadow:0 14px 34px rgba(60,50,40,.08)!important}
+.brand-hero::before{background:radial-gradient(#cfdcd7 1px,transparent 1.3px) 0 0/20px 20px}
+.brand-tag{color:#b66749!important}
+.brand-copy{color:#5f574d!important}
+.brand-pill{border-color:#dfe8e4!important;color:#4a423a!important}
+/* 卡片、標題、按鈕 */
+.card{border:1px solid var(--line)!important;box-shadow:0 1px 2px rgba(60,50,40,.05),0 8px 24px rgba(60,50,40,.05)!important}
+.section-title h2::before{background:linear-gradient(180deg,#d28963,#edce7c)!important}
+.searchrow button,.search button,#searchBtn{background:linear-gradient(180deg,#d28963,#b66749)!important;box-shadow:0 6px 14px rgba(182,103,73,.30)!important}
+.helpbtn,.marketbtn{border-color:#e3ddd3!important}
+.marketbtn.active{background:#2b2622!important;border-color:#2b2622!important}
+input:focus,select:focus{border-color:#c4694a!important;box-shadow:0 0 0 4px rgba(210,137,99,.20)!important}
+/* 篩選膠囊 */
+.radar-head .radar-tab{border-color:#e3ddd3!important;color:#4a423a!important}
+.radar-head .radar-tab:hover{border-color:#e6bba6!important;background:#fbeae2!important}
+.radar-head .radar-tab.active{background:#b66749!important;border-color:#b66749!important;color:#fff!important;box-shadow:0 4px 12px rgba(182,103,73,.30)!important}
+.radar-group-label{color:#a79d8e!important}
+.radar-kicker{color:#b66749!important}
+/* 表格 */
+.radar-table th{background:#f6f3ee;color:#6f665b;border-bottom-color:#e9e5de}
+.radar-table td{border-bottom-color:#f1ede6}
+.radar-row:hover{background:#fcf7f2!important}
+.radar-table-wrap{border-color:var(--line)}
+/* 摘要卡：陶土橘／芥末黃／鼠尾草綠／駝色 */
+.kpi-breakout{--k:#d28963}.kpi-hot{--k:#d9a825}.kpi-near{--k:#5f9c8e}.kpi-combo{--k:#a88a5c}
+.kpi-card.active{background:#fcf7f2!important}
+.kpi-label{color:#6f665b}.kpi-cap{color:#a79d8e}
+/* 狀態標籤 */
+.st-breakout{--pb:#fbe4da;--pc:#a8482a}
+.st-postbreakout{--pb:#dcebe7;--pc:#2f6f60}
+.st-near{--pb:#faedb8;--pc:#7a5a05}
+.st-forming{--pb:#efeae1;--pc:#7a6e5d}
+.pulse-badge.pulse-hot{background:#fbe4da!important;color:#a8482a!important;border:1px solid #eab7a0!important}
+.pulse-badge.pulse-watch{background:#e1eeea!important;color:#2f6f60!important;border:1px solid #b3d0c8!important}
+.pulse-badge.pulse-wait{background:#f1ede4!important;color:#6b5d45!important;border:1px solid #d9d1c0!important}
+.pulse-badge.pulse-extended{background:#b66749!important;color:#fff!important;border:1px solid #b66749!important}
+.mkt-tag{background:#efeae1;color:#6f665b}
+.new-tag{background:#f6e3a3;color:#6e4f00}
+.new-entry-badge{background:#faedb8!important;color:#6e4f00!important;border:1px solid #edce7c!important}
+/* 收藏星星、浮動按鈕 */
+.favorite-btn.is-favorite,.single-title-favorite.is-favorite{color:#d9a01a!important;background:#fbefc2!important;border-color:#e7c25a!important;box-shadow:0 0 0 3px rgba(237,206,124,.40),0 4px 10px rgba(217,160,26,.25)!important}
+.favorite-btn:hover,.single-title-favorite:hover{color:#d9a01a!important;background:#fdf6dc!important;border-color:#edce7c!important}
+.mobile-favorite.is-favorite{border-color:#e7c25a!important;background:#fbefc2!important;color:#7a5a05!important}
+.back-to-top-btn,.radar-back-float{color:#b66749!important}
+#singleLiveNote{color:#8a6209!important}
+/* 題材雷達：熱門＝陶土橘，蓄勢＝鼠尾草綠 */
+.theme-board-hot{--tb:#b66749;--tb2:#d28963;--tb3:#ebc3b0;--tbt:#a8482a;--tbbg:#fbebe3;--tbbd:#e8bba6;--tbc:#fdf3ed;--tbcb:#f0d0c0}
+.theme-board-setup{--tb:#4f8a7e;--tb2:#7fb0a5;--tb3:#c0d7d1;--tbt:#2f6f60;--tbbg:#e8f1ee;--tbbd:#b7d2cb;--tbc:#f2f8f6;--tbcb:#d0e3de}
+.theme-board-hot,.theme-board-setup{background:linear-gradient(180deg,var(--tbbg) 0,#fff 150px,#fff 100%)!important;border:1px solid var(--tbbd)!important}
+.theme-board-hot::before,.theme-board-setup::before{background:linear-gradient(90deg,var(--tb2),var(--tb))}
+.theme-board-hot .theme-board-main,.theme-board-setup .theme-board-main,.theme-board-hot .theme-score,.theme-board-setup .theme-score{color:var(--tbt)}
+.theme-board-hot .theme-board-tag,.theme-board-setup .theme-board-tag{background:var(--tbc)!important;border-color:var(--tbbd)!important;color:var(--tbt)}
+.theme-board-hot .theme-row,.theme-board-setup .theme-row{background:#fff!important;border-color:var(--tbcb)!important}
+.theme-board-hot .theme-row .theme-rank,.theme-board-setup .theme-row .theme-rank{background:var(--tbc)!important;color:var(--tbt)!important}
+.theme-board-hot .theme-row:nth-child(1) .theme-rank,.theme-board-setup .theme-row:nth-child(1) .theme-rank{background:var(--tb)!important;color:#fff!important}
+.theme-board-hot .theme-row:nth-child(2) .theme-rank,.theme-board-setup .theme-row:nth-child(2) .theme-rank{background:var(--tb2)!important;color:#fff!important}
+.theme-board-hot .theme-row:nth-child(3) .theme-rank,.theme-board-setup .theme-row:nth-child(3) .theme-rank{background:var(--tb3)!important;color:var(--tbt)!important}
+.theme-board-hot .theme-stock-link,.theme-board-setup .theme-stock-link{background:var(--tbc)!important;border-color:var(--tbcb)!important;color:var(--tbt)}
+.theme-board-hot .theme-stock-link:hover,.theme-board-setup .theme-stock-link:hover{background:var(--tbcb)!important}
+</style>
 </body></html>
 
 <style>
