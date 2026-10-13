@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10 01:14",
+  "generated_at": "2026-10-14 01:51",
   "timezone": "Asia/Taipei",
   "new_feature_version": 2,
   "dual_snapshot_version": 1,
@@ -52365,11 +52365,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 297862112.0,
+      "avg_value_20d": 296658212.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日帶量突破後新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52430,11 +52428,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 23080548.0,
-      "industry": "生技醫療業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日帶量突破後新進雷達"
+      "avg_value_20d": 22999713.0,
+      "industry": "化學生技醫療",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52495,11 +52491,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 39737006.0,
+      "avg_value_20d": 39723319.0,
       "industry": "資訊服務業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日帶量突破後新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52559,11 +52553,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 46680838.0,
+      "avg_value_20d": 46623976.0,
       "industry": "其他",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52623,11 +52615,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 48048802.0,
+      "avg_value_20d": 47607616.0,
       "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日帶量突破後新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52688,11 +52678,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 8671360358.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日帶量突破後新進雷達"
+      "avg_value_20d": 8652355110.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52751,11 +52739,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 61809561.0,
+      "avg_value_20d": 61568377.0,
       "industry": "其他電子類",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52814,11 +52800,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 139619775.0,
+      "avg_value_20d": 139502494.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52877,11 +52861,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1476842072.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 1474322129.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -52941,11 +52923,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 18378299003.0,
+      "avg_value_20d": 18360442600.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53006,11 +52986,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 207188231.0,
-      "industry": "化學工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 207347858.0,
+      "industry": "化學生技醫療",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53071,11 +53049,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2681505450.0,
+      "avg_value_20d": 2680470010.0,
       "industry": "油電燃氣業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53134,11 +53110,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 9594195398.0,
+      "avg_value_20d": 9574102078.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53198,11 +53172,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 44749107.0,
+      "avg_value_20d": 44744323.0,
       "industry": "金融業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 3/5 入選門檻，且為一般壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53260,11 +53232,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 169725712.0,
+      "avg_value_20d": 169721245.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53323,11 +53293,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 246105347.0,
+      "avg_value_20d": 245865341.0,
       "industry": "紡織纖維",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 3/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53385,11 +53353,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1364168847.0,
+      "avg_value_20d": 1363414586.0,
       "industry": "電子通路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53448,11 +53414,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 100330911.0,
+      "avg_value_20d": 100308193.0,
       "industry": "橡膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53511,11 +53475,69 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 98727470.0,
+      "avg_value_20d": 98652534.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "2327",
+      "name": "國巨*",
+      "exchange": "TWSE",
+      "score": 3,
+      "score_components": {
+        "trend": true,
+        "two_contractions": true,
+        "contracting": false,
+        "volume_dry": true,
+        "pivot_condition": false
+      },
+      "structure_quality_good": false,
+      "structure_quality_label": "",
+      "structure_quality_components": {
+        "trend": true,
+        "two_contractions": true,
+        "regression_contracting": false,
+        "volume_dry": true,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": false
+      },
+      "atr20_to_60": 0.7602,
+      "contractions": [
+        6.5744,
+        18.8822,
+        14.4054,
+        10.1868
+      ],
+      "contracts": "-7% → -19% → -14% → -10%",
+      "pivot": 626.0,
+      "last": 635.0,
+      "distance": 1.44,
+      "change_pct": -1.85,
+      "volume_dry": true,
+      "type": "postbreakout",
+      "state": "🔵 突破後 D+1",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↘ 多方減弱",
+      "momentum_dir": "bull_down",
+      "combo": false,
+      "breakout_days": 1,
+      "breakout_date": "2026-10-07",
+      "breakout_return_pct": 1.44,
+      "breakout_high_pct": 9.58,
+      "holding_pivot": true,
+      "pulse_signal": "wait",
+      "pulse_label": "⏳ 等待",
+      "pulse_points": 2,
+      "pulse_reasons": [
+        "突破後仍守 Pivot"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 24083225460.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53574,11 +53596,70 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 250008029.0,
+      "avg_value_20d": 249706886.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "6509",
+      "name": "聚和",
+      "exchange": "TPEX",
+      "score": 3,
+      "score_components": {
+        "trend": true,
+        "two_contractions": true,
+        "contracting": false,
+        "volume_dry": true,
+        "pivot_condition": false
+      },
+      "structure_quality_good": false,
+      "structure_quality_label": "",
+      "structure_quality_components": {
+        "trend": true,
+        "two_contractions": true,
+        "regression_contracting": false,
+        "volume_dry": true,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": false
+      },
+      "atr20_to_60": 0.7874,
+      "contractions": [
+        2.7749,
+        28.3478,
+        8.5714,
+        4.0469
+      ],
+      "contracts": "-3% → -28% → -9% → -4%",
+      "pivot": 49.9,
+      "last": 50.7,
+      "distance": 1.6,
+      "change_pct": 0.6,
+      "volume_dry": true,
+      "type": "postbreakout",
+      "state": "🔵 突破後 D+1",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↑ 多方增強",
+      "momentum_dir": "bull_up",
+      "combo": false,
+      "breakout_days": 1,
+      "breakout_date": "2026-10-07",
+      "breakout_return_pct": 1.6,
+      "breakout_high_pct": 3.61,
+      "holding_pivot": true,
+      "pulse_signal": "wait",
+      "pulse_label": "⏳ 等待",
+      "pulse_points": 4,
+      "pulse_reasons": [
+        "突破後仍守 Pivot",
+        "多方增強"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 41112564.0,
+      "industry": "化學工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53637,11 +53718,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 37684243.0,
+      "avg_value_20d": 37598533.0,
       "industry": "生技醫療業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53700,11 +53779,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 112926592.0,
+      "avg_value_20d": 112773897.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53762,11 +53839,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 3058610362.0,
+      "avg_value_20d": 3051874437.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53824,11 +53899,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 841247650.0,
-      "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 840837051.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53888,11 +53961,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 774064222.0,
+      "avg_value_20d": 772991952.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -53951,11 +54022,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 4996476399.0,
+      "avg_value_20d": 4990876406.0,
       "industry": "電機機械",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 3/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54013,11 +54082,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2242522858.0,
+      "avg_value_20d": 2235207094.0,
       "industry": "通信網路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54076,11 +54143,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 97058052.0,
+      "avg_value_20d": 97080613.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54139,11 +54204,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 493393482.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 492819162.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54202,11 +54265,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2082945857.0,
+      "avg_value_20d": 2081616192.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54264,11 +54325,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 353351639.0,
+      "avg_value_20d": 349593998.0,
       "industry": "綠能環保",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54327,11 +54386,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 40595617.0,
+      "avg_value_20d": 40587031.0,
       "industry": "紡織纖維",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54389,11 +54446,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 3632027088.0,
-      "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 3627143080.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54453,11 +54508,71 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 695504951.0,
+      "avg_value_20d": 692134513.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "8042",
+      "name": "金山電",
+      "exchange": "TPEX",
+      "score": 3,
+      "score_components": {
+        "trend": true,
+        "two_contractions": true,
+        "contracting": true,
+        "volume_dry": false,
+        "pivot_condition": false
+      },
+      "structure_quality_good": false,
+      "structure_quality_label": "",
+      "structure_quality_components": {
+        "trend": true,
+        "two_contractions": true,
+        "regression_contracting": true,
+        "volume_dry": false,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": false
+      },
+      "atr20_to_60": 0.8072,
+      "contractions": [
+        30.6564,
+        15.1073,
+        10.0961,
+        1.5064
+      ],
+      "contracts": "-31% → -15% → -10% → -2%",
+      "pivot": 121.5,
+      "last": 138.5,
+      "distance": 13.99,
+      "change_pct": 9.92,
+      "volume_dry": false,
+      "type": "postbreakout",
+      "state": "🔵 突破後 D+1",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↑ 多方增強",
+      "momentum_dir": "bull_up",
+      "combo": false,
+      "breakout_days": 1,
+      "breakout_date": "2026-10-07",
+      "breakout_return_pct": 13.99,
+      "breakout_high_pct": 13.99,
+      "holding_pivot": true,
+      "pulse_signal": "extended",
+      "pulse_label": "⚠️ 過度延伸",
+      "pulse_points": 4,
+      "pulse_reasons": [
+        "突破後仍守 Pivot",
+        "多方增強",
+        "突破後距 Pivot 超過 8%"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 759060598.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54517,11 +54632,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2639622531.0,
+      "avg_value_20d": 2635414077.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54580,11 +54693,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 10839558500.0,
+      "avg_value_20d": 10783970600.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54642,11 +54753,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 42113096.0,
+      "avg_value_20d": 41993169.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54705,11 +54814,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1611746241.0,
+      "avg_value_20d": 1611289008.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54768,11 +54875,9 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 27976192.0,
+      "avg_value_20d": 27965104.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54830,11 +54935,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 206397270.0,
+      "avg_value_20d": 206302522.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54893,11 +54996,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 283624162.0,
+      "avg_value_20d": 283546438.0,
       "industry": "金融保險",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -54957,11 +55058,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 91123537.0,
+      "avg_value_20d": 91122501.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻，且為中度壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55019,11 +55118,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 6109585809.0,
+      "avg_value_20d": 6107814430.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55081,11 +55178,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 55916755.0,
+      "avg_value_20d": 55831044.0,
       "industry": "綠能環保類",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55143,11 +55238,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 24223065.0,
+      "avg_value_20d": 24206128.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55206,11 +55299,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 990576241.0,
+      "avg_value_20d": 989296773.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55269,11 +55360,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 21194685.0,
+      "avg_value_20d": 21178400.0,
       "industry": "生技醫療業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55331,11 +55420,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 3002417045.0,
-      "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 3000699375.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55393,11 +55480,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 103360044.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 103287759.0,
+      "industry": "光電業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55455,73 +55540,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 24065566.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
-    },
-    {
-      "market": "TW",
-      "symbol": "2327",
-      "name": "國巨*",
-      "exchange": "TWSE",
-      "score": 2,
-      "score_components": {
-        "trend": false,
-        "two_contractions": true,
-        "contracting": false,
-        "volume_dry": true,
-        "pivot_condition": false
-      },
-      "structure_quality_good": false,
-      "structure_quality_label": "",
-      "structure_quality_components": {
-        "trend": false,
-        "two_contractions": true,
-        "regression_contracting": false,
-        "volume_dry": true,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": false
-      },
-      "atr20_to_60": 0.7602,
-      "contractions": [
-        6.5744,
-        18.8822,
-        14.4054,
-        10.1868
-      ],
-      "contracts": "-7% → -19% → -14% → -10%",
-      "pivot": 626.0,
-      "last": 635.0,
-      "distance": 1.44,
-      "change_pct": -1.85,
-      "volume_dry": true,
-      "type": "postbreakout",
-      "state": "🔵 突破後 D+1",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↘ 多方減弱",
-      "momentum_dir": "bull_down",
-      "combo": false,
-      "breakout_days": 1,
-      "breakout_date": "2026-10-07",
-      "breakout_return_pct": 1.44,
-      "breakout_high_pct": 9.58,
-      "holding_pivot": true,
-      "pulse_signal": "wait",
-      "pulse_label": "⏳ 等待",
-      "pulse_points": 2,
-      "pulse_reasons": [
-        "突破後仍守 Pivot"
-      ],
-      "data_date": "2026-10-08",
-      "avg_value_20d": 24136364388.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 24044297.0,
+      "industry": "電腦及週邊設備業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55579,11 +55600,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 120275072.0,
+      "avg_value_20d": 120090922.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55641,11 +55660,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 203468131.0,
+      "avg_value_20d": 203489661.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55704,74 +55721,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 218982072.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
-    },
-    {
-      "market": "TW",
-      "symbol": "6509",
-      "name": "聚和",
-      "exchange": "TPEX",
-      "score": 2,
-      "score_components": {
-        "trend": false,
-        "two_contractions": true,
-        "contracting": false,
-        "volume_dry": true,
-        "pivot_condition": false
-      },
-      "structure_quality_good": false,
-      "structure_quality_label": "",
-      "structure_quality_components": {
-        "trend": false,
-        "two_contractions": true,
-        "regression_contracting": false,
-        "volume_dry": true,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": false
-      },
-      "atr20_to_60": 0.7874,
-      "contractions": [
-        2.7749,
-        28.3478,
-        8.5714,
-        4.0469
-      ],
-      "contracts": "-3% → -28% → -9% → -4%",
-      "pivot": 49.9,
-      "last": 50.7,
-      "distance": 1.6,
-      "change_pct": 0.6,
-      "volume_dry": true,
-      "type": "postbreakout",
-      "state": "🔵 突破後 D+1",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↑ 多方增強",
-      "momentum_dir": "bull_up",
-      "combo": false,
-      "breakout_days": 1,
-      "breakout_date": "2026-10-07",
-      "breakout_return_pct": 1.6,
-      "breakout_high_pct": 3.61,
-      "holding_pivot": true,
-      "pulse_signal": "wait",
-      "pulse_label": "⏳ 等待",
-      "pulse_points": 4,
-      "pulse_reasons": [
-        "突破後仍守 Pivot",
-        "多方增強"
-      ],
-      "data_date": "2026-10-08",
-      "avg_value_20d": 41137174.0,
-      "industry": "化學工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "avg_value_20d": 218944807.0,
+      "industry": "光電業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55829,11 +55781,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 32321843.0,
+      "avg_value_20d": 32253274.0,
       "industry": "通信網路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55891,11 +55841,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 24821396.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "avg_value_20d": 24776735.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -55953,11 +55901,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 939948817.0,
+      "avg_value_20d": 939356474.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56016,11 +55962,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 60932940.0,
+      "avg_value_20d": 60837196.0,
       "industry": "電子通路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56078,11 +56022,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 97574826.0,
+      "avg_value_20d": 97556525.0,
       "industry": "鋼鐵工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56141,11 +56083,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 28011940.0,
+      "avg_value_20d": 27998770.0,
       "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56205,11 +56145,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 153553193.0,
+      "avg_value_20d": 153410066.0,
       "industry": "油電燃氣業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻，且為中度壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56268,11 +56206,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 34545649.0,
+      "avg_value_20d": 34532450.0,
       "industry": "化學工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56330,11 +56266,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 351309932.0,
+      "avg_value_20d": 351303398.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56394,11 +56328,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 33733533.0,
+      "avg_value_20d": 33719080.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻，且為一般壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56456,11 +56388,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 16132743596.0,
+      "avg_value_20d": 16104032898.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56518,11 +56448,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1075958815.0,
-      "industry": "通信網路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 1074473270.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56580,11 +56508,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 23522437.0,
+      "avg_value_20d": 23499589.0,
       "industry": "鋼鐵工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56642,11 +56568,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 134249275.0,
+      "avg_value_20d": 134242251.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56704,11 +56628,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1077767959.0,
-      "industry": "電子通路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 1077586638.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56767,11 +56689,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 20935610.0,
-      "industry": "創新板股票",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "avg_value_20d": 20894303.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56830,11 +56750,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 193621806.0,
-      "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 193079102.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56893,11 +56811,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 31045646.0,
+      "avg_value_20d": 31038267.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -56956,11 +56872,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1372103083.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 1370918266.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57020,11 +56934,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 6790205109.0,
+      "avg_value_20d": 6786451630.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻，且為一般壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57083,11 +56995,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 144137126.0,
+      "avg_value_20d": 143719208.0,
       "industry": "數位雲端類",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57146,11 +57056,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 4012338425.0,
+      "avg_value_20d": 4008655842.0,
       "industry": "電機機械",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57209,11 +57117,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 642044442.0,
+      "avg_value_20d": 641936067.0,
       "industry": "其他",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57271,11 +57177,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 171141361.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "avg_value_20d": 170983886.0,
+      "industry": "半導體業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57334,11 +57238,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 107512477.0,
-      "industry": "其他電子業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 107077589.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57396,11 +57298,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 11067381562.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 11059511415.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57458,11 +57358,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1158448612.0,
+      "avg_value_20d": 1152192856.0,
       "industry": "其他電子類",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57520,11 +57418,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 3158779900.0,
+      "avg_value_20d": 3158053955.0,
       "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57583,11 +57479,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 414337099.0,
+      "avg_value_20d": 414248241.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57645,11 +57539,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1510580078.0,
-      "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 1510424343.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57709,11 +57601,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 4416778299.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 4412264788.0,
+      "industry": "半導體業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57772,11 +57662,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 184628005.0,
+      "avg_value_20d": 184194431.0,
       "industry": "其他",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57835,11 +57723,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 193350757.0,
+      "avg_value_20d": 193139258.0,
       "industry": "汽車工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57899,11 +57785,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 310313830.0,
+      "avg_value_20d": 310119831.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -57963,11 +57847,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 56217701.0,
+      "avg_value_20d": 56162283.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58027,11 +57909,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 293622131.0,
+      "avg_value_20d": 292774237.0,
       "industry": "資訊服務業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58090,11 +57970,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1822337271.0,
+      "avg_value_20d": 1818185082.0,
       "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58153,75 +58031,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 12539990199.0,
+      "avg_value_20d": 12516506256.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
-    },
-    {
-      "market": "TW",
-      "symbol": "8042",
-      "name": "金山電",
-      "exchange": "TPEX",
-      "score": 2,
-      "score_components": {
-        "trend": false,
-        "two_contractions": true,
-        "contracting": true,
-        "volume_dry": false,
-        "pivot_condition": false
-      },
-      "structure_quality_good": false,
-      "structure_quality_label": "",
-      "structure_quality_components": {
-        "trend": false,
-        "two_contractions": true,
-        "regression_contracting": true,
-        "volume_dry": false,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": false
-      },
-      "atr20_to_60": 0.8072,
-      "contractions": [
-        30.6564,
-        15.1073,
-        10.0961,
-        1.5064
-      ],
-      "contracts": "-31% → -15% → -10% → -2%",
-      "pivot": 121.5,
-      "last": 138.5,
-      "distance": 13.99,
-      "change_pct": 9.92,
-      "volume_dry": false,
-      "type": "postbreakout",
-      "state": "🔵 突破後 D+1",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↑ 多方增強",
-      "momentum_dir": "bull_up",
-      "combo": false,
-      "breakout_days": 1,
-      "breakout_date": "2026-10-07",
-      "breakout_return_pct": 13.99,
-      "breakout_high_pct": 13.99,
-      "holding_pivot": true,
-      "pulse_signal": "extended",
-      "pulse_label": "⚠️ 過度延伸",
-      "pulse_points": 4,
-      "pulse_reasons": [
-        "突破後仍守 Pivot",
-        "多方增強",
-        "突破後距 Pivot 超過 8%"
-      ],
-      "data_date": "2026-10-08",
-      "avg_value_20d": 760647683.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 2/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58280,11 +58092,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 184734162.0,
+      "avg_value_20d": 184601951.0,
       "industry": "其他",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58344,11 +58154,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 3956680107.0,
+      "avg_value_20d": 3954796730.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58408,11 +58216,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2830185514.0,
+      "avg_value_20d": 2826770698.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58472,11 +58278,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 372098783.0,
+      "avg_value_20d": 371369068.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58536,11 +58340,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 381799100.0,
-      "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 381390944.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58598,11 +58400,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1537652716.0,
+      "avg_value_20d": 1536790942.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58660,11 +58460,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 70060985.0,
+      "avg_value_20d": 70023219.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58722,11 +58520,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 148687203.0,
+      "avg_value_20d": 148704229.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58784,11 +58580,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 382216208.0,
+      "avg_value_20d": 381953510.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58846,11 +58640,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 226209680.0,
+      "avg_value_20d": 226087418.0,
       "industry": "通信網路業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58908,11 +58700,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 29918914.0,
+      "avg_value_20d": 29894129.0,
       "industry": "其他電子類",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -58970,11 +58760,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 298406820.0,
+      "avg_value_20d": 298278230.0,
       "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59032,11 +58820,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 111723876.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 111645019.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59094,11 +58880,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 402302285.0,
+      "avg_value_20d": 401374340.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59157,11 +58941,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 74446700.0,
+      "avg_value_20d": 74369308.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59220,11 +59002,9 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 491533607.0,
+      "avg_value_20d": 491507146.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻，且為一般壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59283,11 +59063,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 204190321.0,
+      "avg_value_20d": 204168870.0,
       "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59315,12 +59093,12 @@
       },
       "atr20_to_60": 0.9506,
       "contractions": [
-        22.8647,
+        28.5888,
         12.7407,
         4.6129,
         6.457
       ],
-      "contracts": "-23% → -13% → -5% → -6%",
+      "contracts": "-29% → -13% → -5% → -6%",
       "pivot": 322.0,
       "last": 334.0,
       "distance": 3.73,
@@ -59345,11 +59123,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 148256744.0,
+      "avg_value_20d": 147755042.0,
       "industry": "光電業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59407,11 +59183,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 680560578.0,
+      "avg_value_20d": 678496282.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59469,11 +59243,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 43304668.0,
-      "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 43192476.0,
+      "industry": "化學工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59531,11 +59303,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 30786727.0,
+      "avg_value_20d": 30696041.0,
       "industry": "其他電子類",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59593,11 +59363,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1738726349.0,
+      "avg_value_20d": 1736678025.0,
       "industry": "玻璃陶瓷",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59655,11 +59423,9 @@
         "突破後仍守 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 470635279.0,
+      "avg_value_20d": 470163509.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59718,11 +59484,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 452442588.0,
+      "avg_value_20d": 452170501.0,
       "industry": "化學生技醫療",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59781,11 +59545,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 10520074486.0,
-      "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 10498954676.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59844,11 +59606,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 138622102.0,
+      "avg_value_20d": 138034184.0,
       "industry": "其他電子類",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59908,11 +59668,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 128706431.0,
+      "avg_value_20d": 128567480.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -59973,11 +59731,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 363192239.0,
+      "avg_value_20d": 362786602.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻，且為一般壓縮"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60037,11 +59793,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 32534212.0,
+      "avg_value_20d": 32502591.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60101,11 +59855,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 520854820.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "avg_value_20d": 517921705.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60165,11 +59917,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 64753147.0,
+      "avg_value_20d": 64719499.0,
       "industry": "生技醫療業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60229,11 +59979,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 786415194.0,
+      "avg_value_20d": 784451193.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60293,11 +60041,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 70713904.0,
+      "avg_value_20d": 70745751.0,
       "industry": "通信網路業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60357,11 +60103,9 @@
         "突破後距 Pivot 超過 8%"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 43416203.0,
+      "avg_value_20d": 43321231.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日達到 VCP 1/5 入選門檻"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60420,11 +60164,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 387486111.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "avg_value_20d": 387054924.0,
+      "industry": "電子零組件業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60483,11 +60225,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 329781464.0,
+      "avg_value_20d": 329180988.0,
       "industry": "電子零組件業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60548,11 +60288,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 24310127.0,
+      "avg_value_20d": 24299515.0,
       "industry": "電機機械",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60611,11 +60349,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 489759204.0,
+      "avg_value_20d": 489605369.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60674,11 +60410,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 69446469.0,
+      "avg_value_20d": 69409461.0,
       "industry": "半導體業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60737,11 +60471,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 738242816.0,
+      "avg_value_20d": 738098252.0,
       "industry": "電器電纜",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60801,11 +60533,9 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 35058324.0,
+      "avg_value_20d": 35024231.0,
       "industry": "生技醫療業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60864,11 +60594,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 889724837.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "avg_value_20d": 889331236.0,
+      "industry": "電子通路業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60928,11 +60656,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1829356408.0,
+      "avg_value_20d": 1828074682.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -60992,11 +60718,9 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 283038682.0,
+      "avg_value_20d": 282645898.0,
       "industry": "電機機械",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61056,11 +60780,9 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 81720082.0,
+      "avg_value_20d": 81677763.0,
       "industry": "電子通路業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61119,11 +60841,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 86837313.0,
+      "avg_value_20d": 86801066.0,
       "industry": "電腦及週邊設備業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61184,11 +60904,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 42349259.0,
+      "avg_value_20d": 42235832.0,
       "industry": "運動休閒",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61248,11 +60966,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 127204890.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "avg_value_20d": 127072093.0,
+      "industry": "半導體業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61313,11 +61029,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 223539921.0,
+      "avg_value_20d": 223490567.0,
       "industry": "塑膠工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61376,11 +61090,9 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 367463941.0,
+      "avg_value_20d": 366635799.0,
       "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": false,
-      "new_reason": ""
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61440,11 +61152,9 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 388248234.0,
-      "industry": "電子工業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "avg_value_20d": 388198792.0,
+      "industry": "電腦及週邊設備業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61504,11 +61214,9 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 62549715.0,
+      "avg_value_20d": 62538105.0,
       "industry": "電器電纜",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61568,11 +61276,70 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 22168065.0,
+      "avg_value_20d": 22166180.0,
       "industry": "電機機械",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "2323",
+      "name": "中環",
+      "exchange": "TWSE",
+      "score": 4,
+      "score_components": {
+        "trend": false,
+        "two_contractions": true,
+        "contracting": true,
+        "volume_dry": true,
+        "pivot_condition": true
+      },
+      "structure_quality_good": false,
+      "structure_quality_label": "",
+      "structure_quality_components": {
+        "trend": false,
+        "two_contractions": true,
+        "regression_contracting": true,
+        "volume_dry": true,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": true
+      },
+      "atr20_to_60": 0.5098,
+      "contractions": [
+        8.547,
+        5.0228,
+        1.3825,
+        0.0
+      ],
+      "contracts": "-9% → -5% → -1% → -0%",
+      "pivot": 12.22,
+      "last": 12.22,
+      "distance": -0.0,
+      "change_pct": 0.0,
+      "volume_dry": true,
+      "type": "near",
+      "state": "🟡 接近 Pivot",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↘ 多方減弱",
+      "momentum_dir": "bull_down",
+      "combo": false,
+      "breakout_days": null,
+      "breakout_date": null,
+      "breakout_return_pct": null,
+      "breakout_high_pct": null,
+      "holding_pivot": false,
+      "pulse_signal": "wait",
+      "pulse_label": "⏳ 等待",
+      "pulse_points": 3,
+      "pulse_reasons": [
+        "VCP 4/5",
+        "接近 Pivot"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 36642873.0,
+      "industry": "電子工業",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61632,75 +61399,9 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 96822132.0,
+      "avg_value_20d": 96694326.0,
       "industry": "電子通路業",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
-    },
-    {
-      "market": "TW",
-      "symbol": "2727",
-      "name": "王品",
-      "exchange": "TWSE",
-      "score": 4,
-      "score_components": {
-        "trend": false,
-        "two_contractions": true,
-        "contracting": true,
-        "volume_dry": true,
-        "pivot_condition": true
-      },
-      "structure_quality_good": false,
-      "structure_quality_label": "",
-      "structure_quality_components": {
-        "trend": false,
-        "two_contractions": true,
-        "regression_contracting": true,
-        "volume_dry": true,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": true
-      },
-      "atr20_to_60": 0.5401,
-      "contractions": [
-        4.4776,
-        4.5549,
-        4.4211,
-        1.0593
-      ],
-      "contracts": "-4% → -5% → -4% → -1%",
-      "pivot": 237.5,
-      "last": 237.5,
-      "distance": 0.0,
-      "change_pct": 1.71,
-      "volume_dry": true,
-      "type": "near",
-      "state": "🟡 接近 Pivot",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↑ 多方增強",
-      "momentum_dir": "bull_up",
-      "combo": false,
-      "breakout_days": null,
-      "breakout_date": null,
-      "breakout_return_pct": null,
-      "breakout_high_pct": null,
-      "holding_pivot": false,
-      "pulse_signal": "watch",
-      "pulse_label": "👀 觀察",
-      "pulse_points": 5,
-      "pulse_reasons": [
-        "VCP 4/5",
-        "接近 Pivot",
-        "多方增強"
-      ],
-      "data_date": "2026-10-08",
-      "avg_value_20d": 48547689.0,
-      "industry": "觀光餐旅",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61760,11 +61461,71 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 22763109.0,
+      "avg_value_20d": 22697749.0,
       "industry": "觀光餐旅",
-      "split_adjusted": false,
-      "is_new": true,
-      "new_reason": "今日進入 Pivot 接近區並新進雷達"
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "2727",
+      "name": "王品",
+      "exchange": "TWSE",
+      "score": 4,
+      "score_components": {
+        "trend": false,
+        "two_contractions": true,
+        "contracting": true,
+        "volume_dry": true,
+        "pivot_condition": true
+      },
+      "structure_quality_good": false,
+      "structure_quality_label": "",
+      "structure_quality_components": {
+        "trend": false,
+        "two_contractions": true,
+        "regression_contracting": true,
+        "volume_dry": true,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": true
+      },
+      "atr20_to_60": 0.5401,
+      "contractions": [
+        4.4776,
+        4.5549,
+        4.4211,
+        1.0593
+      ],
+      "contracts": "-4% → -5% → -4% → -1%",
+      "pivot": 237.5,
+      "last": 237.5,
+      "distance": 0.0,
+      "change_pct": 1.71,
+      "volume_dry": true,
+      "type": "near",
+      "state": "🟡 接近 Pivot",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↑ 多方增強",
+      "momentum_dir": "bull_up",
+      "combo": false,
+      "breakout_days": null,
+      "breakout_date": null,
+      "breakout_return_pct": null,
+      "breakout_high_pct": null,
+      "holding_pivot": false,
+      "pulse_signal": "watch",
+      "pulse_label": "👀 觀察",
+      "pulse_points": 5,
+      "pulse_reasons": [
+        "VCP 4/5",
+        "接近 Pivot",
+        "多方增強"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 48190584.0,
+      "industry": "觀光餐旅",
+      "split_adjusted": false
     },
     {
       "market": "TW",
@@ -61823,70 +61584,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 4381573544.0,
+      "avg_value_20d": 4376681573.0,
       "industry": "半導體業",
-      "split_adjusted": false
-    },
-    {
-      "market": "TW",
-      "symbol": "5269",
-      "name": "祥碩",
-      "exchange": "TWSE",
-      "score": 4,
-      "score_components": {
-        "trend": true,
-        "two_contractions": true,
-        "contracting": false,
-        "volume_dry": true,
-        "pivot_condition": true
-      },
-      "structure_quality_good": true,
-      "structure_quality_label": "💎 結構品質佳",
-      "structure_quality_components": {
-        "trend": true,
-        "two_contractions": true,
-        "regression_contracting": true,
-        "volume_dry": true,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": true
-      },
-      "atr20_to_60": 0.726,
-      "contractions": [
-        4.1096,
-        10.5442,
-        1.3378,
-        1.3514
-      ],
-      "contracts": "-4% → -11% → -1% → -1%",
-      "pivot": 1495.0,
-      "last": 1490.0,
-      "distance": -0.33,
-      "change_pct": 2.41,
-      "volume_dry": true,
-      "type": "near",
-      "state": "🟡 接近 Pivot",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↑ 多方增強",
-      "momentum_dir": "bull_up",
-      "combo": false,
-      "breakout_days": null,
-      "breakout_date": null,
-      "breakout_return_pct": null,
-      "breakout_high_pct": null,
-      "holding_pivot": false,
-      "pulse_signal": "watch",
-      "pulse_label": "👀 觀察",
-      "pulse_points": 5,
-      "pulse_reasons": [
-        "VCP 4/5",
-        "接近 Pivot",
-        "多方增強"
-      ],
-      "data_date": "2026-10-08",
-      "avg_value_20d": 574462518.0,
-      "industry": "電子工業",
       "split_adjusted": false
     },
     {
@@ -61947,8 +61646,70 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 164399371.0,
+      "avg_value_20d": 164329858.0,
       "industry": "其他",
+      "split_adjusted": false
+    },
+    {
+      "market": "TW",
+      "symbol": "5269",
+      "name": "祥碩",
+      "exchange": "TWSE",
+      "score": 4,
+      "score_components": {
+        "trend": true,
+        "two_contractions": true,
+        "contracting": false,
+        "volume_dry": true,
+        "pivot_condition": true
+      },
+      "structure_quality_good": true,
+      "structure_quality_label": "💎 結構品質佳",
+      "structure_quality_components": {
+        "trend": true,
+        "two_contractions": true,
+        "regression_contracting": true,
+        "volume_dry": true,
+        "atr20_to_60_le_1": true,
+        "pivot_valid": true,
+        "current_clear_trigger": true
+      },
+      "atr20_to_60": 0.726,
+      "contractions": [
+        4.1096,
+        10.5442,
+        1.3378,
+        1.3514
+      ],
+      "contracts": "-4% → -11% → -1% → -1%",
+      "pivot": 1495.0,
+      "last": 1490.0,
+      "distance": -0.33,
+      "change_pct": 2.41,
+      "volume_dry": true,
+      "type": "near",
+      "state": "🟡 接近 Pivot",
+      "squeeze_level": "none",
+      "squeeze_state": "⚪ 無壓縮",
+      "momentum": "↑ 多方增強",
+      "momentum_dir": "bull_up",
+      "combo": false,
+      "breakout_days": null,
+      "breakout_date": null,
+      "breakout_return_pct": null,
+      "breakout_high_pct": null,
+      "holding_pivot": false,
+      "pulse_signal": "watch",
+      "pulse_label": "👀 觀察",
+      "pulse_points": 5,
+      "pulse_reasons": [
+        "VCP 4/5",
+        "接近 Pivot",
+        "多方增強"
+      ],
+      "data_date": "2026-10-08",
+      "avg_value_20d": 571481922.0,
+      "industry": "電子工業",
       "split_adjusted": false
     },
     {
@@ -62008,7 +61769,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 39426983.0,
+      "avg_value_20d": 39394110.0,
       "industry": "其他電子類",
       "split_adjusted": false
     },
@@ -62069,8 +61830,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2141185066.0,
-      "industry": "電子工業",
+      "avg_value_20d": 2136918826.0,
+      "industry": "其他電子業",
       "split_adjusted": false
     },
     {
@@ -62132,8 +61893,8 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 886855013.0,
-      "industry": "電子工業",
+      "avg_value_20d": 886737808.0,
+      "industry": "通信網路業",
       "split_adjusted": false
     },
     {
@@ -62195,7 +61956,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 186890709.0,
+      "avg_value_20d": 186790316.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -62258,7 +62019,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 119316430.0,
+      "avg_value_20d": 119260139.0,
       "industry": "金融保險",
       "split_adjusted": false
     },
@@ -62319,8 +62080,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 28154287.0,
-      "industry": "電子工業",
+      "avg_value_20d": 28150811.0,
+      "industry": "電腦及週邊設備業",
       "split_adjusted": false
     },
     {
@@ -62381,7 +62142,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 7379144940.0,
+      "avg_value_20d": 7351913641.0,
       "industry": "電子零組件業",
       "split_adjusted": false
     },
@@ -62444,7 +62205,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 287249978.0,
+      "avg_value_20d": 287213103.0,
       "industry": "金融保險",
       "split_adjusted": false
     },
@@ -62506,8 +62267,8 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 581056770.0,
-      "industry": "電子工業",
+      "avg_value_20d": 578986987.0,
+      "industry": "其他電子業",
       "split_adjusted": false
     },
     {
@@ -62567,7 +62328,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 270475501.0,
+      "avg_value_20d": 270337678.0,
       "industry": "電子通路業",
       "split_adjusted": false
     },
@@ -62628,7 +62389,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 23246616.0,
+      "avg_value_20d": 23226751.0,
       "industry": "半導體業",
       "split_adjusted": false
     },
@@ -62690,7 +62451,7 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 276102200.0,
+      "avg_value_20d": 275957154.0,
       "industry": "半導體業",
       "split_adjusted": false
     },
@@ -62752,7 +62513,7 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 479347489.0,
+      "avg_value_20d": 479268387.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -62813,7 +62574,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 47916025172.0,
+      "avg_value_20d": 47640758665.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -62875,7 +62636,7 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2246172486.0,
+      "avg_value_20d": 2245271109.0,
       "industry": "金融保險",
       "split_adjusted": false
     },
@@ -62938,7 +62699,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 322670872.0,
+      "avg_value_20d": 322322465.0,
       "industry": "電子零組件業",
       "split_adjusted": false
     },
@@ -62999,8 +62760,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 184988925.0,
-      "industry": "電子工業",
+      "avg_value_20d": 184966196.0,
+      "industry": "半導體業",
       "split_adjusted": false
     },
     {
@@ -63062,7 +62823,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 38018644.0,
+      "avg_value_20d": 38017028.0,
       "industry": "汽車工業",
       "split_adjusted": false
     },
@@ -63125,7 +62886,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 83759069.0,
+      "avg_value_20d": 83736669.0,
       "industry": "通信網路業",
       "split_adjusted": false
     },
@@ -63187,7 +62948,7 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 120627583.0,
+      "avg_value_20d": 120585383.0,
       "industry": "電器電纜",
       "split_adjusted": false
     },
@@ -63250,7 +63011,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 294936515.0,
+      "avg_value_20d": 294672255.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -63311,7 +63072,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 13606274478.0,
+      "avg_value_20d": 13594144373.0,
       "industry": "電子零組件業",
       "split_adjusted": false
     },
@@ -63372,7 +63133,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 24944414.0,
+      "avg_value_20d": 24935023.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -63434,7 +63195,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 35808051.0,
+      "avg_value_20d": 35802116.0,
       "industry": "建材營造",
       "split_adjusted": false
     },
@@ -63495,7 +63256,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 27919705.0,
+      "avg_value_20d": 27911976.0,
       "industry": "鋼鐵工業",
       "split_adjusted": false
     },
@@ -63556,8 +63317,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 46880789.0,
-      "industry": "電子工業",
+      "avg_value_20d": 46871421.0,
+      "industry": "電子零組件業",
       "split_adjusted": false
     },
     {
@@ -63617,7 +63378,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 43797383.0,
+      "avg_value_20d": 43617102.0,
       "industry": "綠能環保",
       "split_adjusted": false
     },
@@ -63678,7 +63439,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 107200249.0,
+      "avg_value_20d": 107177222.0,
       "industry": "金融業",
       "split_adjusted": false
     },
@@ -63739,7 +63500,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1691746966.0,
+      "avg_value_20d": 1690142368.0,
       "industry": "電腦及週邊設備業",
       "split_adjusted": false
     },
@@ -63802,7 +63563,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 386446087.0,
+      "avg_value_20d": 386052610.0,
       "industry": "電子零組件業",
       "split_adjusted": false
     },
@@ -63863,70 +63624,8 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 156920156.0,
+      "avg_value_20d": 156839627.0,
       "industry": "電機機械",
-      "split_adjusted": false
-    },
-    {
-      "market": "TW",
-      "symbol": "2867",
-      "name": "三商壽",
-      "exchange": "TWSE",
-      "score": 4,
-      "score_components": {
-        "trend": true,
-        "two_contractions": true,
-        "contracting": false,
-        "volume_dry": true,
-        "pivot_condition": true
-      },
-      "structure_quality_good": false,
-      "structure_quality_label": "",
-      "structure_quality_components": {
-        "trend": true,
-        "two_contractions": true,
-        "regression_contracting": false,
-        "volume_dry": true,
-        "atr20_to_60_le_1": true,
-        "pivot_valid": true,
-        "current_clear_trigger": true
-      },
-      "atr20_to_60": 0.2259,
-      "contractions": [
-        0.3386,
-        3.47,
-        4.7475,
-        1.222
-      ],
-      "contracts": "-0% → -3% → -5% → -1%",
-      "pivot": 9.9,
-      "last": 9.7,
-      "distance": -2.02,
-      "change_pct": 0.0,
-      "volume_dry": true,
-      "type": "near",
-      "state": "🟡 接近 Pivot",
-      "squeeze_level": "none",
-      "squeeze_state": "⚪ 無壓縮",
-      "momentum": "↗ 空方減弱",
-      "momentum_dir": "bear_up",
-      "combo": false,
-      "breakout_days": null,
-      "breakout_date": null,
-      "breakout_return_pct": null,
-      "breakout_high_pct": null,
-      "holding_pivot": false,
-      "pulse_signal": "wait",
-      "pulse_label": "⏳ 等待",
-      "pulse_points": 4,
-      "pulse_reasons": [
-        "VCP 4/5",
-        "接近 Pivot",
-        "空方減弱"
-      ],
-      "data_date": "2026-09-11",
-      "avg_value_20d": 51081453.0,
-      "industry": "金融保險",
       "split_adjusted": false
     },
     {
@@ -63987,7 +63686,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 21293997311.0,
+      "avg_value_20d": 21246494712.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -64048,7 +63747,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 4441453974.0,
+      "avg_value_20d": 4436232990.0,
       "industry": "半導體業",
       "split_adjusted": false
     },
@@ -64111,7 +63810,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 43835493.0,
+      "avg_value_20d": 43762998.0,
       "industry": "金融保險",
       "split_adjusted": false
     },
@@ -64173,7 +63872,7 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 432455840.0,
+      "avg_value_20d": 432014236.0,
       "industry": "電機機械",
       "split_adjusted": false
     },
@@ -64236,7 +63935,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 49411728.0,
+      "avg_value_20d": 49386207.0,
       "industry": "建材營造",
       "split_adjusted": false
     },
@@ -64298,7 +63997,7 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 8251565974.0,
+      "avg_value_20d": 8232604885.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -64359,7 +64058,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 1831135205.0,
+      "avg_value_20d": 1826145347.0,
       "industry": "其他電子業",
       "split_adjusted": false
     },
@@ -64420,7 +64119,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 10793185451.0,
+      "avg_value_20d": 10768920969.0,
       "industry": "電子工業",
       "split_adjusted": false
     },
@@ -64482,7 +64181,7 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 234673105.0,
+      "avg_value_20d": 234625793.0,
       "industry": "電子通路業",
       "split_adjusted": false
     },
@@ -64544,7 +64243,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 2146907471.0,
+      "avg_value_20d": 2142179409.0,
       "industry": "電腦及週邊設備業",
       "split_adjusted": false
     },
@@ -64605,7 +64304,7 @@
         "接近 Pivot"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 140842992.0,
+      "avg_value_20d": 140732737.0,
       "industry": "鋼鐵工業",
       "split_adjusted": false
     },
@@ -64667,7 +64366,7 @@
         "一般壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 221848500.0,
+      "avg_value_20d": 221763844.0,
       "industry": "金融保險",
       "split_adjusted": false
     },
@@ -64729,7 +64428,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 22165530.0,
+      "avg_value_20d": 22155615.0,
       "industry": "電子零組件業",
       "split_adjusted": false
     },
@@ -64792,7 +64491,7 @@
         "多方增強"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 373623251.0,
+      "avg_value_20d": 373603097.0,
       "industry": "航運業",
       "split_adjusted": false
     },
@@ -64854,17 +64553,18 @@
         "中度壓縮"
       ],
       "data_date": "2026-10-08",
-      "avg_value_20d": 38030151.0,
+      "avg_value_20d": 38017527.0,
       "industry": "造紙工業",
       "split_adjusted": false
     }
   ],
   "research_tw_market_200": {
-    "data_date": "2026-10-08",
+    "data_date": "2026-10-13",
     "count": 200,
-    "scanned_at": "2026-10-08 18:55",
-    "snapshot_type": "official",
+    "scanned_at": "2026-10-14 01:51",
+    "snapshot_type": "official_research_experimental",
     "purpose": "experimental_breadth_200",
+    "official_guard": "BLOCK",
     "frozen_market_structure_unchanged": true
   },
   "results": [
