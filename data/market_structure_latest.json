@@ -1,13 +1,13 @@
 {
   "status": "ok",
   "version": "market-structure-beta-v1.0-frozen",
-  "data_date": "2026-10-22",
+  "data_date": "2026-10-23",
   "state": "EXPANSION",
   "label": "擴張",
-  "breadth_score": 61.6,
-  "delta_1d": -3.6,
-  "delta_5d": 4.6,
-  "extension_ratio": 0.1239,
-  "history_sessions": 18,
+  "breadth_score": 62.3,
+  "delta_1d": 0.7,
+  "delta_5d": -8.6,
+  "extension_ratio": 0.0734,
+  "history_sessions": 19,
   "note": "Descriptive research state only; not a bullish/bearish forecast or futures trading signal. Breadth v0.2 and Cycle v0.6 rules frozen on 2026-09-17."
 }
