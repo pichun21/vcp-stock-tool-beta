@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31 00:52",
+  "generated_at": "2026-11-03 04:34",
   "timezone": "Asia/Taipei",
   "new_feature_version": 2,
   "dual_snapshot_version": 1,
@@ -6760,7 +6760,8 @@
     "6898": "程曦資訊",
     "6938": "藍新資訊",
     "7710": "東擎科技",
-    "6825": "和暢科技"
+    "6825": "和暢科技",
+    "7867": "特力屋"
   },
   "all_stock_quote_cache_version": 1,
   "official_quotes": {
