@@ -2,32 +2,32 @@
   "version": "market-pulse-v0.6-beta",
   "status": "ok",
   "experimental": true,
-  "generated_at": "2026-11-26T12:57:10.559766+08:00",
-  "score": 0.4,
-  "state": "偏空",
-  "emoji": "🔴",
-  "predicted_tw_close_ret": -4.062,
-  "consistency": "高",
-  "reason": "台指夜盤偏空、台股相對科技股偏空、費半偏空",
+  "generated_at": "2026-11-27T12:57:02.830174+08:00",
+  "score": 69.3,
+  "state": "中性",
+  "emoji": "🟡",
+  "predicted_tw_close_ret": 0.586,
+  "consistency": "中",
+  "reason": "台指夜盤偏多、台股相對科技股偏多、費半偏空",
   "signals": {
     "tx_night": {
-      "value": -4.57,
-      "date": "20261125",
+      "value": 0.72,
+      "date": "20261126",
       "contract": "202612",
-      "last": 38482.0,
-      "volume": 95642.0,
+      "last": 38397.0,
+      "volume": 79451.0,
       "source": "TAIFEX OpenAPI"
     },
     "nasdaq": {
-      "value": -0.6224791327410162,
+      "value": -0.622487362128954,
       "date": "2026-11-25",
-      "close": 23585.802734375,
+      "close": 23585.80078125,
       "source": "Yahoo Finance"
     },
     "sox": {
-      "value": -0.6525637737050616,
+      "value": -0.6525858866402445,
       "date": "2026-11-25",
-      "close": 8774.8623046875,
+      "close": 8774.8603515625,
       "source": "Yahoo Finance"
     },
     "us10y": {
@@ -37,30 +37,30 @@
       "source": "Yahoo Finance"
     },
     "brent": {
-      "value": -0.26257971527667845,
-      "date": "2026-11-25",
-      "close": 91.16000366210938,
+      "value": -2.483879567657432,
+      "date": "2026-11-26",
+      "close": 92.26000213623047,
       "source": "Yahoo Finance"
     },
     "usdtwd": {
-      "value": 0.08201581382618617,
-      "date": "2026-11-26",
-      "close": 32.948001861572266,
+      "value": -0.7140905649542728,
+      "date": "2026-11-27",
+      "close": 32.95199966430664,
       "source": "Yahoo Finance"
     }
   },
   "derived": {
-    "tx_tech_divergence": -3.9325,
+    "tx_tech_divergence": 1.3575,
     "oil_yield_shock": 0
   },
   "contributions": {
-    "tx_night": -3.6088,
+    "tx_night": 0.5172,
     "nasdaq": -0.0159,
     "sox": -0.0773,
     "us10y": 0.0035,
-    "brent": -0.0083,
-    "usdtwd": -0.0021,
-    "tx_tech_divergence": -0.4133,
+    "brent": -0.0708,
+    "usdtwd": 0.022,
+    "tx_tech_divergence": 0.1469,
     "oil_yield_shock": 0.0085
   },
   "model_trained_through": "2024-12-26",
